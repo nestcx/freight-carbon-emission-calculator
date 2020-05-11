@@ -1,0 +1,13 @@
+/*
+ * The footer and all elements inside it will be styled in this sheet
+ *
+ */
+
+.footer {
+  padding: $spacing-default;
+  width: 100%;
+  text-align: right;
+  border-top: 1px solid $color-grey-border;
+  background-color: $color-background;
+  box-shadow: 0 -2px 6px -1px rgba(0,0,0,.1),0 0px 4px -1px rgba(0,0,0,.06);
+}

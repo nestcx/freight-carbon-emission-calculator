@@ -1,0 +1,27 @@
+/* 
+ * A media card is a generic container where it's made up of 1 part image, 1 part text. In this case,
+ * the media cards are styled to look like so:
+ *   _____
+ *  |IMAGE|
+ *  |_____|
+ *  |TEXT |
+ *  |_____|
+ */
+ .media-card {
+  max-width: 30%; // Allow 3 media cards in 1 row
+  border-radius: 12px;
+
+  padding: $spacing-default;
+}
+
+  .media-card--img {
+    text-align: center; // Center the image
+
+    & img {
+      max-width: 80%; // Resize img to ensure it doesn't exceed the width of the media card
+    }
+  }
+
+  .media-card--text {
+    text-align: center;
+  }

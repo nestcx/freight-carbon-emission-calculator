@@ -1,0 +1,29 @@
+// Style rules for the <li> list element in the navbar
+.navbar {
+  width: 100%;
+  height: $header-height;
+  align-items: stretch;
+  display: flex;
+  justify-content: flex-end;
+}
+
+// Style rules for each <ul> element in the navbar
+.navbar--link {
+  
+  // The styles for the <a> elements found in the <ul> elements
+  a {
+    // The 3 rules below are used to center the text vertically within the navbar
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    color: white;
+    text-decoration: none; // Remove the ugly underline of links
+    font-size: 1.25em;
+    padding: 0 $spacing-medium;
+
+    &:hover {
+      background-color: darken($color-primary, 4%);
+    }
+  }
+}
