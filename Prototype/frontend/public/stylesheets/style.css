@@ -1,5 +1,5 @@
 /*
- * The main stylesheet. This stylesheet should ideally only collate 
+ * The main stylesheet. This stylesheet should ideally only collate
  * all stylesheets and have no CSS code of it's own
  */
 /*
@@ -52,14 +52,14 @@ header {
   box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.button, .button--wrong, .button--secondary, .button--primary {
+.button, .button--wrong, .button--secondary, .button--primary, .button--file-upload {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 8px 16px;
   font-size: 1em;
   border-radius: 8px;
   font-size: 1.25em;
 }
-.button:active, .button--wrong:active, .button--secondary:active, .button--primary:active {
+.button:active, .button--wrong:active, .button--secondary:active, .button--primary:active, .button--file-upload {
   box-shadow: none;
 }
 
@@ -90,12 +90,21 @@ header {
   background-color: #ebebeb;
 }
 
+.button--file-upload{
+  background-color: #9e00fa;
+  color: white;
+  border: 0;
+}
+.button--file-upload:hover{
+  background-color: #7e00c7;
+}
+
 .button--start {
   width: 250px;
   max-width: 250px;
 }
 
-/* 
+/*
  * A media card is a generic container where it's made up of 1 part image, 1 part text. In this case,
  * the media cards are styled to look like so:
  *   _____
@@ -150,7 +159,7 @@ h1, h2, h3, h4, h5, h6 {
  * TODO: CREATE NEW LAYOUT SCSS FILES AND MOVE ALL THE CODE INTO THE APPROPRIATE FILES.
  *
  */
-.container, .container--ad-copy-text, .container--cta-buttons, .container--intro-text, .container--logo {
+.container, .container--ad-copy-text, .container--cta-buttons, .container--intro-text, .container--logo, .container--upload-data-text, .container--upload-data-form {
   max-width: 100%;
   padding: 24px;
 }
@@ -169,6 +178,26 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
   max-width: 680px;
   color: #62626a;
+}
+.container--upload-data-text {
+  text-align: center;
+}
+.container--upload-data-text h2 {
+  margin: 0 auto;
+  max-width: 680px;
+  color: #62626a;
+
+}
+.container--upload-data-form {
+  text-align: center;
+}
+.container--upload-data-form form{
+  padding: 0px 180px 20px 0px
+}
+.container--upload-data-form h6 {
+  max-width: 680px;
+  color: #62626a;
+  padding: 5px 120px 0px 0px
 }
 
 .container--cta-buttons {
