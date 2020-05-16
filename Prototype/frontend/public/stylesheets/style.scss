@@ -80,11 +80,38 @@ h1, h2, h3, h4, h5, h6 {
       color: $color-font-black-header-soft; 
     }
   }
+
   
   // The div that contains both the CTA buttons on the home screen
   .container--cta-buttons {
     @extend .container;
     text-align: center;
+  }
+
+  .container--upload-data-text{
+    @extend .container;
+    text-align: center;
+
+    h2{
+      margin: 0 auto;
+      max-width: 680px;
+      color: #62626a;
+    }
+  }
+
+  .container--upload-data-form{
+    @extend .container;
+    text-align: center;
+
+    form{
+      padding: 0px 180px 20px 0px;
+    }
+
+    h6{
+      max-width: 680px;
+      color: #62626a;
+      padding: 5px 120px 0px 0px
+    }
   }
 
   // Container used to wrap around images that span more than the entire width of the page.
@@ -97,6 +124,7 @@ h1, h2, h3, h4, h5, h6 {
       display: block; // Used to get rid of the 4px of whitespace that would be there otherwise
     }
   }
+  
 
 
   // The container that contains all content below the fold. Only used to colour the entire background white

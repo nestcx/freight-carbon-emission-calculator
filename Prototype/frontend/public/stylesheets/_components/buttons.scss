@@ -38,6 +38,17 @@
     }
   }
 
+  .button--file-upload{
+    @extend .button;
+    background-color: $color-primary;
+    color: white;
+    border: 0;
+
+    // Darken the button on hover as a means of providing visual feedback
+    &:hover {
+      background-color: darken($color-primary, 10%);
+    }
+  }
 
   // The rule that will style buttons like 'cancel', 'back', etc. These shouldn't out.
   .button--wrong {
