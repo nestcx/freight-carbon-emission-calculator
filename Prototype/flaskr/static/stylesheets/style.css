@@ -206,7 +206,7 @@ header {
   }
 }
 
-.button, .button--file-upload, .button--wrong, .button--secondary, .button--primary {
+.button, .button--wrong, .button--file-upload, .button--secondary, .button--primary {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 8px 16px;
   margin: 4px;
@@ -214,7 +214,7 @@ header {
   border-radius: 8px;
   font-size: 1.25em;
 }
-.button:active, .button--file-upload:active, .button--wrong:active, .button--secondary:active, .button--primary:active {
+.button:active, .button--wrong:active, .button--file-upload:active, .button--secondary:active, .button--primary:active {
   box-shadow: none;
 }
 
@@ -234,6 +234,15 @@ header {
 }
 .button--secondary:hover {
   background-color: #1aa861;
+}
+
+.button--file-upload {
+  background-color: #9e00fa;
+  color: white;
+  border: 0;
+}
+.button--file-upload:hover {
+  background-color: #7e00c7;
 }
 
 .button--wrong {
