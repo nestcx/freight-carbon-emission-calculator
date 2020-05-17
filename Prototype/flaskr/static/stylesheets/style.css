@@ -1,0 +1,476 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #34343b;
+  background-color: #f7fafc;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #3d3d42;
+}
+
+.app-container {
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.screen {
+  margin: 0 auto;
+  max-width: 980px;
+}
+
+.container, .container--upload-data-form, .container--upload-data-text, .container--screen-nav-buttons, .container--location, .container--cta-buttons, .container--intro-text, .container--logo, .container--breadcrumb, .container--ad-copy-text {
+  max-width: 100%;
+  padding: 24px;
+}
+
+.container--page-wide-image {
+  max-width: 100%;
+  overflow: hidden;
+}
+.container--page-wide-image img {
+  display: block;
+}
+@media only screen and (max-width: 600px) {
+  .container--page-wide-image img {
+    height: 150px;
+  }
+}
+
+.container--below-fold {
+  background-color: white;
+}
+
+.container--ad-copy-text {
+  margin: 0 auto;
+  max-width: 980px;
+  padding: 64px 16px;
+}
+.container--ad-copy-text h1 {
+  text-align: center;
+}
+@media only screen and (max-width: 440px) {
+  .container--ad-copy-text {
+    padding: 64px 0;
+  }
+}
+
+.container--media-cards {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 64px;
+}
+@media only screen and (max-width: 440px) {
+  .container--media-cards {
+    flex-direction: column;
+  }
+}
+
+.accent {
+  background-color: #21d47b;
+  width: 100%;
+  height: 64px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 100%;
+  background-color: #9e00fa;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.navbar {
+  width: 100%;
+  height: 50px;
+  align-items: stretch;
+  display: flex;
+  justify-content: flex-end;
+  /** 
+   * Include the breakpoint Mixin. Tablet and smaller CSS code goes between this code block
+   * This part will have the code to display the navbar on hamburger menu click
+   */
+}
+@media only screen and (max-width: 600px) {
+  .navbar {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 50px;
+    flex-direction: column;
+    height: auto;
+    box-shadow: -5px 5px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.navbar--link {
+  background-color: #9e00fa;
+}
+.navbar--link a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 24px;
+  color: white;
+  text-decoration: none;
+  font-size: 1.25em;
+  background-color: #9e00fa;
+}
+.navbar--link a:hover {
+  background-color: #9100e6;
+}
+@media only screen and (max-width: 600px) {
+  .navbar--link a {
+    padding: 8px 0;
+    font-size: 1em;
+    border-top: 1px solid #cccccc;
+    margin: 0 16px;
+  }
+  .navbar--link a:hover {
+    background-color: #9e00fa;
+    color: #e6e6e6;
+  }
+}
+
+.button-hamburger {
+  display: none;
+}
+@media only screen and (max-width: 600px) {
+  .button-hamburger {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 50px;
+    background-color: transparent;
+    border: 0;
+    padding: 16px;
+  }
+}
+.button-hamburger--line {
+  display: block;
+  background-color: white;
+  min-height: 3px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+.button-hamburger--line.--toggled-on:nth-child(1) {
+  transform: rotate(45deg);
+  position: relative;
+  top: 8px;
+}
+.button-hamburger--line.--toggled-on:nth-child(3) {
+  transform: rotate(135deg);
+  position: relative;
+  top: -7px;
+}
+.button-hamburger--line.--toggled-on:nth-child(2) {
+  background-color: transparent;
+}
+
+.footer {
+  padding: 16px;
+  width: 100%;
+  text-align: right;
+  border-top: 1px solid #cccccc;
+  background-color: #f7fafc;
+  box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.container--breadcrumb {
+  display: flex;
+  padding: 8px !important;
+  border-bottom: 1px solid #cccccc;
+}
+@media only screen and (max-width: 600px) {
+  .container--breadcrumb {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: 0;
+    margin: 0;
+    margin-left: 16px;
+  }
+  .container--breadcrumb h2 {
+    color: white;
+    font-size: 1.5em;
+  }
+}
+
+.button, .button--file-upload, .button--wrong, .button--secondary, .button--primary {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 8px 16px;
+  margin: 4px;
+  font-size: 1em;
+  border-radius: 8px;
+  font-size: 1.25em;
+}
+.button:active, .button--file-upload:active, .button--wrong:active, .button--secondary:active, .button--primary:active {
+  box-shadow: none;
+}
+
+.button--primary {
+  background-color: #9e00fa;
+  color: white;
+  border: 0;
+}
+.button--primary:hover {
+  background-color: #7e00c7;
+}
+
+.button--secondary {
+  background-color: #21d47b;
+  color: white;
+  border: 0;
+}
+.button--secondary:hover {
+  background-color: #1aa861;
+}
+
+.button--wrong {
+  background-color: white;
+  color: #34343b;
+  border: 1px solid #d9d9d9;
+}
+.button--wrong:hover {
+  background-color: #ebebeb;
+}
+
+.button--start {
+  width: 250px;
+  max-width: 250px;
+}
+
+.button--breadcrumb-back {
+  height: 2em;
+  width: 1.5em;
+}
+.button--breadcrumb-back--arrow {
+  display: block;
+  background-color: #9e00fa;
+  min-height: 3px;
+  width: 1em;
+  margin-bottom: 4px;
+}
+.button--breadcrumb-back--arrow:nth-child(1) {
+  transform: rotate(135deg);
+  position: relative;
+  top: 11px;
+}
+.button--breadcrumb-back--arrow:nth-child(2) {
+  transform: rotate(45deg);
+  position: relative;
+  top: 13px;
+}
+@media only screen and (max-width: 600px) {
+  .button--breadcrumb-back--arrow {
+    background-color: white;
+  }
+}
+
+.button--file-upload {
+  background-color: #9e00fa;
+  color: white;
+  border: 0;
+}
+.button--file-upload:hover {
+  background-color: #7e00c7;
+}
+
+/* 
+ * A media card is a generic container where it's made up of 1 part image, 1 part text. In this case,
+ * the media cards are styled to look like so:
+ *   _____
+ *  |IMAGE|
+ *  |_____|
+ *  |TEXT |
+ *  |_____|
+ */
+.media-card {
+  max-width: 30%;
+  border-radius: 12px;
+  padding: 16px;
+}
+@media only screen and (max-width: 440px) {
+  .media-card {
+    min-width: 100%;
+    border-radius: 0;
+  }
+  .media-card:nth-child(odd) {
+    background-color: #f7fafc;
+  }
+}
+
+.media-card--img {
+  text-align: center;
+}
+.media-card--img img {
+  max-width: 80%;
+}
+@media only screen and (max-width: 440px) {
+  .media-card--img img {
+    max-width: 60%;
+  }
+}
+
+.media-card--text {
+  text-align: center;
+}
+
+.container--logo {
+  text-align: center;
+}
+.container--logo img {
+  vertical-align: middle;
+}
+@media only screen and (max-width: 440px) {
+  .container--logo {
+    padding: 16px !important;
+  }
+  .container--logo h1 {
+    font-size: 1.75em;
+  }
+  .container--logo img {
+    max-width: 150px;
+  }
+  .container--logo .container--intro-text h2 {
+    font-size: 1.25em;
+  }
+}
+
+.container--intro-text {
+  text-align: center;
+}
+.container--intro-text h2 {
+  margin: 0 auto;
+  max-width: 680px;
+  color: #62626a;
+}
+
+.container--cta-buttons {
+  text-align: center;
+}
+
+.instruction-text {
+  padding: 24px;
+}
+@media only screen and (max-width: 600px) {
+  .instruction-text {
+    font-size: 1em;
+  }
+}
+
+.container--location {
+  display: flex;
+}
+@media only screen and (max-width: 600px) {
+  .container--location {
+    flex-direction: column;
+    padding: 0 24px;
+  }
+}
+
+.container--location-inputs {
+  width: 50%;
+  padding: 0 8px;
+}
+@media only screen and (max-width: 600px) {
+  .container--location-inputs {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 0;
+  }
+}
+.container--location-inputs input, .container--location-inputs label {
+  display: block;
+}
+
+.input--text {
+  margin-top: 4px;
+  padding: 8px;
+  border: 0;
+  width: 100%;
+  max-width: 300px;
+  border: 2px solid #dddddd;
+  border-radius: 2px;
+}
+.input--text:focus {
+  border: 2px solid #9e00fa;
+}
+@media only screen and (max-width: 600px) {
+  .input--text {
+    max-width: 100%;
+  }
+}
+
+.container--location-map {
+  width: 50%;
+  padding: 0 8px;
+  text-align: right;
+}
+.container--location-map img {
+  max-height: 250px;
+  max-width: 100%;
+}
+@media only screen and (max-width: 600px) {
+  .container--location-map {
+    width: 100%;
+    text-align: center;
+    padding: 0;
+  }
+}
+
+.container--screen-nav-buttons {
+  text-align: right;
+}
+.container--screen-nav-buttons .button--primary {
+  margin: 0 8px;
+}
+@media only screen and (max-width: 600px) {
+  .container--screen-nav-buttons .button--primary {
+    margin: 0;
+    font-size: 1em;
+  }
+}
+
+.container--upload-data-text {
+  text-align: center;
+}
+.container--upload-data-text h2 {
+  margin: 0 auto;
+  max-width: 680px;
+  color: #62626a;
+}
+
+.container--upload-data-form {
+  text-align: center;
+}
+.container--upload-data-form form {
+  padding: 0px 180px 20px 0px;
+}
+.container--upload-data-form h6 {
+  max-width: 680px;
+  color: #62626a;
+  padding: 5px 120px 0px 0px;
+}
+
+.--screen-inactive {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .--hidden {
+    display: none;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

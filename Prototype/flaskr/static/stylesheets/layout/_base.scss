@@ -1,0 +1,81 @@
+// This file contains the 'base' styles. Basically the styles for containers
+// It also stores styles for everything below-the-fold. In this case,
+// below-the-fold refers to all content underneath the app screen
+
+// This div will contain the 'app' within the webpage, including all divs that are defined screen as screens
+.app-container {
+  margin: 0 auto; 
+  margin-top: $header-height; // Since the header is fixed to the top, add empty space equal to the height of the header
+}
+
+// This represents a div that contains the entire 'screen' of the app portion of the website
+.screen {
+  margin: 0 auto;
+  max-width: $dimension-max-app-width;
+}
+
+// The default rules for container type divs. All divs that represent a chunk of the layout should extend this
+.container {
+  max-width: 100%;
+  padding: $spacing-medium;
+}
+
+
+// Container used to wrap around images that span more than the entire width of the page.
+// In our case, the birds-eye shot of the trucks.
+.container--page-wide-image {
+  max-width: 100%; // Make sure the container can't be large than the browsing window
+  overflow: hidden; // Hide the overflowing parts of the image, so there's no horizontal scrollbar (awful for usability)
+
+  img {
+    display: block; // Used to get rid of the 4px of whitespace that would be there otherwise
+
+    @include breakpoint($breakpoint-tablet) {
+      height: 150px; // Make the truck image smaller
+    }
+  }
+}
+
+
+// The container that contains all content below the fold. Only used to colour the entire background white
+.container--below-fold {
+  background-color: white;
+}
+
+  // The container containing text to persuade the user to use our app, and how we can benefit them
+  .container--ad-copy-text {
+    @extend .container;
+    margin: 0 auto; // Center the div horizontally
+    max-width: $dimension-max-app-width;
+    padding: $spacing-x-large $spacing-default; // Create a lot of empty space vertically, for emphasis
+    
+    & h1 {
+      text-align: center;
+    }
+
+    // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
+    @include breakpoint($breakpoint-mobile) {
+      padding: $spacing-x-large 0; // Remove left and right padding, so that the background takes up the entire width
+    }
+  }
+
+  // The container that stores the 'media cards' - the bits of content where there's an image, and text just below it. 
+  // This container is used to allow there to be multiple media cards in 1 row
+  .container--media-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-top: $spacing-x-large; // Add space between the header and media cards
+
+    // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
+    @include breakpoint($breakpoint-mobile) {
+      // Change direction to column, so that rather than squeezing 3 media cards in 1 row, each row has 1 media card only
+      flex-direction: column;
+    }
+  }
+
+// This is the empty space below the birds-eye image of the trucks. Used only for decoration.
+.accent { 
+  background-color: $color-secondary;
+  width: 100%;
+  height: $spacing-x-large;
+}

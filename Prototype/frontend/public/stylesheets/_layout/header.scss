@@ -1,9 +1,0 @@
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: $header-height;
-  width: 100%;
-  background-color: $color-primary;
-  @include border-shadow-soft;
-}

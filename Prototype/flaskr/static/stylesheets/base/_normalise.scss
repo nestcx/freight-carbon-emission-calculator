@@ -1,0 +1,22 @@
+// This file will contain the style reset and normalisation code
+
+// TODO: Download some reset and normalise CSS code add it in this file to ensure
+// that the app looks the same in every browser
+
+// Some basic resetting of styles below. Move to a reset.scss file later
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: $color-font-black;
+  background-color: $color-background;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $color-font-black-header;
+}

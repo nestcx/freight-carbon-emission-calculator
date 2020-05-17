@@ -1,0 +1,48 @@
+// ----------------------------------------------------------------
+// The main stylesheet. This stylesheet should ideally only collate 
+// all stylesheets and have no CSS code of it's own
+// ----------------------------------------------------------------
+
+@import 'abstracts/_mixins.scss'; // Mixins
+@import 'abstracts/_variables.scss'; // Variables
+
+// Import the normalisation file
+@import 'base/_normalise.scss';
+
+// Import each layout-object related stylesheet
+@import 'layout/_base.scss'; // Stores rules for generic containers, as well as below-the-fold content
+@import 'layout/_header.scss';
+@import 'layout/_navbar.scss';
+@import 'layout/_footer.scss';
+// The breadcrumb is the part just below the header which shows the current screen name
+@import 'layout/_breadcrumb.scss';
+
+// Import all components
+@import 'components/_buttons.scss'; // Buttons
+@import 'components/_media-card.scss'; // Media cards
+
+// Import the app screens. 1 screen for each step of the app (ie; 1 screen for main page,
+// 1 screen for uploading data, 1 screen for data, etc)
+@import 'screens/_mainscreen.scss';
+@import 'screens/_mapscreen.scss';
+@import 'screens/uploadscreen';
+
+
+// --------------------------------------------------------
+// Utility classes. Classes that have only 1 responsibility
+// This can probably be moved to another file, but can stay
+// here for now.
+// --------------------------------------------------------
+
+// Hide screen when it's not currently the screen that the user is at
+.--screen-inactive {
+  display: none;
+}
+
+// Use this to hide elements on smaller viewsizes. For example: The navbar when
+// in mobile mode
+.--hidden {
+  @include breakpoint($breakpoint-tablet) {
+    display: none;
+  }
+}
