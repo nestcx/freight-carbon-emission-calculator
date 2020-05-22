@@ -55,8 +55,12 @@
               <input type="file" id="myFile" name="filename">
               <h6>(XLS,CSV*)</h6>
             </form>
-            <button class="button--file-upload button--start" onClick="changeScreen('screen-upload-data', 'screen-data-page')" type="submit" form="file-upload" value="Submit">Upload</button>
-        </div>
+            <button class="button--file-upload button--start" onClick="changeScreen('screen-upload-data', 'screen-data-page')" >Upload</button>
+            <!--
+              Comment by Sai, the code is for the file upload, for when we work later on
+              type="submit" form="file-upload" value="Submit"
+            -->
+          </div>
       </div>
 
       <!-- plan shipment screen -->
@@ -95,18 +99,19 @@
           <span class="button--breadcrumb-back--arrow"></span>
           <span class="button--breadcrumb-back--arrow"></span>
         </a>
-        <h2>Results</h2>
+        <h2>Report</h2>
       </div>
-      <div class="container--upload-data-text" id="upload-data-text">
-          <h2>Please Upload a Shipping invoice below:</h2>
+      <div class="container--datapage-text" id="datapage-text">
+        <h3>Your report for carbon emission calculation has been generated. You could download it from the link below. </h2>
+    </div>
+      <div class="container--graph-icon">
+         <img src="static/images/result-icon.png" />
       </div>
-      <div class="container--upload-data-form" id="upload-data-form">
-          <form action="/action_page.php" id="file-upload">
-            <input type="file" id="myFile" name="filename">
-            <h6>(XLS,CSV*)</h6>
-          </form>
-          <button class="button--file-upload button--start" type="submit" form="file-upload" value="Submit">Upload</button>
-      </div>
+       
+      <div class="container--datascreen-nav-buttons">
+        <button class="button--primary button--start" >Download</button>
+      </div> 
+      
     </div>
 
 

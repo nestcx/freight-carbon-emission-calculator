@@ -1,0 +1,44 @@
+.container--datapage-text{
+  @extend .container;
+  text-align: center;
+
+  h3{
+    
+    color: #62626a;
+    padding: 5px 0px 0px 0px
+  }
+  
+}
+.container--graph-icon{
+  @extend .container;
+  text-align: center;
+
+  img{
+    width: 30%; 
+    height: 30%; 
+    object-fit: contain;
+  }
+}
+
+.container--datascreen-nav-buttons{
+  @extend .container;
+  text-align: center;
+  
+  
+}
+/*
+.container--upload-data-form{
+  @extend .container;
+  text-align: center;
+
+  form{
+    padding: 0px 180px 20px 0px;
+  }
+
+  h6{
+    max-width: 680px;
+    color: #62626a;
+    padding: 5px 120px 0px 0px
+  }
+}
+*/
