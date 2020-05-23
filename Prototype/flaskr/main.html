@@ -56,6 +56,7 @@
               <h6>(XLS,CSV*)</h6>
             </form>
             <button class="button--file-upload button--start" onClick="changeScreen('screen-upload-data', 'screen-data-page')" >Upload</button>
+            
             <!--
               Comment by Sai, the code is for the file upload, for when we work later on
               type="submit" form="file-upload" value="Submit"
@@ -101,16 +102,19 @@
         </a>
         <h2>Report</h2>
       </div>
+
       <div class="container--datapage-text" id="datapage-text">
         <h3>Your report for carbon emission calculation has been generated. You could download it from the link below. </h2>
-    </div>
+      </div>
+
       <div class="container--graph-icon">
          <img src="static/images/result-icon.png" />
       </div>
        
       <div class="container--datascreen-nav-buttons">
         <button class="button--primary button--start" >Download</button>
-      </div> 
+      </div>     
+      
       
     </div>
 
@@ -120,45 +124,57 @@
       <img src="static/images/TruckImage.png" />
     </div>
     <div class="accent"></div>
-    <div class="container--below-fold">
-      <div class="container--ad-copy-text">
-          <h1>Reduce your carbon footprint</h1>
-          
-          <div class="container--media-cards">
-            <div class="media-card">
-                <div class="media-card--img">
-                  <img src="static/images/icon-pie-chart.png" />
-                  <!--<div></im>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
-                </div>
-                <div class="media-card--text">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-              </div>
+
+    <!--Data page  d3 charts-->
+    <div id="screen-data-page-charts" class="screen --screen-inactive">
+      <div class="container--datascreen-d3charts">
+        <h3>The chart below shows the emission comparison.</h3>
+        <p id="d3charts"></p>
+      </div>
+    </div>
+
+    <div class="screen" id="all-screen-charts">
+      <div class="container--below-fold">
+        <div class="container--ad-copy-text">
+            <h1>Reduce your carbon footprint</h1>
+            <div class="container--media-cards">
               <div class="media-card">
-                <div class="media-card--img">
+                  <div class="media-card--img">
                     <img src="static/images/icon-pie-chart.png" />
+                    <!--<div></im>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+                  </div>
+                  <div class="media-card--text">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  </div>
                 </div>
-                <div class="media-card--text">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <div class="media-card">
+                  <div class="media-card--img">
+                      <img src="static/images/icon-pie-chart.png" />
+                  </div>
+                  <div class="media-card--text">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="media-card">
-                <div class="media-card--img">
-                  <img src="static/images/icon-pie-chart.png" />
+                <div class="media-card">
+                  <div class="media-card--img">
+                    <img src="static/images/icon-pie-chart.png" />
+                  </div>
+                  <div class="media-card--text">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  </div>
                 </div>
-                <div class="media-card--text">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-              </div>
+            </div>
           </div>
-        </div>
+      </div>
     </div>
 
 
     <footer class="footer">
         <p>Developed by <a href="about.html">Group name</a></p>
     </footer>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="static/javascript/navbar.js"></script>
     <script src="static/javascript/screentransition.js"></script>
+    <script src="static/javascript/d3chart.js"></script>
   </body>
 </html>

@@ -26,7 +26,7 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 980px;
 }
 
-.container, .container--ad-copy-text, .container--breadcrumb, .container--logo, .container--intro-text, .container--cta-buttons, .container--location, .container--screen-nav-buttons, .container--upload-data-text, .container--upload-data-form, .container--datapage-text, .container--graph-icon, .container--datascreen-nav-buttons {
+.container, .container--ad-copy-text, .container--breadcrumb, .container--logo, .container--intro-text, .container--cta-buttons, .container--location, .container--screen-nav-buttons, .container--upload-data-text, .container--upload-data-form, .container--datapage-text, .container--graph-icon, .container--datascreen-nav-buttons, .container--datascreen-d3charts {
   max-width: 100%;
   padding: 24px;
 }
@@ -577,22 +577,19 @@ header {
   text-align: center;
 }
 
-/*
-.container--upload-data-form{
-  @extend .container;
+.container--datascreen-d3charts {
   text-align: center;
-
-  form{
-    padding: 0px 180px 20px 0px;
-  }
-
-  h6{
-    max-width: 680px;
-    color: #62626a;
-    padding: 5px 120px 0px 0px
-  }
 }
-*/
+
+.container--datascreen-d3charts h3 {
+  color: #62626a;
+  padding: 5px 0px 5px 0px;
+}
+
+.container--datascreen-d3charts p {
+  padding: 25px 0px 0px 0px;
+}
+
 .--screen-inactive {
   display: none;
 }
