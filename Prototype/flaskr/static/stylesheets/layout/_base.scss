@@ -5,7 +5,10 @@
 // This div will contain the 'app' within the webpage, including all divs that are defined screen as screens
 .app-container {
   margin: 0 auto; 
-  margin-top: $header-height; // Since the header is fixed to the top, add empty space equal to the height of the header
+  margin-top: 10px; // Since the header is fixed to the top, add empty space equal to the height of the header
+  margin-bottom:  20px;
+  width: 70%;
+  background-color: $color-container;
 }
 
 // This represents a div that contains the entire 'screen' of the app portion of the website
@@ -20,6 +23,10 @@
   padding: $spacing-medium;
 }
 
+.container--logo {
+  @extend .container;
+  margin-top: $header-height;
+}
 
 // Container used to wrap around images that span more than the entire width of the page.
 // In our case, the birds-eye shot of the trucks.
@@ -35,7 +42,6 @@
     }
   }
 }
-
 
 // The container that contains all content below the fold. Only used to colour the entire background white
 .container--below-fold {

@@ -25,8 +25,9 @@
 // 1 screen for uploading data, 1 screen for data, etc)
 @import 'screens/_mainscreen.scss';
 @import 'screens/_mapscreen.scss';
-@import 'screens/uploadscreen';
-@import 'screens/datapagescreen';
+@import 'screens/_uploadscreen';
+@import 'screens/_datapagescreen';
+@import 'screens/_cargoscreen';
 
 
 
