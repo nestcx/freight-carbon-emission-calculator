@@ -1,7 +1,7 @@
 function init(){
 
-    var w=400;
-    var h=400;
+    var w=300;
+    var h=300;
   
     var dataset1=[12,24,18,20];
   

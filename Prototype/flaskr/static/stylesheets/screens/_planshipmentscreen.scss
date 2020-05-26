@@ -1,0 +1,154 @@
+// The screen where the user chooses a pick up and drop off location0
+
+.module--shipments {
+  width: 100%;
+  max-width: 1000px;
+  height: 90%;
+  overflow-y: scroll;
+}
+
+// This container stores everything related to the location section
+.container--location {
+  display: flex;
+
+  // On smaller screens, make it so that the input fields are above the map, otherwise
+  // the design gets all squashed up
+  @include breakpoint($breakpoint-tablet) {
+    flex-direction: column;
+    padding: 0 $spacing-medium;
+  }
+}
+  // The container storing the input fields
+  .container--location-inputs {
+    width: 50%; // Make this container take up the left half of the screen
+    
+    // Make the div take up 100% width on smaller screens
+    @include breakpoint($breakpoint-tablet) {
+      width: 100%;
+      margin-bottom: $spacing-default;
+      padding: 0;
+    }
+
+    // Place labels above input fields, rather than have them in-line
+    & input, label {
+      display: block;
+    }
+  }
+
+    // The input fields the user has to enter
+    .input--text {
+      margin-top: $spacing-x-small;
+      padding: $spacing-small;
+      border: 0;
+      //border: 2px solid transparent;
+      //border-bottom: 2px solid #e6e6e6;
+      width: 100%;
+      max-width: 300px;
+      border: 2px solid #dddddd;
+      border-radius: 2px;
+    
+      // When the user clicks or types into an input field
+      &:focus {
+        border: 2px solid $color-primary;
+      }
+
+      // Make the input fields extend the entire width of their parent container
+      @include breakpoint($breakpoint-tablet) {
+        max-width: 100%;
+      }
+    }
+
+  // The div that will contain the interactive map  
+  .container--location-map {
+    width: 50%; // Take up the right half
+    padding: 0 $spacing-small;
+    text-align: right;
+
+    // Resize image based on screen size
+    // TODO: Replace the image with an actual map from OpenStreetMap API
+    & img {
+      max-height: 250px;
+      max-width: 100%;
+    }
+
+    // Make the div take up 100% width on smaller screens
+    @include breakpoint($breakpoint-tablet) {
+      width: 100%;
+      text-align: center;
+      padding: 0;
+    }
+  }
+
+  // The container containing the previous and next buttons at the bottom
+  .container--screen-nav-buttons {
+    @extend .container;
+
+    // TODO: Use the 2 uncommented lines of code below when a back button is added. As this will push the back button
+    // to the left, and the next button to the right
+    // display: flex;
+    // justify-content: space-between;
+    text-align: right; // TODO: Remove this once the 2 lines below are uncommented
+
+    // The next button on the bottom right corner
+    & .button--primary {
+      margin: 0 $spacing-small;
+
+      @include breakpoint($breakpoint-tablet) {
+        margin: 0;
+        font-size: 1em;
+      }
+    }
+  }
+
+
+
+// Cargo section
+// This container stores everything in this screen, besides the intro text
+.container--weight {
+  @extend .container;
+  display: flex;
+  flex-direction: column;
+
+  // On smaller screens, make it so that the input fields are above the map, otherwise
+  // the design gets all squashed up
+  @include breakpoint($breakpoint-tablet) {
+    flex-direction: column;
+    padding: 0 $spacing-medium;
+  }
+
+  h2 {
+    text-align: center;
+  }
+}
+  // The container storing the input fields
+  .container--weight-inputs {
+    width: 50%; // Make this container take up the left half of the screen
+    padding: 0 $spacing-small;
+
+    // Make the div take up 100% width on smaller screens
+    @include breakpoint($breakpoint-tablet) {
+      width: 100%;
+      margin-bottom: $spacing-default;
+      padding: 0;
+    }
+
+    // Place labels above input fields, rather than have them in-line
+    & input, label {
+      display: block;
+    }
+  }
+
+  .container--weight-presets {
+    @extend .container;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .media-card {
+      width: 30%;
+    }
+  }
+
+  .instruction-text {
+    width: 100%;
+  }

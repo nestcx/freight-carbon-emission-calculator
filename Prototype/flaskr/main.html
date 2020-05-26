@@ -9,8 +9,9 @@
 </head>
 
 <body>
-  <header class="header">
-    <nav>
+  <header class="header --fixed">
+    <h1 class="header--logo">Freight carbon calculator</h1>
+    <nav class="--align-right">
       <button class="button-hamburger" onClick="dropdownMenu()">
         <span class="button-hamburger--line"></span>
         <span class="button-hamburger--line"></span>
@@ -23,173 +24,22 @@
       </li>
     </nav>
   </header>
-
   <!--Logo-->
   <div class="container--logo">
     <h1 class=>Freight Carbon calculator</h1>
     <p>Powered by: <img src="static/images/FreightPeopleLogo.png" width="180px" /></p>
   </div>
 
-  <div class="app-container">
-    <!-- home screen -->
-    <div id="screen-main" class="screen">
-      <div class="container--intro-text">
-        <h2>Discover how much emissions your shipments are producing. Use any of the two options below to get started
-        </h2>
-      </div>
-      <div class="container--cta-buttons">
-        <button class="button--primary button--start" onClick="changeScreen('screen-main', 'screen-upload-data')">Upload
-          freight data</button>
-        <button class="button--secondary button--start"
-          onClick="changeScreen('screen-main', 'screen-plan-shipment')">Plan a shipment</button>
-      </div>
+  <!-- home screen -->
+  <div id="screen-main" class="screen">
+    <div class="container--intro-text">
+      <h2>Discover how much emissions your shipments are producing. Get started with our app
+      </h2>
     </div>
-
-    <!-- upload file screen -->
-    <div id="screen-upload-data" class="screen --screen-inactive">
-      <div class="container--breadcrumb">
-        <a onClick="changeScreen('screen-upload-data', 'screen-main')" class="button--breadcrumb-back">
-          <span class="button--breadcrumb-back--arrow"></span>
-          <span class="button--breadcrumb-back--arrow"></span>
-        </a>
-        <h2>Upload data</h2>
-      </div>
-      <div class="container--upload-data-text" id="upload-data-text">
-        <h2>Please Upload a Shipping invoice below:</h2>
-      </div>
-      <div class="container--upload-data-form" id="upload-data-form">
-        <form action="/action_page.php" id="file-upload">
-          <input type="file" id="myFile" name="filename">
-          <h6>(XLS,CSV*)</h6>
-        </form>
-        <button class="button--file-upload button--start"
-          onClick="changeScreen('screen-upload-data', 'screen-data-page')">Upload</button>
-
-        <!--
-              Comment by Sai, the code is for the file upload, for when we work later on
-              type="submit" form="file-upload" value="Submit"
-            -->
-      </div>
-    </div>
-
-    <!-- plan shipment screen -->
-    <div id="screen-plan-shipment" class="screen --screen-inactive">
-      <div class="container--breadcrumb">
-        <a onClick="changeScreen('screen-plan-shipment', 'screen-main')" class="button--breadcrumb-back">
-          <span class="button--breadcrumb-back--arrow"></span>
-          <span class="button--breadcrumb-back--arrow"></span>
-        </a>
-        <h2>Plan a shipment</h2>
-      </div>
-      <h3 class="instruction-text">To calculate your carbon footprint, fill in the details below</h3>
-      <div class="container--location">
-        <div class="container--location-inputs">
-
-          <label for="input-pick-up" class="label">Pick up location</label>
-          <input type="text" class="input--text" id="input-pick-up" />
-          <br />
-          <label for="input-drop-off" class="label">Drop off location</label>
-          <input type="text" class="input--text" id="input-drop-off" />
-        </div>
-        <div class="container--location-map">
-          <img src="static/images/map.png" />
-        </div>
-      </div>
-      <div class="container--screen-nav-buttons">
-        <button class="button--primary" onClick="changeScreen('screen-plan-shipment', 'screen-cargo-options')">Enter
-          cargo details</button>
-      </div>
-    </div>
-
-    <!--Cargo selection screen-->
-    <div id="screen-cargo-options" class="screen --screen-inactive">
-      <div class="container--breadcrumb">
-        <a onClick="changeScreen('screen-cargo-options', 'screen-plan-shipment')" class="button--breadcrumb-back">
-          <span class="button--breadcrumb-back--arrow"></span>
-          <span class="button--breadcrumb-back--arrow"></span>
-        </a>
-        <h2> Plan a shipment</h2>
-      </div>
-      <h3 class="instruction-text">To calculate your carbon footprint, fill in the details below</h3>
-      <div class="container--weight">
-        <div class="container--weight-number-inputs">
-          <label for="input-weight" class="label">How much will your shipment weigh?</label>
-          <input type="number" class="input--number" id="input-weight" />
-        </div>
-        <div class="container--weight-presets">
-          <h2 class="instruction-text">Or..</h2>
-          <h2>Not sure of the exact weight? Select an option from below...</h2>
-          <div class="media-card">
-            <div class="media-card--img">
-              <img src="static/images/truck-icon.png" />
-            </div>
-            <div class="media-card--text">
-              <p>Small</p>
-              <input type="radio" class="input--radio" id="input-weight-small" name="input-weight-preset"
-                value="small" />
-            </div>
-          </div>
-          <div class="media-card">
-            <div class="media-card--img">
-              <img src="static/images/truck-icon-medium.png" />
-            </div>
-            <div class="media-card--text">
-              <p>Medium</p>
-              <input type="radio" class="input--radio" id="input-weight-medium" name="input-weight-preset"
-                value="medium" />
-            </div>
-          </div>
-          <div class="media-card">
-            <div class="media-card--img">
-              <img src="static/images/truck-icon-large.png" />
-            </div>
-            <div class="media-card--text">
-              <p>Large</p>
-              <input type="radio" class="input--radio" id="input-weight-large" name="input-weight-preset"
-                value="large" />
-            </div>
-          </div>
-        </div>
-        <div class="container--weight-fridge">
-          <label for="input-refrigeration" class="label">Does your shipment require refrigeration?</label>
-          <input type="checkbox" class="input--checkbox" id="input-refrigeration" />
-        </div>
-        <div class="container--screen-nav-buttons">
-          <button class="button--primary" onClick="changeScreen('screen-cargo-options', 'screen-data-page')">Get
-            your
-            results!</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Data Screen -->
-    <div id="screen-data-page" class="screen --screen-inactive">
-      <div class="container--breadcrumb">
-        <a onClick="changeScreen('screen-data-page', 'screen-main')" class="button--breadcrumb-back">
-          <span class="button--breadcrumb-back--arrow"></span>
-          <span class="button--breadcrumb-back--arrow"></span>
-        </a>
-        <h2>Report</h2>
-      </div>
-
-      <div class="container--datapage-text" id="datapage-text">
-        <h3>Your report for carbon emission calculation has been generated. You could download it from the link below.
-          </h2>
-      </div>
-
-      <div class="container--graph-icon">
-        <img src="static/images/result-icon.png" />
-      </div>
-
-      <div class="container--datascreen-nav-buttons">
-        <button class="button--primary button--start">Download</button>
-      </div>
-
-
+    <div class="container--cta-buttons">
+      <a href="dashboard.html" class="button--primary">Get started</a>
     </div>
   </div>
-
-
 
   <!--Code below is not a part of the app container-->
   <div class="container--page-wide-image">
@@ -197,53 +47,41 @@
   </div>
   <div class="accent"></div>
 
-  <!--Data page  d3 charts-->
-  <div id="screen-data-page-charts" class="screen --screen-inactive">
-    <div class="container--datascreen-d3charts">
-      <h3>The chart below shows the emission comparison.</h3>
-      <p id="d3charts"></p>
-    </div>
-  </div>
-
-  <div class="screen" id="all-screen-charts">
-    <div class="container--below-fold">
-      <div class="container--ad-copy-text">
-        <h1>Reduce your carbon footprint</h1>
-        <div class="container--media-cards">
-          <div class="media-card">
-            <div class="media-card--img">
-              <img src="static/images/icon-pie-chart.png" />
-              <!--<div></im>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
-            </div>
-            <div class="media-card--text">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
-            </div>
+  <div class="container--below-fold">
+    <div class="container--ad-copy-text">
+      <h1>Reduce your carbon footprint</h1>
+      <div class="container--media-cards">
+        <div class="media-card">
+          <div class="media-card--img">
+            <img src="static/images/icon-pie-chart.png" />
+            <!--<div></im>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
           </div>
-          <div class="media-card">
-            <div class="media-card--img">
-              <img src="static/images/icon-pie-chart.png" />
-            </div>
-            <div class="media-card--text">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
-            </div>
+          <div class="media-card--text">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.</p>
           </div>
-          <div class="media-card">
-            <div class="media-card--img">
-              <img src="static/images/icon-pie-chart.png" />
-            </div>
-            <div class="media-card--text">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
-            </div>
+        </div>
+        <div class="media-card">
+          <div class="media-card--img">
+            <img src="static/images/icon-pie-chart.png" />
+          </div>
+          <div class="media-card--text">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.</p>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-card--img">
+            <img src="static/images/icon-pie-chart.png" />
+          </div>
+          <div class="media-card--text">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
   <footer class="footer">
     <p>Developed by <a href="about.html">Group name</a></p>
   </footer>

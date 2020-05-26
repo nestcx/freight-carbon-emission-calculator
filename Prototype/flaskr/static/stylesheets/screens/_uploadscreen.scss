@@ -1,25 +1,19 @@
-.container--upload-data-text{
-  @extend .container;
-  text-align: center;
-  
-  h2{
-    margin: 0 auto;
-    max-width: 680px;
-    color: #62626a;
-  }
-}
+// This will contain styling rules for modules in the upload screen
 
-.container--upload-data-form{
-  @extend .container;
-  text-align: center;
+  .module--file-upload-intro {
+    
+    // Try stretch as much as possible, until it reaches the max-width limit
+    width: 100%;
+    max-width: 500px;
 
-  form{
-    padding: 0px 180px 20px 0px;
+    & p {
+      margin-bottom: $spacing-large;
+    }  
   }
 
-  h6{
-    max-width: 680px;
-    color: #62626a;
-    padding: 5px 120px 0px 0px
+  // Hide the default input file button, as it is very difficult to stylise
+  // Instead, a label element will wrap the file input button and act
+  // as the button itself
+  .button--file-upload > input[type="file"] {
+    display: none;
   }
-}

@@ -6,11 +6,11 @@
   padding: $spacing-small $spacing-default;
   margin: $spacing-x-small;
   font-size: $font-default;
-  border-radius: 8px;
-  font-size: 1.25em;
-
+  border-radius: 4px;
+  font-size: 1em;
+  text-decoration: none;
   // When clicked, give the illusion of the button being 'pressed' by removing the shadow border
-  &:active {
+  &:active, :focus {
     box-shadow: none;
   }
 }
@@ -18,13 +18,13 @@
   // The style that all attention-grabbing CTA buttons will take on
   .button--primary {
     @extend .button;
-    background-color: $color-primary;
+    background-color: $color-tertiary;
     color: white;
     border: 0;
 
     // Darken the button on hover as a means of providing visual feedback
-    &:hover {
-      background-color: darken($color-primary, 10%);
+    &:hover, :active, :focus {
+      background-color: darken($color-tertiary, 10%);
     }
   }
 
@@ -41,15 +41,15 @@
     }
   }
 
-  .button--file-upload{
-    @extend .button;
-    background-color: $color-primary;
-    color: white;
-    border: 0;
 
+  .button--file-upload {
+    @extend .button;
+    background-color: $color-tertiary;
+    font-size: 0.9em;
+    color: white;
     // Darken the button on hover as a means of providing visual feedback
-    &:hover {
-      background-color: darken($color-primary, 10%);
+    &:hover, :active, :focus {
+      background-color: darken($color-tertiary, 10%);
     }
   }
 
@@ -65,56 +65,3 @@
       background-color: darken(white, 8%);
     }
   }
-
-  // The 2 buttons on the home screen prompting the user to start
-  .button--start {
-    // Make both buttons equal width to add symmetry
-    width: 250px;
-    max-width: 250px;
-  }
-
-  
-// The back button used for the breadcrumbs.
-.button--breadcrumb-back {
-
-  height: 2em;
-  width: 1.5em;
-
-  // The lines that will make up the backwards arrow
-  &--arrow {
-    display: block;
-    background-color: $color-primary;
-    min-height: 3px;
-    width: 1em;
-    margin-bottom: 4px;
-    
-    // Make a backwards arrow shape. Should look like this: <
-    &:nth-child(1) {
-      transform: rotate(135deg);
-        position: relative;
-        top: 11px;
-    }
-    &:nth-child(2) {
-      transform: rotate(45deg);
-        position: relative;
-        top: 13px;
-    }
-
-    @include breakpoint($breakpoint-tablet) {
-      background-color: white;
-    }
-  }
-}
-
-
-.button--file-upload{
-  @extend .button;
-  background-color: $color-primary;
-  color: white;
-  border: 0;
-
-  // Darken the button on hover as a means of providing visual feedback
-  &:hover {
-    background-color: darken($color-primary, 10%);
-  }
-}

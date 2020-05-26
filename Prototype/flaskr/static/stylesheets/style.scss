@@ -14,6 +14,9 @@
 @import 'layout/_header.scss';
 @import 'layout/_navbar.scss';
 @import 'layout/_footer.scss';
+@import 'layout/_sidebar.scss';
+@import 'layout/_dashboard.scss';
+@import 'layout/pagemodule';
 // The breadcrumb is the part just below the header which shows the current screen name
 @import 'layout/_breadcrumb.scss';
 
@@ -21,14 +24,14 @@
 @import 'components/_buttons.scss'; // Buttons
 @import 'components/_media-card.scss'; // Media cards
 
-// Import the app screens. 1 screen for each step of the app (ie; 1 screen for main page,
-// 1 screen for uploading data, 1 screen for data, etc)
+// Import the rules for dashboard screens.
 @import 'screens/_mainscreen.scss';
-@import 'screens/_mapscreen.scss';
+@import 'screens/planshipmentscreen';
 @import 'screens/_uploadscreen';
 @import 'screens/_datapagescreen';
-@import 'screens/_cargoscreen';
 
+// Import styles for specific pages
+@import 'pages/homepage';
 
 
 // --------------------------------------------------------
