@@ -1,0 +1,46 @@
+.dashboard--sidebar {
+
+  overflow-y: auto; // Allow the sidebar to be scrollable if the browser's size is too small
+  min-width: 220px;
+  padding-top: $spacing-default;
+  background-color: lighten($color-primary, 5%);
+  @include border-shadow-soft-wide;
+  
+  & h4 {
+    color: rgb(255, 255, 255, .6);
+    margin: $spacing-small 0;
+    padding-left: $spacing-small;
+  }
+  
+  color: white;
+  
+  // HR seperator. Used to logically seperate each section of the sidebar
+  & hr {
+    //color: lighten($color-primary, 10%);
+    color: rgb(0, 0, 0, 0);
+    // Each section (not including the first) should have some space between them to avoid visual clutter
+    &:not(:first-child) {
+      margin-top: $spacing-large;
+    }
+  }
+
+  & a {
+    padding: $spacing-small $spacing-default;
+    display: block;
+    color: inherit;
+    font-size: 0.9em; // Make the font-size a little smaller, otherwise the sidebar takes up too much space
+    
+    &:hover {
+      background-color: darken($color-primary, 2%);
+      color: $color-secondary;
+      cursor: pointer;
+    }
+  }
+
+  // This rule is used to indicate which page the user is currently in, by highlighting the link
+  & .--active {
+    color: $color-secondary;
+    font-weight: 800;
+    background-color: darken($color-primary, 2%);
+  }
+}

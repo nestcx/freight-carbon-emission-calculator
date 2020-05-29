@@ -1,39 +1,30 @@
-.container--datapage-text{
-  @extend .container;
-  text-align: center;
-
-  h3{
-    
-    color: #62626a;
-    padding: 5px 0px 0px 0px
-  }
-  
+// The module containing the large pie chart
+.module--primary-data {
+  width: 100%;
+  max-width: 450px;
 }
+
+// The module containing the other data image and download button
+.module--generate-report {
+  width: 100%;
+}
+
 .container--graph-icon{
   @extend .container;
   text-align: center;
 
-  img{
-    width: 30%; 
-    height: 30%; 
+  img {
+    max-width: 70%; 
+    max-height: 70%; 
     object-fit: contain;
   }
 }
 
 .container--datascreen-nav-buttons{
   @extend .container;
-  text-align: center;
-  
-  
+  text-align: center;  
 }
-.container--datascreen-d3charts{
-  @extend .container;
+
+.d3charts--container {
   text-align: center;
-  h3{
-    color: #62626a;
-    padding: 5px 0px 5px 0px
-  }
-  p{
-    padding: 25px 0px 0px 0px
-  }
 }

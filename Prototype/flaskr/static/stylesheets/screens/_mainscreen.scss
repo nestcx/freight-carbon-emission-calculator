@@ -1,48 +1,11 @@
-// This is the main screen - the first screen the user sees of our app
+// This is the screen that the user first arrives upon when entering the dashboard app
+// On their first visit, this page should show helpful tips and guide the user
 
-// The div that contains the logo and 'powered by' image
-.container--logo {
-  @extend .container;
-  text-align: center;
+.screen--main {
   
-  & img {
-    vertical-align: middle; // Align the Freight People logo, so that the 'powered by' text is in the centre
-  }
-
-  // Make the intro text and img smaller on the main screen when viewed on smaller screens. 
-  // It doesn't need to take up so much space.
-  @include breakpoint($breakpoint-mobile) {
-    padding: $spacing-default !important;
-
-    & h1 {
-      font-size: 1.75em;
-    }
-
-    & img {
-      max-width: 150px;
-    }
-
-    .container--intro-text h2 {
-      font-size: 1.25em;
-    }
-  }
 }
 
-
-// The div that has the intro text on the Home screen
-.container--intro-text {
-  @extend .container;
-  text-align: center;
-
-  h2 {
-    margin: 0 auto;
-    max-width: 680px;
-    color: $color-font-black-header-soft; 
+  // This module contains the introductory text for the user
+  .module--user-intro {
+    max-width: 600px;
   }
-}
-
-// The div that contains both the CTA buttons on the home screen
-.container--cta-buttons {
-  @extend .container;
-  text-align: center;
-}
