@@ -3,7 +3,7 @@ function init(){
     var w=400;
     var h=350;
   
-    var dataset1={ "Carbon":24, "Methane": 28, "Nitrousoxide": 15 };
+    var dataset1={ "Carbon": 0.129, "Methane": 0.024, "Nitrousoxide": 0.009 };
   
     var outerRadius = 100;
     var innerRadius = 0;
