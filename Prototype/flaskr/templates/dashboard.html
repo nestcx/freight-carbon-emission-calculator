@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Freight Carbon calculator</title>
   <link rel='stylesheet' href='static/stylesheets/style.css' />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
 </head>
 
 <body>
   <div class="app-container">
-    
+
     <header class="header">
       <h1 class="header--logo">Freight carbon calculator</h1>
       <nav>
@@ -32,8 +33,10 @@
         <a id="sidebarlink-screen-main" onClick="goToScreen('screen-main')">Dashboard</a>
         <hr />
         <h4>Plan</h4>
-        <a id="sidebarlink-screen-plan-shipment" role="button" onClick="goToScreen('screen-plan-shipment')">New shipment</a>
-        <a id="sidebarlink-screen-upload-data" role="button" onClick="goToScreen('screen-upload-data')">Upload invoice data</a>
+        <a id="sidebarlink-screen-plan-shipment" role="button" onClick="goToScreen('screen-plan-shipment')">New
+          shipment</a>
+        <a id="sidebarlink-screen-upload-data" role="button" onClick="goToScreen('screen-upload-data')">Upload invoice
+          data</a>
         <hr />
         <h4>Insights</h4>
         <a id="sidebarlink-screen-data-page" role="button">Your carbon footprint</a>
@@ -49,10 +52,12 @@
         <h2 class="dashboard--page--title">Dashboard</h2>
         <div class="module--container module--user-intro">
           <div class="module--content">
-            <h3 class="module--title">Australian Freight Carbon Calculator</h3>
+            <img src="static/images/FreightPeopleLogo.png" width="180px" />
+            <h2 class="module--title">Australian Freight Carbon calculator</h2>
             <p>
               To caculate your emissions, choose one of the options below. We will handle the rest.
             </p>
+            <P></P>
             <p>
               There is also a guide for <a href="/">Getting started</a>
             </p>
@@ -65,32 +70,34 @@
       </div>
 
       <!-- File upload screen -->
-      <div class="dashboard--page screen--file-upload --screen-inactive" id="screen-upload-data" >
+      <div class="dashboard--page screen--file-upload --screen-inactive" id="screen-upload-data">
         <h2 class="dashboard--page--title">Upload data</h2>
-          <div class="module--container module--file-upload-intro">
-            <div class="module--content">
-              <h3 class="module--title">Upload a Shipping invoice</h3>
-              <p>
-                Upload a shipping invoice. The data it includes should be the starting location and destination and weight of cargo. 
-              </p><p>
-                The file type must be .xls or .csv
-              </p>
-              <!-- Use a label to wrap around the file input, as file inputs are hard to style corretly-->
-              <label for="myFile" class="button--file-upload">
-                <input type="file" accept=".csv, .xls" id="myFile" name="filename">
-                Select file
-              </label>
-            </div>
-            <div class="module--bottom-buttons-container">
-              <button class="button--primary"
-              onClick="changeScreen('screen-upload-data', 'screen-data-page')">Upload data</button>
-            </div>
+        <div class="module--container module--file-upload-intro">
+          <div class="module--content">
+            <h3 class="module--title">Upload a Shipping invoice</h3>
+            <p>
+              Upload a shipping invoice. The data it includes should be the starting location and destination and weight
+              of cargo.
+            </p>
+            <p>
+              The file type must be .xls or .csv
+            </p>
+            <!-- Use a label to wrap around the file input, as file inputs are hard to style corretly-->
+            <label for="myFile" class="button--file-upload">
+              <input type="file" accept=".csv, .xls" id="myFile" name="filename">
+              Select file
+            </label>
+          </div>
+          <div class="module--bottom-buttons-container">
+            <button class="button--primary" onClick="changeScreen('screen-upload-data', 'screen-data-page')">Upload
+              data</button>
+          </div>
         </div>
       </div>
 
       <!-- plan shipment location screen -->
       <div class="dashboard--page screen-shipment-location --screen-inactive" id="screen-plan-shipment">
-        <h2 class="dashboard--page--title">Plan shipment</h2>  
+        <h2 class="dashboard--page--title">Plan shipment</h2>
         <div class="module--container module--shipments">
           <div class="module--content">
             <h3 class="module--subtitle">Location details</h3>
@@ -116,36 +123,36 @@
               <div class="container--weight-presets">
                 <h2 class="instruction-text">Or..</h2>
                 <h3 class="instruction-text">Not sure of the exact weight? Select an option from below...</h2>
-                <div class="media-card">
-                  <div class="media-card--img">
-                    <img src="static/images/truck-icon.png" />
+                  <div class="media-card">
+                    <div class="media-card--img">
+                      <img src="static/images/truck-icon.png" />
+                    </div>
+                    <div class="media-card--text">
+                      <p>Small</p>
+                      <input type="radio" class="input--radio" id="input-weight-small" name="input-weight-preset"
+                        value="small" />
+                    </div>
                   </div>
-                  <div class="media-card--text">
-                    <p>Small</p>
-                    <input type="radio" class="input--radio" id="input-weight-small" name="input-weight-preset"
-                      value="small" />
+                  <div class="media-card">
+                    <div class="media-card--img">
+                      <img src="static/images/truck-icon-medium.png" />
+                    </div>
+                    <div class="media-card--text">
+                      <p>Medium</p>
+                      <input type="radio" class="input--radio" id="input-weight-medium" name="input-weight-preset"
+                        value="medium" />
+                    </div>
                   </div>
-                </div>
-                <div class="media-card">
-                  <div class="media-card--img">
-                    <img src="static/images/truck-icon-medium.png" />
+                  <div class="media-card">
+                    <div class="media-card--img">
+                      <img src="static/images/truck-icon-large.png" />
+                    </div>
+                    <div class="media-card--text">
+                      <p>Large</p>
+                      <input type="radio" class="input--radio" id="input-weight-large" name="input-weight-preset"
+                        value="large" />
+                    </div>
                   </div>
-                  <div class="media-card--text">
-                    <p>Medium</p>
-                    <input type="radio" class="input--radio" id="input-weight-medium" name="input-weight-preset"
-                      value="medium" />
-                  </div>
-                </div>
-                <div class="media-card">
-                  <div class="media-card--img">
-                    <img src="static/images/truck-icon-large.png" />
-                  </div>
-                  <div class="media-card--text">
-                    <p>Large</p>
-                    <input type="radio" class="input--radio" id="input-weight-large" name="input-weight-preset"
-                      value="large" />
-                  </div>
-                </div>
               </div>
               <div class="container--weight-fridge">
                 <label for="input-refrigeration" class="label">Does your shipment require refrigeration?</label>
@@ -158,14 +165,14 @@
           </div>
         </div>
       </div>
-      
+
       <!-- data screen -->
-      <div class="dashboard--page screen-data-display --screen-inactive" id="screen-data-page" >
+      <div class="dashboard--page screen-data-display --screen-inactive" id="screen-data-page">
         <h2 class="dashboard--page--title">Your carbon footprint</h2>
-        
+
         <!-- row that contains both modules-->
         <div class="row--module-container">
-          
+
           <!-- first module showing the pie chart-->
           <div class="module--container module--primary-data">
             <div class="module--content">
@@ -183,20 +190,22 @@
             <div class="module--content">
               <h3 class="module--title">Emissions report</h3>
               <div class="container--datapage-text" id="datapage-text">
-                <p>Your report for carbon emission calculation has been generated. You could download it from the link below.</p>
+                <p>Your report for carbon emission calculation has been generated. You could download it from the link
+                  below.</p>
               </div>
               <div class="container--graph-icon">
                 <img src="static/images/result-icon.png" />
               </div>
             </div>
             <div class="container--cta-buttons">
-              <a href="static/resources/EmissionsReport.pdf" class="button--primary" download="static/resources/EmissionsReport.pdf" target="_blank">Download your report</a>
+              <a href="static/resources/EmissionsReport.pdf" class="button--primary"
+                download="static/resources/EmissionsReport.pdf" target="_blank">Download your report</a>
             </div>
           </div>
         </div>
       </div>
 
-    <!-- No screen elements below this point -->
+      <!-- No screen elements below this point -->
     </div>
     <footer class="footer">
       <p>Developed by <a href="about.html">Group name</a></p>

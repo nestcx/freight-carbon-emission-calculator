@@ -43,13 +43,17 @@
     padding-bottom: $spacing-medium; // Add a little more space to the bottom
 
     & p {
+      margin-top: $spacing-large;
       margin-bottom: $spacing-default;
     }
   }
 
     .module--title { 
-      margin-bottom: $spacing-default;
+      margin-right: $spacing-large;
+      margin-top: $spacing-large;
+      margin-bottom: $spacing-large;
       font-size: 1.1em;
+      float: left;
     }
 
   // This is used to contain the buttons that will be on the bottom right corner of modules
