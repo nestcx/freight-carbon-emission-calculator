@@ -26,6 +26,7 @@ def create_app():
   @app.route("/autocomplete/address")
   def findCoordinateOfAddress():
     # Add functionality here
+    print("Todo")
   
   return app
 
