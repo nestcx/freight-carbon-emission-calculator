@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from . import mapapiconnector as mapapi # need a . when importing from the same level, for some strange reason (its called relative imports if wanting to google it)
+from flask import Flask, render_template, request
+from . import maproutes
 
 def create_app():
   app = Flask(__name__, instance_relative_config=True)
@@ -12,12 +12,20 @@ def create_app():
   def dashboard():
     return render_template("dashboard.html")
 
-  # TODO: THIS ROUTE WON'T WORK AS THE MAPAPICONNECTOR FILE HASN'T BEEN PUSHED TO THE REPO
   # Find the route between 2 specified coordinates or addresses
   # Returns the data in GeoJSON format
-  @app.route("/route")
+  @app.route("/route", methods=["GET"])
   def getRoute():
-    return mapapiconnector.connectToApi()
+
+    # Ensure that two coordinates are passed as arguments
+    if "startCoords" in request.args and "endCoords" in request.args:
+      startCoords = request.args.get("startCoords")
+      endCoords = request.args.get("endCoords")
+      return maproutes.getRoute(startCoords, endCoords)
+
+    else:
+      return "Need to input coordinates as request arguments"
+
 
   # This will be used for asynchronous requests.
   # Find suggestions for address/places depending on the user's input so far
