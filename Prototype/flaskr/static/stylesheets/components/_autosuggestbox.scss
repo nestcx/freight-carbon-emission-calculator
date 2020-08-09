@@ -1,0 +1,23 @@
+.autosuggestbox {
+  // The position is absolute, but the left (x) and top (y) values are not provided here, that is because
+  // the left and top positions are determined by the JS script.
+  position: absolute;
+
+  background-color: white;
+  border: 1px solid #d4d4d4;
+  @include border-shadow-soft;
+  
+  & p {
+    padding: $spacing-small;
+    margin: 0;
+    font-size: 0.9em;
+    border-bottom: 1px solid #ebebeb;
+    cursor: pointer;
+  }
+
+  & p:hover, p:active {
+    background-color: $color-primary;
+    //background-color: rgb(0, 81, 255);
+    color: white;
+  }
+}

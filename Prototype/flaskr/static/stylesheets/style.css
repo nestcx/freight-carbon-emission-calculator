@@ -362,6 +362,24 @@ header {
   text-align: center;
 }
 
+.autosuggestbox {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #d4d4d4;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.autosuggestbox p {
+  padding: 8px;
+  margin: 0;
+  font-size: 0.9em;
+  border-bottom: 1px solid #ebebeb;
+  cursor: pointer;
+}
+.autosuggestbox p:hover, .autosuggestbox p:active {
+  background-color: #1e497a;
+  color: white;
+}
+
 .module--user-intro {
   max-width: 600px;
 }
