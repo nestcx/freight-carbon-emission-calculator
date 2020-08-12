@@ -9,8 +9,13 @@
 function changeScreen(outScreen, inScreen) {
   console.log(inScreen);
 
+  if(document.getElementById(outScreen)==document.getElementById("screen-plan-shipment")){
+    getData();
+  }
+
   var currentScreen = document.getElementById(outScreen);
-  var nextScreen = document.getElementById(inScreen);
+  var nextScreen = document.getElementById(inScreen); 
+
   
   //var datascreencharts = document.getElementById('screen-data-page-charts');
   //var allscreencharts= document.getElementById('all-screen-charts');

@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
-from . import maproutes
+from flask import Flask, render_template, request, jsonify, make_response
+import maproutes
+from . import emissioncalculator
 
 def create_app():
   app = Flask(__name__, instance_relative_config=True)
@@ -11,6 +12,16 @@ def create_app():
   @app.route("/dashboard")
   def dashboard():
     return render_template("dashboard.html")
+
+  @app.route("/getemissionresult", methods = ['POST'])
+  def getemissionresult():
+    req=request.get_json()
+    emissioncalculator.setLoadWeight(int(req('load')))
+    dump=maproutes.getRoute(req('startc'), req('endc'))
+    
+    res=make_response(jsonify(emissioncalculator.getResult()),200)
+    return res
+
 
   # Find the route between 2 specified coordinates or addresses
   # Returns the data in GeoJSON format

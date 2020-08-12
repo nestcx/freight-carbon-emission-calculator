@@ -2,6 +2,8 @@ import requests
 import json
 import math
 
+
+
 # Get the token key from the configs file
 with open('configs.json') as json_file:
   configs = json.load(json_file)
@@ -26,7 +28,7 @@ def getRoute(startCoords, endCoords):
   # They will return a status code of 200 if so.
   if response.status_code == 200:
     result = response.json()
-
+    
     # For Debugging purposes
     print ("total length in metres: " + str(getLengthOfRoute(result)))
     print ("estimated length of trip in seconds: " + str(getDurationOfRoute(result)))
@@ -56,9 +58,10 @@ def getLengthOfRoute(routeGeoJSON):
   Returns:
   [float] -- Total distance between point A and point B, in metres. -1 if an error was encountered
   """
-
+  
   # Create a try/catch block to handle errors in the event that the JSON data is incorrect/changed format
   try:
+    emissioncalculator.setDistance(routeGeoJSON["features"][0]["properties"]["summary"]["distance"])
     return routeGeoJSON["features"][0]["properties"]["summary"]["distance"]
   except:
     return -1
