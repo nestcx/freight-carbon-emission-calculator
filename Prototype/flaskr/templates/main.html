@@ -1,30 +1,7 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-  <title>Freight Carbon calculator</title>
-  <link rel='stylesheet' href='static/stylesheets/style.css' />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-  <header class="header --fixed">
-    <h1 class="header--logo">Freight carbon calculator</h1>
-    <nav class="--align-right">
-      <button class="button-hamburger" onClick="dropdownMenu()">
-        <span class="button-hamburger--line"></span>
-        <span class="button-hamburger--line"></span>
-        <span class="button-hamburger--line"></span>
-      </button>
-      <li class="navbar --hidden">
-        <ul class="navbar--link"><a href="/">About</a></ul>
-        <ul class="navbar--link"><a href="/">How to guide</a></ul>
-        <ul class="navbar--link"><a href="/">More links here</a></ul>
-      </li>
-    </nav>
-  </header>
-  <!--Logo-->
+<!--Anything within this block will appear between <header> and <footer>-->
+{% block content %}
   <div class="container--logo">
     <h1 class=>Freight Carbon calculator</h1>
     <p>Powered by: <img src="static/images/FreightPeopleLogo.png" width="180px" /></p>
@@ -82,13 +59,4 @@
       </div>
     </div>
   </div>
-  <footer class="footer">
-    <p>Developed by <a href="about.html">Group name</a></p>
-  </footer>
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="static/javascript/navbar.js"></script>
-  <script src="static/javascript/screentransition.js"></script>
-  <script src="static/javascript/d3chart.js"></script>
-</body>
-
-</html>
+{% endblock %}
