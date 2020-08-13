@@ -32,11 +32,11 @@ def create_app():
 
     # Ensure that two coordinates are passed as arguments
     if "startCoords" in request.args and "endCoords" in request.args:
-      startCoords = request.args.get("startCoords")
-      endCoords = request.args.get("endCoords")
+      start_coords = request.args.get("startCoords")
+      end_coords = request.args.get("endCoords")
 
       # Return the GeoJSON data and a status code of 200 indicating success
-      return maproutes.getRoute(startCoords, endCoords), 200
+      return maproutes.get_route(start_coords, end_coords), 200
     else:
       # TODO: Handle error more gracefully
       return "Need to input coordinates as request arguments"
@@ -49,9 +49,9 @@ def create_app():
   @limiter.limit("4 per second") # Throttle requests to 4 per second as per OpenRouteService's request/guidelines
   def findCoordinateOfAddress():
     if "input" in request.args:
-      userInput = request.args.get("input")
+      user_input = request.args.get("input")
       # Return the JSON data and a status code of 200 indicating success
-      return maproutes.searchAddress(userInput), 200
+      return maproutes.search_address(user_input), 200
     else:
       # TODO: Handle error more gracefully
       return "Need to input something", 400 # 400 status code indicates that there was a client error
