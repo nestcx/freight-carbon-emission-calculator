@@ -150,5 +150,5 @@ def convertAddressToCoords(address):
 
 
 
-def converCoordsToAddress(coords):
+def convertCoordsToAddress(coords):
   pass
