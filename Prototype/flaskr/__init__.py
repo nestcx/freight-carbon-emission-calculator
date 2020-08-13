@@ -54,7 +54,7 @@ def create_app():
       return maproutes.searchAddress(userInput), 200
     else:
       # TODO: Handle error more gracefully
-      return "Need to input something"
+      return "Need to input something", 400 # 400 status code indicates that there was a client error
   
   return app
 

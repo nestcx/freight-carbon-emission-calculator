@@ -2,8 +2,9 @@
  * This script is used to send asynchronous requests to the web server and to suggest 
  * addresses to the user based on what they've already typed
  */
-startLocInput = document.getElementById("input-pick-up");
-endLocInput = document.getElementById("input-drop-off");
+
+var startLocInput = document.getElementById("input-pick-up");
+var endLocInput = document.getElementById("input-drop-off");
 
 startLocInput.addEventListener("input", searchPossibleAddresses);
 endLocInput.addEventListener("input", searchPossibleAddresses);
@@ -29,23 +30,22 @@ function searchPossibleAddresses(e) {
      * Send an asychronous request to the server, adding the user's input so far as an argument.
      * See if the server responds, and if so, have that data processed
      */
-    var xhrequest = new XMLHttpRequest();
-    xhrequest.open("GET", "/search/address?input=" + inputField.value, true);
-    xhrequest.onload = function (e) {
-      if (xhrequest.readyState === 4) {
-        if (xhrequest.status === 200) { // If our web server responded with a status code of 200, proceed
-          allAddresses = filterAddressData(xhrequest.responseText);
-          createAutoSuggestTextBox(allAddresses, inputField);
-        } else {
-          // TODO: Handle error here
-        }
+    axios.get("/search/address", {
+      params: {
+        input: inputField.value
       }
-    };
-    xhrequest.onerror = function (e) {
-      // console.error(xhr.statusText);
+    })
+    .then(function (response) { // Successfully responded
+      allAddresses = filterAddressData(response.data);
+      createAutoSuggestTextBox(allAddresses, inputField);
+    })
+    .catch(function (error) {
+      console.log(error);
       // TODO: Handle error here
-    };
-    xhrequest.send(null); 
+    })
+    .then(function () { // always executed
+      // Nothing for now
+    }); 
   } else if (inputField.value.length == 0) { // The user has removed all the input, therefore destroy the autosuggest box
     closeAutoSuggest();
   }
@@ -54,12 +54,10 @@ function searchPossibleAddresses(e) {
 
 /**
  * Pull all the addresses and coordinates from the JSON data and place them in a Map data structure.
- * @param {JSON} JSONdata The raw JSON data that will be parsed 
+ * @param {JSON} json The raw JSON data that will be parsed 
  * @returns {Map} A Map data structure which stores addresses and coordinates in {key, value} pairs
  */
-function filterAddressData(JSONdata) {
-  json = JSON.parse(JSONdata);
-
+function filterAddressData(json) {
   /**
    * Use a Map data structure, as a Map in JS is similar to a dictionary data structure.
    * Use it to store coordinates and addresses in {key, value} pairs
