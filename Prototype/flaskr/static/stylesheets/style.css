@@ -371,11 +371,15 @@ header {
 .autosuggestbox p {
   padding: 8px;
   margin: 0;
-  font-size: 0.9em;
+  font-size: 0.8em;
   border-bottom: 1px solid #ebebeb;
   cursor: pointer;
 }
 .autosuggestbox p:hover, .autosuggestbox p:active {
+  background-color: #1e497a;
+  color: white;
+}
+.autosuggestbox--active {
   background-color: #1e497a;
   color: white;
 }
@@ -403,6 +407,7 @@ header {
 
 .container--location-inputs {
   width: 50%;
+  position: relative;
 }
 @media only screen and (max-width: 660px) {
   .container--location-inputs {

@@ -21,7 +21,7 @@
   // The container storing the input fields
   .container--location-inputs {
     width: 50%; // Make this container take up the left half of the screen
-    
+    position: relative;
     // Make the div take up 100% width on smaller screens
     @include breakpoint($breakpoint-tablet) {
       width: 100%;
