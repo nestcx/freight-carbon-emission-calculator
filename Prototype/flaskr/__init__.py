@@ -28,7 +28,7 @@ def create_app():
   # Find the route between 2 specified coordinates or addresses
   # Returns the data in GeoJSON format
   @app.route("/route", methods=["GET"])
-  def getRoute():
+  def get_route():
 
     # Ensure that two coordinates are passed as arguments
     if "startCoords" in request.args and "endCoords" in request.args:
@@ -47,7 +47,7 @@ def create_app():
   # Returns a list of possible addresses if found
   @app.route("/search/address", methods=["GET"])
   @limiter.limit("4 per second") # Throttle requests to 4 per second as per OpenRouteService's request/guidelines
-  def findCoordinateOfAddress():
+  def find_coordinate_of_address():
     if "input" in request.args:
       user_input = request.args.get("input")
       # Return the JSON data and a status code of 200 indicating success
