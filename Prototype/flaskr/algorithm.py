@@ -13,17 +13,15 @@ ENERGY_CONTENT_FACTOR = 38.6
 
 LOAD_WEIGHT_PERCENTAGE_DECREASE = 1.1
 
-# Fuel economy of x truck.
-# Given in litres per 100 kilometres (l/100km)
-truck_fuel_economy = 47.619
 
 
-def calculate_fuel_consumption(distance, load_weight):
+def calculate_fuel_consumption(truck_fuel_economy, distance, load_weight):
     """Calculate fuel consumption based on a series of trip-specific factors.
 
     Keyword arguments:
-    distance    -- trip distance given in kilometres.
-    load_weight -- load weight in vehicle given in tonnes.
+    truck_fuel_economy  -- fuel economy of truck given in litres per 100km (l/100km)
+    distance            -- trip distance given in kilometres.
+    load_weight         -- load weight in vehicle given in tonnes.
 
     In future, more factors will be added to this function to further increase 
     the accuracy of the fuel consumption estimate.
@@ -56,7 +54,7 @@ def emission_calculation(gas_type, fuel_consumption):
     return ((fuel_consumption / 1000) * ENERGY_CONTENT_FACTOR * gas_type) / 1000
 
 
-def calculate_emissions(distance, load_weight):
+def calculate_emissions(truck_fuel_economy, distance, load_weight):
     """Calculate emissions for each gas type given a series of 
        trip-specific factors.
 
@@ -66,7 +64,7 @@ def calculate_emissions(distance, load_weight):
     """
 
     # Fuel consumption must be calculated prior to calculation of greenhouse gas emissions.
-    fuel_consumption = calculate_fuel_consumption(distance, load_weight)
+    fuel_consumption = calculate_fuel_consumption(truck_fuel_economy, distance, load_weight)
 
     # The emission calculation is performed for each relevant greenhouse gas.
     emissions = {}
@@ -75,7 +73,3 @@ def calculate_emissions(distance, load_weight):
     emissions["nitrous_oxide_emission"] = emission_calculation(NITROUS_OXIDE, fuel_consumption)
 
     return emissions
-
-
-test = calculate_emissions(877, 10)
-print(test)
