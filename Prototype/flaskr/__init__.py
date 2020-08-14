@@ -90,8 +90,8 @@ def create_app():
     # input 1:  Distance
     # Calculate trip distance
     if ('startCoords' in request_data) and ('endCoords' in request_data):
-      geo_JSON_data = maproutes.getRoute(request_data['startCoords'], request_data['endCoords'])
-      distance = maproutes.getLengthOfRoute(geo_JSON_data)
+      geo_JSON_data = maproutes.get_route(request_data['startCoords'], request_data['endCoords'])
+      distance = maproutes.get_length_of_route(geo_JSON_data)
 
       # convert distance to kilometres
       distance = distance / 1000
