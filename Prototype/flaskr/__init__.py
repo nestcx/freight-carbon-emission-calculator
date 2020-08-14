@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from . import maproutes
+from . import algorithm
 
 from flask_limiter import Limiter # Use to limit the amount of requests a user can perform in a given duration
 from flask_limiter.util import get_remote_address
@@ -56,5 +57,60 @@ def create_app():
       # TODO: Handle error more gracefully
       return "Need to input something", 400 # 400 status code indicates that there was a client error
   
+
+
+  # need to tidy up / put in it's own file with flask blueprint
+  @app.route("/calculate_emissions", methods=["POST"])
+  def get_emissions():
+    """API endpoint for calculating emissions based on trip-specific values.
+
+    Expected parameters in the JSON request:
+    startCoords  -- decimal degrees
+    endCoords    -- decimal degrees
+    load_weight  -- tonnes
+
+    The algorithm receives the following values:
+    fuel_economy -- litres per 100 kilometres, float
+    distance     -- kilometres, float
+    load_weight  -- tonnes, float
+
+    TODO:  conversion methods? when should the data be converted? 
+
+    """
+
+    # Check if request data contains JSON
+    if not request.is_json:
+      return jsonify({"msg": "Missing JSON in POST request"}), 400
+
+    # Parse json into dictionary
+    request_data = request.get_json()
+
+    # TODO: put each of these input calculations into their own methods once blueprints implemented.
+
+    # input 1:  Distance
+    # Calculate trip distance
+    if ('startCoords' in request_data) and ('endCoords' in request_data):
+      geo_JSON_data = maproutes.getRoute(request_data['startCoords'], request_data['endCoords'])
+      distance = maproutes.getLengthOfRoute(geo_JSON_data)
+
+      # convert distance to kilometres
+      distance = distance / 1000
+
+
+    # input 2:  Load Weight
+    if ('load_weight' in request_data):
+      load_weight = request_data['load_weight']
+
+
+    # input 3:  Fuel Economy
+    # this value is currently hardcoded here. Will change to constant when this method has it's own file.
+    fuel_economy = 47.162
+
+
+    # call the algorithm function and return as json
+    emissions = algorithm.calculate_emissions(fuel_economy, distance, load_weight)
+    return jsonify(emissions)
+
+    
   return app
 
