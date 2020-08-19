@@ -22,6 +22,10 @@ def create_app():
     
     @app.route("/")
     def index():
-        return "Hello!"
+        return render_template("main.html")
+
+    @app.route("/dashboard")
+    def dashboard():
+        return render_template("dashboard.html")
 
     return app

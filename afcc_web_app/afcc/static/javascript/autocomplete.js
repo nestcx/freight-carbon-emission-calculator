@@ -30,7 +30,7 @@ function searchPossibleAddresses(e) {
      * Send an asychronous request to the server, adding the user's input so far as an argument.
      * See if the server responds, and if so, have that data processed
      */
-    axios.get("/search/address", {
+    axios.get("maproutes/search/address", {
       params: {
         input: inputField.value
       }

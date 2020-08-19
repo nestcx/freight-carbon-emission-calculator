@@ -9,7 +9,7 @@ from afcc import data_conversion
 from afcc import limiter
 
 
-maproutes_bp = Blueprint("openrouteservice", __name__, url_prefix="/openrouteservice", static_folder='static', template_folder='templates')
+maproutes_bp = Blueprint("maproutes", __name__, url_prefix="/maproutes", static_folder='static', template_folder='templates')
 
 
 ###############
