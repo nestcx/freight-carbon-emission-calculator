@@ -1,0 +1,128 @@
+// These styles are specifically for the home page, not part of the dashboard app itself
+
+// The div that contains the logo and 'powered by' image
+.container--logo {
+  @extend .container;
+  text-align: center;
+  
+  & img {
+    vertical-align: middle; // Align the Freight People logo, so that the 'powered by' text is in the centre
+  }
+
+  // Make the intro text and img smaller on the main screen when viewed on smaller screens. 
+  // It doesn't need to take up so much space.
+  @include breakpoint($breakpoint-mobile) {
+    padding: $spacing-default !important;
+
+    & h1 {
+      font-size: 1.75em;
+    }
+
+    & img {
+      max-width: 150px;
+    }
+
+    .container--intro-text h2 {
+      font-size: 1.25em;
+    }
+  }
+}
+
+
+// The div that has the intro text on the Home screen
+.container--intro-text {
+  @extend .container;
+  text-align: center;
+
+  h2 {
+    margin: 0 auto;
+    max-width: 680px;
+    color: $color-font-black-header-soft; 
+  }
+}
+
+
+.container--logo {
+  @extend .container;
+  margin-top: $header-height;
+}
+
+// Container used to wrap around images that span more than the entire width of the page.
+// In our case, the birds-eye shot of the trucks.
+.container--page-wide-image {
+  max-width: 100%; // Make sure the container can't be large than the browsing window
+  overflow: hidden; // Hide the overflowing parts of the image, so there's no horizontal scrollbar (awful for usability)
+
+  img {
+    display: block; // Used to get rid of the 4px of whitespace that would be there otherwise
+
+    @include breakpoint($breakpoint-tablet) {
+      height: 150px; // Make the truck image smaller
+    }
+  }
+}
+
+// The container that contains all content below the fold. Only used to colour the entire background white
+.container--below-fold {
+  background-color: white;
+}
+
+  // The container containing text to persuade the user to use our app, and how we can benefit them
+  .container--ad-copy-text {
+    @extend .container;
+    margin: 0 auto; // Center the div horizontally
+    max-width: $dimension-max-app-width;
+    padding: $spacing-x-large $spacing-default; // Create a lot of empty space vertically, for emphasis
+    
+    & h1 {
+      text-align: center;
+    }
+
+    // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
+    @include breakpoint($breakpoint-mobile) {
+      padding: $spacing-x-large 0; // Remove left and right padding, so that the background takes up the entire width
+    }
+  }
+
+  // The container that stores the 'media cards' - the bits of content where there's an image, and text just below it. 
+  // This container is used to allow there to be multiple media cards in 1 row
+  .container--media-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-top: $spacing-x-large; // Add space between the header and media cards
+
+    // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
+    @include breakpoint($breakpoint-mobile) {
+      // Change direction to column, so that rather than squeezing 3 media cards in 1 row, each row has 1 media card only
+      flex-direction: column;
+    }
+  }
+
+// This is the empty space below the birds-eye image of the trucks. Used only for decoration.
+.accent { 
+  background-color: $color-tertiary;
+  width: 100%;
+  height: $spacing-x-large;
+}
+
+
+// The div that contains both the CTA buttons on the home screen
+.container--cta-buttons {
+  @extend .container;
+  text-align: center;
+
+  & .button--primary {
+    display: inline-block;
+    width: 250px;
+    font-size: 1.25em;
+  }
+}
+
+.emission-total {
+  font: bold;
+  color: $color-text-header;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+

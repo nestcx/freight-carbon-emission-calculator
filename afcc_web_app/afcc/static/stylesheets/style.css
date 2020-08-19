@@ -1,0 +1,659 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #34343b;
+  background-color: #f7fafc;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #3d3d42;
+}
+
+a {
+  color: #518ee9;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.screen {
+  margin: 0 auto;
+  max-width: 980px;
+}
+
+.container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--datascreen-nav-buttons, .container--graph-icon, .container--weight-presets, .container--weight, .container--screen-nav-buttons, .container--breadcrumb {
+  max-width: 100%;
+  padding: 24px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  top: 0;
+  left: 0;
+  height: 40px;
+  width: 100%;
+  background-color: #1e497a;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  align-items: center;
+}
+
+.header--logo {
+  color: #f7f6f4;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+
+.--fixed {
+  position: fixed;
+}
+
+.navbar {
+  width: 100%;
+  height: 40px;
+  align-items: stretch;
+  display: flex;
+  justify-content: flex-end;
+  /** 
+   * Include the breakpoint Mixin. Tablet and smaller CSS code goes between this code block
+   * This part will have the code to display the navbar on hamburger menu click
+   */
+}
+@media only screen and (max-width: 660px) {
+  .navbar {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 40px;
+    flex-direction: column;
+    height: auto;
+    box-shadow: -5px 5px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.navbar--link {
+  background-color: #1e497a;
+}
+.navbar--link a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 16px;
+  color: white;
+  text-decoration: none;
+  background-color: #1e497a;
+}
+.navbar--link a:hover {
+  background-color: #1a3f6a;
+}
+@media only screen and (max-width: 660px) {
+  .navbar--link a {
+    padding: 8px 0;
+    font-size: 1em;
+    border-top: 1px solid #cccccc;
+    margin: 0 16px;
+  }
+  .navbar--link a:hover {
+    background-color: #1e497a;
+    color: #e6e6e6;
+  }
+}
+
+.button-hamburger {
+  display: none;
+}
+@media only screen and (max-width: 660px) {
+  .button-hamburger {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 48px;
+    height: 40px;
+    background-color: transparent;
+    border: 0;
+    padding: 12px;
+  }
+}
+.button-hamburger--line {
+  display: block;
+  background-color: white;
+  min-height: 3px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+.button-hamburger--line.--toggled-on:nth-child(1) {
+  transform: rotate(45deg);
+  position: relative;
+  top: 8px;
+}
+.button-hamburger--line.--toggled-on:nth-child(3) {
+  transform: rotate(135deg);
+  position: relative;
+  top: -7px;
+}
+.button-hamburger--line.--toggled-on:nth-child(2) {
+  background-color: transparent;
+}
+
+.footer {
+  padding: 8px;
+  width: 100%;
+  text-align: right;
+  border-top: 1px solid #cccccc;
+  background-color: #f7fafc;
+  box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard--sidebar {
+  overflow-y: auto;
+  min-width: 220px;
+  padding-top: 16px;
+  background-color: #23558e;
+  box-shadow: -1px 4px 6px 3px rgba(0, 0, 0, 0.03), 0 2px 12px 1px rgba(0, 0, 0, 0.01);
+  color: white;
+}
+.dashboard--sidebar h4 {
+  color: rgba(255, 255, 255, 0.6);
+  margin: 8px 0;
+  padding-left: 8px;
+}
+.dashboard--sidebar hr {
+  color: rgba(0, 0, 0, 0);
+}
+.dashboard--sidebar hr:not(:first-child) {
+  margin-top: 32px;
+}
+.dashboard--sidebar a {
+  padding: 8px 16px;
+  display: block;
+  color: inherit;
+  font-size: 0.9em;
+}
+.dashboard--sidebar a:hover {
+  background-color: #1c4472;
+  color: #fdf8c8;
+  cursor: pointer;
+}
+.dashboard--sidebar .--active {
+  color: #fdf8c8;
+  font-weight: 800;
+  background-color: #1c4472;
+}
+
+.dashboard {
+  display: flex;
+  flex-grow: 1;
+  background-color: #f7fafc;
+  overflow: hidden;
+}
+
+.dashboard--page {
+  width: 100%;
+  padding: 16px;
+}
+
+.dashboard--page--title {
+  margin-bottom: 16px;
+}
+
+.row--module-container {
+  display: flex;
+  margin-bottom: 16px;
+}
+.row--module-container .module--container:not(:first-child) {
+  margin-left: 16px;
+}
+
+.module--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #e4eef5;
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.module--subtitle {
+  margin-bottom: 24px;
+  border-bottom: 1px solid #ebebeb;
+}
+.module--subtitle:not(:first-child) {
+  margin-top: 32px;
+}
+
+.module--content {
+  padding: 16px;
+  padding-bottom: 24px;
+}
+.module--content p {
+  margin-bottom: 16px;
+}
+
+.module--title {
+  margin-bottom: 16px;
+  font-size: 1.1em;
+}
+
+.module--bottom-buttons-container {
+  background-color: #f1f1f1;
+  padding: 8px;
+  text-align: right;
+}
+
+.container--breadcrumb {
+  display: flex;
+  padding: 8px !important;
+  border-bottom: 1px solid #cccccc;
+}
+@media only screen and (max-width: 660px) {
+  .container--breadcrumb {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: 0;
+    margin: 0;
+    margin-left: 16px;
+  }
+  .container--breadcrumb h2 {
+    color: white;
+    font-size: 1.5em;
+  }
+}
+
+.button, .button--wrong, .button--file-upload, .button--secondary, .button--primary {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 8px 16px;
+  margin: 4px;
+  font-size: 1em;
+  border-radius: 4px;
+  font-size: 1em;
+  text-decoration: none;
+}
+.button:active, .button--wrong:active, .button--file-upload:active, .button--secondary:active, .button--primary:active, .button :focus, .button--wrong :focus, .button--file-upload :focus, .button--secondary :focus, .button--primary :focus {
+  box-shadow: none;
+}
+
+.button--primary {
+  background-color: #12b47d;
+  color: white;
+  border: 0;
+}
+.button--primary:hover, .button--primary :active, .button--primary :focus {
+  background-color: #0d865d;
+}
+
+.button--secondary {
+  background-color: #fdf8c8;
+  color: white;
+  border: 0;
+}
+.button--secondary:hover {
+  background-color: #fbf297;
+}
+
+.button--file-upload {
+  background-color: #12b47d;
+  font-size: 0.9em;
+  color: white;
+}
+.button--file-upload:hover, .button--file-upload :active, .button--file-upload :focus {
+  background-color: #0d865d;
+}
+
+.button--wrong {
+  background-color: white;
+  color: #34343b;
+  border: 1px solid #d9d9d9;
+}
+.button--wrong:hover {
+  background-color: #ebebeb;
+}
+
+/* 
+ * A media card is a generic container where it's made up of 1 part image, 1 part text. In this case,
+ * the media cards are styled to look like so:
+ *   _____
+ *  |IMAGE|
+ *  |_____|
+ *  |TEXT |
+ *  |_____|
+ */
+.media-card {
+  max-width: 30%;
+  border-radius: 12px;
+  padding: 16px;
+}
+@media only screen and (max-width: 440px) {
+  .media-card {
+    min-width: 100%;
+    border-radius: 0;
+  }
+  .media-card:nth-child(odd) {
+    background-color: #f7fafc;
+  }
+}
+
+.media-card--img {
+  text-align: center;
+}
+.media-card--img img {
+  max-width: 80%;
+}
+@media only screen and (max-width: 440px) {
+  .media-card--img img {
+    max-width: 60%;
+  }
+}
+
+.media-card--text {
+  text-align: center;
+}
+
+.autosuggestbox {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #d4d4d4;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.autosuggestbox p {
+  padding: 8px;
+  margin: 0;
+  font-size: 0.8em;
+  border-bottom: 1px solid #ebebeb;
+  cursor: pointer;
+}
+.autosuggestbox p:hover, .autosuggestbox p:active {
+  background-color: #1e497a;
+  color: white;
+}
+.autosuggestbox--active {
+  background-color: #1e497a;
+  color: white;
+}
+
+.module--user-intro {
+  max-width: 600px;
+}
+
+.module--shipments {
+  width: 100%;
+  max-width: 1000px;
+  height: 90%;
+  overflow-y: scroll;
+}
+
+.container--location {
+  display: flex;
+}
+@media only screen and (max-width: 660px) {
+  .container--location {
+    flex-direction: column;
+    padding: 0 24px;
+  }
+}
+
+.container--location-inputs {
+  width: 50%;
+  position: relative;
+}
+@media only screen and (max-width: 660px) {
+  .container--location-inputs {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 0;
+  }
+}
+.container--location-inputs input, .container--location-inputs label {
+  display: block;
+}
+
+.input--text {
+  margin-top: 4px;
+  padding: 8px;
+  border: 0;
+  width: 100%;
+  max-width: 300px;
+  border: 2px solid #dddddd;
+  border-radius: 2px;
+}
+.input--text:focus {
+  border: 2px solid #1e497a;
+}
+@media only screen and (max-width: 660px) {
+  .input--text {
+    max-width: 100%;
+  }
+}
+
+.container--location-map {
+  width: 50%;
+  padding: 0 8px;
+  text-align: right;
+}
+.container--location-map img {
+  max-height: 250px;
+  max-width: 100%;
+}
+@media only screen and (max-width: 660px) {
+  .container--location-map {
+    width: 100%;
+    text-align: center;
+    padding: 0;
+  }
+}
+
+.container--screen-nav-buttons {
+  text-align: right;
+}
+.container--screen-nav-buttons .button--primary {
+  margin: 0 8px;
+}
+@media only screen and (max-width: 660px) {
+  .container--screen-nav-buttons .button--primary {
+    margin: 0;
+    font-size: 1em;
+  }
+}
+
+.container--weight {
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (max-width: 660px) {
+  .container--weight {
+    flex-direction: column;
+    padding: 0 24px;
+  }
+}
+.container--weight h2 {
+  text-align: center;
+}
+
+.container--weight-inputs {
+  width: 50%;
+  padding: 0 8px;
+}
+@media only screen and (max-width: 660px) {
+  .container--weight-inputs {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 0;
+  }
+}
+.container--weight-inputs input, .container--weight-inputs label {
+  display: block;
+}
+
+.container--weight-presets {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.container--weight-presets .media-card {
+  width: 30%;
+}
+
+.instruction-text {
+  width: 100%;
+}
+
+.module--file-upload-intro {
+  width: 100%;
+  max-width: 500px;
+}
+.module--file-upload-intro p {
+  margin-bottom: 32px;
+}
+
+.button--file-upload > input[type=file] {
+  display: none;
+}
+
+.module--primary-data {
+  width: 100%;
+  max-width: 450px;
+}
+
+.module--generate-report {
+  width: 100%;
+}
+
+.container--graph-icon {
+  text-align: center;
+}
+.container--graph-icon img {
+  max-width: 70%;
+  max-height: 70%;
+  object-fit: contain;
+}
+
+.container--datascreen-nav-buttons {
+  text-align: center;
+}
+
+.d3charts--container {
+  text-align: center;
+}
+
+.container--logo {
+  text-align: center;
+}
+.container--logo img {
+  vertical-align: middle;
+}
+@media only screen and (max-width: 440px) {
+  .container--logo {
+    padding: 16px !important;
+  }
+  .container--logo h1 {
+    font-size: 1.75em;
+  }
+  .container--logo img {
+    max-width: 150px;
+  }
+  .container--logo .container--intro-text h2 {
+    font-size: 1.25em;
+  }
+}
+
+.container--intro-text {
+  text-align: center;
+}
+.container--intro-text h2 {
+  margin: 0 auto;
+  max-width: 680px;
+  color: #62626a;
+}
+
+.container--logo {
+  margin-top: 40px;
+}
+
+.container--page-wide-image {
+  max-width: 100%;
+  overflow: hidden;
+}
+.container--page-wide-image img {
+  display: block;
+}
+@media only screen and (max-width: 660px) {
+  .container--page-wide-image img {
+    height: 150px;
+  }
+}
+
+.container--below-fold {
+  background-color: white;
+}
+
+.container--ad-copy-text {
+  margin: 0 auto;
+  max-width: 980px;
+  padding: 64px 16px;
+}
+.container--ad-copy-text h1 {
+  text-align: center;
+}
+@media only screen and (max-width: 440px) {
+  .container--ad-copy-text {
+    padding: 64px 0;
+  }
+}
+
+.container--media-cards {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 64px;
+}
+@media only screen and (max-width: 440px) {
+  .container--media-cards {
+    flex-direction: column;
+  }
+}
+
+.accent {
+  background-color: #12b47d;
+  width: 100%;
+  height: 64px;
+}
+
+.container--cta-buttons {
+  text-align: center;
+}
+.container--cta-buttons .button--primary {
+  display: inline-block;
+  width: 250px;
+  font-size: 1.25em;
+}
+
+.emission-total {
+  font: bold;
+  color: #6dc0d5;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.--screen-inactive {
+  display: none;
+}
+
+@media only screen and (max-width: 660px) {
+  .--hidden {
+    display: none;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,109 @@
+// The navigation bar that contains the links and dropdown menu
+
+// Style rules for the <li> list element in the navbar
+.navbar {
+  width: 100%;
+  height: $header-height; // Make the navbar's height match the header
+  align-items: stretch;
+  display: flex;
+  justify-content: flex-end;
+  
+  /** 
+   * Include the breakpoint Mixin. Tablet and smaller CSS code goes between this code block
+   * This part will have the code to display the navbar on hamburger menu click
+   */
+  @include breakpoint($breakpoint-tablet) {
+    // Place the navbar just below the header menu. This will initially be hidden,
+    // and be displayed when the user clicks on the hamburger menu button
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: $header-height;
+    flex-direction: column;
+    height: auto; // Remove the height and let it automatically be set
+    box-shadow: -5px 5px 6px -1px rgba(0,0,0,.3),0 2px 4px -1px rgba(0,0,0,.1);
+  }
+}
+
+// Style rules for each <ul> element in the navbar
+.navbar--link {
+  background-color: $color-primary;
+
+  // The styles for the <a> elements found in the <ul> elements
+  a {
+    // The 3 rules below are used to center the text vertically within the navbar
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 $spacing-default;
+    color: white;
+    text-decoration: none; // Remove the ugly underline of links
+    background-color: $color-primary;
+
+    &:hover {
+      background-color: darken($color-primary, 4%);
+    }
+
+    // CSS rules for tablet sized screens should go here
+    @include breakpoint($breakpoint-tablet) {
+      // Adjust padding so links are easier to click on with mobile phones
+      padding: $spacing-small 0;
+      font-size: 1em;
+      border-top: 1px solid #cccccc;
+      margin: 0 $spacing-default;
+
+      &:hover {
+        background-color: $color-primary;
+        color: darken(white, 10%);
+      }
+    }
+  }
+}
+
+// The hamburger button on that displays the dropdown menu when clicked. 
+// It will only be displayed on smaller screens
+.button-hamburger {
+  display: none;
+
+  @include breakpoint($breakpoint-tablet) {
+    // Rules below are to put the button all the way to the top right corner
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: $header-height * 1.2;
+    height: $header-height;
+    background-color: transparent;
+    border: 0;
+    padding: 12px;
+  }
+
+  // The lines that are used to draw the hamburger
+  &--line {
+    display: block;
+    background-color: white;
+    min-height: 3px;
+    width: 100%;
+    margin-bottom: 4px;
+
+    // When the hamburger button is clicked and the dropdownmenu is showing
+    &.--toggled-on {
+
+      // Draw an x shape 
+      &:nth-child(1) {
+        transform: rotate(45deg);
+        position: relative;
+        top: 8px;
+      }
+      &:nth-child(3) {
+        transform: rotate(135deg);
+        position: relative;
+        top: -7px;
+      }
+      &:nth-child(2) {
+        background-color: transparent;
+      }
+    }
+  }
+}

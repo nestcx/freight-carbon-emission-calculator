@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+<!--Anything within this block will appear between <header> and <footer>-->
+{% block content %}
+  <div class="container--logo">
+    <h1 class=>Freight Carbon calculator</h1>
+    <p>Powered by: <img src="static/images/FreightPeopleLogo.png" width="180px" /></p>
+  </div>
+
+  <!-- home screen -->
+  <div id="screen-main" class="screen">
+    <div class="container--intro-text">
+      <h2>Discover how much emissions your shipments are producing. Get started with our app
+      </h2>
+    </div>
+    <div class="container--cta-buttons">
+      <a href="dashboard" class="button--primary">Get started</a>
+    </div>
+  </div>
+
+  <!--Code below is not a part of the app container-->
+  <div class="container--page-wide-image">
+    <img src="static/images/TruckImage.png" />
+  </div>
+  <div class="accent"></div>
+
+  <div class="container--below-fold">
+    <div class="container--ad-copy-text">
+      <h1>Reduce your carbon footprint</h1>
+      <div class="container--media-cards">
+        <div class="media-card">
+          <div class="media-card--img">
+            <img src="static/images/icon-pie-chart.png" />
+            <!--<div></im>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
+          </div>
+          <div class="media-card--text">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.</p>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-card--img">
+            <img src="static/images/icon-pie-chart.png" />
+          </div>
+          <div class="media-card--text">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.</p>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-card--img">
+            <img src="static/images/icon-pie-chart.png" />
+          </div>
+          <div class="media-card--text">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

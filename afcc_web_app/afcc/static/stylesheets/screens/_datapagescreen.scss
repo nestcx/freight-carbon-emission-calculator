@@ -1,0 +1,30 @@
+// The module containing the large pie chart
+.module--primary-data {
+  width: 100%;
+  max-width: 450px;
+}
+
+// The module containing the other data image and download button
+.module--generate-report {
+  width: 100%;
+}
+
+.container--graph-icon{
+  @extend .container;
+  text-align: center;
+
+  img {
+    max-width: 70%; 
+    max-height: 70%; 
+    object-fit: contain;
+  }
+}
+
+.container--datascreen-nav-buttons{
+  @extend .container;
+  text-align: center;  
+}
+
+.d3charts--container {
+  text-align: center;
+}

@@ -1,0 +1,61 @@
+// The page module is a container thats used to visually separate content and data in the
+// dashboard page
+
+// Used for laying out several modules in the same row
+// Child modules in this container are automatically resized
+// to be the same height
+.row--module-container {
+  display: flex;
+  margin-bottom: $spacing-default;
+
+  // Use this module to add space between each module
+  & .module--container:not(:first-child) {
+    margin-left: $spacing-default;
+  }
+}
+
+// Each individual 'module' or logically seperated piece of data will go into one
+// of these containers.
+.module--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid darken($color-background, 5%);
+  // border-top: 4px solid $color-tertiary; // Aesthetically pleasing border accent
+  background-color: white;
+  @include border-shadow-soft;
+
+}
+
+  // The subtitle separating the contents of a module into a logical section
+  .module--subtitle {
+    margin-bottom: $spacing-medium;
+    border-bottom: 1px solid #ebebeb;
+
+    &:not(:first-child) {
+      margin-top: $spacing-large;
+    }
+  }
+
+  // This will be where the in each module ontent goes
+  .module--content {
+    padding: $spacing-default;
+    padding-bottom: $spacing-medium; // Add a little more space to the bottom
+
+    & p {
+      margin-bottom: $spacing-default;
+    }
+  }
+
+    .module--title { 
+      margin-bottom: $spacing-default;
+      font-size: 1.1em;
+    }
+
+  // This is used to contain the buttons that will be on the bottom right corner of modules
+  // Not every module will have a div of this class 
+  .module--bottom-buttons-container {
+    background-color: rgb(241, 241, 241);
+    padding: $spacing-small;
+    text-align: right; // Move all buttons to the right side
+  }

@@ -1,0 +1,53 @@
+// This file will store ALL variables used in the app
+
+// Colours
+
+$color-primary: rgb(30, 73, 122); // Nice navy blue colour
+//$color-primary: rgb(24, 112, 185); // A little lighter blue
+//$color-primary: rgb(24, 147, 185); // A little greener
+//$color-primary: #6772e5;
+//$color-primary: rgb(0, 189, 173);
+//$color-primary: #071a52;
+$color-text-header: rgb(109, 192, 213);
+
+$color-secondary: rgb(253, 248, 200);
+$color-tertiary: #12b47d;
+$color-background: #f7fafc; // Soft bluish-white background
+
+// $color-primary: rgb(40, 144, 148);
+// $color-secondary: rgb(56, 160, 163);
+// $color-background: #f7fafc; // Soft bluish-white background
+
+$color-font-black: #34343b; // Generally pure black text is too harsh. Therefore use a lighter shade for text
+$color-font-black-header: #3d3d42;
+$color-font-black-header-soft: lighten($color-font-black-header, 15%);
+$color-font-white: #f7f6f4; // Generally pure white is very harsh as well. Therefore use a tad darker shade
+
+$color-grey-border: darken(white, 20%);
+
+$color-default-link: rgb(81, 142, 233);
+
+$font-largest: 2.25em;
+$font-large: 1.5em;
+$font-default: 1em;
+
+// Use these when spacing margins and paddings. Using uniform spacing options make the app look much better/cleaner
+$spacing-x-small: 4px;
+$spacing-small: 8px;
+$spacing-default: 16px;
+$spacing-medium: 24px;
+$spacing-large: 32px;
+$spacing-x-large: 64px;
+
+// Breakpoints for media-queries. These define the allowable browser 
+// max-width before the style changes to accomodate smaller screens
+$breakpoint-mobile: 440px;
+$breakpoint-tablet: 660px;
+
+// Use these dimensions to enforce maximum widths, so that the web 
+// app doesn't stretch out too much on wider monitors
+$dimension-max-app-width: 980px;
+
+// Layout related variables. Store dimensions as variables, to ensure that 
+// other parts of the app don't break when something is resized
+$header-height: 40px;
