@@ -68,13 +68,13 @@ def emissions():
 @calculation_bp.route("/address", methods=["POST"])
 def emissions_by_address():
 
-    if not request.is_json:
-        return "ERROR", 400
+    #if not request.is_json:
+    #    return "ERROR", 400
 
     request_data = request.get_json()
 
-    if ('startAddress' not in request_data or 'endAddress' not in request_data or 'loadWeight' not in request_data):
-        return "ERROR", 400
+    #if ('startAddress' not in request_data or 'endAddress' not in request_data or 'loadWeight' not in request_data):
+    #    return "ERROR", 400
 
 
     startAddressInfo = maproutes.search_address(request_data["startAddress"])

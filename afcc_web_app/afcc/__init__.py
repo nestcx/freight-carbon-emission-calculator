@@ -28,4 +28,8 @@ def create_app():
     def dashboard():
         return render_template("dashboard.html")
 
+    @app.route("/calculation_form_testing")
+    def testing_form():
+        return render_template("ajax_form_testing.html")
+
     return app

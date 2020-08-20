@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Input Tests</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,100;1,400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="title">AFCC - AJAX Form Testing</div>
+
+    <div class="api_info">
+        <div class="endpoint"><span class="info">API ENDPOINT:</span> <span class="monospace">/calculation/address</span></div>
+    </div>
+
+    <form>
+        <label for="startCoords">Start Co-ordinates</label>
+        <input type="text" id="startCoords">
+
+        <label for="endCoords">End Co-ordinates</label>
+        <input type="text" id="endCoords">
+
+        <label for="load_weight">Load Weight</label>
+        <input type="text" id="loadWeight">
+
+        <div class="button_wrapper">
+            <div id="submit">SUBMIT</div>
+        </div>
+    </form>
+
+    <div class="request_info">
+        <div><span class="info"></span><span class="monospace rtt"></span></div>
+    </div>
+
+    <div class="response">
+    <table class="location">
+       <tr>
+            <td class="blank"></td>
+            <td class="tt">Found Address</td>
+            <td class="tt">Co-ordinates</td>
+        </tr>
+        <tr>
+            <td class="tt">Start Address</td>
+            <td class="api_data"></td>
+            <td class="api_data"></td>
+        </tr>
+        <tr>
+            <td class="tt">End Address</td>
+            <td class="api_data"></td>
+            <td class="api_data"></td>
+        </tr>
+    </table>
+
+    <table class="emissions">
+        <tr>
+            <td class="tt">Gas Type</td>
+            <td class="tt">Emission Value</td>
+            <td class="tt">unit</td>
+        </tr>
+        <tr>
+            <td class="tt">co2</td>
+            <td class="api_data"></td>
+            <td class="unit">CO<sub>2</sub>-e tonnes</td>
+        </tr>
+        <tr>
+            <td class="tt">n2o</td>
+            <td class="api_data"></td>
+            <td class="unit">CO<sub>2</sub>-e tonnes</td>
+        </tr>
+        <tr>
+            <td class="tt">ch4</td>
+            <td class="api_data"></td>
+            <td class="unit">CO<sub>2</sub>-e tonnes</td>
+        </tr>
+    </table>
+
+    <table class="additional_information">
+        <tr>
+            <td class="blank"></td>
+            <td class="tt">Result</td>
+            <td class="tt">unit</td>
+        </tr>
+        <tr>
+            <td class="tt">Distance</td>
+            <td class="api_data"></td>
+            <td class="unit">km</td>
+        </tr>
+        <tr>
+            <td class="tt">Adjusted Fuel Economy</td>
+            <td class="api_data"></td>
+            <td class="unit">l/100km</td>
+        </tr>
+        <tr>
+            <td class="tt">Fuel Consumption</td>
+            <td class="api_data"></td>
+            <td class="unit">litres</td>
+        </tr>
+        <tr>
+            <td class="tt">Trip Duration</td>
+            <td class="api_data"></td>
+            <td class="unit">HH:MM:SS</td>
+        </tr>
+    </table>
+    </div>
+
+
+    <script src="{{ url_for('static', filename='javascript/ajax_calculation_testing.js') }}"></script>
+
+
+    <style>
+
+        .request_info {
+            width: 50%;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 0.8rem;
+            color: black;
+        }
+
+        .response {
+            background: rgba(245, 245, 245, 0.479);
+            padding: 2rem;
+            margin: 0;
+            margin-top: 1rem;
+        }
+
+        .api_info {
+            text-align: center;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .request_info .info {
+            color: black
+        }
+
+        .monospace {
+            font-family: monospace;
+            color: red;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+            min-width: 700px;
+        }
+
+        .emissions, .additional_information {
+            margin-top: 1.5rem;
+        }
+
+        td {
+            padding: 0.25rem;
+        }
+
+        .api_data {
+            border: 1px solid lightgray;
+            font-size: 0.75rem;
+            font-family: monospace;
+        }
+        .tt {
+            background: lightgray;
+            border: 2px solid darkgrey;
+            font-size: 0.8rem;
+        }
+        .unit {
+            font-size: 0.8rem;
+            font-style: italic;
+            border: 1px solid lightgray;
+            width: 100px;
+        }
+
+        td:first-child {
+            width: 150px;
+        }
+
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+
+
+        form {
+            border: 1px solid black;
+            width: 50%;
+            margin: 1rem auto;
+            padding: 1rem;
+        }
+
+        .button_wrapper #submit {
+            box-sizing: border-box;
+            text-align: center;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1rem;
+            display: block;
+
+            border: 1px solid black;
+            background: none;
+            font-size: 1rem;
+            padding: 1rem;
+        }
+
+        .button_wrapper #submit:hover {
+            background: #7959e427;
+            cursor: pointer;
+            color: blueviolet;
+        }
+
+        .button_wrapper #submit:active {
+            background: #5d44ad;
+            color: white;
+            cursor: pointer;
+        }
+
+        label {
+            display: inline-block;
+            font-size: 0.8rem;
+        }
+
+        input {
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        
+    </style>
+
+</body>
+
+</html>
