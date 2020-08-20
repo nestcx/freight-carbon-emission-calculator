@@ -73,3 +73,6 @@ def calculate_emissions(truck_fuel_economy, distance, load_weight):
     emissions["nitrous_oxide_emission"] = emission_calculation(NITROUS_OXIDE, fuel_consumption)
 
     return emissions
+
+def sum(a, b):
+   return a + b
