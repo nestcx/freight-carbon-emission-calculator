@@ -6,8 +6,8 @@ from flask import Blueprint
 from flask import request
 
 from afcc import data_conversion
-from afcc import limiter
-
+from afcc.extensions import limiter
+from afcc.config import * # Import sensitive config data
 
 maproutes_bp = Blueprint("maproutes", __name__, url_prefix="/maproutes", static_folder='static', template_folder='templates')
 
@@ -49,11 +49,6 @@ def find_coordinate_of_address():
 #  END VIEWS  #
 ###############
 
-
-# Get the token key from the configs file
-with open('configs.json') as json_file:
-  configs = json.load(json_file)
-  API_KEY = configs["token_key"]
 
 def get_route(start_coords, end_coords):
   """Get a route between two coordinates by sending a GET request to an API

@@ -43,7 +43,7 @@ function addMarkerToMap(lat, long, startingAddress) {
     /**
      * Send an asychronous request to the server, passing in the coordinates as arguments
      */
-    axios.get("/route", {
+    axios.get("maproutes/route", {
       params: {
         startCoords: startMarkerCoords,
         endCoords: endMarkerCoords
