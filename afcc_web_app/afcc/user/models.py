@@ -15,5 +15,5 @@ class User(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow, nullable=False)
     deactivated = db.Column(db.Boolean, nullable=False, default=False)
 
-    def set_password(self):
+    def set_password(self, password):
       self.password = generate_password_hash(password) # pbkdf2:sha256 is the encryption method used if none is specified.

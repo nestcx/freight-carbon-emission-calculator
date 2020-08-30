@@ -11,8 +11,7 @@ def create_app():
 
     app = Flask(__name__, template_folder='templates', static_folder='static')
 
-
-    # app.config['SECRET_KEY'] = 'super-secret'
+    app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
 
     db.init_app(app) # The db object is retrieved from the extensions.py file

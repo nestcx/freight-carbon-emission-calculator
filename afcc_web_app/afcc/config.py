@@ -6,6 +6,6 @@ import json
 # Get sensitive data from the configs file
 with open('configs.json') as json_file:
     configs = json.load(json_file)
-    DB_STRING = configs["db_string"]
-    API_KEY = configs["token_key"]
-
+    DB_STRING = configs["db_string"] # This is string used to connect to the AWS PostGres database
+    API_KEY = configs["token_key"] # This is the API key used to access OpenRouteService's API
+    SECRET_KEY = configs["secret_key"] # A secret key is required when if we want to implement session functionality in Flask

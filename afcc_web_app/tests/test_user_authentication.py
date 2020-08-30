@@ -3,7 +3,6 @@ This file is to test functionality related to user authentication and security m
 """
 import pytest
 
-from afcc import data_conversion
 
 def test_user_should_authenticate_with_valid_username_valid_password():
   assert False
