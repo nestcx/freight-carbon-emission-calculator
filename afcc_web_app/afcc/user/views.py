@@ -31,6 +31,7 @@ def create_user():
     # Try adding the user to the database, and catch any potential errors
     try:
       db.session.add(new_user)
+      db.session.commit()
       return 'account created', 200
     except:
       return 'An error occurred while trying to create your account. Please try again later', 500
