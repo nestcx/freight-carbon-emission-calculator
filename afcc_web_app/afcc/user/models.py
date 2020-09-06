@@ -4,7 +4,7 @@ import datetime
 
 class User(db.Model):
 
-    # The db table is called ssers, not User. Must specify this, otherwise SQLAlchemy assumes
+    # The db table is called users, not User. Must specify this, otherwise SQLAlchemy assumes
     # that the table name is the same as the class name
     __tablename__ = 'users' 
 
@@ -17,3 +17,11 @@ class User(db.Model):
 
     def set_password(self, password):
       self.password = generate_password_hash(password) # pbkdf2:sha256 is the encryption method used if none is specified.
+
+    # # Remove the password so that views can freely pass this
+    # def get_user_without_sensitive_data(self):
+    #   user = query.filter_by(email=email).first()
+    #   user.password = None
+    #   return user
+
+      

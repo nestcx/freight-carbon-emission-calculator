@@ -4,7 +4,7 @@ This file is to test user related functionality. Spefically CRUD operations for 
 import pytest
 
 #import afcc
-from afcc import hello, create_app
+from afcc import create_app
 from afcc.user import views
 
 
