@@ -34,6 +34,13 @@
                 <ul class="navbar--link"><a href="/">About</a></ul>
                 <ul class="navbar--link"><a href="/">How to guide</a></ul>
                 <ul class="navbar--link"><a href="/">More links here</a></ul>
+                {% if current_user.is_authenticated %}
+                    <ul class="navbar--link"><a>Hi, {{ current_user.username }}</a></ul>
+                    <ul class="navbar--link"><a href="/user/logout">Sign out</a></ul>
+                    {% else %}
+                    <ul class="navbar--link"><a href="/user/login">Sign in</a></ul>
+                    <ul class="navbar--link"><a href="/user/signup">Create an account</a></ul>
+                {% endif %}
             </li>
         </nav>
     </header>

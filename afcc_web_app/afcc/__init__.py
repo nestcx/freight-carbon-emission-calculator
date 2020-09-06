@@ -1,11 +1,9 @@
 from flask import Flask
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
-# from flask_security import Security, SQLAlc
 
 from afcc.config import *
-from afcc.extensions import db, limiter
-
+from afcc.extensions import db, limiter, login
 
 def create_app():
 
@@ -16,6 +14,7 @@ def create_app():
 
     db.init_app(app) # The db object is retrieved from the extensions.py file
     limiter.init_app(app) # The limiter object is retrieved from the extensions.py file
+    login.init_app(app) # The login object is retrieved from the extensions.py file
 
     # import blueprints
     from afcc import maproutes, calculation
