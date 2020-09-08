@@ -1,0 +1,17 @@
+<!-- This is a generic error page, used to display feedback to the user-->
+<!-- Only redirect to this page if the error can't be more appropriately shown in another page-->
+{% extends "base.html" %}
+{% block content %}
+  <h1>Something has gone wrong.</h1>
+  <p>An unidentified error occurred and has been logged. We apologise for the inconvenience, but please try again later</p>
+  <p>Below is the error:</p><br />
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flash-error>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+{% endblock %}

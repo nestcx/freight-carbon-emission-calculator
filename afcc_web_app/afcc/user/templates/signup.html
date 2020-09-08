@@ -4,14 +4,14 @@
     <form action="" method="POST" novalidate>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <ul class=flash_messages>
+                <ul class=flash-error>
                 {% for message in messages %}
-                <li style="color: red;">{{ message }}</li>
+                <li>{{ message }}</li>
                 {% endfor %}
                 </ul>
             {% endif %}
         {% endwith %}
-        
+
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }} <br />

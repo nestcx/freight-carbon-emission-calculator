@@ -1,11 +1,10 @@
 {% extends "base.html" %}
-
 {% block content %}
-
   <h1>Hello</h1>
   <h3>ID: {{ data.uid }}</h3>
   <h3>Email: {{ data.email }}</h3>
   <h3>Username: {{ data.username }}</h3>
-  <h3>Password: {{ data.password }}</h3>
+  <h3>Password: {{ data.password }} - If the password is not none, that means the password hash is being sent to the client which is a <b>critical</b> error</h3>
   <h3>Date account was created: {{ data.date_created }}</h3>
+  <h3>Email verified?: {{ data.email_verified }}</h3>
 {% endblock %}

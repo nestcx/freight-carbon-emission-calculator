@@ -11,6 +11,7 @@ def create_app():
 
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
+    app.config['SECURITY_PASSWORD_SALT'] = SECRET_KEY # Use the secret key as the salt as well. NOTE: This is temporary
 
     db.init_app(app) # The db object is retrieved from the extensions.py file
     limiter.init_app(app) # The limiter object is retrieved from the extensions.py file
@@ -26,12 +27,15 @@ def create_app():
     app.register_blueprint(views.user_bp, url_prefix='/user')
     
     
-    @app.route("/")
+    @app.route('/')
     def index():
-        return render_template("main.html")
+        return render_template('main.html')
 
-    @app.route("/dashboard")
+    @app.route('/dashboard')
     def dashboard():
-        return render_template("dashboard.html")
+        return render_template('dashboard.html')
 
+    @app.route('/error')
+    def display_error_page():
+        return render_template('error.html')
     return app

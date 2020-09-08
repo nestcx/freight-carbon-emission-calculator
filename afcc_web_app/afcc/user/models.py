@@ -31,3 +31,4 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow, nullable=False)
     deactivated = db.Column(db.Boolean, nullable=False, default=False)
+    email_verified = db.Column(db.Boolean, nullable=False, default=False)

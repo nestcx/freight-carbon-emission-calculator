@@ -2,27 +2,20 @@
 This file handles all user-related functionality
 '''
 from flask import Blueprint, request, render_template, redirect, url_for, flash
-from afcc.extensions import db, limiter
+from afcc.extensions import db, limiter, login
 from afcc.user.models import User
 from afcc.user.forms import LoginForm, SignupForm
-
+from afcc.user.email_verify import generate_token_for_verification, confirm_token
 # Used for exception handling regarding DB connection and queries
 from sqlalchemy import exc
-
 # Used for exception handling unique key violations. Note that sqlalchemy wraps psycopg2's exceptions and provides its own
 from psycopg2.errors import UniqueViolation
 
-# This does not need to be installed on your local machines as it is already a dependency for Flask and therefore already installed
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from flask_login import current_user, login_user, login_required, logout_user
 
 user_bp = Blueprint('user', __name__, static_folder='static', template_folder='templates')
 
-
-
-# curl test:
-# curl -d "username=burak&password=secret&email=burak@gmail.com" -X POST http://localhost:5000/user/
 @user_bp.route('/signup', methods=['GET', 'POST'])
 @limiter.limit('5/second;10/day') # Don't allow users to try create too many accounts, as a legitimate user has no reason to
 def create_user():
@@ -30,9 +23,12 @@ def create_user():
   if current_user.is_authenticated:
       return redirect(url_for('index'))
 
+  # Create a new SignupForm object from the SignupForm class found in user/forms.py
   signup_form = SignupForm()
-  
+
+  # If the validators specified in the class'es input field pass   
   if signup_form.validate_on_submit():
+    # Hash the password the user inputted, and create a new user
     pw_hash = generate_password_hash(signup_form.password.data) # pbkdf2:sha256 is the encryption method used if none is specified. 
     new_user = User(username=signup_form.username.data, password=pw_hash, email=signup_form.email.data)
 
@@ -40,6 +36,8 @@ def create_user():
     try:
       db.session.add(new_user)
       db.session.commit()
+      # TODO: Add email verification
+      # token = generate_token_for_verification(new_user.email)
       # TODO: Return a html page indicating success
       return 'account created', 200
 
@@ -52,36 +50,49 @@ def create_user():
     except exc.StatementError as e:
       # Retrieve the exception Psycopg2 threw, and see if it is a Unique key violation
       if isinstance(e.orig, UniqueViolation):
-        flash('User already exists')
+
+        # Flash a message. This means that when the sign up page is being generated via the template, it will
+        # check if there are any flash messages, and if so, create a new element and display those flash messages
+        flash('A user with this email address already exists')
+        # Redirect back to the signup page, which is the route that calls create_user (ie. the function this code is in)
         return redirect(url_for('.create_user'))
-        return 'A user with this email address already exists', 409
       else:
-        return 'An error occurred while trying to create your account. Please try again later', 500
+        # TODO: Add error logging here, to log all exceptions that have occured and what times
+        flash('An error occurred while trying to create your account. Please try again later')
     except Exception as e:
-      # TODO: Redirect to the sign up page and provide the user with feedback
-      return 'An error occurred while trying to create your account. Please try again later', 500
+        # TODO: Add error logging here, to log all exceptions that have occured and what times
+        flash('An error occurred while trying to create your account. Please try again later')
 
   return render_template('signup.html', form=signup_form)
 
 
+# Verify the user's email address when they click on a link in the email
+################################
+#TODO: Add code to this function
+################################
+@user_bp.route('/verify/<token>')
+def verify_token(token):
+  try:
+    pass
+  except:
+    pass
+
 
 
 # Display user account details to the user, if they're logged in
-@user_bp.route('/<username>', methods=['GET'])
+@user_bp.route('/', methods=['GET'])
 @login_required
-def display_user_details(username):
+def display_user_details():
+  # If the user is logged in, we search the db for the record using their email address
   try:
-    # Note that there is no need to sanitise inputs, as inputs are already parametised
-    # by the db-API that SQLAlchemy calls. (As long as we don't write raw SQL ourself, of course)
-    user = User.query.filter_by(username=username).first()
-    if (user is not None):
-      user.password = None
-      return render_template('profile.html', data=user)
-    else:
-      return 'could not find that user in db'
-  except:
-    return 'an error occurred while trying to retrieve data from the database', 500
-
+    user = User.query.filter_by(email=current_user.email).first()
+    user.password = None
+    return render_template('profile.html', data=user)
+  # Something has gone seriously wrong if this exception is called. Redirect to the generic error page
+  except Exception as e:
+    # TODO: Add logging to log all exceptions
+    flash('An error has occured when trying to access your user details')
+    return redirect(url_for('display_error_page'))
 
 
 
@@ -93,19 +104,23 @@ def log_in():
       return redirect(url_for('index'))
 
   login_form = LoginForm()
+
   if login_form.validate_on_submit():
-    user = User.query.filter_by(email=login_form.email.data).first() # Get the user from the DB using email address
-    if user is not None:
+    try:
+      user = User.query.filter_by(email=login_form.email.data).first() # Get the user from the DB using email address
+    except:
+      flash('The user does not exist')
+      return redirect(url_for('log_in')) # Redirect back to login page to provide the user with feedback
+
       if user.check_password(login_form.password.data): # Ensure that the password the user entered is correct
         login_user(user)
         return redirect(url_for('index'))
       else:
-        return 'Password is incorrect', 401
-    else:
-      return 'User does not exist', 401
+        flash('The password or email address is incorrect')
+        return redirect(url_for('log_in'))
+
 
   return render_template('login.html', form=login_form)
-
 
 
 
@@ -113,3 +128,12 @@ def log_in():
 def log_out():
   logout_user()
   return redirect(url_for('index'))
+
+
+
+# The login manager calls this when an unauthenticated user tries to access 
+# a page that requires them to be logged in. Do this to display a more 
+# user-friendly page, rather than the one Flask-login provides by default
+@login.unauthorized_handler
+def unauthorized():
+  return render_template('authenticationrequired.html')

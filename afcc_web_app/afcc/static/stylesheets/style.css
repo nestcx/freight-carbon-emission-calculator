@@ -384,6 +384,13 @@ header {
   color: white;
 }
 
+.flash-error {
+  background-color: red;
+  color: white;
+  font-size: 1.1em;
+  padding: 16px;
+}
+
 .module--user-intro {
   max-width: 600px;
 }
