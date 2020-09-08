@@ -17,7 +17,7 @@ from flask_login import current_user, login_user, login_required, logout_user
 user_bp = Blueprint('user', __name__, static_folder='static', template_folder='templates')
 
 @user_bp.route('/signup', methods=['GET', 'POST'])
-@limiter.limit('5/second;10/day') # Don't allow users to try create too many accounts, as a legitimate user has no reason to
+@limiter.limit('10/minute;10/day') # Don't allow users to try create too many accounts, as a legitimate user has no reason to
 def create_user():
   # If user is already authenticated, no use showing this page
   if current_user.is_authenticated:
@@ -97,28 +97,31 @@ def display_user_details():
 
 
 @user_bp.route('/login', methods=['GET', 'POST'])
-@limiter.limit('1/second;5/minute;15/hour')
+@limiter.limit('10/minute;15/hour')
 def log_in():
   # If user is already authenticated, no use showing this page
   if current_user.is_authenticated:
       return redirect(url_for('index'))
 
+  print('1')
+
   login_form = LoginForm()
 
   if login_form.validate_on_submit():
+    print('2')
     try:
       user = User.query.filter_by(email=login_form.email.data).first() # Get the user from the DB using email address
-    except:
-      flash('The user does not exist')
-      return redirect(url_for('log_in')) # Redirect back to login page to provide the user with feedback
 
       if user.check_password(login_form.password.data): # Ensure that the password the user entered is correct
         login_user(user)
         return redirect(url_for('index'))
       else:
         flash('The password or email address is incorrect')
-        return redirect(url_for('log_in'))
+        return redirect(url_for('.log_in'))
 
+    except:
+      flash('The user does not exist')
+      return redirect(url_for('.log_in')) # Redirect back to login page to provide the user with feedback
 
   return render_template('login.html', form=login_form)
 
