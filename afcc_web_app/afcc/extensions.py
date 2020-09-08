@@ -11,4 +11,4 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 limiter = Limiter(key_func=get_remote_address)
-login = LoginManager() # The login manager used for handling users logging in and staying authenticated
+login_manager = LoginManager() # The login manager used for handling users logging in and staying authenticated

@@ -3,7 +3,7 @@ from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 
 from afcc.config import *
-from afcc.extensions import db, limiter, login
+from afcc.extensions import db, limiter, login_manager
 
 def create_app():
 
@@ -15,7 +15,7 @@ def create_app():
 
     db.init_app(app) # The db object is retrieved from the extensions.py file
     limiter.init_app(app) # The limiter object is retrieved from the extensions.py file
-    login.init_app(app) # The login object is retrieved from the extensions.py file
+    login_manager.init_app(app) # The login object is retrieved from the extensions.py file
 
     # import blueprints
     from afcc import maproutes, calculation
@@ -24,7 +24,7 @@ def create_app():
     # register blueprints
     app.register_blueprint(maproutes.maproutes_bp)
     app.register_blueprint(calculation.calculation_bp)
-    app.register_blueprint(views.user_bp, url_prefix='/user')
+    app.register_blueprint(views.user_bp)
     
     
     @app.route('/')
