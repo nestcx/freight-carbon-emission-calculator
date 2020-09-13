@@ -144,8 +144,8 @@ def set_emission_calculation_factors(fdata):
 
     FILEDATA['origin']=fdata['From']
     FILEDATA['destination']=fdata['To']
-    FILEDATA['itemQuantity']=int(fdata['Items'])
-    FILEDATA['itemWeight']=int(fdata['Weight'])
+    FILEDATA['itemQuantity']=(fdata['Items'])
+    FILEDATA['itemWeight']=(fdata['Weight'])
 
     #For Debugging purposes
     print(FILEDATA['origin'][0],FILEDATA['destination'][0],FILEDATA['itemQuantity'][0],FILEDATA['itemWeight'][0])
