@@ -61,12 +61,12 @@
             The file type must be .xls or .csv
           </p>
           <!-- Use a label to wrap around the file input, as file inputs are hard to style corretly-->
-          <form class="" enctype=multipart/form-data action="/fileupload/" method="post" target="">
+          <form class="" enctype=multipart/form-data action="/shipments/new" method="post" >
           <!--<label for="myFile" class="button--file-upload">-->
             <input type="file" accept=".csv, .xls, .xlsx" id="myFile" name="filename">            
           <!--</label>-->
           <!--<div class="module--bottom-buttons-container">-->
-            <input type = "Submit" class="button--primary" value="Upload File" onClick="changeScreen('screen-upload-data', 'screen-data-page')"></input>
+            <input type = "Submit" class="button--primary" value="Upload File" ></input>
           <!--</div>-->
         </form>
         </div>
@@ -140,7 +140,7 @@
           </div>
         </div>
         <div class="module--bottom-buttons-container">
-          <button class="button--primary" onClick="goToScreen('screen-data-page')">Get your results!</button>
+          <button class="button--primary" onClick="shipmentdata()">Get your results!</button>
         </div>
       </div>
     </div>

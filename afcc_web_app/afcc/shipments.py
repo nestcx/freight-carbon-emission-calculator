@@ -16,7 +16,7 @@ from afcc import data_conversion
 from flask import flash
 import string
 
-fileupload_bp = Blueprint("fileupload", __name__, url_prefix='/fileupload', template_folder='templates', static_folder='static')
+shipments_bp = Blueprint("shipments", __name__, url_prefix='/shipments', template_folder='templates', static_folder='static')
 
 
 #FILEDATA -- local variable which is used to manipulate all the file data.
@@ -39,7 +39,7 @@ def get_file_extension(filename):
     '''Get the uploaded file's extension.
         
     Arguments:
-    filename -- filename sent from the fileupload function from the file uploaded by the user.
+    filename -- filename sent from the shipments function from the file uploaded by the user.
 
     Returns:
     [File Extension] -- returns the extension of the file uploaded by the user.   
@@ -49,9 +49,42 @@ def get_file_extension(filename):
     print(filename.rsplit('.', 1)[1].lower())
     return filename.rsplit('.', 1)[1].lower()
     
+@shipments_bp.route("/", methods=["GET", "POST"])
+def newshipment():
 
-@fileupload_bp.route("/", methods=["GET", "POST"])
-def fileupload():
+    '''API endpoint for the front-end javascript file, gets contacted using axios
+        
+    Keyword Variables :
+
+    data -- stores the data received from the front-end javascript.
+    
+    Returns:
+
+    FILEDATA- It contains all the information regarding the trip including emissions
+    '''   
+
+    FILEDATA.clear()
+    
+    #For Debugging purposes
+    print(FILEDATA)
+
+    data = request.get_json(silent=True)
+
+    #Sets all the data into the global variable FILEDATA
+    FILEDATA['origin']=[data.get('pickuploc')]
+    FILEDATA['destination']=[data.get('dropoffloc')]
+    FILEDATA['itemWeight']=[int(data.get('weight'))]
+    FILEDATA['itemQuantity']=[1]
+
+    try:
+        get_emission_calculation()
+    except:
+        print("Error")
+    
+    return FILEDATA
+
+@shipments_bp.route("/new", methods=["GET", "POST"])
+def shipments():
 
     '''Bring the uploaded file to the Flask Server and stores it into variable.
         
@@ -59,15 +92,20 @@ def fileupload():
 
     file_ex -- stores the extension of the file.
     data -- retreives data from the file uploaded.
-    fdata or final data -- converts the file data into a dictionary which is used to set FILEUPLOAD
+    fdata or final data -- converts the file data into a dictionary which is used to set shipments
 
     Returns:
 
     [render template of data.html] -- It sends back an html which is filled with the data upload.
     --- I could not find the fix for this. I tried to keep it in the same page but i got stuck here.---
     '''    
+    FILEDATA.clear()
+
+    #For Debugging purposes
+    print(FILEDATA)
 
     if request.method == "POST":
+        
         
         file = request.files["filename"]
 
@@ -78,25 +116,36 @@ def fileupload():
             data = pd.read_excel(file)
         elif file_ex =='csv':
             data = pd.read_csv(file)
+        else:
+            flash("Wrong File input")
         
         fdata = data.to_dict()
         
-        #Sends data to set it into a local variable FILEUPLOAD
-        set_emission_calculation_factors(fdata)
-        
-        #gets the emission calculation
-        get_emission_calculation()
+        #Sends data to set it into a local variable FILEDATA
+        try:
+            set_emission_calculation_factors(fdata)
+        except:
+            print("Error")
 
-        return render_template('data.html', data=data.to_dict())
+        #gets the emission calculation
+        try:
+            get_emission_calculation()
+        except:
+            print("Error")
+
+        try:
+            return render_template('data.html', data=FILEDATA)
+        except:
+            return -1
 
 def set_emission_calculation_factors(fdata):
 
-    #Sets the file data to different keys of FILEUPLOAD dictionary
+    #Sets the file data to different keys of FILEDATA dictionary
 
     FILEDATA['origin']=fdata['From']
     FILEDATA['destination']=fdata['To']
-    FILEDATA['itemQuantity']=fdata['Items']
-    FILEDATA['itemWeight']=fdata['Weight']
+    FILEDATA['itemQuantity']=int(fdata['Items'])
+    FILEDATA['itemWeight']=int(fdata['Weight'])
 
     #For Debugging purposes
     print(FILEDATA['origin'][0],FILEDATA['destination'][0],FILEDATA['itemQuantity'][0],FILEDATA['itemWeight'][0])
@@ -109,22 +158,35 @@ def get_emission_calculation():
         length_of_data -- Checks the number of shipments uploaded in the excel/csv file
         emis_temp_array -- temporary array to store responses of emissions from caculation py file 
 
-        All the emssions are stored in the FILEUPLOAD['emission'] which can be accessed using 
-        FILEUPLOAD['emission'][x] where x is the number of shipment you want to access.
+        All the emssions are stored in the FILEDATA['emission'] which can be accessed using 
+        FILEDATA['emission'][x] where x is the number of shipment you want to access.
     '''
+    #For Debugging purposes
+    print('Flag - Calculate Emission Function')
+    #print(FILEDATA['origin'],FILEDATA['destination'],FILEDATA['itemQuantity'],FILEDATA['itemWeight'])
 
     calculate_distance_for_given_address()
 
-    length_of_data=len(FILEDATA['origin'])
+    #For Debugging purposes
+    print('Flag - End Calculate Distance Function')
 
+    length_of_data=len(FILEDATA['origin'])
+    
     emis_temp_array=[]
 
+    #For Debugging purposes
+    print('Flag - Entered Calculate Emission Function ')
+    
     for x in range(0 , length_of_data):
         emis_temp_array.append(calculation.calculate_emissions(18.1,FILEDATA['distance'][x],(FILEDATA['itemQuantity'][x])*(FILEDATA['itemWeight'][x])))
+
+    #For Debugging purposes
+    print('Flag - Calculate Emission Function done')
 
     FILEDATA['emission']=emis_temp_array
     #For Debugging Purposes
     print(FILEDATA['emission'])
+    return FILEDATA
 
 def calculate_distance_for_given_address():
 
@@ -136,14 +198,16 @@ def calculate_distance_for_given_address():
         dur_temp_array -- Temporary array that stores all the duration
 
     '''
+    print('Flag - Calculate Distance Function')
 
     length_of_data=len(FILEDATA['origin'])
     
     #For Debugging Purposes
     print(length_of_data)
-
+ 
     dist_temp_array=[]
     dur_temp_array=[]
+        
 
     for x in range(0 , length_of_data):
         startAddressInfo = maproutes.search_address(FILEDATA['origin'][x])
@@ -165,3 +229,6 @@ def calculate_distance_for_given_address():
     #Stores distances and duration into the local array.
     FILEDATA['distance'] = dist_temp_array   
     FILEDATA['duration'] = dur_temp_array
+
+    
+    
