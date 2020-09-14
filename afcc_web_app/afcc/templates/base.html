@@ -12,10 +12,12 @@
     {% else %}
     <title>Freight Carbon Calculator</title>
     {% endif %}
-    <link rel='stylesheet' href='static/stylesheets/style.css' />
+    <link rel='stylesheet' href='/static/stylesheets/style.css' />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <!-- CSS stylesheet below is for Leaflet API -->
+    <link rel="stylesheet" href='static/leaflet/leaflet.css' />
 </head>
 
 <!--Navigation Bar Template-->
@@ -32,6 +34,13 @@
                 <ul class="navbar--link"><a href="/">About</a></ul>
                 <ul class="navbar--link"><a href="/">How to guide</a></ul>
                 <ul class="navbar--link"><a href="/">More links here</a></ul>
+                {% if current_user.is_authenticated %}
+                    <ul class="navbar--link"><a href="/user/">Hi, {{ current_user.username }}</a></ul>
+                    <ul class="navbar--link"><a href="/user/logout">Sign out</a></ul>
+                    {% else %}
+                    <ul class="navbar--link"><a href="/user/login">Sign in</a></ul>
+                    <ul class="navbar--link"><a href="/user/signup">Create an account</a></ul>
+                {% endif %}
             </li>
         </nav>
     </header>
@@ -47,7 +56,6 @@
     <script src="static/javascript/navbar.js"></script>
     <script src="static/javascript/screentransition.js"></script>
     <script src="static/javascript/d3chart.js"></script>
-    <script src="static/javascript/autocomplete.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios API -->
 </body>
 </html>

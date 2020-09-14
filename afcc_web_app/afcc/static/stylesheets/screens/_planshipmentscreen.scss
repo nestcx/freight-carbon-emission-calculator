@@ -60,17 +60,13 @@
 
   // The div that will contain the interactive map  
   .container--location-map {
-    width: 50%; // Take up the right half
+    width: 50%;
+    max-width: 50%; // Take up the right half
     padding: 0 $spacing-small;
     text-align: right;
-
-    // Resize image based on screen size
-    // TODO: Replace the image with an actual map from OpenStreetMap API
-    & img {
-      max-height: 250px;
-      max-width: 100%;
-    }
-
+    height: 350px;
+    max-height: 350px;
+    
     // Make the div take up 100% width on smaller screens
     @include breakpoint($breakpoint-tablet) {
       width: 100%;
