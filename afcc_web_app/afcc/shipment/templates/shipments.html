@@ -9,9 +9,8 @@
 <body>
     {% for shipment in shipments %}
     <div class="shipment">
-        <div class="shipment_id">
-            <div class="heading">Shipment ID</div>
-            <div class="data">{{ shipment.shipment_id }}</div>
+        <div class="title">
+            <a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a>
         </div>
         <div class="shipment_name">
             <div class="heading">Shipment Name</div>
