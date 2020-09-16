@@ -23,12 +23,14 @@ def create_app():
 
     # import blueprints
     from afcc import maproutes, calculation
-    from afcc.user import views  # import the blueprint with user-related routes
+    from afcc.user import views as uviews # import the blueprint with user-related routes
+    from afcc.shipment import views as sviews
 
     # register blueprints
     app.register_blueprint(maproutes.maproutes_bp)
     app.register_blueprint(calculation.calculation_bp)
-    app.register_blueprint(views.user_bp)
+    app.register_blueprint(uviews.user_bp)
+    app.register_blueprint(sviews.shipment_bp)
 
     @app.route('/')
     def index():
