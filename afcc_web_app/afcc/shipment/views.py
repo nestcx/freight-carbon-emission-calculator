@@ -5,7 +5,7 @@ from afcc.user.models import User
 from flask_login import current_user
 
 # create shipment blueprint.
-shipment_bp = Blueprint('shipments', __name__)
+shipment_bp = Blueprint('shipment', __name__, template_folder='templates', static_folder='shipment-static')
 
 
 # GET  /shipments  -  get a list of shipments
@@ -28,11 +28,7 @@ def CR_shipments():
     if (request.method == 'GET'):
         shipments = Shipment.query.filter_by(uid=user.uid).all()
     
-    shipment_names = []
-    for shipment in shipments:
-        shipment_names.append(shipment.shipment_name)
-    
-    return str(shipment_names)
+    return render_template('shipments.html', shipments=shipments)
 
 
 # POST  /shipment  -  create a new shipment
@@ -73,9 +69,9 @@ def RUD_shipment(shipment_id):
         # if shipment does not exist, or does not belong to user, redirect to shipments list.
         # if shipment belongs to user, display shipment.
         if (shipment is None or user.uid != shipment.uid):
-            return redirect(url_for('shipments.CR_shipments')) 
+            return redirect(url_for('shipment.CR_shipments')) 
         elif (user.uid == shipment.uid):
-            return str("shipment")
+            return render_template('shipment.html', shipment=shipment)
 
     # PATCH
     if (request.method == 'PATCH'):
