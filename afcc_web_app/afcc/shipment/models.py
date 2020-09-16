@@ -3,7 +3,7 @@ from afcc.extensions import db
 # TODO:  fix coordinates data-type.
 class Shipment(db.Model):
     shipment_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, nullable=False)
+    uid = db.Column(db.Integer, nullable=False)
     shipment_created = db.Column(db.DateTime, nullable=False)
     shipment_name = db.Column(db.String(100), nullable=False)
     trip_distance = db.Column(db.Float, nullable=False)
