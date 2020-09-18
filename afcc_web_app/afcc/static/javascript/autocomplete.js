@@ -11,6 +11,7 @@ endLocInput.addEventListener("input", searchPossibleAddresses);
 
 var selectedAddress = null;
 
+var mapOfAddresses;
 
 /**
  * Search all the possible addresses so far based on what the user has inputted.
@@ -30,7 +31,7 @@ function searchPossibleAddresses(e) {
      * Send an asychronous request to the server, adding the user's input so far as an argument.
      * See if the server responds, and if so, have that data processed
      */
-    axios.get("maproutes/search/address", {
+    axios.get("/maproutes/search/address", {
       params: {
         input: inputField.value
       }
@@ -62,7 +63,7 @@ function filterAddressData(json) {
    * Use a Map data structure, as a Map in JS is similar to a dictionary data structure.
    * Use it to store coordinates and addresses in {key, value} pairs
    */
-  let addresses = new Map(); 
+  mapOfAddresses = new Map(); 
 
   /**
    * Limit how many addresses will be shown to the user. This is to avoid showing too many
@@ -74,13 +75,20 @@ function filterAddressData(json) {
 
     if (i == 6) break;
 
-    var coords = json["features"][i]["geometry"]["coordinates"][0] + "," + json["features"][i]["geometry"]["coordinates"][1]
-    console.log(coords)
-    var addressString = json["features"][i]["properties"]["label"]
-    addresses.set(coords, addressString)
+    var long = json["features"][i]["geometry"]["coordinates"][0];
+    var lat = json["features"][i]["geometry"]["coordinates"][1];
+    var coords =  [long, lat];
+
+    var addressString = json["features"][i]["properties"]["label"];
+
+    /**
+     * The name of the address is set as the key so that we can retrieve the coordinates
+     * by passing in an address name
+     */
+    mapOfAddresses.set(addressString, coords);
   }
 
-  return addresses;
+  return mapOfAddresses;
 }
 
 
@@ -115,10 +123,12 @@ function createAutoSuggestTextBox(addresses, inputField) {
   // Insert the autosuggestbox just after the input field in the DOM
   parentDiv.insertBefore(autoSuggest, inputField.nextSibling)
 
+  // Populate the autosuggest element with all the addresses found. They key is
+  // the address name, which will be inserted as a text node
   addresses.forEach(function(value, key) {
     var text = document.createElement("p");
     text.classList.add("autosuggest__address");
-    address = document.createTextNode(value);
+    address = document.createTextNode(key);
     text.appendChild(address);
     autoSuggest.appendChild(text);
   });
@@ -145,6 +155,22 @@ function handleClicks(e) {
     selectedAddress = e.target;
     var inputField = e.target.parentElement.previousSibling;
     inputField.value = selectedAddress.innerHTML;
+    
+    // Get the coordinate of that particular address, so that it can be fed to the Leafleft ap API
+    var coordOfAddress = mapOfAddresses.get(selectedAddress.innerHTML);
+
+    // Check if the current selected input field is the starting address. This is done so that
+    // the interactivemap.js script can understand whether its the starting address or not
+    var startingAddress = false;
+    if (inputField.id == "input-pick-up") {
+      startingAddress = true;
+    };
+    
+    // coordofAddress[0] is the longitude, while [1] is the latitude - the order that OpenRouteService uses.
+    // Leaflet handles coordinates in [lat, long] order so pass in the arguments as so.
+    addMarkerToMap(coordOfAddress[1], coordOfAddress[0], startingAddress);
+
+
     closeAutoSuggest();
   }
   else { // The user clicked outside of the autosuggest element, therefore remove the autosuggest box

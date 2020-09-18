@@ -3,3 +3,4 @@ configs.json*
 *.pytest_cache
 *.pyc
 venv/
+*__pycache__

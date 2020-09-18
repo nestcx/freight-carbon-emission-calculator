@@ -88,8 +88,7 @@
               <label for="input-drop-off" class="label">Drop off location</label>
               <input type="text" class="input--text" id="input-drop-off" />
             </div>
-            <div class="container--location-map">
-              <img src="static/images/map.png" />
+            <div id="mapid" class="container--location-map">
             </div>
           </div>
           <!-- Cargo section-->
@@ -187,5 +186,13 @@
     </div>
   </div>
 </div>
+
+<!-- scripts specifically for this page only -->
+<script src="static/javascript/autocomplete.js"></script>
+<script src="static/leaflet/leaflet.js"></script>
+<!-- The interactivemap.js script must be called after leaflet.js script-->
+<script src="static/javascript/interactivemap.js"></script>
+
+
 <!-- No screen elements below this point -->
 {% endblock %}
