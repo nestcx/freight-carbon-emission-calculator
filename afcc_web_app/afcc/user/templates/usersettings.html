@@ -42,5 +42,17 @@
   <p>{{ change_password_form.change_password() }}</p>
 </form>
 
+<br />
+<form action="" method="POST" novalidate>
+    {{ activation_status_form.hidden_tag() }}
+
+    {% if activation_status_form.deactivate_account is defined %}
+      <h2>Deactivate your account</h2>
+      <p>{{ activation_status_form.deactivate_account() }}</p>
+    {% else %}
+      <h2>Reactivate your account</h2>
+      <p>{{ activation_status_form.activate_account() }}</p>
+    {% endif %}
+  </form>
 
 {% endblock %}

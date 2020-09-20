@@ -57,3 +57,9 @@ class PasswordUpdateForm(FlaskForm):
         EqualTo('new_password', message='Password confirmation must match password field')])
 
     change_password = SubmitField('Update password')
+
+class DeactivateAccountForm(FlaskForm):
+    deactivate_account = SubmitField('Deactivate account')
+
+class ReactivateAccountForm(FlaskForm):
+    activate_account = SubmitField('Reactivate account')

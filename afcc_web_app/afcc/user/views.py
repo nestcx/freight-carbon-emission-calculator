@@ -4,7 +4,7 @@ This file handles all user-related functionality
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from afcc.extensions import db, limiter, login_manager
 from afcc.user.models import User
-from afcc.user.forms import LoginForm, SignupForm, UserSettingsForm, PasswordUpdateForm
+from afcc.user.forms import LoginForm, SignupForm, UserSettingsForm, PasswordUpdateForm, DeactivateAccountForm, ReactivateAccountForm
 from afcc.user.email_verify import generate_token_for_verification, confirm_token
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -150,22 +150,30 @@ def log_out():
 @login_required
 def update_user():
     
+    user = User.query.filter_by(email=current_user.email).first()
+
     # Create two seperate forms, to seperate password changes with the rest of the data and logic
     userinfo_form = UserSettingsForm()
     password_form = PasswordUpdateForm()
 
+    # Display the deactivate/activate option depending on the account's current activation status
+    if user.deactivated:
+        activation_status_form = ReactivateAccountForm()
+    else: 
+        activation_status_form = DeactivateAccountForm()
+
     # Check which form was submitted and then try to validate
-    if userinfo_form.update_settings.data and userinfo_form.validate_on_submit():
-        user = User.query.filter_by(email=current_user.email).first()
+
+    # User submitted the user settings form
+    if userinfo_form.update_settings.data and userinfo_form.validate_on_submit():    
         user.username = userinfo_form.username.data
         db.session.commit()
         # Categorise the flash message as success. Do this so that through the templating engine,
         # we can add different styles to different categories of messages easily 
         flash('Your username was changed', 'success')
     
+    # User submitted the update password form
     elif password_form.change_password.data and password_form.validate_on_submit():
-        user = User.query.filter_by(email=current_user.email).first()
-
         # If the user entered the correct old password, update the user's password
         if user.check_password(password_form.old_password.data):
             user.set_password(password_form.new_password.data)
@@ -176,6 +184,15 @@ def update_user():
         else:
             flash('Your password is incorrect', 'error')
 
+    elif activation_status_form.data and activation_status_form.validate_on_submit():
+        if user.deactivated:
+            user.deactivated = False
+            db.session.commit()
+            flash('Your account has been reactivated', 'success')
+        else:
+            user.deactivated = True
+            db.session.commit()
+            flash('Your account has been deactivated', 'success')
 
     # If there are validation errors when the user submitted the form, display
     # them as feedback to the user
@@ -191,10 +208,14 @@ def update_user():
     # Populate the user settings form with the user's current details
     userinfo_form.username.data = current_user.username
     
+    print(activation_status_form)
+    print("\n\n\n\n\n\n\n\n")
+
     return render_template(
         'usersettings.html', 
         user_information_form=userinfo_form,
-        change_password_form=password_form)
+        change_password_form=password_form,
+        activation_status_form=activation_status_form)
 
 
 @user_bp.route('/', methods=['DELETE'])
