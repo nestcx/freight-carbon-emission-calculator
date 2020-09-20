@@ -58,8 +58,12 @@ class PasswordUpdateForm(FlaskForm):
 
     change_password = SubmitField('Update password')
 
+
 class DeactivateAccountForm(FlaskForm):
     deactivate_account = SubmitField('Deactivate account')
 
 class ReactivateAccountForm(FlaskForm):
     activate_account = SubmitField('Reactivate account')
+
+class DeleteAccountForm(FlaskForm):
+    delete_account = SubmitField('Delete account')
