@@ -7,6 +7,7 @@ from afcc.user.models import User
 from afcc.user.forms import LoginForm, SignupForm
 from afcc.user.email_verify import generate_token_for_verification, confirm_token
 from afcc.user.email_sender import send_confirmation_email
+from afcc.decorators import email_verification_required
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, login_required, logout_user
@@ -56,7 +57,7 @@ def create_user():
                 confirmation_url = url_for('.verify_email', token=verification_token, _external=True)
                 
                 # Render the html, which is then content of the email.
-                email_content = render_template('email.html', confirmation_url=confirmation_url)
+                email_content = render_template('email/verifyemailaddress.html', confirmation_url=confirmation_url)
                 send_confirmation_email(new_user.email, email_content)
 
                 # Indicate to the user that they have created an account
@@ -68,6 +69,7 @@ def create_user():
                 flash('A user with that email address already exists')
                 return redirect(url_for('.create_user'))
         except Exception as e:
+            print(e)
             # TODO: Add exception logging
             flash('An error has occurred. Please try again later')
             return redirect(url_for('.create_user'))
@@ -86,30 +88,35 @@ def create_user():
 # Verify the user's email address when they click on a link in the email
 @user_bp.route('/verify/<token>')
 def verify_email(token):
-
+    print("1\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     # Try confirm that the token is valid
+    
     try:
         email = confirm_token(token)
+
+        if email is not False:
+            # Log the user in when they click on the link
+            user = User.query.filter_by(email=email).first()
+            login_user(user)
+
+            # Check to see if the logged in user's email address has already been verified, 
+            # as they don't need to verify again
+            if current_user.email_verified:
+                flash('Your account has already been verified')
+                return render_template('emailconfirmation.html')
+
+            # Verify the user
+            else:
+                current_user.email_verified = True
+                db.session.add(current_user)
+                db.session.commit()
+                flash('Your email address has been verified. Thank you')
+                return render_template('emailconfirmation.html')
+        else:
+            flash('The token is either invalid or expired')
+            return render_template('emailconfirmation.html')
     except:
         flash('The token is either invalid or expired')
-        return render_template('emailconfirmation.html')
-
-    # Log the user in when they click on the link
-    user = User.query.filter_by(email=email).first()
-    login_user(user)
-
-    # Check to see if the logged in user's email address has already been verified, 
-    # as they don't need to verify again
-    if current_user.email_verified:
-        flash('Your account has already been verified')
-        return render_template('emailconfirmation.html')
-
-    # Verify the user
-    else:
-        current_user.email_verified = True
-        db.session.add(current_user)
-        db.session.commit()
-        flash('Your email address has been verified. Thank you')
         return render_template('emailconfirmation.html')
 
 
@@ -117,6 +124,7 @@ def verify_email(token):
 # Display user account details to the user, if they're logged in
 @user_bp.route('/', methods=['GET'])
 @login_required
+@email_verification_required # The user needs to have verified their email address
 def display_user_details():
     # If the user is logged in, we search the db for the record using their email address
     try:
@@ -171,6 +179,33 @@ def log_in():
 def log_out():
     logout_user()
     return redirect(url_for('index'))
+
+
+# Resend the verification email just in case the user may have not received it
+@user_bp.route('/resend_verification')
+@login_required
+def resend_verification():
+
+    # Create the verification token which will be sent as a link in the email address
+    verification_token = generate_token_for_verification(current_user.email)
+
+    # The html template used to generate the email requires a confirmation url to display a link to the user
+    confirmation_url = url_for('.verify_email', token=verification_token, _external=True)
+
+    # Render the html, which is then content of the email.
+    email_content = render_template('email/verifyemailaddress.html', confirmation_url=confirmation_url)
+    send_confirmation_email(current_user.email, email_content)
+
+    return render_template('verificationemailsent.html')
+
+
+
+# This is called by the custom made decorator whenever an unverified user tries to 
+# access a page that requires email verification
+@user_bp.route('/email_not_verified')
+def email_not_verified():  
+    return render_template('verificationrequired.html')
+
 
 
 # The login manager calls this when an unauthenticated user tries to access
