@@ -88,33 +88,33 @@ def create_user():
 # Verify the user's email address when they click on a link in the email
 @user_bp.route('/verify/<token>')
 def verify_email(token):
-    print("1\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     # Try confirm that the token is valid
     
     try:
         email = confirm_token(token)
 
-        if email is not False:
-            # Log the user in when they click on the link
-            user = User.query.filter_by(email=email).first()
-            login_user(user)
-
-            # Check to see if the logged in user's email address has already been verified, 
-            # as they don't need to verify again
-            if current_user.email_verified:
-                flash('Your account has already been verified')
-                return render_template('emailconfirmation.html')
-
-            # Verify the user
-            else:
-                current_user.email_verified = True
-                db.session.add(current_user)
-                db.session.commit()
-                flash('Your email address has been verified. Thank you')
-                return render_template('emailconfirmation.html')
-        else:
+        if email is False:
             flash('The token is either invalid or expired')
             return render_template('emailconfirmation.html')
+
+        # Log the user in when they click on the link
+        user = User.query.filter_by(email=email).first()
+        login_user(user)
+
+        # Check to see if the logged in user's email address has already been verified, 
+        # as they don't need to verify again
+        if current_user.email_verified:
+            flash('Your account has already been verified')
+            return render_template('emailconfirmation.html')
+
+        # Verify the user
+        else:
+            current_user.email_verified = True
+            db.session.add(current_user)
+            db.session.commit()
+            flash('Your email address has been verified. Thank you')
+            return render_template('emailconfirmation.html')
+            
     except:
         flash('The token is either invalid or expired')
         return render_template('emailconfirmation.html')
@@ -139,6 +139,7 @@ def display_user_details():
         # TODO: Add logging to log all exceptions
         flash('An error has occured when trying to access your user details')
         return redirect(url_for('display_error_page'))
+
 
 
 @user_bp.route('/login', methods=['GET', 'POST'])
@@ -175,10 +176,12 @@ def log_in():
     return render_template('login.html', form=login_form)
 
 
+
 @user_bp.route('/logout', methods=['GET'])
 def log_out():
     logout_user()
     return redirect(url_for('index'))
+
 
 
 # Resend the verification email just in case the user may have not received it
