@@ -91,6 +91,7 @@ def verify_email(token):
     # Try confirm that the token is valid
     
     try:
+        # Call the email_verify file's confirm_token function to verify that the token is still valid
         email = confirm_token(token)
 
         if email is False:
@@ -184,7 +185,8 @@ def log_out():
 
 
 
-# Resend the verification email just in case the user may have not received it
+# This route is to allow the user to request another link to verify their email,
+# just in case they may not have received it
 @user_bp.route('/resend_verification')
 @login_required
 def resend_verification():
