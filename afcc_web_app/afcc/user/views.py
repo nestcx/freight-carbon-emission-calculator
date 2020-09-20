@@ -4,7 +4,7 @@ This file handles all user-related functionality
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from afcc.extensions import db, limiter, login_manager
 from afcc.user.models import User
-from afcc.user.forms import LoginForm, SignupForm
+from afcc.user.forms import LoginForm, SignupForm, UserSettingsForm, PasswordUpdateForm
 from afcc.user.email_verify import generate_token_for_verification, confirm_token
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -103,6 +103,7 @@ def display_user_details():
         return redirect(url_for('display_error_page'))
 
 
+
 @user_bp.route('/login', methods=['GET', 'POST'])
 @limiter.limit('10/minute;15/hour')
 def log_in():
@@ -137,10 +138,70 @@ def log_in():
     return render_template('login.html', form=login_form)
 
 
+
 @user_bp.route('/logout', methods=['GET'])
 def log_out():
     logout_user()
     return redirect(url_for('index'))
+
+
+
+@user_bp.route('/edit', methods=['GET', 'POST'])
+@login_required
+def update_user():
+    
+    # Create two seperate forms, to seperate password changes with the rest of the data and logic
+    userinfo_form = UserSettingsForm()
+    password_form = PasswordUpdateForm()
+
+    # Check which form was submitted and then try to validate
+    if userinfo_form.update_settings.data and userinfo_form.validate_on_submit():
+        user = User.query.filter_by(email=current_user.email).first()
+        user.username = userinfo_form.username.data
+        db.session.commit()
+        # Categorise the flash message as success. Do this so that through the templating engine,
+        # we can add different styles to different categories of messages easily 
+        flash('Your username was changed', 'success')
+    
+    elif password_form.change_password.data and password_form.validate_on_submit():
+        user = User.query.filter_by(email=current_user.email).first()
+
+        # If the user entered the correct old password, update the user's password
+        if user.check_password(password_form.old_password.data):
+            user.set_password(password_form.new_password.data)
+            db.session.commit()
+            # Categorise the flash message as success. Do this so that through the templating engine,
+            # we can add different styles to different categories of messages easily 
+            flash('Your password was changed', 'success')
+        else:
+            flash('Your password is incorrect', 'error')
+
+
+    # If there are validation errors when the user submitted the form, display
+    # them as feedback to the user
+    if len(userinfo_form.errors) != 0:
+        for error in userinfo_form.errors:
+            for msg in userinfo_form.errors[error]:
+                flash(msg, 'error')
+    elif len(password_form.errors) != 0:
+        for error in password_form.errors:
+            for msg in password_form.errors[error]:
+                flash(msg, 'error')
+
+    # Populate the user settings form with the user's current details
+    userinfo_form.username.data = current_user.username
+    
+    return render_template(
+        'usersettings.html', 
+        user_information_form=userinfo_form,
+        change_password_form=password_form)
+
+
+@user_bp.route('/', methods=['DELETE'])
+@login_required
+def delete_user():
+    pass
+
 
 
 # The login manager calls this when an unauthenticated user tries to access
