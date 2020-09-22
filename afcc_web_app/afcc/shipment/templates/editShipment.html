@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Update Shipment</h1>
+<div class="shipment_id">
+    <div class="heading">Shipment ID</div>
+    <div class="data">{{ shipment.shipment_id }}</div>
+</div>
+<form action="" method="POST" novalidate>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flash-error>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.id.label }} <br />
+        {{ form.id }}
+    </p>
+    <p>
+        {{ form.fromAddress.label }} <br>
+        {{ form.fromAddress(size=120) }}
+    </p>
+    <p>
+        {{ form.toAddress.label }} <br>
+        {{ form.toAddress(size=120) }}
+    </p>
+    <p>
+        {{ form.weight.label }} <br>
+        {{ form.weight }}
+    </p>
+    <p>
+        {{ form.unit.label }} <br>
+        {{ form.unit(size=2) }}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

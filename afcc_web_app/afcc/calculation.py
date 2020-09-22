@@ -125,6 +125,61 @@ def emissions_by_address():
     return response
 
 
+# API ENDPOINT #3
+# Function for python calls
+def calculate_by_address(start_address, end_address, load_weight):
+
+    if (start_address is None or end_address is None or load_weight is None):
+        return "ERROR", 400
+
+
+    startAddressInfo = maproutes.search_address(start_address)
+    endAddressInfo = maproutes.search_address(end_address)
+
+    startAddressValidated = startAddressInfo["features"][0]["properties"]["label"]
+    endAddressValidated = endAddressInfo["features"][0]["properties"]["label"]
+
+    startAddressCoordinates = startAddressInfo["features"][0]["geometry"]["coordinates"]
+    endAddressCoordinates = endAddressInfo["features"][0]["geometry"]["coordinates"]
+
+    #fix, this is kinda yuck
+    geoJSONData = maproutes.get_route(str(startAddressCoordinates[0]) + "," + str(startAddressCoordinates[1]), str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1]))
+
+    length_of_route = data_conversion.metre_to_kilometre(maproutes.get_length_of_route(geoJSONData))
+    duration_of_route = maproutes.get_duration_of_route(geoJSONData)
+
+    fuel_economy = 18.1
+    
+    calculation_data = calculate_emissions(fuel_economy, length_of_route, load_weight)
+
+
+
+    # create response with data conversion
+
+    response = {}
+
+    response["emissions"] = {}
+    response["emissions"]["carbon_dioxide_emission"] = calculation_data["carbon_dioxide_emission"]
+    response["emissions"]["methane_emission"] = calculation_data["methane_emission"]
+    response["emissions"]["nitrous_oxide_emission"] = calculation_data["nitrous_oxide_emission"]
+
+    response["fuel_consumption"] = calculation_data["fuel_consumptionn"]
+    response["adjusted_fuel_economy"] = calculation_data["adjusted_fuel_economy"]
+    response["distance"] = length_of_route
+    response["duration"] = data_conversion.convert_seconds_to_dhms(duration_of_route)
+
+    response["location"] = {}
+    response["location"]["start_location"] = {}
+    response["location"]["end_location"] = {}
+    response["location"]["start_location"]["address"] = startAddressValidated
+    response["location"]["start_location"]["coordinate"] = startAddressCoordinates
+    response["location"]["end_location"]["address"] = endAddressValidated
+    response["location"]["end_location"]["coordinate"] = endAddressCoordinates
+
+    return response
+
+
+
 ###############
 #  END VIEWS  #
 ###############
