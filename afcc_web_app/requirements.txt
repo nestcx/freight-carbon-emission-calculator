@@ -41,9 +41,6 @@ SQLAlchemy==1.3.19
 toml==0.10.1
 urllib3==1.25.10
 Werkzeug==1.0.1
-<<<<<<< HEAD
 panda==1.1.1
 xlrd==1.2.0
-=======
 WTForms==2.3.3
->>>>>>> 9dddec1841aaa68149951cc36caf3dc731d7052c

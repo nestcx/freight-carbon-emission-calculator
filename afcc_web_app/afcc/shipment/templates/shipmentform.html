@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Create new Shipment</h1>
+<form action="" method="POST" novalidate>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flash-error>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.pickuploc.label }} <br />
+        {{ form.pickuploc(size=32) }}
+    </p>
+    <p>
+        {{ form.dropoffloc.label }} <br />
+        {{ form.dropoffloc(size=32) }}
+    </p>
+    <p>
+        {{ form.cargoweight.label }} <br />
+        {{ form.cargoweight(size=32) }}
+    </p>
+    <p>
+        {{ form.shipmentname.label }} <br />
+        {{ form.shipmentname(size=32) }}
+    </p>
+    
+    
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

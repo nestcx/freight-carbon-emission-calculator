@@ -5,28 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from afcc.config import *
 from afcc.extensions import db, limiter, login_manager
 
-<<<<<<< HEAD
-from flask_cors import CORS, cross_origin
-
-
-limiter = Limiter(key_func=get_remote_address, default_limits=["2000 per day", "100 per hour"])
-=======
->>>>>>> 9dddec1841aaa68149951cc36caf3dc731d7052c
 
 def create_app():
 
     app = Flask(__name__, template_folder='templates', static_folder='static')
     app.secret_key = b'_5#o2L"F4Q8z\n\xec]/'
-
-    cors = CORS(app, resources={r"/*": {"origins": "*"}})
-
-    @app.after_request
-    def after_request(response):
-        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:8080')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        return response
 
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
@@ -39,24 +22,15 @@ def create_app():
     # The login object is retrieved from the extensions.py file
     login_manager.init_app(app)
 
-<<<<<<< HEAD
     # import blueprints.
     from afcc import maproutes, calculation, shipments
+    from afcc.user import views 
 
     # register blueprints
     app.register_blueprint(maproutes.maproutes_bp)
     app.register_blueprint(calculation.calculation_bp)    
     app.register_blueprint(shipments.shipments_bp)
-=======
-    # import blueprints
-    from afcc import maproutes, calculation
-    from afcc.user import views  # import the blueprint with user-related routes
-
-    # register blueprints
-    app.register_blueprint(maproutes.maproutes_bp)
-    app.register_blueprint(calculation.calculation_bp)
     app.register_blueprint(views.user_bp)
->>>>>>> 9dddec1841aaa68149951cc36caf3dc731d7052c
 
     @app.route('/')
     def index():
@@ -64,15 +38,9 @@ def create_app():
 
     @app.route('/dashboard')
     def dashboard():
-<<<<<<< HEAD
-        return render_template("dashboard.html")
-    
-
-=======
         return render_template('dashboard.html')
 
     @app.route('/error')
     def display_error_page():
         return render_template('error.html')
->>>>>>> 9dddec1841aaa68149951cc36caf3dc731d7052c
     return app
