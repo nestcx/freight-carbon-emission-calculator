@@ -23,7 +23,8 @@ def create_app():
 
     # import blueprints
     from afcc import maproutes, calculation
-    from afcc.user import views as uviews # import the blueprint with user-related routes
+    # import the blueprint with user-related routes
+    from afcc.user import views as uviews
     from afcc.shipment import views as sviews
 
     # register blueprints
@@ -34,13 +35,26 @@ def create_app():
 
     @app.route('/')
     def index():
-        return render_template('main.html')
-
-    @app.route('/dashboard')
-    def dashboard():
-        return render_template('dashboard.html')
+        return render_template('about.html')
 
     @app.route('/error')
     def display_error_page():
         return render_template('error.html')
+
+    @app.route('/about')
+    def about():
+        return render_template('about.html', title='About')
+
+    @app.route('/tools')
+    def tools():
+        return render_template('tools.html', title='Tools')
+
+    @app.route('/help')
+    def help():
+        return render_template('help.html', title='Help')
+
+    @app.route('/myShipments')
+    def myShipments():
+        return render_template('myShipments.html', title='My Shipments')
+
     return app

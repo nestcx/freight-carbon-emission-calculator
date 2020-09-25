@@ -1,0 +1,30 @@
+<!--Shipment Page-->
+<!--This page should pull a list of shipments from the database and allow them to be selected to show a more detailed view-->
+<!--It should show an add shipment option-->
+
+{% extends "base.html" %}
+
+<!--Anything within this block will appear between <header> and <footer>-->
+{% block content %}
+  <div class="container--logo">
+    <h1 class=>SHIPMENT PAGE</h1>
+    <p>Powered by: <img src="static/images/FreightPeopleLogo.png" width="180px" /></p>
+  </div>
+
+  <!-- home screen -->
+  <div id="screen-main" class="screen">
+    <div class="container--intro-text">
+      <h2>Discover how much emissions your shipments are producing. Get started with our app
+      </h2>
+    </div>
+    <div class="container--cta-buttons">
+      <a href="" class="button--primary">Login</a>   <!--These buttons dont do anything yet-->
+      <a href="" class="button--primary">Signup</a>
+    </div>
+  </div>
+
+  <!--Code below is not a part of the app container-->
+  <div class="container--page-wide-image">
+    <img src="static/images/TruckImage.png" />
+  </div>
+{% endblock %}

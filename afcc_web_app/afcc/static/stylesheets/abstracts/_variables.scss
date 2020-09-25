@@ -2,7 +2,7 @@
 
 // Colours
 
-$color-primary: rgb(30, 73, 122); // Nice navy blue colour
+$color-primary: #ffffff; // Nice navy blue colour
 //$color-primary: rgb(24, 112, 185); // A little lighter blue
 //$color-primary: rgb(24, 147, 185); // A little greener
 //$color-primary: #6772e5;
@@ -10,13 +10,14 @@ $color-primary: rgb(30, 73, 122); // Nice navy blue colour
 //$color-primary: #071a52;
 $color-text-header: rgb(109, 192, 213);
 
+
 $color-secondary: rgb(253, 248, 200);
-$color-tertiary: #12b47d;
-$color-background: #f7fafc; // Soft bluish-white background
+$color-tertiary: #8ab914;
+//$color-background: #f7fafc; // Soft bluish-white background
+$color-background: #f5f5f7; //Soft grey background
 
 // $color-primary: rgb(40, 144, 148);
 // $color-secondary: rgb(56, 160, 163);
-// $color-background: #f7fafc; // Soft bluish-white background
 
 $color-font-black: #34343b; // Generally pure black text is too harsh. Therefore use a lighter shade for text
 $color-font-black-header: #3d3d42;
@@ -50,4 +51,4 @@ $dimension-max-app-width: 980px;
 
 // Layout related variables. Store dimensions as variables, to ensure that 
 // other parts of the app don't break when something is resized
-$header-height: 40px;
+$header-height: 60px;

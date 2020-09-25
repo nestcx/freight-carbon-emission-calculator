@@ -14,11 +14,12 @@
 @import 'layout/_header.scss';
 @import 'layout/_navbar.scss';
 @import 'layout/_footer.scss';
-@import 'layout/_sidebar.scss';
 @import 'layout/_dashboard.scss';
 @import 'layout/pagemodule';
 // The breadcrumb is the part just below the header which shows the current screen name
 @import 'layout/_breadcrumb.scss';
+
+@import 'layout/_dropdown.scss';
 
 // Import all components
 @import 'components/_buttons.scss'; // Buttons

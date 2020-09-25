@@ -2,12 +2,12 @@
 
 // Style rules for the <li> list element in the navbar
 .navbar {
-  width: 100%;
+  width: 30%;
   height: $header-height; // Make the navbar's height match the header
   align-items: stretch;
   display: flex;
   justify-content: flex-end;
-  
+
   /** 
    * Include the breakpoint Mixin. Tablet and smaller CSS code goes between this code block
    * This part will have the code to display the navbar on hamburger menu click
@@ -21,7 +21,7 @@
     top: $header-height;
     flex-direction: column;
     height: auto; // Remove the height and let it automatically be set
-    box-shadow: -5px 5px 6px -1px rgba(0,0,0,.3),0 2px 4px -1px rgba(0,0,0,.1);
+    box-shadow: -5px 5px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -36,7 +36,7 @@
     align-items: center;
     height: 100%;
     padding: 0 $spacing-default;
-    color: white;
+    color: $color-font-black;
     text-decoration: none; // Remove the ugly underline of links
     background-color: $color-primary;
 
@@ -60,7 +60,7 @@
   }
 }
 
-// The hamburger button on that displays the dropdown menu when clicked. 
+// The hamburger button on that displays the dropdown menu when clicked.
 // It will only be displayed on smaller screens
 .button-hamburger {
   display: none;
@@ -70,7 +70,7 @@
     display: block;
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
 
     width: $header-height * 1.2;
     height: $header-height;
@@ -82,15 +82,14 @@
   // The lines that are used to draw the hamburger
   &--line {
     display: block;
-    background-color: white;
+    background-color: $color-font-black;
     min-height: 3px;
     width: 100%;
     margin-bottom: 4px;
 
     // When the hamburger button is clicked and the dropdownmenu is showing
     &.--toggled-on {
-
-      // Draw an x shape 
+      // Draw an x shape
       &:nth-child(1) {
         transform: rotate(45deg);
         position: relative;

@@ -11,12 +11,11 @@ header {
   width: 100%;
   background-color: $color-primary;
   @include border-shadow-soft;
-  align-items: center;
 }
 
   // The 'freight carbon calculator' logo. Only used for the dashboard version
   .header--logo {
-    color: $color-font-white;
+    color: $color-font-black;
     font-size: 1.5em;
     font-weight: 500;
   }
@@ -24,4 +23,16 @@ header {
   // Use only when the header should always stick to the top, even when user scrolls down
   .--fixed {
     position: fixed;
+  }
+
+  .logo {
+    height: $header-height;
+    display: flex;
+    align-items: center;
+
+    @include breakpoint($breakpoint-tablet) {
+      position: fixed;
+      top: 0;
+      left: 30%;
+    }    
   }

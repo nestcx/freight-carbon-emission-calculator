@@ -6,11 +6,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--Head Template-->
+
 <head>
     {% if title %}
-    <title>{{ title }} - Freight Carbon Calculator</title>
+    <title>{{ title }} - Carbon Free Freight</title>
     {% else %}
-    <title>Freight Carbon Calculator</title>
+    <title>Carbon Free Freight</title>
     {% endif %}
     <link rel='stylesheet' href='/static/stylesheets/style.css' />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
@@ -21,36 +22,54 @@
 </head>
 
 <!--Navigation Bar Template-->
+
 <body>
     <header class="header --fixed">
-        <h1 class="header--logo">Freight carbon calculator</h1>
-        <nav class="--align-right">
-            <button class="button-hamburger" onClick="dropdownMenu()">
-                <span class="button-hamburger--line"></span>
-                <span class="button-hamburger--line"></span>
-                <span class="button-hamburger--line"></span>
-            </button>
+        <button class="button-hamburger" onClick="hamburgerMenu()">
+            <span class="button-hamburger--line"></span>
+            <span class="button-hamburger--line"></span>
+            <span class="button-hamburger--line"></span>
+        </button>
+        <div class="logo">
+            <img src="static/images/Logo3.png" width="180px" />
+        </div>
+        <div class="navbar">
             <li class="navbar --hidden">
-                <ul class="navbar--link"><a href="/">About</a></ul>
-                <ul class="navbar--link"><a href="/">How to guide</a></ul>
-                <ul class="navbar--link"><a href="/">More links here</a></ul>
-                {% if current_user.is_authenticated %}
-                    <ul class="navbar--link"><a href="/user/">Hi, {{ current_user.username }}</a></ul>
-                    <ul class="navbar--link"><a href="/user/logout">Sign out</a></ul>
-                    {% else %}
-                    <ul class="navbar--link"><a href="/user/login">Sign in</a></ul>
-                    <ul class="navbar--link"><a href="/user/signup">Create an account</a></ul>
-                {% endif %}
+                <ul class="navbar--link"><a href="/about">About</a></ul>
+                <ul class="navbar--link"><a href="/myShipments">Shipments</a></ul>
+                <ul class="navbar--link"><a href="/tools">Tools</a></ul>
+                <ul class="navbar--link"><a href="/help">Help</a></ul>
             </li>
-        </nav>
+        </div>
+        <div class="dropdown">
+            {% if current_user.is_authenticated %}
+            <button class="dropbtn" onClick="dropdownMenu()">Hi, {{ current_user.username }}</button>
+            <div class="dropdown-content" id="accountDropdown">
+                <a class="dropdown-option" href="/user/">Account</a>
+                <a class="dropdown-option" href="/user/logout">Sign Out</a>
+            </div>
+            {% else %}
+            <button class="dropbtn" onClick="dropdownMenu()">Not Logged In</button>
+            <div class="dropdown-content" id="accountDropdown">
+                <a class="dropdown-option" href="/user/login">Log In</a>
+                <a class="dropdown-option" href="/user/signup">Sign Up</a>
+            </div>
+            {% endif %}
+        </div>
     </header>
+
 
     <!--Content added by inheriting files goes here-->
     {% block content %}{% endblock %}
 
     <!--Footer template -->
     <footer class="footer">
-        <p>Developed by <a href="about.html">Group name</a></p>
+        <div class="bottomnav">
+            <button class="navButton"><a class="navlink" href="/myShipments">Shipments</a></button>
+            <button class="navButton"><a class="navlink" href="/tools">Tools</a></button>
+            <button class="navButton"><a class="navlink" href="/help">Help</a></button>
+        </div>
+        <p class="credit">Developed by <a href="about.html">Group name</a></p>
     </footer>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="static/javascript/navbar.js"></script>
@@ -58,4 +77,6 @@
     <script src="static/javascript/d3chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios API -->
 </body>
+
+
 </html>

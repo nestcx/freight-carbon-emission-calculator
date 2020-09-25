@@ -1,10 +1,56 @@
 // The footer and all elements inside it will be styled in this sheet
-
 .footer {
-  padding: $spacing-small;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 $spacing-small;
   width: 100%;
   text-align: right;
   border-top: 1px solid $color-grey-border;
-  background-color: $color-background;
-  box-shadow: 0 -2px 6px -1px rgba(0,0,0,.1),0 0px 4px -1px rgba(0,0,0,.06);
+  background-color: $color-tertiary;
+  box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
+
+  //for smaller screens
+  //fixes navigation bar to bottom of viewport and makes footer same size as header, hides credit
+  @include breakpoint($breakpoint-tablet) {
+    height: $header-height;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+
+    .credit {
+      display: none;
+    }
+  }
+}
+
+.bottomnav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .navButton {
+    display: none;
+    width: 33%;
+    height: $header-height;
+    background-color: transparent;
+    border: 0;
+    padding: 12px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+    text-decoration: none;
+
+    .navlink {
+      color: $color-font-black;
+      text-decoration: none; // Remove the ugly underline of links
+      background-color: $color-tertiary;
+    }
+
+    @include breakpoint($breakpoint-tablet) {
+      display: flex;
+    }
+  }
 }
