@@ -11,7 +11,6 @@ from afcc.user.models import User
 def app():
   """Create a new app instance for each test"""
   app = create_app()
-  app.config['WTF_CSRF_ENABLED'] = False
   yield app
 
 

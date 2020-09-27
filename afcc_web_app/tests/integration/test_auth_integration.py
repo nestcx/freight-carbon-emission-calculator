@@ -17,6 +17,7 @@ def app():
 @pytest.fixture
 def client(app):
   """Create a test client for the app when testing"""
+  
   return app.test_client()
 
 
@@ -116,9 +117,24 @@ def test_user_signup_attempts_are_limited(client):
   assert False
 
 
-def test_user_can_update_their_account_details(client):
+def test_user_can_update_their_account_details(app, client):
+  with app.test_request_context():
+    # Login the user
+    client.post('/user/login', data=dict(
+      email='testuser@gmail.com',
+      password='testuser@gmail.com'
+    ), follow_redirects=False)
 
-  assert False
+
+    # login_user(email='testuser@gmail.com', password='testuser@gmail.com')
+    print(current_user)
+    assert current_user is not None
+    # assert current_user.username == 'testuser@gmail.com'
+
+    # response = client.post('/user/edit', data=dict(
+    #   username='superuser'
+    # ))
+  # assert False
 
 
 def test_user_can_update_their_password(client):
