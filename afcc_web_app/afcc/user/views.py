@@ -144,7 +144,7 @@ def display_user_details():
 
 
 @user_bp.route('/login', methods=['GET', 'POST'])
-@limiter.limit('10/minute;15/hour')
+@limiter.limit('10/minute;15/hour;30/day')
 def log_in():
 
     # If user is already authenticated, no use showing this page
