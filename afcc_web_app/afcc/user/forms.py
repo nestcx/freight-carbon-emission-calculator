@@ -28,8 +28,42 @@ class SignupForm(FlaskForm):
         DataRequired(message='Must enter a password'),
         Length(min=6, message='Your password is too short. Please choose a longer password')])
 
-    password_confirm = PasswordField('password', validators=[
+    password_confirm = PasswordField('confirm password', validators=[
         DataRequired(message='Password confirmation must match password field'),
         EqualTo('password', message='Password confirmation must match password field')])
 
     submit = SubmitField('create account')
+
+
+class UserSettingsForm(FlaskForm):
+    username = StringField('Username / Display name', validators=[
+        DataRequired(message='Must enter a username'),
+        Length(min=3, message='The length of the username is too short')])
+
+    update_settings = SubmitField('Update user settings')
+
+
+class PasswordUpdateForm(FlaskForm):
+    old_password = PasswordField('Old password', validators=[
+        DataRequired(message='Must enter your previous password'),
+        Length(min=6, message='The password is too short')])
+
+    new_password = PasswordField('New password', validators=[
+        DataRequired(message='Must enter a new password'),
+        Length(min=6, message='Your password is too short. Please choose a longer password')])
+
+    password_confirm = PasswordField('Confirm new password', validators=[
+        DataRequired(message='Password confirmation must match password field'),
+        EqualTo('new_password', message='Password confirmation must match password field')])
+
+    change_password = SubmitField('Update password')
+
+
+class DeactivateAccountForm(FlaskForm):
+    deactivate_account = SubmitField('Deactivate account')
+
+class ReactivateAccountForm(FlaskForm):
+    activate_account = SubmitField('Reactivate account')
+
+class DeleteAccountForm(FlaskForm):
+    delete_account = SubmitField('Delete account')
