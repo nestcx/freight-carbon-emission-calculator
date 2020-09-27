@@ -125,7 +125,7 @@ def verify_email(token):
 # Display user account details to the user, if they're logged in
 @user_bp.route('/', methods=['GET'])
 @login_required
-@email_verification_required # The user needs to have verified their email address
+# @email_verification_required # The user needs to have verified their email address
 def display_user_details():
     # If the user is logged in, we search the db for the record using their email address
     try:
@@ -146,6 +146,7 @@ def display_user_details():
 @user_bp.route('/login', methods=['GET', 'POST'])
 @limiter.limit('10/minute;15/hour')
 def log_in():
+
     # If user is already authenticated, no use showing this page
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -309,4 +310,4 @@ def email_not_verified():
 # user-friendly page, rather than the one Flask-login provides by default
 @login_manager.unauthorized_handler
 def unauthorized():
-    return render_template('authenticationrequired.html')
+    return render_template('authenticationrequired.html'), 401
