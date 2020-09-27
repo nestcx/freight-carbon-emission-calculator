@@ -4,7 +4,7 @@ This file handles all user-related functionality
 from flask import Blueprint, request, render_template, redirect, url_for, flash, current_app
 from afcc.extensions import db, limiter, login_manager
 from afcc.user.models import User
-from afcc.user.forms import LoginForm, SignupForm
+from afcc.user.forms import LoginForm, SignupForm, UserSettingsForm, PasswordUpdateForm, DeactivateAccountForm, ReactivateAccountForm, DeleteAccountForm
 from afcc.user.email_verify import generate_token_for_verification, confirm_token
 from afcc.user.email_sender import send_confirmation_email
 from afcc.decorators import email_verification_required
@@ -41,7 +41,7 @@ def create_user():
 
         # Try adding the user to the database, and catch any potential errors
         try:
-            # See if a user of the given email address already exist sexists
+            # See if a user of the given email address already exists
             user_exists = User.query.filter_by(
                 email=signup_form.email.data).first()
 
@@ -185,6 +185,96 @@ def log_out():
 
 
 
+@user_bp.route('/edit', methods=['GET', 'POST'])
+@login_required
+def update_user():
+    
+    user = User.query.filter_by(email=current_user.email).first()
+
+    # Create seperate forms so they can be handled seperately
+    userinfo_form = UserSettingsForm()
+    password_form = PasswordUpdateForm()
+    delete_account_form = DeleteAccountForm()
+    # Display the deactivate/activate option depending on the account's current activation status
+    if user.deactivated:
+        activation_status_form = ReactivateAccountForm()
+    else: 
+        activation_status_form = DeactivateAccountForm()
+
+    # Check which form was submitted and then try to validate
+
+    # User submitted the user settings form
+    if userinfo_form.update_settings.data and userinfo_form.validate_on_submit():    
+        user.username = userinfo_form.username.data
+        db.session.commit()
+        # Categorise the flash message as success. Do this so that through the templating engine,
+        # we can add different styles to different categories of messages easily 
+        flash('Your username was changed', 'success')
+    
+    # User submitted the update password form
+    elif password_form.change_password.data and password_form.validate_on_submit():
+        # If the user entered the correct old password, update the user's password
+        if user.check_password(password_form.old_password.data):
+            user.set_password(password_form.new_password.data)
+            db.session.commit()
+            # Categorise the flash message as success. Do this so that through the templating engine,
+            # we can add different styles to different categories of messages easily 
+            flash('Your password was changed', 'success')
+        else:
+            flash('Your password is incorrect', 'error')
+
+
+
+    # Since the deactivate/reactivate and delete forms only have one submit button,
+    # we can't check if form was validated on submit as it is always considered validated. 
+    # Instead, we have to look at the name of the button which was pressed. Note that WTForms
+    # automatically generates the names for the form's input fields
+    elif 'deactivate_account' in request.form: # Deactivate account button was pressed
+        user.deactivated = True
+        db.session.commit()
+        flash('Your account has been deactivated', 'success')
+
+        # Must swap the form from DeactivateForm to ReactivateForm since the user's 
+        # activation status has been changed
+        activation_status_form = ReactivateAccountForm()
+
+    elif 'activate_account' in request.form: # Reactivate account button was pressed
+        user.deactivated = False
+        db.session.commit()
+
+        # Must swap the form from ReactivateForm to DeactivateForm since the user's 
+        # activation status has been changed
+        flash('Your account has been reactivated', 'success')
+        activation_status_form = DeactivateAccountForm()
+
+    elif 'delete_account' in request.form: # Delete button was pressed
+        db.session.delete(user)
+        db.session.commit()
+        return redirect(url_for('.log_out')) # Log the user out of the system
+        
+    # If there are validation errors when the user submitted the form, display
+    # them as feedback to the user
+    if len(userinfo_form.errors) != 0:
+        for error in userinfo_form.errors:
+            for msg in userinfo_form.errors[error]:
+                flash(msg, 'error')
+    elif len(password_form.errors) != 0:
+        for error in password_form.errors:
+            for msg in password_form.errors[error]:
+                flash(msg, 'error')
+
+    # Populate the user settings form with the user's current details
+    userinfo_form.username.data = current_user.username
+
+    return render_template(
+        'usersettings.html', 
+        user_information_form=userinfo_form,
+        change_password_form=password_form,
+        activation_status_form=activation_status_form,
+        delete_account_form=delete_account_form)
+
+
+  
 # This route is to allow the user to request another link to verify their email,
 # just in case they may not have received it
 @user_bp.route('/resend_verification')
@@ -210,6 +300,7 @@ def resend_verification():
 @user_bp.route('/email_not_verified')
 def email_not_verified():  
     return render_template('verificationrequired.html')
+
 
 
 

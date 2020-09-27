@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>User settings</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class=flash>
+    {% for category, message in messages %}
+      <li class="flash-{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form action="" method="POST" novalidate>
+  <h2>Change your user information</h2>
+  {{ user_information_form.hidden_tag() }}
+  <p>
+      {{ user_information_form.username.label }} <br>
+      {{ user_information_form.username(size=32) }}
+  </p>
+  <p>{{ user_information_form.update_settings() }}</p>
+</form>
+
+<br />
+
+<form action="" method="POST" novalidate>
+  {{ change_password_form.hidden_tag() }}
+  <h2>Change password</h2>
+  <p>
+      {{ change_password_form.old_password.label }} <br>
+      {{ change_password_form.old_password(size=32) }}
+  </p>
+  <p>
+      {{ change_password_form.new_password.label }} <br>
+      {{ change_password_form.new_password(size=32) }}
+  </p>
+  <p>
+      {{ change_password_form.password_confirm.label }} <br>
+      {{ change_password_form.password_confirm(size=32) }}
+  </p>
+  <p>{{ change_password_form.change_password() }}</p>
+</form>
+<br />
+<form action="" method="POST" novalidate>
+  {{ activation_status_form.hidden_tag() }}
+
+  {% if activation_status_form.deactivate_account is defined %}
+    <h2>Deactivate your account</h2>
+    <p>{{ activation_status_form.deactivate_account() }}</p>
+  {% else %}
+    <h2>Reactivate your account</h2>
+    <p>{{ activation_status_form.activate_account() }}</p>
+  {% endif %}
+</form>
+<br />
+<form action="" method="POST" novalidate>
+  {{ delete_account_form.hidden_tag() }}
+    <h2>Delete your account</h2>
+    <p>Note that all your data will be deleted and this action is irreversible.</p>
+    <br />
+    <p>{{ delete_account_form.delete_account() }}</p>
+</form>
+<br />
+{% endblock %}
