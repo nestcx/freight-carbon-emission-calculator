@@ -45,39 +45,7 @@ def test_user_logout(app):
 
 
 
-# def test_user_should_authenticate_with_valid_username_valid_password(client):
-  
-#   # Check that a user can't already access restricted pages if they're not logged in
-#   response = client.get('/user/', follow_redirects=True)
-#   assert response.status_code == 401
 
-#   # Login the user
-#   response = client.post('/user/login', data=dict(
-#     email='testuser@gmail.com',
-#     password='testuser@gmail.com'
-#   ), follow_redirects=False)
-
-
-#   assert response.status_code == 302 # Check that it redirected to login
-
-#   # Check to see if user can now access a protected page
-#   response = client.get('/user/')
-#   assert response.status_code == 200 
-
-
-# def test_user_should_not_authenticate_with_valid_username_invalid_password(client):
-#   response = client.post('/user/login', data=dict(
-#     email='testuser@gmail.com',
-#     password='wrongpassword'
-#   ), follow_redirects=True)
-  
-#   # Ensure that user can't access a protected page
-#   response = client.get('/user/')
-#   assert response.status_code == 401
-
-
-# # def test_user_can_sign_out():
-# #   assert False
 
 
 # # def test_passwords_should_be_case_sensitive():
