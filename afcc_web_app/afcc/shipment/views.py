@@ -42,6 +42,8 @@ def CR_shipments():
     # find all shipments that belong to the user.
     if (request.method == 'GET'):
         shipments = Shipment.query.filter_by(uid=user.uid).all()
+
+        
     
     return render_template('shipments.html', shipments=shipments)
 

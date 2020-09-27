@@ -23,14 +23,13 @@ def create_app():
     login_manager.init_app(app)
 
     # import blueprints.
-    from afcc import maproutes, calculation#, shipments
+    from afcc import maproutes, calculation
     from afcc.user import views 
     
 
     # register blueprints
     app.register_blueprint(maproutes.maproutes_bp)
-    app.register_blueprint(calculation.calculation_bp)    
-    #app.register_blueprint(shipments.shipments_bp)
+    app.register_blueprint(calculation.calculation_bp)
     app.register_blueprint(views.user_bp)
 
     from afcc.shipment import views
