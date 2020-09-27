@@ -4,6 +4,7 @@ from afcc.shipment.models import Shipment
 from afcc.user.models import User
 from afcc.shipment.models import Shipment
 from flask_login import current_user
+import datetime
 
 ####### Imports needed for my calculation part #########
 
@@ -74,7 +75,7 @@ def C_shipment():
                 flash("An error has occurred.")
                 return redirect(url_for('display_error_page'))
             
-            new_shipment=Shipment(shipment_id = 123 ,uid = user.uid,shipment_created = ,
+            new_shipment=Shipment(shipment_id = 123 ,uid = user.uid,shipment_created = datetime.datetime.now(),
             shipment_name =FILEDATA['name'][0] ,trip_distance = FILEDATA['distance'][0],trip_duration =FILEDATA['duration'][0] ,
             fuel_economy_adjustment = FILEDATA['emissions'][0]["adjusted_fuel_economy"] ,
             carbon_dioxide_emission = FILEDATA['emissions'][0]['emissions']['carbon_dioxide_emission']  ,
@@ -89,7 +90,7 @@ def C_shipment():
             db.session.commit()
         
 
-    return 'not implemented'
+    return render_template('dashboard.html')
 
 
 # GET  /shipments/new  -  show form to create new shipment
@@ -163,8 +164,8 @@ FILEDATA={
     'distance' : [],
     'duration' :[],
     'emissions' : [],
-    'name' : []
-    'origincoords' : []
+    'name' : [],
+    'origincoords' : [],
     'destcoords' : []
     }
 
