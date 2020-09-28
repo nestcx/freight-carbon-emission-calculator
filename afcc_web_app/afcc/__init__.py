@@ -73,4 +73,7 @@ def create_app():
     def myShipments():
         return render_template('myShipments.html', title='My Shipments')
 
+    @app.route('/devplayground')
+    def show_styles():
+        return render_template('playground.html', title='CSS styling playground')
     return app

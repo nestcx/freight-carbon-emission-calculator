@@ -1,0 +1,56 @@
+<!-- This is a generic error page, used to display feedback to the user-->
+<!-- Only redirect to this page if the error can't be more appropriately shown in another page-->
+{% extends "base.html" %}
+{% block content %}
+  <br />
+  <h1>{{ title }}</h1>
+  
+  <div class="container--playground">
+    <div class="col_1_of_2">
+      <button class="button">Button</button>
+      <p>&lt;button class=&quot;button&quot;&gt;</p>
+    </div>
+    <div class="col_1_of_2">
+      <button class="button--primary">Button</button>
+      <p>&lt;button class=&quot;button--primary&quot;&gt;</p>
+    </div>
+    <div class="col_1_of_2">
+      <button class="button--secondary">Button</button>
+      <p>&lt;button class=&quot;button--secondary&quot;&gt;</p>
+    </div>
+    <div class="col_1_of_2">
+      <button class="button--secondary --add-shadow">Button</button>
+      <p>&lt;button class=&quot;button--secondary --add-shadow&quot;&gt;</p>
+    </div>
+    <div class="col_1_of_2">
+      <div class="feedback">
+        <p>Feedback</p>
+        <p>Feedback will go in here</p>
+      </div>
+      <p>        
+        &lt;div class=&quot;feedback&quot;&gt; 
+        <br />
+        &lt;p&gt;Feedback&lt;/p&gt;
+      </p>
+    </div>
+    <div class="col_1_of_2">
+      <div class="feedback--success">
+        <p>Success</p>
+        <p>This will provided feedback indicating success</p>
+      </div>
+      <p>
+        &lt;div class=&quot;feedback--success&quot;&gt; &lt;p&gt;Success&lt;/p&gt;
+      </p>
+    </div>
+    <div class="col_1_of_2">
+      <div class="feedback--error">
+        <p>Error</p>
+        <p>This will list errors</p>
+      </div>
+      <p>
+        &lt;div class=&quot;feedback--error&quot;&gt; &lt;p&gt;Error&lt;/p&gt;
+      </p>
+    </div>
+    
+  </div>
+{% endblock %}

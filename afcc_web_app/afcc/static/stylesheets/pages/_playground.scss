@@ -1,0 +1,36 @@
+.container--playground {
+  width: 80%;
+  min-width: 500px;
+  margin: 0 auto;
+}
+
+
+.col_1_of_2 {
+  padding: $spacing-small;
+  display: flex;
+  align-items: center;
+}
+
+.feedback {
+  padding: $spacing-small;
+  border: 1px solid transparent;
+  background-color: #ececec;
+
+  &--success {
+    @extend .feedback;
+    background-color: green;
+
+    & li, p {
+      color: white;
+    }  
+  }
+
+  &--error {
+    @extend .feedback;
+    background-color: red;
+
+    & li, p {
+      color: white;
+    }  
+  }
+}
