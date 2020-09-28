@@ -1,5 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
+<<<<<<< HEAD
+    <h1>Sign in to your account</h1>
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flash-error>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <p>
+            {{ form.email.label }} <br>
+            {{ form.email(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }} <br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+=======
 <h1>Sign in to your account</h1>
 <form action="" method="POST" novalidate>
     {{ form.hidden_tag() }}
@@ -23,4 +48,5 @@
     <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
     <p>{{ form.submit() }}</p>
 </form>
+>>>>>>> 9dddec1841aaa68149951cc36caf3dc731d7052c
 {% endblock %}

@@ -23,7 +23,7 @@
 <!--Navigation Bar Template-->
 <body>
     <header class="header --fixed">
-        <h1 class="header--logo"><a href="/" style="text-decoration: none; color: white">Freight carbon calculator</a></h1>
+        <h1 class="header--logo">Freight carbon calculator</h1>
         <nav class="--align-right">
             <button class="button-hamburger" onClick="dropdownMenu()">
                 <span class="button-hamburger--line"></span>
@@ -44,7 +44,7 @@
             </li>
         </nav>
     </header>
-    <br />
+
     <!--Content added by inheriting files goes here-->
     {% block content %}{% endblock %}
 
@@ -56,6 +56,9 @@
     <script src="static/javascript/navbar.js"></script>
     <script src="static/javascript/screentransition.js"></script>
     <script src="static/javascript/d3chart.js"></script>
+    <script src="static/javascript/autocomplete.js"></script>
+    <script src="static/javascript/shipments.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios API -->
+    
 </body>
 </html>

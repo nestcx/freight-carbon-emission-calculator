@@ -32,7 +32,6 @@ class User(UserMixin, db.Model):
     def get_id(self):
         return self.uid
 
-
     uid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(200), nullable=False)
