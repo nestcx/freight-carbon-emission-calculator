@@ -18,13 +18,13 @@
   // The style that all attention-grabbing CTA buttons will take on
   .button--primary {
     @extend .button;
-    background-color: $color-tertiary;
+    background-color: $color-primary;
     color: white;
     border: 0;
 
     // Darken the button on hover as a means of providing visual feedback
     &:hover, :active, :focus {
-      background-color: darken($color-tertiary, 10%);
+      background-color: darken($color-primary, 10%);
     }
   }
 

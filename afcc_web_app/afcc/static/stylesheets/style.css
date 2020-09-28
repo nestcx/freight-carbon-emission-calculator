@@ -95,9 +95,6 @@ header {
   }
 }
 
-.navbar--link {
-  background-color: #ffffff;
-}
 .navbar--link a {
   display: flex;
   align-items: center;
@@ -105,9 +102,14 @@ header {
   padding: 0 16px;
   color: #34343b;
   text-decoration: none;
-  background-color: #ffffff;
+  /*
+   * Add a transparent border on the bottom, so when the user hovers over, 
+   * the element doesn't move aorund due to a new border being created
+   */
+  border-bottom: 3px solid transparent;
 }
 .navbar--link a:hover {
+  border-bottom: 3px solid #206a5d;
   background-color: whitesmoke;
 }
 @media only screen and (max-width: 660px) {
@@ -132,7 +134,7 @@ header {
     position: absolute;
     top: 0;
     left: 0;
-    width: 72px;
+    width: 60px;
     height: 60px;
     background-color: transparent;
     border: 0;
@@ -205,7 +207,6 @@ header {
 .bottomnav .navButton .navlink {
   color: #34343b;
   text-decoration: none;
-  background-color: #8ab914;
 }
 @media only screen and (max-width: 660px) {
   .bottomnav .navButton {
@@ -374,21 +375,21 @@ header {
 }
 
 .button--secondary {
-  background-color: #fdf8c8;
+  background-color: #206a5d;
   color: white;
   border: 0;
 }
 .button--secondary:hover {
-  background-color: #fbf297;
+  background-color: #14433b;
 }
 
 .button--file-upload {
-  background-color: #8ab914;
+  background-color: #bfdcae;
   font-size: 0.9em;
   color: white;
 }
 .button--file-upload:hover, .button--file-upload :active, .button--file-upload :focus {
-  background-color: #688b0f;
+  background-color: #a3cd8a;
 }
 
 .button--wrong {
@@ -454,11 +455,11 @@ header {
   cursor: pointer;
 }
 .autosuggestbox p:hover, .autosuggestbox p:active {
-  background-color: #ffffff;
+  background-color: #8ab914;
   color: white;
 }
 .autosuggestbox--active {
-  background-color: #ffffff;
+  background-color: #8ab914;
   color: white;
 }
 
@@ -522,7 +523,7 @@ header {
   border-radius: 2px;
 }
 .input--text:focus {
-  border: 2px solid #ffffff;
+  border: 2px solid #8ab914;
 }
 @media only screen and (max-width: 660px) {
   .input--text {
@@ -716,7 +717,7 @@ header {
 }
 
 .accent {
-  background-color: #8ab914;
+  background-color: #bfdcae;
   width: 100%;
   height: 64px;
 }
@@ -765,6 +766,57 @@ header {
 }
 .feedback--error li, .feedback--error p {
   color: white;
+}
+
+.color-pallette div {
+  height: 80px;
+  width: 400px;
+}
+.color-pallette :nth-child(2) {
+  background-color: #8ab914;
+}
+.color-pallette :nth-child(1) {
+  background-color: #206a5d;
+}
+.color-pallette :nth-child(3) {
+  background-color: #bfdcae;
+}
+.color-pallette :nth-child(4) {
+  background-color: #fff;
+}
+
+.media-box-thingy {
+  background-color: #ffffff;
+  margin: 16px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #cfcfcf;
+}
+.media-box-thingy .content {
+  margin: 8px;
+  flex-grow: 10;
+}
+.media-box-thingy h3 {
+  color: #206a5d;
+}
+
+.button-part {
+  background-color: #f5f5f7;
+  padding: 8px;
+}
+.button-part button {
+  float: right;
+  background-color: #8ab914;
+}
+
+.--accent-primary-left {
+  border-top: 3px solid #bfdcae;
+  border-top-left-radius: 1px;
+  border-top-right-radius: 1px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .--screen-inactive {

@@ -13,13 +13,13 @@
         outline: none;
         color: $color-font-black;
         padding: 0 $spacing-default;
-        background-color: $color-primary;
+        background-color: $color-white;
         margin: 0;
         text-decoration: none;
         font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
 
         &:hover {
-            background-color: darken($color-primary, 4%);
+            background-color: darken($color-white, 4%);
         }
 
         @include breakpoint($breakpoint-tablet) {
@@ -34,7 +34,7 @@
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: $color-primary;
+    background-color: $color-white;
     min-width: 160px;
     z-index: 1;
     align-items: center;
@@ -51,7 +51,7 @@
         height: $header-height;
         line-height: $header-height;
         &:hover {
-            background-color: darken($color-primary, 4%);
+            background-color: darken($color-white, 4%);
         }
     }
 }

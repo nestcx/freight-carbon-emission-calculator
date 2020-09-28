@@ -7,7 +7,7 @@
   width: 100%;
   text-align: right;
   border-top: 1px solid $color-grey-border;
-  background-color: $color-tertiary;
+  background-color: $color-primary;
   box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
 
   //for smaller screens
@@ -46,7 +46,6 @@
     .navlink {
       color: $color-font-black;
       text-decoration: none; // Remove the ugly underline of links
-      background-color: $color-tertiary;
     }
 
     @include breakpoint($breakpoint-tablet) {

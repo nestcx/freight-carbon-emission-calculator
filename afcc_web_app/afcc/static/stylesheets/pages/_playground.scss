@@ -34,3 +34,64 @@
     }  
   }
 }
+
+.color-pallette {
+
+  & div {
+    height: 80px;
+    width: 400px;
+  }
+  :nth-child(2) {
+    background-color: #8ab914;
+  }
+
+  :nth-child(1) {
+    background-color: #206a5d;
+  }
+
+  :nth-child(3) {
+    background-color: #bfdcae;
+  }
+
+  :nth-child(4) {
+    background-color: #fff;
+  }
+}
+
+
+.media-box-thingy {
+  background-color: $color-white;
+  margin: $spacing-default;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(207, 207, 207);
+  
+  & .content {
+    margin: $spacing-small;
+    flex-grow: 10;
+  }
+
+  & h3 {
+    color: #206a5d;
+  }
+}
+
+.button-part {
+
+  background-color: $color-background;
+  padding: $spacing-small;
+  button {
+    float: right;
+    background-color: #8ab914;
+  }
+}
+
+.--accent-primary-left {
+  border-top: 3px solid #bfdcae;
+  border-top-left-radius: 1px;
+  border-top-right-radius: 1px;
+  @include border-shadow-soft();
+}

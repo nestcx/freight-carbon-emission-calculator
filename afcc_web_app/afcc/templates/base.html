@@ -17,6 +17,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#8ab914">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#8ab914">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#8ab914">
+
     <!-- CSS stylesheet below is for Leaflet API -->
     <link rel="stylesheet" href='static/leaflet/leaflet.css' />
 </head>
@@ -31,10 +38,10 @@
             <span class="button-hamburger--line"></span>
         </button>
         <div class="logo">
-            <img src="static/images/Logo3.png" width="180px" />
+            <img src="/static/images/Logo3.png" width="180px" />
         </div>
-        <div class="navbar">
-            <li class="navbar --hidden">
+        <div class="navbar --hidden">
+            <li class="navbar">
                 <ul class="navbar--link"><a href="/about">About</a></ul>
                 <ul class="navbar--link"><a href="/myShipments">Shipments</a></ul>
                 <ul class="navbar--link"><a href="/tools">Tools</a></ul>
@@ -43,13 +50,13 @@
         </div>
         <div class="dropdown">
             {% if current_user.is_authenticated %}
-            <button class="dropbtn" onClick="dropdownMenu()">Hi, {{ current_user.username }}</button>
+            <button class="dropbtn" onClick="dropdownMenu()">{{ current_user.username }}</button>
             <div class="dropdown-content" id="accountDropdown">
                 <a class="dropdown-option" href="/user/">Account</a>
                 <a class="dropdown-option" href="/user/logout">Sign Out</a>
             </div>
             {% else %}
-            <button class="dropbtn" onClick="dropdownMenu()">Not Logged In</button>
+            <button class="dropbtn" onClick="dropdownMenu()">Log in</button>
             <div class="dropdown-content" id="accountDropdown">
                 <a class="dropdown-option" href="/user/login">Log In</a>
                 <a class="dropdown-option" href="/user/signup">Sign Up</a>
