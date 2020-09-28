@@ -13,7 +13,6 @@ def create_app():
 
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # Use the secret key as the salt as well. NOTE: This is temporary
     app.config['SECURITY_PASSWORD_SALT'] = SECRET_KEY
 
@@ -63,5 +62,4 @@ def create_app():
     @app.route('/error')
     def display_error_page():
         return render_template('error.html')
-        
     return app

@@ -77,16 +77,22 @@ def C_shipment():
                 flash("An error has occurred.")
                 return redirect(url_for('display_error_page'))
             
+            print(FILEDATA)
+            print(FILEDATA['emission'][0]['methane_emission'])
+
+            startc=str(FILEDATA['origincoords'][0][0])+","+str(FILEDATA['origincoords'][0][1])
+            endc=str(FILEDATA['destcoords'][0][0])+","+str(FILEDATA['destcoords'][0][1])
+
             new_shipment=Shipment(shipment_id = 123 ,uid = user.uid,shipment_created = datetime.datetime.now(),
             shipment_name =FILEDATA['name'][0] ,trip_distance = FILEDATA['distance'][0],trip_duration =FILEDATA['duration'][0] ,
-            fuel_economy_adjustment = FILEDATA['emissions'][0]["adjusted_fuel_economy"] ,
-            carbon_dioxide_emission = FILEDATA['emissions'][0]['emissions']['carbon_dioxide_emission']  ,
-            methane_emission = FILEDATA['emissions'][0]['emissions']['methane_emission'],
-            nitrous_oxide_emission = FILEDATA['emissions'][0]['emissions']['nitrous_oxide_emission']
-            ,start_address = FILEDATA['emissions'][0]["location"]["start_location"]["address"] ,
-            start_address_coordinates = FILEDATA['emissions'][0]["location"]["start_location"]["coordinate"] ,
-            end_address = FILEDATA['emissions'][0]["location"]["end_location"]["address"] ,
-            end_address_coordinates = FILEDATA['emissions'][0]["location"]["end_location"]["coordinate"] )
+            fuel_economy_adjustment = FILEDATA['emission'][0]["adjusted_fuel_economy"] ,
+            carbon_dioxide_emission = FILEDATA['emission'][0]['carbon_dioxide_emission']  ,
+            methane_emission = FILEDATA['emission'][0]['methane_emission'],
+            nitrous_oxide_emission = FILEDATA['emission'][0]['nitrous_oxide_emission']
+            ,start_address = FILEDATA['origin'][0] ,
+            start_address_coordinates = startc,
+            end_address = FILEDATA['destination'][0] ,
+            end_address_coordinates = endc )
             
             db.session.add(new_shipment)
             db.session.commit()

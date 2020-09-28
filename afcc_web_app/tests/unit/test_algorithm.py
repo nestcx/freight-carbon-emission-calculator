@@ -1,4 +1,0 @@
-from afcc import calculation
-
-
-
