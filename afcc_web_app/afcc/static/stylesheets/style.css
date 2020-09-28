@@ -64,7 +64,7 @@ header {
   display: flex;
   align-items: center;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .logo {
     position: fixed;
     top: 0;
@@ -72,19 +72,22 @@ header {
   }
 }
 
-.navbar {
-  width: 30%;
+.navbar__links {
+  /* The height, align-items: stretch and display flex is there to stretch the navigation 
+   * links so that when the user hovers over a link, the background colour extends the height
+   * of the navbar
+   */
   height: 60px;
   align-items: stretch;
   display: flex;
-  justify-content: flex-end;
+  background-color: #ffffff;
   /** 
    * Include the breakpoint Mixin. Tablet and smaller CSS code goes between this code block
    * This part will have the code to display the navbar on hamburger menu click
    */
 }
-@media only screen and (max-width: 660px) {
-  .navbar {
+@media only screen and (min-width: 660px) {
+  .navbar__links {
     position: absolute;
     width: 100%;
     left: 0;
@@ -95,7 +98,7 @@ header {
   }
 }
 
-.navbar--link a {
+.navbar__link a {
   display: flex;
   align-items: center;
   height: 100%;
@@ -108,27 +111,27 @@ header {
    */
   border-bottom: 3px solid transparent;
 }
-.navbar--link a:hover {
-  border-bottom: 3px solid #206a5d;
+.navbar__link a:hover {
   background-color: whitesmoke;
 }
-@media only screen and (max-width: 660px) {
-  .navbar--link a {
+@media only screen and (min-width: 660px) {
+  .navbar__link a {
     padding: 8px 0;
     font-size: 1em;
     border-top: 1px solid #cccccc;
     margin: 0 16px;
   }
-  .navbar--link a:hover {
+  .navbar__link a:hover {
     background-color: #ffffff;
     color: #e6e6e6;
+    border-bottom: 3px solid #206a5d;
   }
 }
 
 .button-hamburger {
   display: none;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .button-hamburger {
     display: block;
     position: absolute;
@@ -173,7 +176,7 @@ header {
   background-color: #8ab914;
   box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .footer {
     height: 60px;
     position: fixed;
@@ -208,7 +211,7 @@ header {
   color: #34343b;
   text-decoration: none;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .bottomnav .navButton {
     display: flex;
   }
@@ -279,7 +282,7 @@ header {
   padding: 8px !important;
   border-bottom: 1px solid #cccccc;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .container--breadcrumb {
     position: fixed;
     top: 0;
@@ -316,7 +319,7 @@ header {
 .dropdown .dropbtn:hover {
   background-color: whitesmoke;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .dropdown .dropbtn {
     position: fixed;
     top: 0;
@@ -415,7 +418,7 @@ header {
   border-radius: 12px;
   padding: 16px;
 }
-@media only screen and (max-width: 440px) {
+@media only screen and (min-width: 440px) {
   .media-card {
     min-width: 100%;
     border-radius: 0;
@@ -431,7 +434,7 @@ header {
 .media-card--img img {
   max-width: 80%;
 }
-@media only screen and (max-width: 440px) {
+@media only screen and (min-width: 440px) {
   .media-card--img img {
     max-width: 60%;
   }
@@ -491,7 +494,7 @@ header {
 .container--location {
   display: flex;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .container--location {
     flex-direction: column;
     padding: 0 24px;
@@ -502,7 +505,7 @@ header {
   width: 50%;
   position: relative;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .container--location-inputs {
     width: 100%;
     margin-bottom: 16px;
@@ -525,7 +528,7 @@ header {
 .input--text:focus {
   border: 2px solid #8ab914;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .input--text {
     max-width: 100%;
   }
@@ -539,7 +542,7 @@ header {
   height: 350px;
   max-height: 350px;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .container--location-map {
     width: 100%;
     text-align: center;
@@ -553,7 +556,7 @@ header {
 .container--screen-nav-buttons .button--primary {
   margin: 0 8px;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .container--screen-nav-buttons .button--primary {
     margin: 0;
     font-size: 1em;
@@ -564,7 +567,7 @@ header {
   display: flex;
   flex-direction: column;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .container--weight {
     flex-direction: column;
     padding: 0 24px;
@@ -578,7 +581,7 @@ header {
   width: 50%;
   padding: 0 8px;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .container--weight-inputs {
     width: 100%;
     margin-bottom: 16px;
@@ -646,7 +649,7 @@ header {
 .container--logo img {
   vertical-align: middle;
 }
-@media only screen and (max-width: 440px) {
+@media only screen and (min-width: 440px) {
   .container--logo {
     padding: 16px !important;
   }
@@ -681,7 +684,7 @@ header {
 .container--page-wide-image img {
   display: block;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .container--page-wide-image img {
     height: 150px;
   }
@@ -699,7 +702,7 @@ header {
 .container--ad-copy-text h1 {
   text-align: center;
 }
-@media only screen and (max-width: 440px) {
+@media only screen and (min-width: 440px) {
   .container--ad-copy-text {
     padding: 64px 0;
   }
@@ -710,7 +713,7 @@ header {
   justify-content: space-between;
   margin-top: 64px;
 }
-@media only screen and (max-width: 440px) {
+@media only screen and (min-width: 440px) {
   .container--media-cards {
     flex-direction: column;
   }
@@ -823,7 +826,7 @@ header {
   display: none;
 }
 
-@media only screen and (max-width: 660px) {
+@media only screen and (min-width: 660px) {
   .--hidden {
     display: none;
   }

@@ -40,14 +40,14 @@
         <div class="logo">
             <img src="/static/images/Logo3.png" width="180px" />
         </div>
-        <div class="navbar --hidden">
-            <li class="navbar">
-                <ul class="navbar--link"><a href="/about">About</a></ul>
-                <ul class="navbar--link"><a href="/myShipments">Shipments</a></ul>
-                <ul class="navbar--link"><a href="/tools">Tools</a></ul>
-                <ul class="navbar--link"><a href="/help">Help</a></ul>
+        <nav class="navbar --hidden">
+            <li class="navbar__links">
+                <ul class="navbar__link"><a href="/about">About</a></ul>
+                <ul class="navbar__link"><a href="/myShipments">Shipments</a></ul>
+                <ul class="navbar__link"><a href="/tools">Tools</a></ul>
+                <ul class="navbar__link"><a href="/help">Help</a></ul>
             </li>
-        </div>
+        </nav>
         <div class="dropdown">
             {% if current_user.is_authenticated %}
             <button class="dropbtn" onClick="dropdownMenu()">{{ current_user.username }}</button>

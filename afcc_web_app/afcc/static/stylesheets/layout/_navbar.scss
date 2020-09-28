@@ -1,13 +1,16 @@
 // The navigation bar that contains the links and dropdown menu
 
-// Style rules for the <li> list element in the navbar
-.navbar {
-  width: 30%;
+.navbar__links {
+
+  /* The height, align-items: stretch and display flex is there to stretch the navigation 
+   * links so that when the user hovers over a link, the background colour extends the height
+   * of the navbar
+   */
   height: $header-height; // Make the navbar's height match the header
   align-items: stretch;
   display: flex;
-  justify-content: flex-end;
-
+  background-color: $color-white;
+  
   /** 
    * Include the breakpoint Mixin. Tablet and smaller CSS code goes between this code block
    * This part will have the code to display the navbar on hamburger menu click
@@ -25,8 +28,9 @@
   }
 }
 
-// Style rules for each <ul> element in the navbar
-.navbar--link {
+
+// Style rules for the links in the navbar
+.navbar__link {
 
   // The styles for the <a> elements found in the <ul> elements
   a {
@@ -45,7 +49,7 @@
     border-bottom: 3px solid transparent;
 
     &:hover {
-      border-bottom: 3px solid $color-secondary; // Create an underline accent when the user hovers over
+
       background-color: darken($color-white, 4%); 
     }
 
@@ -60,6 +64,7 @@
       &:hover {
         background-color: $color-white;
         color: darken(white, 10%);
+        border-bottom: 3px solid $color-secondary; // Create an underline accent when the user hovers over
       }
     }
   }
