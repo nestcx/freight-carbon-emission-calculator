@@ -215,7 +215,7 @@ def calculate_emissions(truck_fuel_economy, distance, load_weight):
     return calculation_data
 
 
-def get_emission_calculation(startAddress,endAddress,itemWeight,itemQuantity):
+def get_emission_calculation(start_address,end_address,item_weight,item_quantity):
     ''' Method to get the emission calculation
 
         Keyword Variables:
@@ -224,84 +224,29 @@ def get_emission_calculation(startAddress,endAddress,itemWeight,itemQuantity):
 
     '''
 
-    FILEDATA={
-    'origin' : [],
-    'destination' : [],
-    'itemQuantity' : [],
-    'itemWeight' : [],
-    'distance' : [],
-    'duration' :[],
-    'emissions' : [],
-    'name' : [],
-    'origincoords' : [],
-    'destcoords' : []
-    }
+    calculation_data={}
 
-    FILEDATA['origin']=origin
-    FILEDATA['destination']=destination
-    FILEDATA['itemWeight']=itemWeight
-    FILEDATA['itemQuantity']=[1]
-    FILEDATA['name']=shipmentname
+    calculation_data['origin']=start_address
+    calculation_data['destination']=end_address
+    calculation_data['itemWeight']=item_weight
+    calculation_data['itemQuantity']=item_quantity
 
-    FILEDATA=calculate_distance_for_given_address(FILEDATA)
+    startAddressInfo = maproutes.search_address(calculation_data['origin'])
+    endAddressInfo = maproutes.search_address(calculation_data['destination'])
 
-    length_of_data=len(FILEDATA['origin'])
+    startAddressCoordinates = startAddressInfo["features"][0]["geometry"]["coordinates"]
+    endAddressCoordinates = endAddressInfo["features"][0]["geometry"]["coordinates"]
 
-    emis_temp_array=[]
+    calculation_data['origincoords']=(startAddressCoordinates)
+    calculation_data['destcoords']=(endAddressCoordinates)
 
-    for x in range(0 , length_of_data):
-        emis_temp_array.append(calculate_emissions(18.1,FILEDATA['distance'][x],(FILEDATA['itemQuantity'][x])*(FILEDATA['itemWeight'][x])))
+    geoJSONData = maproutes.get_route(str(startAddressCoordinates[0]) + "," + str(startAddressCoordinates[1]), str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1]))
 
-    FILEDATA['emission']=emis_temp_array
-    return FILEDATA
-
-def calculate_distance_for_given_address(FILEDATA):
+    calculation_data['distance']=(data_conversion.metre_to_kilometre(maproutes.get_length_of_route(geoJSONData)))
+    calculation_data['duration']=(maproutes.get_duration_of_route(geoJSONData))
     
-    ''' Uses maproutes py to calculate distance for emission calculation
 
-        Keyword Arguments:
-        length_of_data -- Checks the number of shipments uploaded in the excel/csv file
-        dist_temp_array -- Temporary array that stores all the distances
-        dur_temp_array -- Temporary array that stores all the duration
+    calculation_data['emission']=(calculate_emissions(18.1,calculation_data['distance'],(calculation_data['itemQuantity'])*(calculation_data['itemWeight'])))
 
-    '''
-    print('Flag - Calculate Distance Function')
+    return calculation_data
 
-    length_of_data=len(FILEDATA['origin'])
-    
-    #For Debugging Purposes
-    print(length_of_data)
- 
-    dist_temp_array=[]
-    dur_temp_array=[]
-
-    start_coords=[]
-    end_coords=[]        
-
-    for x in range(0 , length_of_data):
-        startAddressInfo = maproutes.search_address(FILEDATA['origin'][x])
-        endAddressInfo = maproutes.search_address(FILEDATA['destination'][x])
-
-        startAddressValidated = startAddressInfo["features"][0]["properties"]["label"]
-        endAddressValidated = endAddressInfo["features"][0]["properties"]["label"]
-
-        startAddressCoordinates = startAddressInfo["features"][0]["geometry"]["coordinates"]
-        endAddressCoordinates = endAddressInfo["features"][0]["geometry"]["coordinates"]
-
-        start_coords.append(startAddressCoordinates)
-        end_coords.append(endAddressCoordinates)
-
-        geoJSONData = maproutes.get_route(str(startAddressCoordinates[0]) + "," + str(startAddressCoordinates[1]), str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1]))
-
-        dist_temp_array.append(data_conversion.metre_to_kilometre(maproutes.get_length_of_route(geoJSONData)))
-        dur_temp_array.append(maproutes.get_duration_of_route(geoJSONData))
-
-        #For Debugging Purposes
-        print(dist_temp_array)
-    #Stores distances and duration into the local array.
-    FILEDATA['distance'] = dist_temp_array   
-    FILEDATA['duration'] = dur_temp_array
-    FILEDATA['origincoords'] = start_coords
-    FILEDATA['destcoords'] = end_coords
-    
-    return FILEDATA

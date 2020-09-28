@@ -56,14 +56,16 @@ def C_shipment():
     if shipment_form.validate_on_submit():
 
         #Sets all the data into the local variable FILEDATA
-        startAddress=[shipment_form.pickuploc.data]
-        endAddress=[shipment_form.dropoffloc.data]
-        itemWeight=[(shipment_form.cargoweight.data)]
-        shipmentname=[shipment_form.shipmentname.data]
+        start_address=shipment_form.pickuploc.data
+        end_address=shipment_form.dropoffloc.data
+        item_weight=shipment_form.cargoweight.data
+        shipmentname=shipment_form.shipmentname.data
         
+        result={}
+
         #This is to get the emission calculation result from calculation.py
         try:
-            result=calculation.get_emission_calculation(startAddress,endAddress,itemWeight,1)
+            result=calculation.get_emission_calculation(start_address,end_address,item_weight,1)
         except:
             print("Error")
 
@@ -76,20 +78,18 @@ def C_shipment():
                 flash("An error has occurred.")
                 return redirect(url_for('display_error_page'))
 
-            startc=str(result['origincoords'][0][0])+","+str(result['origincoords'][0][1])
-            endc=str(result['destcoords'][0][0])+","+str(result['destcoords'][0][1])
 
             #This is to set the values in the variables for the query.
             new_shipment=Shipment(uid = user.uid,shipment_created = datetime.datetime.now(),
-            shipment_name =shipmentname ,trip_distance = result['distance'][0],trip_duration =result['duration'][0] ,
-            fuel_economy_adjustment = result['emission'][0]["adjusted_fuel_economy"] ,
-            carbon_dioxide_emission = result['emission'][0]['carbon_dioxide_emission']  ,
-            methane_emission = result['emission'][0]['methane_emission'],
-            nitrous_oxide_emission = result['emission'][0]['nitrous_oxide_emission']
-            ,start_address = result['origin'][0] ,
-            start_address_coordinates = startc,
-            end_address = result['destination'][0] ,
-            end_address_coordinates = endc )
+            shipment_name =shipmentname ,trip_distance = result['distance'],trip_duration =result['duration'] ,
+            fuel_economy_adjustment = result['emission']["adjusted_fuel_economy"] ,
+            carbon_dioxide_emission = result['emission']['carbon_dioxide_emission']  ,
+            methane_emission = result['emission']['methane_emission'],
+            nitrous_oxide_emission = result['emission']['nitrous_oxide_emission']
+            ,start_address = result['origin'] ,
+            start_address_coordinates = str(result['origincoords'][0])+","+str(result['origincoords'][1]),
+            end_address = result['destination'] ,
+            end_address_coordinates = str(result['destcoords'][0])+","+str(result['destcoords'][1]) )
             
             db.session.add(new_shipment)
             db.session.commit()
