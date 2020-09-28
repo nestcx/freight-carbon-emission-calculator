@@ -54,17 +54,16 @@ def C_shipment():
     shipment_form=ShipmentdataForm()
 
     if shipment_form.validate_on_submit():
-        #Sets all the data into the global variable FILEDATA
-        FILEDATA['origin']=[shipment_form.pickuploc.data]
-        FILEDATA['destination']=[shipment_form.dropoffloc.data]
-        FILEDATA['itemWeight']=[(shipment_form.cargoweight.data)]
-        FILEDATA['itemQuantity']=[1]
-        FILEDATA['name']=[shipment_form.shipmentname.data]
 
-        print(FILEDATA)
-
+        #Sets all the data into the local variable FILEDATA
+        startAddress=[shipment_form.pickuploc.data]
+        endAddress=[shipment_form.dropoffloc.data]
+        itemWeight=[(shipment_form.cargoweight.data)]
+        shipmentname=[shipment_form.shipmentname.data]
+        
+        #This is to get the emission calculation result from calculation.py
         try:
-            get_emission_calculation()
+            result=calculation.get_emission_calculation(startAddress,endAddress,itemWeight,1)
         except:
             print("Error")
 
@@ -76,22 +75,20 @@ def C_shipment():
             except Exception:
                 flash("An error has occurred.")
                 return redirect(url_for('display_error_page'))
-            
-            print(FILEDATA)
-            print(FILEDATA['emission'][0]['methane_emission'])
 
-            startc=str(FILEDATA['origincoords'][0][0])+","+str(FILEDATA['origincoords'][0][1])
-            endc=str(FILEDATA['destcoords'][0][0])+","+str(FILEDATA['destcoords'][0][1])
+            startc=str(result['origincoords'][0][0])+","+str(result['origincoords'][0][1])
+            endc=str(result['destcoords'][0][0])+","+str(result['destcoords'][0][1])
 
-            new_shipment=Shipment(shipment_id = 123 ,uid = user.uid,shipment_created = datetime.datetime.now(),
-            shipment_name =FILEDATA['name'][0] ,trip_distance = FILEDATA['distance'][0],trip_duration =FILEDATA['duration'][0] ,
-            fuel_economy_adjustment = FILEDATA['emission'][0]["adjusted_fuel_economy"] ,
-            carbon_dioxide_emission = FILEDATA['emission'][0]['carbon_dioxide_emission']  ,
-            methane_emission = FILEDATA['emission'][0]['methane_emission'],
-            nitrous_oxide_emission = FILEDATA['emission'][0]['nitrous_oxide_emission']
-            ,start_address = FILEDATA['origin'][0] ,
+            #This is to set the values in the variables for the query.
+            new_shipment=Shipment(uid = user.uid,shipment_created = datetime.datetime.now(),
+            shipment_name =shipmentname ,trip_distance = result['distance'][0],trip_duration =result['duration'][0] ,
+            fuel_economy_adjustment = result['emission'][0]["adjusted_fuel_economy"] ,
+            carbon_dioxide_emission = result['emission'][0]['carbon_dioxide_emission']  ,
+            methane_emission = result['emission'][0]['methane_emission'],
+            nitrous_oxide_emission = result['emission'][0]['nitrous_oxide_emission']
+            ,start_address = result['origin'][0] ,
             start_address_coordinates = startc,
-            end_address = FILEDATA['destination'][0] ,
+            end_address = result['destination'][0] ,
             end_address_coordinates = endc )
             
             db.session.add(new_shipment)
@@ -104,7 +101,6 @@ def C_shipment():
 # GET  /shipments/new  -  show form to create new shipment
 @shipment_bp.route('/shipments/new', methods=['GET'])
 def show_create_shipment_form():
-    FILEDATA.clear()
     shipment_form=ShipmentdataForm()
     return render_template('shipmentform.html', form=shipment_form)
     
@@ -155,29 +151,6 @@ def show_edit_shipment_form(shipment_id):
     return 'not implemented'
 
 
-##########################################################################################################
-#####################################      Calculation part            ###################################
-#####################################             Below                ###################################
-##########################################################################################################
-
-#FILEDATA -- local variable which is used to manipulate all the file data.
-#   It only stores data needed for calculation. Calculation emission is also included in this 
-#   dictionary once the emissions are calculated.   
-
-FILEDATA={
-    'origin' : [],
-    'destination' : [],
-    'itemQuantity' : [],
-    'itemWeight' : [],
-    'distance' : [],
-    'duration' :[],
-    'emissions' : [],
-    'name' : [],
-    'origincoords' : [],
-    'destcoords' : []
-    }
-
-
 def get_file_extension(filename):
 
     '''Get the uploaded file's extension.
@@ -193,101 +166,3 @@ def get_file_extension(filename):
     print(filename.rsplit('.', 1)[1].lower())
     return filename.rsplit('.', 1)[1].lower()
 
-def set_emission_calculation_factors(fdata):
-    
-    #Sets the file data to different keys of FILEDATA dictionary
-
-    FILEDATA['origin']=fdata['From']
-    FILEDATA['destination']=fdata['To']
-    FILEDATA['itemQuantity']=(fdata['Items'])
-    FILEDATA['itemWeight']=(fdata['Weight'])
-
-    #For Debugging purposes
-    print(FILEDATA['origin'][0],FILEDATA['destination'][0],FILEDATA['itemQuantity'][0],FILEDATA['itemWeight'][0])
-
-def get_emission_calculation():
-
-    ''' Method to get the emission calculation
-
-        Keyword Variables:
-        length_of_data -- Checks the number of shipments uploaded in the excel/csv file
-        emis_temp_array -- temporary array to store responses of emissions from caculation py file 
-
-        All the emssions are stored in the FILEDATA['emission'] which can be accessed using 
-        FILEDATA['emission'][x] where x is the number of shipment you want to access.
-    '''
-    #For Debugging purposes
-    print('Flag - Calculate Emission Function')
-    #print(FILEDATA['origin'],FILEDATA['destination'],FILEDATA['itemQuantity'],FILEDATA['itemWeight'])
-
-    calculate_distance_for_given_address()
-
-    #For Debugging purposes
-    print('Flag - End Calculate Distance Function')
-
-    length_of_data=len(FILEDATA['origin'])
-    
-    emis_temp_array=[]
-
-    #For Debugging purposes
-    print('Flag - Entered Calculate Emission Function ')
-    
-    for x in range(0 , length_of_data):
-        emis_temp_array.append(calculation.calculate_emissions(18.1,FILEDATA['distance'][x],(FILEDATA['itemQuantity'][x])*(FILEDATA['itemWeight'][x])))
-
-    #For Debugging purposes
-    print('Flag - Calculate Emission Function done')
-
-    FILEDATA['emission']=emis_temp_array
-    #For Debugging Purposes
-    print(FILEDATA['emission'])
-    return FILEDATA
-
-def calculate_distance_for_given_address():
-
-    ''' Uses maproutes py to calculate distance for emission calculation
-
-        Keyword Arguments:
-        length_of_data -- Checks the number of shipments uploaded in the excel/csv file
-        dist_temp_array -- Temporary array that stores all the distances
-        dur_temp_array -- Temporary array that stores all the duration
-
-    '''
-    print('Flag - Calculate Distance Function')
-
-    length_of_data=len(FILEDATA['origin'])
-    
-    #For Debugging Purposes
-    print(length_of_data)
- 
-    dist_temp_array=[]
-    dur_temp_array=[]
-
-    start_coords=[]
-    end_coords=[]        
-
-    for x in range(0 , length_of_data):
-        startAddressInfo = maproutes.search_address(FILEDATA['origin'][x])
-        endAddressInfo = maproutes.search_address(FILEDATA['destination'][x])
-
-        startAddressValidated = startAddressInfo["features"][0]["properties"]["label"]
-        endAddressValidated = endAddressInfo["features"][0]["properties"]["label"]
-
-        startAddressCoordinates = startAddressInfo["features"][0]["geometry"]["coordinates"]
-        endAddressCoordinates = endAddressInfo["features"][0]["geometry"]["coordinates"]
-
-        start_coords.append(startAddressCoordinates)
-        end_coords.append(endAddressCoordinates)
-
-        geoJSONData = maproutes.get_route(str(startAddressCoordinates[0]) + "," + str(startAddressCoordinates[1]), str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1]))
-
-        dist_temp_array.append(data_conversion.metre_to_kilometre(maproutes.get_length_of_route(geoJSONData)))
-        dur_temp_array.append(maproutes.get_duration_of_route(geoJSONData))
-
-        #For Debugging Purposes
-        print(dist_temp_array)
-    #Stores distances and duration into the local array.
-    FILEDATA['distance'] = dist_temp_array   
-    FILEDATA['duration'] = dur_temp_array
-    FILEDATA['origincoords'] = start_coords
-    FILEDATA['destcoords'] = end_coords
