@@ -7,9 +7,14 @@
 
 body {
   margin: 0 auto;
+  height: 100vh;
   font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
   color: #34343b;
   background-color: #f5f5f7;
+}
+
+input {
+  font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -27,7 +32,17 @@ body {
 
 .container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo {
   max-width: 100%;
-  padding: 24px;
+  height: 100%;
+}
+@media only screen and (min-width: 440px) {
+  .container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo {
+    padding: 24px;
+  }
+}
+
+.--enforce-max-width {
+  margin: 0 auto;
+  max-width: 980px;
 }
 
 header {
@@ -289,7 +304,7 @@ header {
   border: 0;
 }
 .button--primary:hover, .button--primary :active, .button--primary :focus {
-  background-color: #688b0f;
+  background-color: #79a212;
 }
 
 .button--secondary {
@@ -298,7 +313,7 @@ header {
   border: 0;
 }
 .button--secondary:hover {
-  background-color: #14433b;
+  background-color: #267e6e;
 }
 
 .button--wrong {
@@ -332,24 +347,93 @@ header {
   color: white;
 }
 
-.flash--feedback {
-  background-color: #e0e0e0;
-  font-size: 1.1em;
+.flash, .flash--success, .flash--error {
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
   padding: 8px;
+  font-size: 0.9em;
+  list-style: none;
+  margin-bottom: 16px;
 }
 
 .flash--error {
-  background-color: red;
-  color: white;
-  font-size: 1.1em;
-  padding: 8px;
+  color: #db0303;
 }
 
 .flash--success {
-  background-color: #039450;
-  color: white;
+  color: #039450;
+}
+
+.inputfield--text {
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  margin-top: 4px;
+}
+.inputfield--text:active, .inputfield--text:focus {
+  box-shadow: 0 0 0 2px rgba(0, 225, 176, 0.15);
+  border: 1px solid rgba(32, 106, 93, 0.5);
+}
+
+.inputfield__label {
   font-size: 1.1em;
-  padding: 8px;
+}
+
+.form {
+  width: 100%;
+  padding: 16px;
+  background-color: #fdfdfd;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  margin: 0 auto;
+  display: block;
+}
+@media only screen and (min-width: 440px) {
+  .form {
+    padding: 32px;
+  }
+}
+@media only screen and (min-width: 720px) {
+  .form {
+    padding: 64px;
+  }
+}
+
+.form__heading {
+  margin-bottom: 16px;
+}
+
+.form--login, .form--signup {
+  padding-top: 16px;
+  height: 100%;
+  border-radius: 0;
+}
+@media only screen and (min-width: 440px) {
+  .form--login, .form--signup {
+    border-radius: 6px;
+    height: unset;
+    max-width: 400px;
+    margin-top: 32px;
+  }
+}
+@media only screen and (min-width: 720px) {
+  .form--login, .form--signup {
+    padding-top: 32px;
+    margin-top: 64px;
+    max-width: 450px;
+  }
+}
+.form--login__button {
+  width: 100%;
+  margin: 0;
+}
+
+@media only screen and (min-width: 440px) {
+  .form--signup {
+    margin-top: 32px;
+  }
 }
 
 .container--logo {

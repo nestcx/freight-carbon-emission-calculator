@@ -13,9 +13,14 @@
 
 body {
   margin: 0 auto;
+  height: 100vh;
   font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
   color: $color-font-black;
   background-color: $color-background;
+}
+
+input {
+  font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {

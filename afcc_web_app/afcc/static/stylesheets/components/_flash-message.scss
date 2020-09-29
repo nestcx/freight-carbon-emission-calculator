@@ -1,19 +1,18 @@
-.flash--feedback {
-  background-color: rgb(224, 224, 224);
-  font-size: 1.1em;
+.flash {
+  border: 1px solid rgb(224, 224, 224);
+  border-radius: 3px;
   padding: $spacing-small;
+  font-size: 0.9em;
+  list-style: none;
+  margin-bottom: $spacing-default;
 }
 
-.flash--error {
-  background-color: red;
-  color: white;
-  font-size: 1.1em;
-  padding: $spacing-small;
-}
+  .flash--error {
+    @extend .flash;
+    color: rgb(219, 3, 3);
+  }
 
-.flash--success {
-  background-color: rgb(3, 148, 80);
-  color: white;
-  font-size: 1.1em;
-  padding: $spacing-small;
-}
+  .flash--success {
+    @extend .flash;
+    color: rgb(3, 148, 80);
+  }

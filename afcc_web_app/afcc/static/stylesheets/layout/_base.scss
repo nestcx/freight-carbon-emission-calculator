@@ -9,5 +9,18 @@ body {
 // The default rules for container type divs. All divs that represent a chunk of the layout should extend this
 .container {
   max-width: 100%;
-  padding: $spacing-medium;
+  height: 100%; // This should be 100% by default and overridden by other classes
+
+  @include breakpoint-screen-larger-than($breakpoint-mobile) {
+    padding: $spacing-medium;
+  }
+}
+
+// This is used for not allowing larger containers to exceed a certain width.
+// It will mostly be used for containers containing large blocks of code,
+// and enforces the width so the website doesn't stretch too much on larger screens.
+// Also does centreing
+.--enforce-max-width {
+  margin: 0 auto;
+  max-width: $dimension-max-app-width;
 }

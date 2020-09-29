@@ -24,7 +24,7 @@
 
     // Darken the button on hover as a means of providing visual feedback
     &:hover, :active, :focus {
-      background-color: darken($color-primary, 10%);
+      background-color: darken($color-primary, 5%);
     }
   }
 
@@ -37,7 +37,7 @@
 
     // Darken the button on hover as a means of providing visual feedback
     &:hover {
-      background-color: darken($color-secondary, 10%);
+      background-color: lighten($color-secondary, 5%);
     }
   }
 

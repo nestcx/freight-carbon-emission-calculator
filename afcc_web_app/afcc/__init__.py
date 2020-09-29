@@ -2,6 +2,9 @@ from flask import Flask
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 
+import os
+from flask import send_from_directory
+
 from afcc.config import *
 from afcc.extensions import db, limiter, login_manager, mail
 
@@ -78,6 +81,11 @@ def create_app():
         return render_template('playground.html', title='CSS styling playground')
     
 
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'),
+                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
+                                
     # Register 404 handler so that a custom 404 page can be delivered
     app.register_error_handler(404, page_not_found)
 
@@ -85,3 +93,5 @@ def create_app():
 
 def page_not_found(e):
   return render_template('404.html'), 404
+
+
