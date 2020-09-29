@@ -7,7 +7,7 @@
   <p>Below is the error:</p><br />
   {% with messages = get_flashed_messages() %}
     {% if messages %}
-      <ul class=flash-error>
+      <ul class=flash--error>
       {% for message in messages %}
       <li>{{ message }}</li>
       {% endfor %}
