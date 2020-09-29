@@ -51,7 +51,7 @@ def create_app():
 
     @app.route('/')
     def index():
-        return render_template('about.html')
+        return render_template('index.html')
 
     @app.route('/error')
     def display_error_page():
@@ -69,11 +69,19 @@ def create_app():
     def help():
         return render_template('help.html', title='Help')
 
-    @app.route('/myShipments')
+    @app.route('/my_shipments')
     def myShipments():
-        return render_template('myShipments.html', title='My Shipments')
+        return render_template('my_shipments.html', title='My Shipments')
 
     @app.route('/devplayground')
     def show_styles():
         return render_template('playground.html', title='CSS styling playground')
+    
+
+    # Register 404 handler so that a custom 404 page can be delivered
+    app.register_error_handler(404, page_not_found)
+
     return app
+
+def page_not_found(e):
+  return render_template('404.html'), 404

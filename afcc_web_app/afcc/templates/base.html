@@ -6,7 +6,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--Head Template-->
-
 <head>
     {% if title %}
     <title>{{ title }} - Carbon Free Freight</title>
@@ -24,8 +23,8 @@
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-status-bar-style" content="#8ab914">
 
-    <!-- CSS stylesheet below is for Leaflet API -->
-    <link rel="stylesheet" href='static/leaflet/leaflet.css' />
+    <!-- This block is defined for inserting CSS file specific to your page.-->
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
@@ -43,7 +42,7 @@
         <nav class="navbar --hidden-on-mobile">
             <ul class="navbar__links">
                 <li class="navbar__link"><a href="/about">About</a></li>
-                <li class="navbar__link"><a href="/myShipments">Shipments</a></li>
+                <li class="navbar__link"><a href="/my_shipments">Shipments</a></li>
                 <li class="navbar__link"><a href="/tools">Tools</a></li>
                 <li class="navbar__link"><a href="/help">Help</a></li>
                
@@ -81,25 +80,26 @@
         </div>
     </header>
 
-
     <!--Content added by inheriting files goes here-->
     {% block content %}{% endblock %}
 
     <!--Footer template -->
     <footer class="footer">
         <div class="bottomnav">
-            <button class="navButton"><a class="navlink" href="/myShipments">Shipments</a></button>
-            <button class="navButton"><a class="navlink" href="/tools">Tools</a></button>
+            <button class="navButton">
+                <a class="navlink" href="/my_shipments">Shipments</a>
+            </button>
+            <button class="navButton">
+                <a class="navlink" href="/tools">Tools</a>
+            </button>
             <button class="navButton"><a class="navlink" href="/help">Help</a></button>
         </div>
-        <p class="credit --hidden-on-mobile">Developed by <a href="about.html">Group name</a></p>
+        <p class="credit --hidden-on-mobile">Developed by <a href="about.html">Group 04</a></p>
     </footer>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="/static/javascript/navbar.js"></script>
-    <!--
-    <script src="static/javascript/screentransition.js"></script>
-    <script src="static/javascript/d3chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>--> <!-- Axios API -->
-    
+
+    <!-- This block is defined for inserting JS files specific to your page.-->
+    {% block extra_js_scripts %}{% endblock %}
+
 </body>
 </html>

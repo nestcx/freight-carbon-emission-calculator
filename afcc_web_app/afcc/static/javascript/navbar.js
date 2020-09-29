@@ -4,18 +4,21 @@ function hamburgerMenu() {
 
   var navbar = document.getElementsByClassName("navbar")[0];
   var hamburgerButtonLines = document.getElementsByClassName("button-hamburger--line");
+  // If its currently hidden, it's going to be displayed, therefore attach an
+  // event listener to see if a user clicks outside of it
+  if (navbar.classList.contains("--hidden-on-mobile")) {
+    document.addEventListener('click', clickedOutOfNavbar);
+  // User clicked on hamburger, meaning they're closing the menu, therefore
+  // the eventlistener is no longer required.
+  } else {
+    document.removeEventListener('click', clickedOutOfNavbar);
+  }
 
   navbar.classList.toggle("--hidden-on-mobile");
-  document.addEventListener('click', clickedOutOfNavbar);
-
+  
   for (var i = 0; i < hamburgerButtonLines.length; i++) {
     hamburgerButtonLines[i].classList.toggle("--toggled-on");
   }
-}
-
-function dropdownMenu() {
-  var accountDropdown = document.getElementById("accountDropdown");
-  accountDropdown.classList.toggle("--show-content");
 }
 
 /**
@@ -46,10 +49,17 @@ function clickedOutOfNavbar(e) {
       hamburgerButtonLines[i].classList.toggle("--toggled-on");
     }
   }
-
 }
 
-window.onclick = function(e) {
+
+function dropdownMenu() {
+  var accountDropdown = document.getElementById("accountDropdown");
+  accountDropdown.classList.toggle("--show-content");
+  document.addEventListener('click', clickedOutOfDropdown);
+}
+
+
+function clickedOutOfDropdown(e) {
   // Get the parent element, so that we can check if the user clicked anywhere within
   // the drop down menu or user icons
   var accountDropdownParent = document.getElementById("user-account-links-container");
@@ -60,7 +70,8 @@ window.onclick = function(e) {
     if (accountDropdown.classList.contains('--show-content')) {
       accountDropdown.classList.remove('--show-content');
     }
+
+    // Delete the event listener that fired this function.
+    document.removeEventListener('click', clickedOutOfDropdown);
   }
-
-
 }

@@ -1,12 +1,13 @@
-<!--Tools Page-->
-<!--Similar to shipment page this should show a list of tools and allow them to be selected-->
+<!--About page -->
+<!--This page should display some supplementary information about what the site does-->
+<!--It should prompt the user to log in or sign up-->
 
 {% extends "base.html" %}
 
 <!--Anything within this block will appear between <header> and <footer>-->
 {% block content %}
   <div class="container--logo">
-    <h1 class=>TOOLS PAGE</h1>
+    <h1>Australian Freight Carbon Calculator</h1>
     <p>Powered by: <img src="static/images/FreightPeopleLogo.png" width="180px" /></p>
   </div>
 
@@ -17,10 +18,9 @@
       </h2>
     </div>
     <div class="container--cta-buttons">
-      <a href="" class="button--primary">Login</a>   <!--These buttons dont do anything yet-->
-      <a href="" class="button--primary">Signup</a>
+      <a href="/user/signup" class="button--primary">Sign up with us</a>
+      <a href="/user/login" class="button--primary">Login</a>
     </div>
   </div>
-
-  <!-- scripts specifically for this page only -->
+  
 {% endblock %}

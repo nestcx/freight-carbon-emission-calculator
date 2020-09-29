@@ -14,7 +14,6 @@
 @import 'layout/_header.scss';
 @import 'layout/_navbar.scss';
 @import 'layout/_footer.scss';
-@import 'layout/pagemodule';
 @import 'layout/_dropdown.scss';
 
 // Import all components
@@ -22,10 +21,10 @@
 @import 'components/autosuggestbox.scss';
 @import 'components/flash-message';
 // Import the rules for dashboard screens.
-@import 'screens/_mainscreen.scss';
-@import 'screens/planshipmentscreen';
-@import 'screens/_uploadscreen';
-@import 'screens/_datapagescreen';
+// @import 'screens/_mainscreen.scss';
+// @import 'screens/planshipmentscreen';
+// @import 'screens/_uploadscreen';
+// @import 'screens/_datapagescreen';
 
 // Import styles for specific pages
 @import 'pages/homepage';

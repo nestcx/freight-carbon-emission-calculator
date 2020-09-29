@@ -12,7 +12,9 @@
   
   // For larger screens
   @include breakpoint-screen-larger-than($breakpoint-tablet) {
-    position: static;
+    
+    height: unset; // unset the height set for the mobile version
+    padding: $spacing-small;
     text-align: right;
     border-top: 1px solid $color-grey-border;
     box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
@@ -25,25 +27,41 @@
   display: flex;
   justify-content: space-between;
   height: 100%;
-   
+  box-shadow: -1px -4px 6px 3px rgba(0, 0, 0, .06),0 -2px 12px 1px rgba(0, 0, 0, .02);
+  align-content: center;
+
   .navButton {
-    display: flex;
     width: 33%;
-    background-color: transparent;
     border: 0;
-    justify-content: center;
-    align-items: center;
     font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: transparent;
 
     .navlink {
-      color: $color-font-black;
+      height: 100%;
+      font-size: 1.1em;
+      color: $color-white;
       text-decoration: none; // Remove the ugly underline of links
-    }
 
+      // Rules below are to make the <a> element clickable from within the entire button, rather
+      // than forcing the user to click on the small text
+      height: $header-height;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background-color: lighten($color-primary, 4%);
+      }
+    }
   }
 
   // Hide the bottom navbar on larger screens
   @include breakpoint-screen-larger-than($breakpoint-tablet) {
     display: none;
   }
+}
+
+.credit a {
+  color: $color-font-black;
+  text-decoration: none;
 }

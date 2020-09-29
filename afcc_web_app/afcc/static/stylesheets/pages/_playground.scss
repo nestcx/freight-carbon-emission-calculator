@@ -11,50 +11,26 @@
   align-items: center;
 }
 
-.feedback {
-  padding: $spacing-small;
-  border: 1px solid transparent;
-  background-color: #ececec;
-
-  &--success {
-    @extend .feedback;
-    background-color: green;
-
-    & li, p {
-      color: white;
-    }  
-  }
-
-  &--error {
-    @extend .feedback;
-    background-color: red;
-
-    & li, p {
-      color: white;
-    }  
-  }
-}
-
 .color-pallette {
 
   & div {
     height: 80px;
     width: 400px;
   }
-  :nth-child(2) {
-    background-color: #8ab914;
+  div:nth-child(2) {
+    background-color: $color-primary;
   }
 
-  :nth-child(1) {
-    background-color: #206a5d;
+  div:nth-child(1) {
+    background-color: $color-secondary;
   }
 
-  :nth-child(3) {
-    background-color: #bfdcae;
+  div:nth-child(3) {
+    background-color: $color-tertiary;
   }
 
-  :nth-child(4) {
-    background-color: #fff;
+  div:nth-child(4) {
+    background-color: $color-white;
   }
 }
 
@@ -94,4 +70,47 @@
   border-top-left-radius: 1px;
   border-top-right-radius: 1px;
   @include border-shadow-soft();
+}
+
+
+.spacing-example {
+  width: 100%;
+  border: 1px solid rgb(121, 120, 120);
+  @include border-shadow-soft();
+  border-radius: 3px;
+}
+
+.--small {
+  margin-bottom: $spacing-small;
+  padding: $spacing-small;
+}
+
+.--default {
+  margin-bottom: $spacing-default;
+  padding: $spacing-default;
+}
+
+.--large {
+  margin-bottom: $spacing-large;
+  padding: $spacing-large;
+}
+
+.--x-large {
+  margin-bottom: $spacing-x-large;
+  padding: $spacing-x-large;
+}
+
+.mixin-ex-1 {
+  width: 100%;
+  border: 1px solid rgb(121, 120, 120);
+  @include border-shadow-soft();
+  border-radius: 3px;
+  margin-bottom: $spacing-default;
+}
+
+.mixin-ex-2 {
+  width: 100%;
+  border: 1px solid rgb(121, 120, 120);
+  @include border-shadow-purple-example();
+  border-radius: 3px;
 }

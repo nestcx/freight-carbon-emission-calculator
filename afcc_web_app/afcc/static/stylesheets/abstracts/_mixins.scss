@@ -7,7 +7,9 @@
   box-shadow: -1px 4px 6px 3px rgba(0, 0, 0, .03),0 2px 12px 1px rgba(0, 0, 0, .01);
 }
 
-
+@mixin border-shadow-purple-example {
+  box-shadow: -1px 4px 6px 3px rgba(76, 0, 255, 0.2),0 2px 12px 1px rgba(174, 0, 255, 0.1);
+}
 
 // Include this mixin when writing styles specifically for a specific width.
 // Basically replace what would usually be the media query with this
