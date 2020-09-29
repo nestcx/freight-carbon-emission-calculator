@@ -388,7 +388,14 @@ header {
   background-color: red;
   color: white;
   font-size: 1.1em;
-  padding: 16px;
+  padding: 8px;
+}
+
+.flash-success {
+  background-color: #039450;
+  color: white;
+  font-size: 1.1em;
+  padding: 8px;
 }
 
 .module--user-intro {
