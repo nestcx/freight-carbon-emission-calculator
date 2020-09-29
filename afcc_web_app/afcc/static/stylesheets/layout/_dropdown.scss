@@ -22,7 +22,7 @@
             background-color: darken($color-white, 4%);
         }
 
-        @include breakpoint($breakpoint-tablet) {
+        @include breakpoint-screen-larger-than($breakpoint-tablet) {
             position: fixed;
             top: 0;
             right: 0;

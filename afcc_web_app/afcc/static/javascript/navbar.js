@@ -6,7 +6,7 @@ function hamburgerMenu() {
   var navbar = document.getElementsByClassName("navbar")[0];
   var hamburgerButtonLines = document.getElementsByClassName("button-hamburger--line");
 
-  navbar.classList.toggle("--hidden");
+  navbar.classList.toggle("--hidden-on-mobile");
 
   for (var i = 0; i < hamburgerButtonLines.length; i++) {
     hamburgerButtonLines[i].classList.toggle("--toggled-on");

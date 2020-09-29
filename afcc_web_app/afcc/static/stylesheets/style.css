@@ -31,7 +31,7 @@ a {
   max-width: 980px;
 }
 
-.container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--datascreen-nav-buttons, .container--graph-icon, .container--weight-presets, .container--weight, .container--screen-nav-buttons, .container--breadcrumb {
+.container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--datascreen-nav-buttons, .container--graph-icon, .container--weight-presets, .container--weight, .container--screen-nav-buttons {
   max-width: 100%;
   padding: 24px;
 }
@@ -59,28 +59,14 @@ header {
   position: fixed;
 }
 
-.logo {
-  height: 60px;
-  display: flex;
-  align-items: center;
-}
-@media only screen and (min-width: 660px) {
-  .logo {
-    position: fixed;
-    top: 0;
-    left: 30%;
-  }
-}
-
 .navbar__links {
-  /* The height, align-items: stretch and display flex is there to stretch the navigation 
-   * links so that when the user hovers over a link, the background colour extends the height
-   * of the navbar
-   */
-  height: 60px;
-  align-items: stretch;
-  display: flex;
-  background-color: #ffffff;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 60px;
+  flex-direction: column;
+  height: auto;
+  box-shadow: -5px 5px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
   /** 
    * Include the breakpoint Mixin. Tablet and smaller CSS code goes between this code block
    * This part will have the code to display the navbar on hamburger menu click
@@ -88,60 +74,70 @@ header {
 }
 @media only screen and (min-width: 660px) {
   .navbar__links {
-    position: absolute;
+    /* The height, align-items: stretch and display flex is there to stretch the navigation 
+     * links so that when the user hovers over a link, the background colour extends the height
+     * of the navbar
+     */
+    position: static;
+    flex-direction: row;
+    box-shadow: none;
     width: 100%;
-    left: 0;
-    top: 60px;
-    flex-direction: column;
-    height: auto;
-    box-shadow: -5px 5px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    height: 60px;
+    align-items: stretch;
+    display: flex;
+    background-color: #ffffff;
   }
 }
 
+.navbar__link {
+  background-color: white;
+  width: 100%;
+  list-style-type: none;
+}
 .navbar__link a {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding: 0 16px;
-  color: #34343b;
+  display: block;
+  font-size: 1em;
+  border-top: 1px solid #cccccc;
+  padding: 8px;
   text-decoration: none;
-  /*
-   * Add a transparent border on the bottom, so when the user hovers over, 
-   * the element doesn't move aorund due to a new border being created
-   */
-  border-bottom: 3px solid transparent;
+  color: #34343b;
 }
 .navbar__link a:hover {
-  background-color: whitesmoke;
+  background-color: #f7f7f7;
+  color: #206a5d;
+  font-weight: 800;
 }
 @media only screen and (min-width: 660px) {
   .navbar__link a {
-    padding: 8px 0;
-    font-size: 1em;
-    border-top: 1px solid #cccccc;
-    margin: 0 16px;
+    border-bottom: 3px solid transparent;
+    border-top: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 16px;
+    color: #34343b;
+    text-decoration: none;
   }
   .navbar__link a:hover {
-    background-color: #ffffff;
-    color: #e6e6e6;
     border-bottom: 3px solid #206a5d;
+    font-weight: unset;
   }
 }
 
 .button-hamburger {
-  display: none;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  background-color: transparent;
+  border: 0;
+  padding: 12px;
 }
 @media only screen and (min-width: 660px) {
   .button-hamburger {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 60px;
-    height: 60px;
-    background-color: transparent;
-    border: 0;
-    padding: 12px;
+    display: none;
   }
 }
 .button-hamburger--line {
@@ -166,25 +162,20 @@ header {
 }
 
 .footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0 8px;
-  width: 100%;
-  text-align: right;
-  border-top: 1px solid #cccccc;
   background-color: #8ab914;
-  box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
+  height: 60px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
 }
 @media only screen and (min-width: 660px) {
   .footer {
-    height: 60px;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-  }
-  .footer .credit {
-    display: none;
+    position: static;
+    text-align: right;
+    border-top: 1px solid #cccccc;
+    box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
+    padding-right: 8px;
   }
 }
 
@@ -192,45 +183,25 @@ header {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  height: 100%;
 }
 .bottomnav .navButton {
-  display: none;
+  display: flex;
   width: 33%;
-  height: 60px;
   background-color: transparent;
   border: 0;
-  padding: 12px;
-  text-align: center;
   justify-content: center;
   align-items: center;
-  height: 100%;
   font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
-  text-decoration: none;
 }
 .bottomnav .navButton .navlink {
   color: #34343b;
   text-decoration: none;
 }
 @media only screen and (min-width: 660px) {
-  .bottomnav .navButton {
-    display: flex;
+  .bottomnav {
+    display: none;
   }
-}
-
-.dashboard {
-  display: flex;
-  flex-grow: 1;
-  background-color: #f5f5f7;
-  overflow: hidden;
-}
-
-.dashboard--page {
-  width: 100%;
-  padding: 16px;
-}
-
-.dashboard--page--title {
-  margin-bottom: 16px;
 }
 
 .row--module-container {
@@ -275,26 +246,6 @@ header {
   background-color: #f1f1f1;
   padding: 8px;
   text-align: right;
-}
-
-.container--breadcrumb {
-  display: flex;
-  padding: 8px !important;
-  border-bottom: 1px solid #cccccc;
-}
-@media only screen and (min-width: 660px) {
-  .container--breadcrumb {
-    position: fixed;
-    top: 0;
-    left: 0;
-    border-bottom: 0;
-    margin: 0;
-    margin-left: 16px;
-  }
-  .container--breadcrumb h2 {
-    color: white;
-    font-size: 1.5em;
-  }
 }
 
 .dropdown {
@@ -355,7 +306,7 @@ header {
   display: block;
 }
 
-.button, .button--wrong, .button--file-upload, .button--secondary, .button--primary {
+.button, .button--wrong, .button--secondary, .button--primary {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 8px 16px;
   margin: 4px;
@@ -364,7 +315,7 @@ header {
   font-size: 1em;
   text-decoration: none;
 }
-.button:active, .button--wrong:active, .button--file-upload:active, .button--secondary:active, .button--primary:active, .button :focus, .button--wrong :focus, .button--file-upload :focus, .button--secondary :focus, .button--primary :focus {
+.button:active, .button--wrong:active, .button--secondary:active, .button--primary:active, .button :focus, .button--wrong :focus, .button--secondary :focus, .button--primary :focus {
   box-shadow: none;
 }
 
@@ -386,15 +337,6 @@ header {
   background-color: #14433b;
 }
 
-.button--file-upload {
-  background-color: #bfdcae;
-  font-size: 0.9em;
-  color: white;
-}
-.button--file-upload:hover, .button--file-upload :active, .button--file-upload :focus {
-  background-color: #a3cd8a;
-}
-
 .button--wrong {
   background-color: white;
   color: #34343b;
@@ -402,46 +344,6 @@ header {
 }
 .button--wrong:hover {
   background-color: #ebebeb;
-}
-
-/* 
- * A media card is a generic container where it's made up of 1 part image, 1 part text. In this case,
- * the media cards are styled to look like so:
- *   _____
- *  |IMAGE|
- *  |_____|
- *  |TEXT |
- *  |_____|
- */
-.media-card {
-  max-width: 30%;
-  border-radius: 12px;
-  padding: 16px;
-}
-@media only screen and (min-width: 440px) {
-  .media-card {
-    min-width: 100%;
-    border-radius: 0;
-  }
-  .media-card:nth-child(odd) {
-    background-color: #f5f5f7;
-  }
-}
-
-.media-card--img {
-  text-align: center;
-}
-.media-card--img img {
-  max-width: 80%;
-}
-@media only screen and (min-width: 440px) {
-  .media-card--img img {
-    max-width: 60%;
-  }
-}
-
-.media-card--text {
-  text-align: center;
 }
 
 .autosuggestbox {
@@ -466,14 +368,20 @@ header {
   color: white;
 }
 
-.flash-error {
+.flash--feedback {
+  background-color: #e0e0e0;
+  font-size: 1.1em;
+  padding: 8px;
+}
+
+.flash--error {
   background-color: red;
   color: white;
   font-size: 1.1em;
   padding: 8px;
 }
 
-.flash-success {
+.flash--success {
   background-color: #039450;
   color: white;
   font-size: 1.1em;
@@ -826,9 +734,12 @@ header {
   display: none;
 }
 
+.--hidden-on-mobile {
+  display: none;
+}
 @media only screen and (min-width: 660px) {
-  .--hidden {
-    display: none;
+  .--hidden-on-mobile {
+    display: inherit;
   }
 }
 

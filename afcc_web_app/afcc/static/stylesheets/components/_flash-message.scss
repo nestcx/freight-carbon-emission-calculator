@@ -1,11 +1,17 @@
-.flash-error {
+.flash--feedback {
+  background-color: rgb(224, 224, 224);
+  font-size: 1.1em;
+  padding: $spacing-small;
+}
+
+.flash--error {
   background-color: red;
   color: white;
   font-size: 1.1em;
   padding: $spacing-small;
 }
 
-.flash-success {
+.flash--success {
   background-color: rgb(3, 148, 80);
   color: white;
   font-size: 1.1em;

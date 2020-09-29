@@ -1,26 +1,22 @@
 // The footer and all elements inside it will be styled in this sheet
 .footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0 $spacing-small;
-  width: 100%;
-  text-align: right;
-  border-top: 1px solid $color-grey-border;
+
   background-color: $color-primary;
-  box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
-
-  //for smaller screens
-  //fixes navigation bar to bottom of viewport and makes footer same size as header, hides credit
-  @include breakpoint($breakpoint-tablet) {
-    height: $header-height;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-
-    .credit {
-      display: none;
-    }
+  
+  // Mobile-first approach. On mobiles the footer will be fixed to the bottom of viewport
+  height: $header-height;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%; // Extend the footer to 100% width, otherwise bottom nav links get bunched up on smaller viewport sizes
+  
+  // For larger screens
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    position: static;
+    text-align: right;
+    border-top: 1px solid $color-grey-border;
+    box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
+    padding-right: $spacing-small;
   }
 }
 
@@ -28,28 +24,26 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-
+  height: 100%;
+   
   .navButton {
-    display: none;
+    display: flex;
     width: 33%;
-    height: $header-height;
     background-color: transparent;
     border: 0;
-    padding: 12px;
-    text-align: center;
     justify-content: center;
     align-items: center;
-    height: 100%;
     font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
-    text-decoration: none;
 
     .navlink {
       color: $color-font-black;
       text-decoration: none; // Remove the ugly underline of links
     }
 
-    @include breakpoint($breakpoint-tablet) {
-      display: flex;
-    }
+  }
+
+  // Hide the bottom navbar on larger screens
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    display: none;
   }
 }

@@ -25,14 +25,14 @@ header {
     position: fixed;
   }
 
-  .logo {
-    height: $header-height;
-    display: flex;
-    align-items: center;
+  // .logo {
+  //   height: $header-height;
+  //   display: flex;
+  //   align-items: center;
 
-    @include breakpoint($breakpoint-tablet) {
-      position: fixed;
-      top: 0;
-      left: 30%;
-    }    
-  }
+  //   @include breakpoint-screen-larger-than($breakpoint-tablet) {
+  //     position: fixed;
+  //     top: 0;
+  //     left: 30%;
+  //   }    
+  // }

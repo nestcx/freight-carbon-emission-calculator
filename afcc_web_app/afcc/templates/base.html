@@ -40,13 +40,13 @@
         <div class="logo">
             <img src="/static/images/Logo3.png" width="180px" />
         </div>
-        <nav class="navbar --hidden">
-            <li class="navbar__links">
-                <ul class="navbar__link"><a href="/about">About</a></ul>
-                <ul class="navbar__link"><a href="/myShipments">Shipments</a></ul>
-                <ul class="navbar__link"><a href="/tools">Tools</a></ul>
-                <ul class="navbar__link"><a href="/help">Help</a></ul>
-            </li>
+        <nav class="navbar --hidden-on-mobile">
+            <ul class="navbar__links">
+                <li class="navbar__link"><a href="/about">About</a></li>
+                <li class="navbar__link"><a href="/myShipments">Shipments</a></li>
+                <li class="navbar__link"><a href="/tools">Tools</a></li>
+                <li class="navbar__link"><a href="/help">Help</a></li>
+            </ul>
         </nav>
         <div class="dropdown">
             {% if current_user.is_authenticated %}
@@ -76,7 +76,7 @@
             <button class="navButton"><a class="navlink" href="/tools">Tools</a></button>
             <button class="navButton"><a class="navlink" href="/help">Help</a></button>
         </div>
-        <p class="credit">Developed by <a href="about.html">Group name</a></p>
+        <p class="credit --hidden-on-mobile">Developed by <a href="about.html">Group name</a></p>
     </footer>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="static/javascript/navbar.js"></script>
