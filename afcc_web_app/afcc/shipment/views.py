@@ -62,6 +62,11 @@ def CR_shipments():
             
         result = {}
 
+        #This for loop is to read all the elements of shipments
+        #len(fdata['To']) is used to find number of shipments in the excel file
+        #result is an array of dictionary.
+        #To access result you will have to use result[i]['Key']
+        #For eg. result[1]['distance']=[{},{distance},{},{},{},{},{}....]
         for i in range(0, len(fdata['To'])):
             result[i]=calculation.get_emission_calculation(fdata['From'][i],fdata['To'][i],fdata['Weight'][i],fdata['Items'][i])    
 
@@ -120,6 +125,9 @@ def C_shipment():
 
 
             #This is to set the values in the variables for the query.
+            #origincoords[0] in start address coordinates in query is used because that value
+            #is an array of two float values, which is why in start address coordinates I am converting
+            #that to a string value.            
             new_shipment=Shipment(uid = user.uid,shipment_created = datetime.datetime.now(),
             shipment_name =shipmentname ,trip_distance = result['distance'],trip_duration =result['duration'] ,
             fuel_economy_adjustment = result['emission']["adjusted_fuel_economy"] ,
