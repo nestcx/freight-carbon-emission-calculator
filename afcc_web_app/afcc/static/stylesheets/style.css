@@ -19,16 +19,8 @@ a {
   color: #518ee9;
 }
 
-.app-container {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-}
-
-.screen {
-  margin: 0 auto;
-  max-width: 980px;
+body {
+  padding-top: 60px;
 }
 
 .container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--datascreen-nav-buttons, .container--graph-icon, .container--weight-presets, .container--weight, .container--screen-nav-buttons {
@@ -59,6 +51,19 @@ header {
   position: fixed;
 }
 
+.navbar {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+@media only screen and (min-width: 720px) {
+  .navbar {
+    position: unset;
+    width: unset;
+  }
+}
+
 .navbar__links {
   position: absolute;
   width: 100%;
@@ -72,7 +77,7 @@ header {
    * This part will have the code to display the navbar on hamburger menu click
    */
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .navbar__links {
     /* The height, align-items: stretch and display flex is there to stretch the navigation 
      * links so that when the user hovers over a link, the background colour extends the height
@@ -101,13 +106,14 @@ header {
   padding: 8px;
   text-decoration: none;
   color: #34343b;
+  white-space: nowrap;
 }
 .navbar__link a:hover {
   background-color: #f7f7f7;
   color: #206a5d;
   font-weight: 800;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .navbar__link a {
     border-bottom: 3px solid transparent;
     border-top: 0;
@@ -125,17 +131,13 @@ header {
 }
 
 .button-hamburger {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 60px;
   height: 60px;
   background-color: transparent;
   border: 0;
   padding: 12px;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .button-hamburger {
     display: none;
   }
@@ -161,6 +163,23 @@ header {
   background-color: transparent;
 }
 
+.user-account-links {
+  height: 100%;
+}
+
+.mobile-only-user-button {
+  height: 100%;
+  width: 60px;
+  border: 0;
+  padding: 8px;
+  background-color: transparent;
+}
+@media only screen and (min-width: 720px) {
+  .mobile-only-user-button {
+    display: none;
+  }
+}
+
 .footer {
   background-color: #8ab914;
   height: 60px;
@@ -169,7 +188,7 @@ header {
   right: 0;
   width: 100%;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .footer {
     position: static;
     text-align: right;
@@ -198,7 +217,7 @@ header {
   color: #34343b;
   text-decoration: none;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .bottomnav {
     display: none;
   }
@@ -248,44 +267,15 @@ header {
   text-align: right;
 }
 
-.dropdown {
-  float: left;
-  overflow: hidden;
-  height: 60px;
-}
-.dropdown .dropbtn {
-  display: flex;
-  height: 100%;
-  align-items: center;
-  cursor: pointer;
-  border: none;
-  outline: none;
-  color: #34343b;
-  padding: 0 16px;
-  background-color: #ffffff;
-  margin: 0;
-  text-decoration: none;
-  font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-.dropdown .dropbtn:hover {
-  background-color: whitesmoke;
-}
-@media only screen and (min-width: 660px) {
-  .dropdown .dropbtn {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 60px;
-  }
-}
-
 .dropdown-content {
   display: none;
   position: absolute;
+  right: 0;
   background-color: #ffffff;
-  min-width: 160px;
   z-index: 1;
-  align-items: center;
+  box-shadow: -1px 4px 6px 3px rgba(0, 0, 0, 0.03), 0 2px 12px 1px rgba(0, 0, 0, 0.01);
+  border-bottom: 1px solid #e6e6e6;
+  border-left: 1px solid #e6e6e6;
 }
 .dropdown-content .dropdown-option {
   height: 100%;
@@ -295,14 +285,16 @@ header {
   text-decoration: none;
   display: block;
   text-align: left;
-  height: 60px;
-  line-height: 60px;
+  padding: 16px 32px;
+  padding-right: 64px;
+  border-top: 1px solid #e6e6e6;
 }
 .dropdown-content .dropdown-option:hover {
   background-color: whitesmoke;
+  color: #206a5d;
 }
 
-.show {
+.--show-content {
   display: block;
 }
 
@@ -402,7 +394,7 @@ header {
 .container--location {
   display: flex;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .container--location {
     flex-direction: column;
     padding: 0 24px;
@@ -413,7 +405,7 @@ header {
   width: 50%;
   position: relative;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .container--location-inputs {
     width: 100%;
     margin-bottom: 16px;
@@ -436,7 +428,7 @@ header {
 .input--text:focus {
   border: 2px solid #8ab914;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .input--text {
     max-width: 100%;
   }
@@ -450,7 +442,7 @@ header {
   height: 350px;
   max-height: 350px;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .container--location-map {
     width: 100%;
     text-align: center;
@@ -464,7 +456,7 @@ header {
 .container--screen-nav-buttons .button--primary {
   margin: 0 8px;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .container--screen-nav-buttons .button--primary {
     margin: 0;
     font-size: 1em;
@@ -475,7 +467,7 @@ header {
   display: flex;
   flex-direction: column;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .container--weight {
     flex-direction: column;
     padding: 0 24px;
@@ -489,7 +481,7 @@ header {
   width: 50%;
   padding: 0 8px;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .container--weight-inputs {
     width: 100%;
     margin-bottom: 16px;
@@ -592,7 +584,7 @@ header {
 .container--page-wide-image img {
   display: block;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .container--page-wide-image img {
     height: 150px;
   }
@@ -730,16 +722,18 @@ header {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.--screen-inactive {
-  display: none;
-}
-
 .--hidden-on-mobile {
   display: none;
 }
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 720px) {
   .--hidden-on-mobile {
     display: inherit;
+  }
+}
+
+@media only screen and (min-width: 720px) {
+  .--hidden-on-desktop {
+    display: none;
   }
 }
 

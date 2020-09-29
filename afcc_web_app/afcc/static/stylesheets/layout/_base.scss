@@ -2,19 +2,23 @@
 // It also stores styles for everything below-the-fold. In this case,
 // below-the-fold refers to all content underneath the app screen
 
-// This div will be used as a wrapper/container for all elements in the dashboard page
-.app-container {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-}
+// // This div will be used as a wrapper/container for all elements in the dashboard page
+// .app-container {
+//   display: flex;
+//   flex-direction: column;
+//   width: 100vw;
+//   height: 100vh;
+// }
 
 
-// This represents a div that contains the entire 'screen' of the app portion of the website
-.screen {
-  margin: 0 auto;
-  max-width: $dimension-max-app-width;
+// // This represents a div that contains the entire 'screen' of the app portion of the website
+// .screen {
+//   margin: 0 auto;
+//   max-width: $dimension-max-app-width;
+// }
+
+body {
+  padding-top: $header-height;
 }
 
 // The default rules for container type divs. All divs that represent a chunk of the layout should extend this

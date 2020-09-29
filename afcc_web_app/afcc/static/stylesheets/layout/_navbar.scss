@@ -1,7 +1,26 @@
 // The navigation bar that contains the links and dropdown menu
 
-.navbar__links {
 
+// This is the <nav> element. This has to be styled similarly to the child <ul>
+// element that it is storing. It is a bit clunky, but we need to have <nav><ul><li>
+// in order to have valid html
+.navbar {
+    // Place the navbar in the same position as the navbar__links class
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+
+    // On larger screens, remove the styles so that the navlinks can return back into
+    // the header bar without issues
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+      position: unset;
+      width: unset;
+    }
+}
+
+// This is the <ul> container that contains the navlinks
+.navbar__links {
     // Place the navbar just below the header menu. This will initially be hidden,
     // and be displayed when the user clicks on the hamburger menu button
     position: absolute;
@@ -47,6 +66,7 @@
     padding: $spacing-small;
     text-decoration: none;
     color: $color-font-black;
+    white-space: nowrap; // Don't allow text to go the next line. Without this the link 'log in' will occupy 2 lines
 
     &:hover {
       background-color: darken($color-white, 3%);
@@ -79,54 +99,12 @@
       }
     }
   }
-
-  // // The styles for the <a> elements found in the <ul> elements
-  // a {
-
-  //   // Adjust padding so links are easier to click on with mobile phones
-  //   padding: $spacing-small 0;
-  //   font-size: 1em;
-  //   border-top: 1px solid #cccccc;
-  //   margin: 0 $spacing-default;
-
-  //   &:hover {
-  //     background-color: $color-white;
-  //     color: darken(white, 10%);
-  //     border-bottom: 3px solid $color-secondary; // Create an underline accent when the user hovers over
-  //   }
-    
-  //   // CSS rules for larger sized screens
-  //   @include breakpoint-screen-larger-than($breakpoint-tablet) {
-  //     // The 3 rules below are used to center the text vertically within the navbar
-  //     display: flex;
-  //     align-items: center;
-  //     height: 100%;
-  //     padding: 0 $spacing-default;
-  //     color: $color-font-black;
-  //     text-decoration: none; // Remove the ugly underline of links
-
-  //     /*
-  //     * Add a transparent border on the bottom, so when the user hovers over, 
-  //     * the element doesn't move aorund due to a new border being created
-  //     */
-  //     border-bottom: 3px solid transparent;
-
-  //     &:hover {
-  //       background-color: darken($color-white, 4%); 
-  //     }
-  //   }
-  // }
 }
 
 
 // The hamburger button on that displays the dropdown menu when clicked.
 // It will only be displayed on smaller screens
 .button-hamburger {
-  // Rules below are to put the button all the way to the top right corner
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
 
   width: $header-height * 1;
   height: $header-height;
@@ -166,3 +144,20 @@
     }
   }
 }
+
+
+.user-account-links {
+  height: 100%;
+}
+  // This is the user icon, which should only be displayed on mobile sizes viewports
+  .mobile-only-user-button {
+    height: 100%;
+    width: $header-height;
+    border: 0;
+    padding: $spacing-small;
+    background-color: transparent;
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+      display: none;
+    }
+  }

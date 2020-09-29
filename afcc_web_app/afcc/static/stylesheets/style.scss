@@ -37,10 +37,6 @@
 // here for now.
 // --------------------------------------------------------
 
-// Hide screen when it's not currently the screen that the user is at
-.--screen-inactive {
-  display: none;
-}
 
 // Use this to hide elements on smaller viewsizes. For example: The navbar when
 // in mobile mode
@@ -49,5 +45,11 @@
 
   @include breakpoint-screen-larger-than($breakpoint-tablet) {
     display: inherit;
+  }
+}
+
+.--hidden-on-desktop {
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    display: none;
   }
 }
