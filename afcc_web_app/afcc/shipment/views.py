@@ -25,9 +25,10 @@ shipment_bp = Blueprint('shipment', __name__, template_folder='templates', stati
 
 # GET  /shipments  -  get a list of shipments
 # POST /shipments  -  create multiple shipments
-@shipment_bp.route('/shipments', methods=['GET', 'POST'])
+@shipment_bp.route('/uploadshipments', methods=['GET', 'POST'])
 def CR_shipments():
 
+    shipment_form=ShipmentdataForm()
     # check that user is logged in.
     if not current_user.is_authenticated:
         return str("hello!")
@@ -42,11 +43,50 @@ def CR_shipments():
     # find all shipments that belong to the user.
     if (request.method == 'GET'):
         shipments = Shipment.query.filter_by(uid=user.uid).all()
+        render_template('dashboard.html', shipments=shipments)
 
-        
+    if request.method == "POST":
     
-    return render_template('shipments.html', shipments=shipments)
+        file = request.files["filename"]
+        file_ex = get_file_extension(file.filename)
+        
+        #Checks if the file is excel or csv
+        if file_ex == 'xlsx' or 'xls':
+            data = pd.read_excel(file)
+        elif file_ex =='csv':
+            data = pd.read_csv(file)
+        else:
+            flash("Wrong File input")
+        
+        fdata = data.to_dict()
+            
+        result = {}
 
+        for i in range(0, len(fdata['To'])):
+            result[i]=calculation.get_emission_calculation(fdata['From'][i],fdata['To'][i],fdata['Weight'][i],fdata['Items'][i])    
+
+
+        for i in range(0, len(fdata['To'])):
+            new_shipment=Shipment(uid = user.uid,shipment_created = datetime.datetime.now(),
+            trip_distance = result[i]['distance'],trip_duration =result[i]['duration'] ,
+            fuel_economy_adjustment = result[i]['emission']["adjusted_fuel_economy"] ,
+            carbon_dioxide_emission = result[i]['emission']['carbon_dioxide_emission']  ,
+            methane_emission = result[i]['emission']['methane_emission'],
+            nitrous_oxide_emission = result[i]['emission']['nitrous_oxide_emission']
+            ,start_address = result[i]['origin'] ,
+            start_address_coordinates = str(result[i]['origincoords'][0])+","+str(result[i]['origincoords'][1]),
+            end_address = result[i]['destination'] ,
+            end_address_coordinates = str(result[i]['destcoords'][0])+","+str(result[i]['destcoords'][0]) )
+            
+            db.session.add(new_shipment)
+            db.session.commit()
+
+    return render_template('dashboard.html')
+
+@shipment_bp.route('/shipments', methods=['GET'])
+def show_upload_shipment_form():
+    shipment_form=ShipmentdataForm()
+    return render_template('uploadshipments.html', form=shipment_form)
 
 # POST  /shipment  -  create a new shipment
 @shipment_bp.route('/shipment', methods=['POST'])
