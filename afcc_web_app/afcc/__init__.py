@@ -12,6 +12,7 @@ from afcc.extensions import db, limiter, login_manager, mail
 def create_app():
 
     app = Flask(__name__, template_folder='templates', static_folder='static')
+    app.secret_key = b'_5#o2L"F4Q8z\n\xec]/'
 
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
@@ -40,7 +41,7 @@ def create_app():
     # Retrieve the mail object from the extensions.py file
     mail.init_app(app)
 
-    # import blueprints
+    # import blueprints.
     from afcc import maproutes, calculation
     # import the blueprint with user-related routes
     from afcc.user import views as uviews

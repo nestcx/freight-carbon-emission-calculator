@@ -211,4 +211,42 @@ def calculate_emissions(truck_fuel_economy, distance, load_weight):
     calculation_data["fuel_consumptionn"] = fuel_consumption["fuel_consumption"]
     calculation_data["adjusted_fuel_economy"] = fuel_consumption["adjusted_fuel_economy"]
     
+    print(fuel_consumption)
     return calculation_data
+
+
+def get_emission_calculation(start_address,end_address,item_weight,item_quantity):
+    ''' Method to get the emission calculation
+
+        Keyword Variables:
+        length_of_data -- Checks the number of shipments uploaded in the excel/csv file
+        emis_temp_array -- temporary array to store responses of emissions from caculation py file 
+
+    '''
+
+    calculation_data={}
+
+    calculation_data['origin']=start_address
+    calculation_data['destination']=end_address
+    calculation_data['itemWeight']=item_weight
+    calculation_data['itemQuantity']=item_quantity
+
+    startAddressInfo = maproutes.search_address(calculation_data['origin'])
+    endAddressInfo = maproutes.search_address(calculation_data['destination'])
+
+    startAddressCoordinates = startAddressInfo["features"][0]["geometry"]["coordinates"]
+    endAddressCoordinates = endAddressInfo["features"][0]["geometry"]["coordinates"]
+
+    calculation_data['origincoords']=(startAddressCoordinates)
+    calculation_data['destcoords']=(endAddressCoordinates)
+
+    geoJSONData = maproutes.get_route(str(startAddressCoordinates[0]) + "," + str(startAddressCoordinates[1]), str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1]))
+
+    calculation_data['distance']=(data_conversion.metre_to_kilometre(maproutes.get_length_of_route(geoJSONData)))
+    calculation_data['duration']=(maproutes.get_duration_of_route(geoJSONData))
+    
+
+    calculation_data['emission']=(calculate_emissions(18.1,calculation_data['distance'],(calculation_data['itemQuantity'])*(calculation_data['itemWeight'])))
+
+    return calculation_data
+
