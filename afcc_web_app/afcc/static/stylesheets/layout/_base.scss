@@ -1,16 +1,20 @@
 
-body {
-  // Add padding to the top to account for the fixed header
+// This is the container that contains all the elements within the body
+// Essentially this class'es purpose is to wrap everything like the body 
+// element does, since we don't want to add styles to the body element itself, 
+// just in case some pages may need radically different styles
+.page-container {
+  min-height: 100vh;
+  position: relative;
   padding-top: $header-height;
-  // Add padding to the bottom to account for the footer
   padding-bottom: $header-height;
 }
 
 // The default rules for container type divs. All divs that represent a chunk of the layout should extend this
 .container {
   max-width: 100%;
-  position: relative;
-  height: calc(100vh-#{$header-height}); // This should be 100% by default and overridden by other classes
+  // position: relative;
+  // height: calc(100vh-#{$header-height}); // This should be 100% by default and overridden by other classes
 
   @include breakpoint-screen-larger-than($breakpoint-mobile) {
     padding: $spacing-medium;
@@ -37,4 +41,15 @@ body {
 .--enforce-max-width {
   margin: 0 auto;
   max-width: $dimension-max-app-width;
+}
+
+
+// This is used for when you want to resize container divs so that they don't
+// automatically take up all the available width. Instead, its width is enough
+// to cover the content inside of it
+.--width-equal-to-content {
+
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    width: max-content;
+  }
 }

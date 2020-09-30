@@ -29,15 +29,16 @@
 </head>
 
 <body>
+<div class="page-container">
     <header class="header --fixed">
         <button class="button-hamburger" onClick="hamburgerMenu()">
             <span class="button-hamburger--line"></span>
             <span class="button-hamburger--line"></span>
             <span class="button-hamburger--line"></span>
         </button>
-        <div class="logo">
+        <div class="logo-container">
             <a href="/">
-                <img src="/static/images/Logo3.png" width="180px" />
+                <img class="app-logo" src="/static/images/Logo3.png" width="180px" />
             </a>
         </div>
         <nav class="navbar --hidden-on-mobile">
@@ -49,7 +50,7 @@
                
                 <!-- The links below will not be displayed on the navbar on mobile-sized viewports, only desktops-->
                 {% if current_user.is_authenticated %}
-                    <li class="navbar__link --hidden-on-mobile"><a href="/user">{{ current_user.username }}</a></li>
+                    <li class="navbar__link navbar__link--username --hidden-on-mobile"><a href="/user">{{ current_user.username }}</a></li>
                     <li class="navbar__link --hidden-on-mobile"><a href="/user/logout">Log out</a></li>
                 {% else %}
                     <li class="navbar__link --hidden-on-mobile"><a href="/user/login">Log in</a></li>
@@ -98,7 +99,7 @@
         <p class="credit --hidden-on-mobile">Developed by <a href="about.html">Group 04</a></p>
     </footer>
     <script src="/static/javascript/navbar.js"></script>
-
+</div>
     <!-- This block is defined for inserting JS files specific to your page.-->
     {% block extra_js_scripts %}{% endblock %}
 

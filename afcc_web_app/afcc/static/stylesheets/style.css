@@ -25,15 +25,15 @@ a {
   color: #518ee9;
 }
 
-body {
+.page-container {
+  min-height: 100vh;
+  position: relative;
   padding-top: 60px;
   padding-bottom: 60px;
 }
 
 .container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--text-content {
   max-width: 100%;
-  position: relative;
-  height: calc(100vh-60px);
 }
 @media only screen and (min-width: 440px) {
   .container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--text-content {
@@ -55,6 +55,12 @@ body {
   max-width: 980px;
 }
 
+@media only screen and (min-width: 760px) {
+  .--width-equal-to-content {
+    width: max-content;
+  }
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -68,10 +74,31 @@ header {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.header--logo {
-  color: #34343b;
-  font-size: 1.5em;
-  font-weight: 500;
+.logo-container {
+  max-width: 140px;
+  height: 100%;
+}
+@media only screen and (min-width: 440px) {
+  .logo-container {
+    max-width: 160px;
+  }
+}
+@media only screen and (min-width: 760px) {
+  .logo-container {
+    max-width: 180px;
+  }
+}
+.logo-container a {
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 60px;
+}
+
+.app-logo {
+  max-height: 100%;
+  max-width: 100%;
+  vertical-align: middle;
 }
 
 .--fixed {
@@ -84,7 +111,7 @@ header {
   left: 0;
   top: 0;
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .navbar {
     position: unset;
     width: unset;
@@ -104,7 +131,7 @@ header {
    * This part will have the code to display the navbar on hamburger menu click
    */
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .navbar__links {
     /* The height, align-items: stretch and display flex is there to stretch the navigation 
      * links so that when the user hovers over a link, the background colour extends the height
@@ -140,8 +167,14 @@ header {
   color: #206a5d;
   font-weight: 800;
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 440px) {
   .navbar__link a {
+    font-size: 0.9em;
+  }
+}
+@media only screen and (min-width: 760px) {
+  .navbar__link a {
+    font-size: 1em;
     border-bottom: 3px solid transparent;
     border-top: 0;
     display: flex;
@@ -157,6 +190,10 @@ header {
   }
 }
 
+.navbar__link--username a {
+  font-size: 0.9em;
+}
+
 .button-hamburger {
   width: 60px;
   height: 60px;
@@ -164,7 +201,7 @@ header {
   border: 0;
   padding: 12px;
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .button-hamburger {
     display: none;
   }
@@ -201,7 +238,7 @@ header {
   padding: 8px;
   background-color: transparent;
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .mobile-only-user-button {
     display: none;
   }
@@ -210,12 +247,12 @@ header {
 .footer {
   background-color: #8ab914;
   height: 60px;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   right: 0;
   width: 100%;
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .footer {
     height: unset;
     padding: 8px;
@@ -253,7 +290,7 @@ header {
 .bottomnav .navButton .navlink:hover {
   background-color: #98cb16;
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .bottomnav {
     display: none;
   }
@@ -295,7 +332,7 @@ header {
   display: block;
 }
 
-.button, .button--wrong, .button--secondary, .button--primary {
+.button, .button--red-warning, .button--non-focus, .button--secondary, .button--primary {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 8px 16px;
   margin: 4px;
@@ -304,7 +341,7 @@ header {
   font-size: 1em;
   text-decoration: none;
 }
-.button:active, .button--wrong:active, .button--secondary:active, .button--primary:active, .button :focus, .button--wrong :focus, .button--secondary :focus, .button--primary :focus {
+.button:active, .button--red-warning:active, .button--non-focus:active, .button--secondary:active, .button--primary:active, .button :focus, .button--red-warning :focus, .button--non-focus :focus, .button--secondary :focus, .button--primary :focus {
   box-shadow: none;
 }
 
@@ -326,13 +363,22 @@ header {
   background-color: #267e6e;
 }
 
-.button--wrong {
-  background-color: white;
+.button--non-focus {
+  background-color: #e7e7e7;
   color: #34343b;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #bfbfbf;
 }
-.button--wrong:hover {
+.button--non-focus:hover {
   background-color: #ebebeb;
+}
+
+.button--red-warning {
+  background-color: red;
+  color: white;
+  border: 0;
+}
+.button--red-warning:hover, .button--red-warning:active, .button--red-warning:focus {
+  background-color: #e60000;
 }
 
 .page-title {
@@ -385,7 +431,7 @@ header {
   padding: 4px;
   border: 1px solid #d4d4d4;
   border-radius: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   margin-top: 4px;
 }
 .inputfield--text:active, .inputfield--text:focus {
@@ -394,10 +440,10 @@ header {
 }
 
 .inputfield__label {
-  font-size: 1.1em;
+  font-size: 0.9em;
 }
 
-.form {
+.form, .usersettings-form-container {
   width: 100%;
   padding: 16px;
   background-color: #fdfdfd;
@@ -407,18 +453,24 @@ header {
   display: block;
 }
 @media only screen and (min-width: 440px) {
-  .form {
+  .form, .usersettings-form-container {
     padding: 32px;
   }
 }
-@media only screen and (min-width: 720px) {
-  .form {
+@media only screen and (min-width: 760px) {
+  .form, .usersettings-form-container {
     padding: 64px;
   }
 }
 
 .form__heading {
   margin-bottom: 16px;
+}
+
+.form__divider {
+  color: #f1f1f1;
+  margin-top: 16px;
+  margin-bottom: 32px;
 }
 
 .form--login, .form--signup {
@@ -434,7 +486,7 @@ header {
     margin-top: 32px;
   }
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .form--login, .form--signup {
     padding-top: 32px;
     margin-top: 64px;
@@ -493,7 +545,7 @@ header {
 .container--page-wide-image img {
   display: block;
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .container--page-wide-image img {
     height: 150px;
   }
@@ -662,13 +714,13 @@ header {
 .--hidden-on-mobile {
   display: none;
 }
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .--hidden-on-mobile {
     display: inherit;
   }
 }
 
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 760px) {
   .--hidden-on-desktop {
     display: none;
   }

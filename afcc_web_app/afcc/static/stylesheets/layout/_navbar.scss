@@ -73,8 +73,17 @@
       color: $color-secondary;
       font-weight: 800;
     }
+    
+
+    @include breakpoint-screen-larger-than($breakpoint-mobile) {
+      // There may not be enough space for all the links in the navbar on tablet-sized
+      // viewports, so squash the links in a little
+      font-size: 0.9em; 
+    }
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
+
+      font-size: 1em;
 
       // Add a transparent bottom border the same width as the accent, so that when hovered
       // over, the navlink occupies the same amount of space. Otherwise, as a border is created
@@ -101,6 +110,12 @@
   }
 }
 
+// Larger usernames can squash the navbar, so lower the font size
+.navbar__link--username {
+  a {
+    font-size: 0.9em;
+  }
+}
 
 // The hamburger button on that displays the dropdown menu when clicked.
 // It will only be displayed on smaller screens

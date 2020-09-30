@@ -3,7 +3,7 @@
   padding: 4px;
   border: 1px solid #d4d4d4;
   border-radius: 6px;
-  margin-bottom: $spacing-default; // Always have some empty space between input fields to reduce clutter
+  margin-bottom: $spacing-small; // Always have some empty space between input fields to reduce clutter
   margin-top: $spacing-x-small;
 
   &:active, &:focus {
@@ -14,5 +14,5 @@
 
 // Rules for the labels that describe the input field
 .inputfield__label {
-  font-size: 1.1em;
+  font-size: 0.9em;
 }

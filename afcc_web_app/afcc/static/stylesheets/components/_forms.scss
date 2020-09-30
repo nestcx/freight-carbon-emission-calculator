@@ -22,7 +22,14 @@
   .form__heading {
     margin-bottom: $spacing-default;
   }
+  
 
+  // Used for <hr /> elements to divide forms into logical sections
+  .form__divider {
+    color: rgb(241, 241, 241);
+    margin-top: $spacing-default;
+    margin-bottom: $spacing-large;
+  }
 
 // Form found on login page
 .form--login {
@@ -57,7 +64,7 @@
 
   @include breakpoint-screen-larger-than($breakpoint-mobile) {
     @extend .form--login;
-    
+
     // The login form's top margin is too much, as thats a smaller form, therefore, reduce
     // this form's margin
     margin-top: $spacing-large;

@@ -1,66 +1,82 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container --enforce-max-width">
-  <h1 class="page-title">User settings</h1>
+<div class="container --enforce-max-width --width-equal-to-content">
+  <div class="usersettings-form-container">
+    <h2 class="page-title">User settings</h2>
 
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <ul class=flash>
-      {% for category, message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class=flash>
+        {% for category, message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 
-  <form action="" method="POST" novalidate>
-    <h2>Change your user information</h2>
-    {{ user_information_form.hidden_tag() }}
-    <p>
-        {{ user_information_form.username.label }} <br>
-        {{ user_information_form.username(size=32) }}
-    </p>
-    <p>{{ user_information_form.update_settings() }}</p>
-  </form>
+    <form action="" method="POST" novalidate>
+      <h3 class="form__heading">Change your user information</h3>
+      {{ user_information_form.hidden_tag() }}
+      <p>
+          {{ user_information_form.username.label(class_="inputfield__label") }} <br>
+          {{ user_information_form.username(class_="inputfield--text") }}
+      </p>
+      <p>
+        <input class="button--secondary" id="update_settings" name="update_settings" type="submit" value="Update user settings">
+      </p>
+    </form>
 
-  <br />
+    <hr class="form__divider" />
 
-  <form action="" method="POST" novalidate>
-    {{ change_password_form.hidden_tag() }}
-    <h2>Change password</h2>
-    <p>
-        {{ change_password_form.old_password.label }} <br>
-        {{ change_password_form.old_password(size=32) }}
-    </p>
-    <p>
-        {{ change_password_form.new_password.label }} <br>
-        {{ change_password_form.new_password(size=32) }}
-    </p>
-    <p>
-        {{ change_password_form.password_confirm.label }} <br>
-        {{ change_password_form.password_confirm(size=32) }}
-    </p>
-    <p>{{ change_password_form.change_password() }}</p>
-  </form>
-  <br />
-  <form action="" method="POST" novalidate>
-    {{ activation_status_form.hidden_tag() }}
+    <form action="" method="POST" novalidate>
+      {{ change_password_form.hidden_tag() }}
+      <h3 class="form__heading">Change password</h3>
+      <p>
+          {{ change_password_form.old_password.label(class_="inputfield__label") }} <br>
+          {{ change_password_form.old_password(class_="inputfield--text") }}
+      </p>
+      <p>
+          {{ change_password_form.new_password.label(class_="inputfield__label") }} <br>
+          {{ change_password_form.new_password(class_="inputfield--text") }}
+      </p>
+      <p>
+          {{ change_password_form.password_confirm.label(class_="inputfield__label") }} <br>
+          {{ change_password_form.password_confirm(class_="inputfield--text") }}
+      </p>
+      <p>
+        <input id="change_password" class="button--non-focus" name="change_password" type="submit" value="Update password">
+      </p>
+    </form>
 
-    {% if activation_status_form.deactivate_account is defined %}
-      <h2>Deactivate your account</h2>
-      <p>{{ activation_status_form.deactivate_account() }}</p>
-    {% else %}
-      <h2>Reactivate your account</h2>
-      <p>{{ activation_status_form.activate_account() }}</p>
-    {% endif %}
-  </form>
-  <br />
-  <form action="" method="POST" novalidate>
-    {{ delete_account_form.hidden_tag() }}
-      <h2>Delete your account</h2>
-      <p>Note that all your data will be deleted and this action is irreversible.</p>
-      <br />
-      <p>{{ delete_account_form.delete_account() }}</p>
-  </form>
+    <hr class="form__divider" />
+
+    <form action="" method="POST" novalidate>
+      {{ activation_status_form.hidden_tag() }}
+
+      {% if activation_status_form.deactivate_account is defined %}
+        <h3 class="form__heading">Deactivate your account</h3>
+        <p>You can reactivate your account in the future</p>
+        <br />
+        <input class="button--non-focus" id="deactivate_account" name="deactivate_account" type="submit" value="Deactivate account">
+      {% else %}
+        <h3 class="form__heading">Reactivate your account</h3>
+        <p>You can deactivate your account in the future</p>
+        <br />
+        <input class="button--non-focus" id="activate_account" name="activate_account" type="submit" value="Reactivate account">
+      {% endif %}
+    </form>
+    
+    <hr class="form__divider" />
+
+    <form action="" method="POST" novalidate>
+      {{ delete_account_form.hidden_tag() }}
+        <h3 class="form__heading">Delete your account</h3>
+        <p>Note that all your data will be deleted and this action is irreversible.</p>
+        <br />
+        <p>
+          <input class="button--red-warning" id="delete_account" name="delete_account" type="submit" value="Delete account">
+        </p>
+    </form>
+  </div>
 </div>
 {% endblock %}
