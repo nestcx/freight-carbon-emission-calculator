@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
 from wtforms.validators import DataRequired, EqualTo, Email, Length, NumberRange
 
 class ShipmentdataForm(FlaskForm):
@@ -18,6 +18,8 @@ class ShipmentdataForm(FlaskForm):
     shipmentname = StringField('Shipment Name', validators=[
         DataRequired(message='Must enter a shipment name'),
         Length(min=4, message='The length of the Shipment name is too short')])
+
+    weightunit = SelectField('Weight Unit', choices= [('kilograms (kgs)'),('pounds (lbs)')])
 
 
     submit = SubmitField('Add Shipment')

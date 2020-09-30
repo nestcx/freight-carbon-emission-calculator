@@ -120,7 +120,10 @@ def C_shipment():
         end_address=shipment_form.dropoffloc.data
         item_weight=shipment_form.cargoweight.data
         shipmentname=shipment_form.shipmentname.data
+        weight_unit=shipment_form.weightunit.data
         
+        print(weight_unit)
+
         result={}
 
         #This is to get the emission calculation result from calculation.py
