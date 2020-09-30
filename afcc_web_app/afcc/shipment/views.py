@@ -43,7 +43,7 @@ def CR_shipments():
     # find all shipments that belong to the user.
     if (request.method == 'GET'):
         shipments = Shipment.query.filter_by(uid=user.uid).all()
-        render_template('dashboard.html', shipments=shipments)
+        render_template('shipments.html', shipments=shipments)
 
     if request.method == "POST":
     
@@ -111,15 +111,16 @@ def C_shipment():
         #This is to get the emission calculation result from calculation.py
         try:
             result=calculation.get_emission_calculation(start_address,end_address,item_weight,1)
-        except:
-            print("Error")
+        except Exception as e:
+            flash('An error has occurred. Please try again later.')
+            return redirect(url_for('.show_create_shipment_form'))
 
         # check that user is logged in.
         if current_user.is_authenticated:
             # try to find user's details.
             try:
                 user = User.query.filter_by(email=current_user.email).first()
-            except Exception:
+            except Exception as e:
                 flash("An error has occurred.")
                 return redirect(url_for('display_error_page'))
 
