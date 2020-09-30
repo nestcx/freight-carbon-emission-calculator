@@ -15,6 +15,7 @@
 @import 'layout/_navbar.scss';
 @import 'layout/_footer.scss';
 @import 'layout/_dropdown.scss';
+@import 'layout/shipmentcard';
 
 // Import all components
 @import 'components/_buttons.scss'; // Buttons
@@ -29,6 +30,11 @@
 @import 'pages/playground';
 @import 'pages/profilepage';
 @import 'pages/usersettingspage';
+
+// Pages that are part of the app, not the webite
+@import 'pages/app/myshipmentspage';
+@import 'pages/app/shipmentformpage';
+
 // --------------------------------------------------------
 // Utility classes. Classes that have only 1 responsibility
 // This can probably be moved to another file, but can stay

@@ -1,7 +1,16 @@
 {% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+{% endblock %}
+
 {% block content %}
-<h1>Create new Shipment</h1>
-<form action="{{url_for('shipment.C_shipment')}}" method="POST" novalidate>
+<form class="form" action="{{url_for('shipment.C_shipment')}}" method="POST" novalidate>
+    
+    <h1 class="form__heading">Create new Shipment</h1>
+
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul class=flash-error>
@@ -13,25 +22,30 @@
     {% endwith %}
 
     {{ form.hidden_tag() }}
+    <div class="container--location-inputs">
+        {{ form.pickuploc.label(class_="inputfield__label") }} <br />
+        {{ form.pickuploc(class_="inputfield--text input-pick-up", autofocus=true, autocomplete="off") }}
+
+        {{ form.dropoffloc.label(class_="inputfield__label") }} <br />
+        {{ form.dropoffloc(class_="inputfield--text input-drop-off", autocomplete="off") }}
+    </div>
+    <div class="container--location-map">
+        <div id="mapid"></div>
+    </div>
     <p>
-        {{ form.pickuploc.label }} <br />
-        {{ form.pickuploc(size=32) }}
+        {{ form.cargoweight.label(class_="inputfield__label") }} <br />
+        {{ form.cargoweight(class_="inputfield--text") }}
     </p>
     <p>
-        {{ form.dropoffloc.label }} <br />
-        {{ form.dropoffloc(size=32) }}
+        <label class="inputfield__label" for="shipmentname">Shipment Description (Optional)</label>
+        {{ form.shipmentname(class_="inputfield--text") }}
     </p>
-    <p>
-        {{ form.cargoweight.label }} <br />
-        {{ form.cargoweight(size=32) }}
-    </p>
-    <p>
-        {{ form.shipmentname.label }} <br />
-        {{ form.shipmentname(size=32) }}
-    </p>
-    
-    
-    <p>{{ form.submit() }}</p>
-    
+    <input class="button--secondary" id="submit" name="submit" type="submit" value="Add Shipment">
 </form>
+<script src="/static/javascript/autocomplete.js"></script>
+<script src="/static/leaflet/leaflet.js"></script>
+<!-- interactivemap.js must be called after leaflet.js -->
+<script src="/static/javascript/interactivemap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 {% endblock %}

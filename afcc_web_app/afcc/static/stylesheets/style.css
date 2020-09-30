@@ -32,11 +32,11 @@ a {
   padding-bottom: 60px;
 }
 
-.container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--text-content {
+.container, .container--shipments-page, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--text-content {
   max-width: 100%;
 }
 @media only screen and (min-width: 440px) {
-  .container, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--text-content {
+  .container, .container--shipments-page, .container--cta-buttons, .container--ad-copy-text, .container--intro-text, .container--logo, .container--text-content {
     padding: 24px;
   }
 }
@@ -330,6 +330,22 @@ header {
 
 .--show-content {
   display: block;
+}
+
+.shipment-card, .shipment-card--empty-placeholder {
+  width: 100%;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  padding: 16px 8px;
+}
+.shipment-card:not(:last-child), .shipment-card--empty-placeholder:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.shipment-card--empty-placeholder {
+  border: 2px dashed #ccc;
+  background-color: transparent;
 }
 
 .button, .button--red-warning, .button--non-focus, .button--secondary, .button--primary {
@@ -709,6 +725,59 @@ header {
 
 .container--account-details {
   margin-bottom: 16px;
+}
+
+.container--shipments-page {
+  padding: 16px;
+}
+
+.add-shipment-icon-container {
+  position: fixed;
+  bottom: calc(60px + 16px);
+  right: 16px;
+}
+
+.container--location-map {
+  max-width: 100%;
+  height: 250px;
+  border: 1px solid #bbbbbb;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  margin-top: 16px;
+}
+
+#mapid {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.autosuggestbox {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #d4d4d4;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.autosuggestbox p {
+  padding: 8px;
+  margin: 0;
+  font-size: 0.8em;
+  border-bottom: 1px solid #ebebeb;
+  cursor: pointer;
+}
+.autosuggestbox p:hover, .autosuggestbox p:active {
+  background-color: #206a5d;
+  color: white;
+}
+.autosuggestbox--active {
+  background-color: #206a5d;
+  color: white;
+}
+
+.input-pick-up, .input-drop-off {
+  margin-bottom: 0;
 }
 
 .--hidden-on-mobile {

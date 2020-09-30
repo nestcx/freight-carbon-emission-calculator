@@ -1,0 +1,16 @@
+// This will wrap the contents of the entire shipment listings page
+// The generic container class doesn't provide enough, so we use this
+// to extend it
+.container--shipments-page {
+  @extend .container;
+  padding: $spacing-default;
+}
+
+
+// This is the div container for the '+' button. Fix its positiong to the
+// bottom right corner of the screen
+.add-shipment-icon-container {
+  position: fixed;
+  bottom: calc(#{$header-height} + #{$spacing-default});
+  right: $spacing-default;
+}

@@ -19,13 +19,28 @@ var startMarker = null;
 var endMarker = null;
 
 function addMarkerToMap(lat, long, startingAddress) {
+  
   if (startingAddress === true) {
+
+    // If a starting marker was already placed, and the user entered a new starting
+    // address, remove the old one
+    if (startMarker !== undefined && startMarker !== null) {
+      interactiveMap.removeLayer(startMarker);
+    }
     startMarker = L.marker([lat, long]).addTo(interactiveMap);
+
   } else if (startingAddress === false) {
+
+    // If a destination marker was already placed, and the user entered a new destination
+    // address, remove the old one
+    if (endMarker !== undefined && endMarker !== null) {
+      interactiveMap.removeLayer(endMarker);
+    }
     endMarker = L.marker([lat, long]).addTo(interactiveMap);
   }
   
   interactiveMap.panTo([lat, long]);
+
 
   // If the user has added a start and end location, get the route
   // by calling our own API
@@ -43,7 +58,7 @@ function addMarkerToMap(lat, long, startingAddress) {
     /**
      * Send an asychronous request to the server, passing in the coordinates as arguments
      */
-    axios.get("maproutes/route", {
+    axios.get("/maproutes/route", {
       params: {
         startCoords: startMarkerCoords,
         endCoords: endMarkerCoords
@@ -63,11 +78,22 @@ function addMarkerToMap(lat, long, startingAddress) {
   }
 }
 
+/*
+ * Global variable to store the currently displayed route. This is done so that
+ * if a user enters start and destination addresses, and then reenters a new 
+ * address to any of the fields, the old route can be found and removed from the map
+ */
+var currentlyDisplayedRoute = null;
 
 function displayRouteOnMap(geoJSON) {
   interactiveMap.invalidateSize();
-  L.geoJSON(geoJSON).addTo(interactiveMap);
 
+  // If a route is already on the map, remove it so it can get replaced
+  if (currentlyDisplayedRoute !== null && currentlyDisplayedRoute !== undefined) {
+    interactiveMap.removeLayer(currentlyDisplayedRoute);
+  } 
+
+  currentlyDisplayedRoute = L.geoJSON(geoJSON).addTo(interactiveMap);
 
   interactiveMap.fitBounds([
     [geoJSON["bbox"][1], geoJSON["bbox"][0]],

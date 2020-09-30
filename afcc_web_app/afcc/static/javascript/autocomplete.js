@@ -3,8 +3,8 @@
  * addresses to the user based on what they've already typed
  */
 
-var startLocInput = document.getElementById("input-pick-up");
-var endLocInput = document.getElementById("input-drop-off");
+var startLocInput = document.getElementById("pickuploc");
+var endLocInput = document.getElementById("dropoffloc");
 
 startLocInput.addEventListener("input", searchPossibleAddresses);
 endLocInput.addEventListener("input", searchPossibleAddresses);
@@ -98,7 +98,6 @@ function filterAddressData(json) {
  * @param {element} inputField The inputfield that the autosuggest box element should be created under
  */
 function createAutoSuggestTextBox(addresses, inputField) {
-
   // Get the parent div element so that the autosuggestbox can be appended to it
   var parentDiv = document.getElementsByClassName("container--location-inputs")[0];
 
@@ -111,6 +110,7 @@ function createAutoSuggestTextBox(addresses, inputField) {
   var autoSuggest = document.createElement("div");
   autoSuggest.classList.add("autosuggestbox"); // Add this class so that it is styled according to the SCSS file
   autoSuggest.id = "autosuggestBox";
+  autoSuggest.style.zIndex = "99";
 
   /**
    * Get the rectangle bounds of the input field so that the width of the autosuggest element 
@@ -119,7 +119,7 @@ function createAutoSuggestTextBox(addresses, inputField) {
   var inputFieldRect = inputField.getBoundingClientRect();
   autoSuggest.style.width = inputFieldRect.width + "px"; // Make autosuggest element's width the same as the input field
   autoSuggest.style.maxWidth = inputFieldRect.width + "px";
-
+  
   // Insert the autosuggestbox just after the input field in the DOM
   parentDiv.insertBefore(autoSuggest, inputField.nextSibling)
 
@@ -162,14 +162,13 @@ function handleClicks(e) {
     // Check if the current selected input field is the starting address. This is done so that
     // the interactivemap.js script can understand whether its the starting address or not
     var startingAddress = false;
-    if (inputField.id == "input-pick-up") {
+    if (inputField.id == "pickuploc") {
       startingAddress = true;
     };
     
     // coordofAddress[0] is the longitude, while [1] is the latitude - the order that OpenRouteService uses.
     // Leaflet handles coordinates in [lat, long] order so pass in the arguments as so.
     addMarkerToMap(coordOfAddress[1], coordOfAddress[0], startingAddress);
-
 
     closeAutoSuggest();
   }
@@ -238,10 +237,36 @@ function handleKeyNavigation(e) {
   }
   else if (e.key == "Enter") {
     /**
+     * If a user is navigating the autosuggest box via keyboard, they will try
+     * to hit enter to choose a suggested address. This submits the form, as is
+     * default behaviour for browsers. Therefore, we have to disable form submission
+     * on enter if the user is navigating the autosuggest.
+     */
+    if (e.target == startLocInput || e.target == endLocInput) {
+      e.preventDefault(); 
+    }
+    
+    /////////////////////////////////////////////////////////////////////////////////////////
+    /**
      * If a user hits enter, that means they want to select the address that is currently highlighted
      */
     if (selectedAddress != null) {
       e.target.value = selectedAddress.innerHTML;
+
+      // Get the coordinate of that particular address, so that it can be fed to the Leafleft API
+      var coordOfAddress = mapOfAddresses.get(selectedAddress.innerHTML);
+
+      // Check if the current selected input field is the starting address. This is done so that
+      // the interactivemap.js script can understand whether its the starting address or not
+      var startingAddress = false;
+      if (inputField.id == "pickuploc") {
+        startingAddress = true;
+      };
+      
+      // coordofAddress[0] is the longitude, while [1] is the latitude - the order that OpenRouteService uses.
+      // Leaflet handles coordinates in [lat, long] order so pass in the arguments as so.
+      addMarkerToMap(coordOfAddress[1], coordOfAddress[0], startingAddress);
+
       closeAutoSuggest();
     }
   }

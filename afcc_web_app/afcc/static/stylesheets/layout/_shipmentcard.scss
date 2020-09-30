@@ -1,0 +1,22 @@
+// This is the element that will contain all the details about the shipment
+// The shipments page will be made up of primarily these
+.shipment-card {
+  width: 100%;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  padding: $spacing-default $spacing-small;
+
+  &:not(:last-child) {
+    margin-bottom: $spacing-small;
+  }
+}
+
+
+// This is the empty one to indicate to the user there are no shipments and
+// that they should click on the '+' button
+.shipment-card--empty-placeholder {
+  @extend .shipment-card;
+  border: 2px dashed #ccc;
+  background-color: transparent;
+}

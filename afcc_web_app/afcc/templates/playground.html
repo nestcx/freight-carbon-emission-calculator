@@ -28,23 +28,6 @@
     </p>
     <br />
     <br />
-    <h3>Referencing custom JS files</h3>
-    <p>To reference a custom JS file, add the code block below into your html file. <br />
-      <b>NOTE</b>: Make sure that the inserted code block is just before the final {% raw %}{% endblock %}{% endraw %}
-      that you find at the end of the html file, otherwise you will try to insert your script after the &lt;/html&gt; block, which
-      wouldn't work
-    </p>
-    <br />
-    <br />
-    <p>
-        {% raw %}
-        {% block extra_js_scripts %} <br />
-        Your JS script reference goes here <br />
-        {% endblock %}
-        {% endraw %}
-    </p>
-    <br />
-    <br />
     <h2>Colours</h2>
     <p>The colours below make up the colour scheme. The colours can be found in the variables.scss file</p>
     <br />
