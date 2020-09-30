@@ -498,7 +498,7 @@ header {
   .form--login, .form--signup {
     border-radius: 6px;
     height: unset;
-    max-width: 400px;
+    max-width: 450px;
     margin-top: 32px;
   }
 }
@@ -745,6 +745,46 @@ header {
   overflow: hidden;
   z-index: 2;
   margin-top: 16px;
+}
+@media only screen and (min-width: 760px) {
+  .container--location-map {
+    width: 50%;
+    max-width: 50%;
+    align-self: flex-end;
+    order: 5;
+  }
+}
+
+@media only screen and (min-width: 440px) {
+  .form--add-shipments {
+    border-radius: 6px;
+    max-width: 860px;
+    margin-top: 32px;
+    padding-top: 32px;
+  }
+}
+@media only screen and (min-width: 760px) {
+  .form--add-shipments {
+    border-top: 3px solid #8ab914;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .form--double-column {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-height: 500px;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .container--location-inputs, .container--shipment-form-inputs {
+    width: 48%;
+  }
 }
 
 #mapid {

@@ -7,39 +7,41 @@
 {% endblock %}
 
 {% block content %}
-<form class="form" action="{{url_for('shipment.C_shipment')}}" method="POST" novalidate>
-    
+<form class="form form--add-shipments --enforce-max-width" action="{{url_for('shipment.C_shipment')}}" method="POST" novalidate>
     <h1 class="form__heading">Create new Shipment</h1>
+    <div class="form--double-column">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flash-error>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class=flash-error>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
+        {{ form.hidden_tag() }}
+        <div class="container--location-inputs">
+            {{ form.pickuploc.label(class_="inputfield__label") }} <br />
+            {{ form.pickuploc(class_="inputfield--text input-pick-up", autofocus=true, autocomplete="off") }}
 
-    {{ form.hidden_tag() }}
-    <div class="container--location-inputs">
-        {{ form.pickuploc.label(class_="inputfield__label") }} <br />
-        {{ form.pickuploc(class_="inputfield--text input-pick-up", autofocus=true, autocomplete="off") }}
-
-        {{ form.dropoffloc.label(class_="inputfield__label") }} <br />
-        {{ form.dropoffloc(class_="inputfield--text input-drop-off", autocomplete="off") }}
+            {{ form.dropoffloc.label(class_="inputfield__label") }} <br />
+            {{ form.dropoffloc(class_="inputfield--text input-drop-off", autocomplete="off") }}
+        </div>
+        <div class="container--location-map">
+            <div id="mapid"></div>
+        </div>
+        <div class="container--shipment-form-inputs">
+            <p>
+                {{ form.cargoweight.label(class_="inputfield__label") }} <br />
+                {{ form.cargoweight(class_="inputfield--text") }}
+            </p>
+            <p>
+                <label class="inputfield__label" for="shipmentname">Shipment Description (Optional)</label>
+                {{ form.shipmentname(class_="inputfield--text") }}
+            </p>
+        </div>
     </div>
-    <div class="container--location-map">
-        <div id="mapid"></div>
-    </div>
-    <p>
-        {{ form.cargoweight.label(class_="inputfield__label") }} <br />
-        {{ form.cargoweight(class_="inputfield--text") }}
-    </p>
-    <p>
-        <label class="inputfield__label" for="shipmentname">Shipment Description (Optional)</label>
-        {{ form.shipmentname(class_="inputfield--text") }}
-    </p>
     <input class="button--secondary" id="submit" name="submit" type="submit" value="Add Shipment">
 </form>
 <script src="/static/javascript/autocomplete.js"></script>

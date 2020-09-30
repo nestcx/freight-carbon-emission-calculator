@@ -19,7 +19,7 @@ var startMarker = null;
 var endMarker = null;
 
 function addMarkerToMap(lat, long, startingAddress) {
-  
+
   if (startingAddress === true) {
 
     // If a starting marker was already placed, and the user entered a new starting
@@ -65,7 +65,6 @@ function addMarkerToMap(lat, long, startingAddress) {
       }
     })
     .then(function (response) { // Successfully responded
-      console.log(response.data);
       displayRouteOnMap(response.data);
     })
     .catch(function (error) {
