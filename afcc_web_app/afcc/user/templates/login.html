@@ -8,11 +8,11 @@
         {{ form.hidden_tag() }}
         <p>
             {{ form.email.label(class_="inputfield__label") }} <br>
-            {{ form.email(class_="inputfield--text") }}
+            {{ form.email(class_="inputfield--text", autofocus=true, required="required") }}
         </p>
         <p>
             {{ form.password.label(class_="inputfield__label") }} <br>
-            {{ form.password(class_="inputfield--text") }}
+            {{ form.password(class_="inputfield--text", required="required") }}
         </p>
 
         {% with messages = get_flashed_messages() %}

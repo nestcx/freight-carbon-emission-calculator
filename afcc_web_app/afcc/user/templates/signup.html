@@ -8,7 +8,7 @@
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label(class_="inputfield__label") }} <br />
-            {{ form.username(class_="inputfield--text") }}
+            {{ form.username(class_="inputfield--text", autofocus=true) }}
         </p>
         <p>
             {{ form.email.label(class_="inputfield__label") }} <br>

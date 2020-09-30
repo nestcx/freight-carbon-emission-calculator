@@ -18,19 +18,16 @@
 
 // Import all components
 @import 'components/_buttons.scss'; // Buttons
+@import 'components/headings';
 @import 'components/autosuggestbox.scss';
 @import 'components/flash-message';
 @import 'components/inputfields';
 @import 'components/forms';
-// Import the rules for dashboard screens.
-// @import 'screens/_mainscreen.scss';
-// @import 'screens/planshipmentscreen';
-// @import 'screens/_uploadscreen';
-// @import 'screens/_datapagescreen';
 
 // Import styles for specific pages
 @import 'pages/homepage';
 @import 'pages/playground';
+@import 'pages/profilepage';
 
 // --------------------------------------------------------
 // Utility classes. Classes that have only 1 responsibility

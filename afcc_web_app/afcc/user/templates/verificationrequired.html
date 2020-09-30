@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Unauthorised access</h1>
-<p>You need to verify your email address before you can access this.</p>
-<p>If you didn't receive an email, click <a href="/user/resend_verification">here</a> and another email will be sent</p>
-
+<div class="container --enforce-max-width">
+    <h1 class="page-title">You can't access this page</h1>
+    <p>You need to verify your email address before you can access this.</p>
+    <p>If you didn't receive an email, click <a href="/user/resend_verification">here</a> and another email will be sent</p>    
+</div>
 {% endblock %}

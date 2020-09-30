@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Account information</h1>
-<h3>ID: {{ data.uid }}</h3>
-<h3>Email: {{ data.email }}</h3>
-<h3>Username: {{ data.username }}</h3>
-<h3>Date account was created: {{ data.date_created }}</h3>
-{% if data.deactivate is true %}
-  <h3>Account status: Activated</h3>
-{% else %}
-  <h3>Account status: Deactivated</h3>
-{% endif %}
-<h3>Email verified?: {{ data.email_verified }}</h3>
+<div class="container container--text-content --enforce-max-width">
+  <h1 class="page-title">Account information</h1>
+  <div class="container--account-details">
+    <p>Your email address: {{ data.email }}</p>
+    {% if data.email_verified is true %}
+      <p>Your email address has been <b>verified</b></p>
+    {% else %}
+      <p>Your email address needs to be <a href="/user/resend_verification">verified</a></p>
+    {% endif %}
+    <br />
+    <p>Your username: {{ data.username }}</p>
+    <br />
+    <p>Date this account was created: {{ data.date_created }}</p>
+    <br />
+    {% if data.deactivated is true %}
+      <p>Account status: Deactivated</p>
+    {% else %}
+      <p>Account status: Active</p>
+    {% endif %}
+  </div>
+  <a class="button--primary" href="/user/edit">Account settings</a>
+</div>
 
-<br />
-<a href="/user/edit">Account settings</a>
-<br />
 {% endblock %}

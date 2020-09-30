@@ -9,12 +9,26 @@ body {
 // The default rules for container type divs. All divs that represent a chunk of the layout should extend this
 .container {
   max-width: 100%;
-  height: 100%; // This should be 100% by default and overridden by other classes
+  position: relative;
+  height: calc(100vh-#{$header-height}); // This should be 100% by default and overridden by other classes
 
   @include breakpoint-screen-larger-than($breakpoint-mobile) {
     padding: $spacing-medium;
   }
 }
+
+// This container is specifically used as container that has text content. This is so that the text
+// is easily padded unlike the generic container, where sometimes you may not want to have padding
+// applied automatically
+.container--text-content {
+  @extend .container;
+  padding: $spacing-small;
+
+  @include breakpoint-screen-larger-than($breakpoint-mobile) {
+    padding: $spacing-default;
+  }
+}
+
 
 // This is used for not allowing larger containers to exceed a certain width.
 // It will mostly be used for containers containing large blocks of code,

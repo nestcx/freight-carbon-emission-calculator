@@ -1,5 +1,7 @@
 .flash {
-  border: 1px solid rgb(224, 224, 224);
+  border: 1px solid rgb(207, 207, 207);
+  background-color: $color-white;
+  @include border-shadow-soft();
   border-radius: 3px;
   padding: $spacing-small;
   font-size: 0.9em;

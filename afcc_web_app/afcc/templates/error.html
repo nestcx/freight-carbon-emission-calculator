@@ -2,8 +2,9 @@
 <!-- Only redirect to this page if the error can't be more appropriately shown in another page-->
 {% extends "base.html" %}
 {% block content %}
-  <h1>Something has gone wrong.</h1>
-  <p>An unidentified error occurred and has been logged. We apologise for the inconvenience, but please try again later</p>
+<div class="container container--text-content --enforce-max-width">
+  <h1 class="page-title">Something has gone wrong.</h1>
+  <p>An unidentified error occurred. We apologise for the inconvenience, but please try again later</p>
   <p>Below is the error:</p><br />
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -14,4 +15,6 @@
       </ul>
     {% endif %}
   {% endwith %}
+</div>
+
 {% endblock %}

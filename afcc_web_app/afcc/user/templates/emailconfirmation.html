@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<br />
-<h2>Email verification</h2>
 
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
+<div class="container container--text-content --enforce-max-width">
+    <h2 class="page-title">Email verification</h2>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flash>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</div>
 
 {% endblock %}
