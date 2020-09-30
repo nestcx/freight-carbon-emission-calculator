@@ -46,17 +46,25 @@ def CR_shipments():
         render_template('shipments.html', shipments=shipments)
 
     if request.method == "POST":
-    
-        file = request.files["filename"]
+        
+        try:
+            file = request.files["filename"]
+        except Exception as e:
+            flash('An error has occurred. Please try again later.')
+            return redirect(url_for('display_error_page'))
         file_ex = get_file_extension(file.filename)
         
         #Checks if the file is excel or csv
-        if file_ex == 'xlsx' or 'xls':
-            data = pd.read_excel(file)
-        elif file_ex =='csv':
-            data = pd.read_csv(file)
-        else:
-            flash("Wrong File input")
+        try:
+            if file_ex == 'xlsx' or 'xls':
+                data = pd.read_excel(file)
+            elif file_ex =='csv':
+                data = pd.read_csv(file)
+            else:
+                flash("Wrong File input")
+        except Exception as e:
+            flash('An error has occurred. Please try again later.')
+            return redirect(url_for('display_error_page'))
         
         fdata = data.to_dict()
             
@@ -67,10 +75,17 @@ def CR_shipments():
         #result is an array of dictionary.
         #To access result you will have to use result[i]['Key']
         #For eg. result[1]['distance']=[{},{distance},{},{},{},{},{}....]
-        for i in range(0, len(fdata['To'])):
-            result[i]=calculation.get_emission_calculation(fdata['From'][i],fdata['To'][i],fdata['Weight'][i],fdata['Items'][i])    
-
-
+        try:
+            for i in range(0, len(fdata['To'])):
+                result[i]=calculation.get_emission_calculation(fdata['From'][i],fdata['To'][i],fdata['Weight'][i],fdata['Items'][i])    
+        except Exception as e:
+            flash('An error has occurred. Please try again later.')
+            return redirect(url_for('display_error_page'))
+        
+        #This is to set the values in the variables for the query.
+            #origincoords[0] in start address coordinates in query is used because that value
+            #is an array of two float values, which is why in start address coordinates I am converting
+            #that to a string value.  
         for i in range(0, len(fdata['To'])):
             new_shipment=Shipment(uid = user.uid,shipment_created = datetime.datetime.now(),
             trip_distance = result[i]['distance'],trip_duration =result[i]['duration'] ,
