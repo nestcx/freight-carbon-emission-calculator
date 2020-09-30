@@ -4,6 +4,8 @@ from afcc.shipment.models import Shipment
 from afcc.user.models import User
 from flask_login import current_user
 
+from afcc.shipment.forms import CreateShipmentForm
+
 # create shipment blueprint.
 shipment_bp = Blueprint('shipment', __name__, template_folder='templates', static_folder='shipment-static')
 
@@ -15,7 +17,7 @@ def CR_shipments():
 
     # check that user is logged in.
     if not current_user.is_authenticated:
-        return str("hello!")
+        return str("You are not authenticated")
 
     # try to find user's details.
     try:
@@ -31,16 +33,31 @@ def CR_shipments():
     return render_template('shipments.html', shipments=shipments)
 
 
+
+
 # POST  /shipment  -  create a new shipment
 @shipment_bp.route('/shipment', methods=['POST'])
 def C_shipment():
-    return 'not implemented'
+
+    shipment_form=CreateShipmentForm()
+
+    if shipment_form.validate_on_submit(): 
+        return "noice"
+    
+    else:
+        return render_template('create_shipment_form.html', form=shipment_form)
+
+
 
 
 # GET  /shipments/new  -  show form to create new shipment
 @shipment_bp.route('/shipments/new', methods=['GET'])
 def show_create_shipment_form():
-    return 'not implemented'
+    # create form
+    create_shipment_form = CreateShipmentForm()
+
+    return render_template('create_shipment_form.html', form=create_shipment_form)
+
 
 
 # GET     /shipments/<shipment_id>  -  get individual shipment
