@@ -22,6 +22,7 @@ shipment_bp = Blueprint(
     'shipment', __name__, template_folder='templates', static_folder='shipment-static')
 
 
+
 # GET  /shipments  -  get a list of shipments
 # POST /shipments  -  upload a list of shipments
 @shipment_bp.route('/shipments', methods=['GET', 'POST'])

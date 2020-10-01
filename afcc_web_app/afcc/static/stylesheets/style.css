@@ -791,6 +791,38 @@ header {
   }
 }
 
+.modal--file-upload {
+  display: none;
+  position: fixed;
+  border: 1px solid black;
+  top: 60px;
+  left: 0;
+}
+
+.--modal-active {
+  display: block !important;
+  z-index: 1000;
+}
+
+.black-out-screen {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+.form--shipment-upload {
+  padding: 8px;
+}
+
+#button-cancel {
+  cursor: default;
+}
+
 .container--location-map {
   max-width: 100%;
   height: 250px;

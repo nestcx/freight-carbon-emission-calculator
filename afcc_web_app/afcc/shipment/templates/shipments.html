@@ -9,7 +9,7 @@
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
-    <ul class=flash--error>
+    <ul class=flash>
         {% for message in messages %}
         <li>{{ message }}</li>
         {% endfor %}
@@ -19,13 +19,6 @@
 
     {% if shipments is defined %}
     <!-- Show the list of shipments -->
-    <a href="{{ url_for('shipment.show_create_shipment_form')}}">Create New Shipment</a>
-
-    <form method="POST" enctype="multipart/form-data">
-        {{ file_form.hidden_tag() }}
-        {{ file_form.shipments }}
-        <button type="submit">Upload</button>
-    </form>
 
     {% for shipment in shipments %}
     <div class="shipment-card">
@@ -109,7 +102,7 @@
 <!-- The 2 add shipment buttons displayed on desktops -->
 <div class="add-shipment-buttons-container --hidden-on-mobile">
     <a href="{{ url_for('shipment.show_create_shipment_form') }}" class="button--primary">Enter shipment manually</a>
-    <a href="" class="button--primary">Upload shipment data</a>
+    <button class="button--primary" onClick="displayModal()">Upload shipment data</button>
 </div>
 
 <!-- The + button which is only displayed on mobile -->
@@ -146,5 +139,18 @@
     </a>
 </div>
 
+<div class="modal--file-upload" id="modal-file-upload">
+    <form method="POST" class="form form--shipment-upload" enctype="multipart/form-data">
+        {{ file_form.hidden_tag() }}
+        {{ file_form.shipments }}
+        <!-- Using span as button wrongfully prompts the user to upload a file -->
+        <span class="button--non-focus" onClick="closeModal()" id="button-cancel">Cancel</span>
+        <button type="submit" class="button--primary">Upload</button>
+    </form>
+</div>
+<!-- Used for blacking out the screen when the modal is displayed-->
+<div class="black-out-screen" id="black-out-screen"></div>
+
+<script src="/static/javascript/shipmentmodal.js"></script>
 </div>
 {% endblock %}
