@@ -10,8 +10,12 @@ from afcc import data_conversion
 
 from afcc.shipment.forms import CreateShipmentForm
 from afcc.shipment.forms import EditShipmentForm
+from afcc.shipment.forms import ShipmentsForm
 
 import datetime
+import pandas as pd
+from os.path import splitext 
+from sqlalchemy import desc
 
 # create shipment blueprint.
 shipment_bp = Blueprint(
@@ -19,6 +23,7 @@ shipment_bp = Blueprint(
 
 
 # GET  /shipments  -  get a list of shipments
+# POST /shipments  -  upload a list of shipments
 @shipment_bp.route('/shipments', methods=['GET', 'POST'])
 def CR_shipments():
 
@@ -29,9 +34,84 @@ def CR_shipments():
 
     # find all shipments that belong to the user.
     if (request.method == 'GET'):
-        shipments = Shipment.query.filter_by(uid=user.uid).all()
+        shipments = Shipment.query.order_by(desc(Shipment.shipment_created)).filter_by(uid=user.uid).all()
 
-    return render_template('shipments.html', shipments=shipments)
+
+    # create file form
+    file_form = ShipmentsForm()
+
+    # if submitted form is valid:
+    #    1. - check file extension and read file with pandas
+    #    2. - convert file data to python dictionary
+    #    3. - get shipment count
+    #    4. - check shipment count is not greater than 25
+    #    5. - loop through each shipment row
+    #    6. - return list of created shipment ID's.
+    #    all shipments committed at once at the end.
+    #    if a shipment fails, no shipments are committed.
+    if file_form.validate_on_submit():
+        
+        # 1. - check file extension and read file
+        uploaded_file = file_form.shipments.data
+        file_extension = splitext(uploaded_file.filename)[1]
+        if file_extension == '.xlsx' or file_extension == '.xls':
+            file_data = pd.read_excel(uploaded_file)
+        elif file_extension =='.csv':
+            file_data = pd.read_csv(uploaded_file)
+        else:
+            flash("invalid file type")
+            return redirect(url_for('shipment.CR_shipments'))
+        
+        # 2. - convert file data to python dictionary
+        dfile_data = file_data.to_dict()
+
+        # 3. - get shipment count
+        rows = len(dfile_data["From"])
+
+        # 4. - check shipment count not greater than 25.
+        if rows > 25:
+            flash("25 shipment maximum.")
+            return redirect(url_for('shipment.CR_shipments'))
+
+        # created shipment id's saved in this dictionary for optional use at
+        # completion of upload.
+        created_shipment_ids = []
+
+        # 5. - loop through each shipment row
+        for i in range(rows):
+
+            # generate shipment data
+            try:
+                shipment_data = generate_shipment_data(
+                    dfile_data['Weight'][i], 
+                    'tonne', dfile_data['From'][i], 
+                    dfile_data['To'][i]
+                )
+            except Exception:
+                flash("File upload failed - error generating shipment data")
+                return redirect(url_for('shipment.CR_shipments'))
+
+            # add shipment to database session
+            try:
+                created_shipment_ids.append(create_shipment(shipment_data, 
+                                                            user.uid, 
+                                                            False, 
+                                                            shipment_name=''))
+            except Exception:
+                flash("File upload failed - error saving shipment")
+                return redirect(url_for('shipment.CR_shipments'))
+
+        # commit database session
+        try:
+            db.session.commit()
+            flash("Success! Created " + str(len(created_shipment_ids)) + " shipments.")
+        except Exception:
+            flash("Error saving shipments")
+        
+        return redirect(url_for('shipment.CR_shipments'))
+
+
+    return render_template('shipments.html', shipments=shipments, file_form=file_form)
 
 
 # GET  /shipments/new  -  show form to create new shipment
@@ -70,7 +150,7 @@ def show_create_shipment_form():
             shipment_id = create_shipment(
                 shipment_data, 
                 user.uid, 
-                create_shipment_form.shipment_name.data
+                shipment_name=create_shipment_form.shipment_name.data
             )
         except Exception:
             flash("An error occurred while saving the shipment.")
@@ -161,7 +241,7 @@ def show_edit_shipment_form(shipment_id):
 
         # 2. - update row in database.
         try:
-            edit_shipment(shipment, shipment_data, edit_shipment_form.shipment_name.data)
+            edit_shipment(shipment, shipment_data, shipment_name=edit_shipment_form.shipment_name.data)
         except Exception:
             flash("An error has occurred while updating the shipment.")
             return render_template('edit_shipment_form.html', form=edit_shipment_form, shipment=shipment)
@@ -241,7 +321,10 @@ def edit_shipment(shipment, updated, shipment_name):
     db.session.commit()
 
 
-def create_shipment(shipment_data, user_id, shipment_name):
+def create_shipment(shipment_data, user_id, commit=True, **kwargs):
+    if ("shipment_name" in kwargs):
+        shipment_name = kwargs['shipment_name']
+    
     myShipment = Shipment(
         uid=user_id,
         shipment_name=shipment_name,
@@ -261,7 +344,9 @@ def create_shipment(shipment_data, user_id, shipment_name):
     )
 
     db.session.add(myShipment)
-    db.session.commit()
+
+    if commit == True:
+        db.session.commit()
 
     return myShipment.shipment_id
 
