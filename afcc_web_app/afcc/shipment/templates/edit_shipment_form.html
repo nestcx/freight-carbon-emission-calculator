@@ -1,3 +1,51 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<form class="form form--edit-shipment --enforce-max-width" action="" method="POST" novalidate>
+        <h1 class="form__heading">Edit Shipment Form</h1>
+        <h2>{{ shipment.shipment_id }}</h2>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flash--error>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {{ form.hidden_tag() }}
+        
+    <p>
+        {{ form.shipment_name.label(class_="inputfield__label") }}
+        {{ form.shipment_name(class_="inputfield--text", autofocus=true) }}
+    </p>
+    <p>
+        {{ form.start_address.label(class_="inputfield__label") }}
+        {{ form.start_address(class_="inputfield--text") }}
+    </p>
+    <p>
+        {{ form.end_address.label(class_="inputfield__label") }}
+        {{ form.end_address(class_="inputfield--text") }}
+    </p>
+    
+    {{ form.load_weight.label(class_="inputfield__label") }}
+    <div class="container--input-weight-and-unit">
+        {{ form.load_weight(class_="inputfield--text") }}
+        {{ form.load_weight_unit(class_="inputfield--select") }}
+    </div>
+    <p>
+        {{ form.submit(class="button--primary") }}
+    </p>
+</form>
+
+
+{% endblock %}
+
+<!-- 
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +61,6 @@
     <h2>{{ shipment.shipment_id }}</h2>
     <form action="" method="POST" novalidate>
 
-        <!-- display flash messages -->
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul class=flash-error>
@@ -57,3 +104,4 @@
 </body>
 
 </html>
+ -->

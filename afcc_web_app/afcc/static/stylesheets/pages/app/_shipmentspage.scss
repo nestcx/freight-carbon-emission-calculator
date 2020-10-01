@@ -31,7 +31,6 @@
 .modal--file-upload {
   display: none;
   position: fixed;
-  border: 1px solid black;
   top: $header-height;
   left: 0;
 }
@@ -41,6 +40,7 @@
     z-index: 1000;
   }
 
+  
   .black-out-screen {
     background-color: rgb(0, 0, 0, 0.4);
     position: fixed;

@@ -70,3 +70,12 @@
     margin-top: $spacing-large;
   }
 }
+
+
+.form--edit-shipment {
+  @extend .form--login;
+
+  & input[type=text], select {
+    float: right;
+  }
+}

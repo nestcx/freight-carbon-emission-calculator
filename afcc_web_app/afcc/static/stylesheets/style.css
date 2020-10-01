@@ -536,13 +536,13 @@ header {
   margin-bottom: 32px;
 }
 
-.form--login, .form--signup {
+.form--login, .form--edit-shipment, .form--signup {
   padding-top: 16px;
   height: 100%;
   border-radius: 0;
 }
 @media only screen and (min-width: 440px) {
-  .form--login, .form--signup {
+  .form--login, .form--edit-shipment, .form--signup {
     border-radius: 6px;
     height: unset;
     max-width: 450px;
@@ -550,7 +550,7 @@ header {
   }
 }
 @media only screen and (min-width: 760px) {
-  .form--login, .form--signup {
+  .form--login, .form--edit-shipment, .form--signup {
     padding-top: 32px;
     margin-top: 64px;
     max-width: 450px;
@@ -565,6 +565,10 @@ header {
   .form--signup {
     margin-top: 32px;
   }
+}
+
+.form--edit-shipment input[type=text], .form--edit-shipment select {
+  float: right;
 }
 
 .container--logo {
@@ -794,7 +798,6 @@ header {
 .modal--file-upload {
   display: none;
   position: fixed;
-  border: 1px solid black;
   top: 60px;
   left: 0;
 }

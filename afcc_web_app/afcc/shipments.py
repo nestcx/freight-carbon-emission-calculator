@@ -83,6 +83,7 @@ def newshipment():
     
     return FILEDATA
 
+
 @shipments_bp.route("/new", methods=["GET", "POST"])
 def shipments():
 
