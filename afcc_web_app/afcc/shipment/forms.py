@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DecimalField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Length
+from wtforms import StringField, DecimalField, SubmitField, SelectField, FileField
+from wtforms.validators import DataRequired, Length, FileRequired
 
 class CreateShipmentForm(FlaskForm):
     shipment_name = StringField('Shipment Name', validators =[
@@ -53,3 +53,21 @@ class EditShipmentForm(FlaskForm):
         validators = [DataRequired(message='Please enter a load weight unit')])
 
     submit = SubmitField('Edit Shipment')
+
+class ShipmentsForm(FlaskForm):
+    shipments = FileField(validators=[FileRequired()])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
