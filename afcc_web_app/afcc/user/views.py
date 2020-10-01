@@ -125,7 +125,7 @@ def verify_email(token):
 # Display user account details to the user, if they're logged in
 @user_bp.route('/', methods=['GET'])
 @login_required
-@email_verification_required # The user needs to have verified their email address
+# @email_verification_required # The user needs to have verified their email address
 def display_user_details():
     # If the user is logged in, we search the db for the record using their email address
     try:

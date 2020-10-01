@@ -1,32 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
-    <title>My Shipments</title>
-</head>
-<body>
-    <h1>My Shipments</h1>
-    {% for shipment in shipments %}
-    <div class="shipment">
-        <div class="title">
-            <a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a>
-        </div>
-        <div class=edit_shipment">
-            <a href="{{ url_for('shipment.show_edit_shipment_form', shipment_id=shipment.shipment_id) }}">Edit Shipment</a>
-        </div>
+{% extends "base.html" %}
 
-        <!-- display flash messages -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul class=flash-error>
-            {% for message in messages %}
-            <li>{{ message }}</li> 
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
+{% block extra_css %} 
+<link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container--shipments-page --enforce-max-width">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flash--error>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {% if shipments is defined %}
+    <!-- Show the list of shipments -->
+    {% for shipment in shipments %}
+    <div class="shipment-card">
+        <div class="title">
+            <a
+                href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a>
+        </div>
+        <div class="edit_shipment">
+            <a href="{{ url_for('shipment.show_edit_shipment_form', shipment_id=shipment.shipment_id) }}">Edit
+                Shipment</a>
+        </div>
 
         <div class="shipment_name">
             <div class="heading">Shipment Name</div>
@@ -86,5 +88,55 @@
         </div>
     </div>
     {% endfor %}
-</body>
-</html>
+    {% else %}
+    <div class="shipment-card--empty-placeholder">
+        <p>
+            There are no shipments here! <br />
+            Get started by adding a shipment.
+        </p>
+    </div>
+</div>
+{% endif %}
+
+<!-- The 2 add shipment buttons displayed on desktops -->
+<div class="add-shipment-buttons-container --hidden-on-mobile">
+    <a href="{{ url_for('shipment.show_create_shipment_form') }}" class="button--primary">Enter shipment manually</a>
+    <a href="" class="button--primary">Upload shipment data</a>
+</div>
+
+<!-- The + button which is only displayed on mobile -->
+<div class="add-shipment-icon-container --hidden-on-desktop">
+    <a href="{{ url_for('shipment.show_create_shipment_form') }}">
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="164.04488535130736 292.85026780366775 77.01359592122355 75.59082275317405" width="54" height="54">
+            <defs>
+                <path
+                    d="M238.06 329.65C238.06 349.4 221.7 365.44 201.55 365.44C181.4 365.44 165.04 349.4 165.04 329.65C165.04 309.89 181.4 293.85 201.55 293.85C221.7 293.85 238.06 309.89 238.06 329.65Z"
+                    id="d1tP3gG5CM"></path>
+                <path
+                    d="M177.55 329.62C177.55 328.08 178.81 326.82 180.35 326.82C189.39 326.82 213.71 326.82 222.75 326.82C224.3 326.82 225.55 328.08 225.55 329.62C225.55 330.19 225.55 329.1 225.55 329.67C225.55 331.21 224.3 332.47 222.75 332.47C213.71 332.47 189.39 332.47 180.35 332.47C178.81 332.47 177.55 331.21 177.55 329.67C177.55 329.1 177.55 330.19 177.55 329.62Z"
+                    id="bE1nuRZmC"></path>
+                <path
+                    d="M201.22 304.91C202.76 304.91 204.02 306.16 204.02 307.71C204.02 316.75 204.02 341.07 204.02 350.11C204.02 351.66 202.76 352.91 201.22 352.91C200.65 352.91 201.74 352.91 201.17 352.91C199.63 352.91 198.37 351.65 198.37 350.11C198.37 341.07 198.37 316.75 198.37 307.71C198.37 306.16 199.63 304.91 201.17 304.91C201.74 304.91 200.65 304.91 201.22 304.91Z"
+                    id="dbJeEmnDO"></path>
+            </defs>
+            <g>
+                <g>
+                    <use xlink:href="#d1tP3gG5CM" opacity="1" fill="#8ab914" fill-opacity="1"></use>
+                </g>
+                <g>
+                    <use xlink:href="#bE1nuRZmC" opacity="1" fill="#ffffff" fill-opacity="1"></use>
+                </g>
+                <g>
+                    <use xlink:href="#dbJeEmnDO" opacity="1" fill="#ffffff" fill-opacity="1"></use>
+                </g>
+            </g>
+        </svg>
+    </a>
+</div>
+
+</div>
+{% endblock %}

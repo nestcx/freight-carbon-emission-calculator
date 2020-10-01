@@ -1,58 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Shipment</title>
-</head>
+{% block extra_css %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+{% endblock %}
 
-<body>
+{% block content %}
+<form class="form form--add-shipments --enforce-max-width" action="" method="POST" novalidate>
+    <h1 class="form__heading">Create new Shipment</h1>
 
-    <h1>Create Shipment Form</h1>
-    <form action="" method="POST" novalidate>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flash--error>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 
-        <!-- display flash messages -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul class=flash-error>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-
+    <div class="form--double-column">
         {{ form.hidden_tag() }}
-        
-        <p>
-            {{ form.shipment_name.label }}
-            {{ form.shipment_name }}
-        </p>
-        <p>
-            {{ form.start_address.label }}
-            {{ form.start_address }}
-        </p>
-        <p>
-            {{ form.end_address.label }}
-            {{ form.end_address }}
-        </p>
-        <p>
-            {{ form.load_weight.label }}
-            {{ form.load_weight }}
-        </p>
-        <p>
-            {{ form.load_weight_unit.label }}
-            {{ form.load_weight_unit }}
-        </p>
-        <p>
-            {{ form.submit.label }}
-            {{ form.submit }}
-        </p>
-        <p>
+        <div class="container--location-inputs">
+            {{ form.start_address.label(class_="inputfield__label") }} <br />
+            {{ form.start_address(class_="inputfield--text input-pick-up", autofocus=true, autocomplete="off") }}
 
-    </form>
+            {{ form.end_address.label(class_="inputfield__label") }} <br />
+            {{ form.end_address(class_="inputfield--text input-drop-off", autocomplete="off") }}
+        </div>
+        <div class="container--location-map">
+            <div id="mapid"></div>
+        </div>
+        <div class="container--shipment-form-inputs">
+            {{ form.load_weight.label(class_="inputfield__label") }}
+            <div class="container--input-weight-and-unit">
+                <!-- Make sure the input field can't have negative values -->
+                <input id="load_weight" class="inputfield--text" onkeyup=enforceMinMaxNumber(this) name="load_weight" required="" type="number" min="0" value="">
+                {{ form.load_weight_unit(class_="inputfield--select") }}
+            </div>
+            <p>
+                <label class="inputfield__label" for="shipmentname">Shipment Description</label>
+                {{ form.shipment_name(class_="inputfield--text") }}
+            </p>
+        </div>
+    </div>
+    <input class="button--secondary" id="submit" name="submit" type="submit" value="Add Shipment">
+</form>
+<script src="/static/javascript/autocomplete.js"></script>
+<script src="/static/leaflet/leaflet.js"></script>
+<!-- interactivemap.js must be called after leaflet.js -->
+<script src="/static/javascript/interactivemap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/javascript/inputfields.js"></script>
 
-</body>
-
-</html>
+{% endblock %}

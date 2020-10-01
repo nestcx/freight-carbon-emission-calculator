@@ -70,7 +70,7 @@
   overflow-x: hidden;
 }
 
-#cargoweight {
+#load_weight {
   // Must specify a min-width, otherwise the inputfield will never shrink as the container div does
   min-width: 6em;
   flex-grow: 2;
@@ -78,7 +78,7 @@
   border-bottom-right-radius: 0;
 }
 
-#weightunit {
+#load_weight_unit {
   flex-grow: 1;
   max-width: 10em;
   @extend .inputfield--text;

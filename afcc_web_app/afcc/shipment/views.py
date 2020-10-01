@@ -2,31 +2,18 @@ from flask import Blueprint, request, render_template, flash, redirect, url_for,
 from afcc.extensions import db
 from afcc.shipment.models import Shipment
 from afcc.user.models import User
-from afcc.shipment.models import Shipment
 from flask_login import current_user
 import datetime
-
-####### Imports needed for my calculation part #########
-
 import os
 import pandas as pd
-
 from flask import jsonify
 from afcc import maproutes
 from afcc import calculation
-
 from afcc import data_conversion
-from afcc.shipment.forms import ShipmentdataForm
 import string
-
-from afcc import calculation
-from afcc import maproutes
-from afcc import data_conversion
-
 from afcc.shipment.forms import CreateShipmentForm
 from afcc.shipment.forms import EditShipmentForm
 
-import datetime
 
 # create shipment blueprint.
 shipment_bp = Blueprint(
@@ -213,9 +200,11 @@ def authenticate_user():
     """
     
     # check user is logged in.
+    print(current_user.is_authenticated)
+
     if not current_user.is_authenticated:
-        flash("You are not authenticated.")
-        return 'user.log_in'
+        flash("Please log in.")
+        return False, 'user.log_in'
 
     # check user exists in database.
     try:

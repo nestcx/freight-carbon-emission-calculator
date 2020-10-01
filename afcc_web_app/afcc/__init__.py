@@ -1,13 +1,12 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import current_user
 
 import os
 from flask import send_from_directory
 
 from afcc.config import *
 from afcc.extensions import db, limiter, login_manager, mail
-
 
 def create_app():
 
@@ -55,7 +54,12 @@ def create_app():
 
     @app.route('/')
     def index():
-        return render_template('index.html')
+        # If a user is logged in, redirect them to the app 'home' page, since thats where
+        # they most liekly want to be
+        if current_user.is_authenticated:
+            return redirect(url_for('shipment.CR_shipments'))
+        else:
+            return render_template('index.html')
 
     @app.route('/error')
     def display_error_page():
@@ -72,10 +76,6 @@ def create_app():
     @app.route('/help')
     def help():
         return render_template('help.html', title='Help')
-
-    @app.route('/my_shipments')
-    def myShipments():
-        return render_template('my_shipments.html', title='My Shipments')
 
     @app.route('/devplayground')
     def show_styles():

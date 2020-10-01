@@ -352,6 +352,8 @@ header {
   background-color: #fff;
   border: 1px solid #cccccc;
   padding: 16px 8px;
+  overflow-y: scroll;
+  max-height: 10em;
 }
 .shipment-card:not(:last-child), .shipment-card--empty-placeholder:not(:last-child) {
   margin-bottom: 8px;
@@ -361,6 +363,31 @@ header {
   border: 2px dashed #ccc;
   background-color: transparent;
   text-align: center;
+}
+
+.shipment-card .title, .shipment-card--empty-placeholder .title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  background: lightblue;
+}
+
+.title a {
+  color: blue;
+  text-decoration: none;
+}
+
+.title a:visited {
+  color: blue;
+  text-decoration: none;
+}
+
+.heading, .data {
+  display: inline;
+}
+
+.heading {
+  font-weight: bold;
 }
 
 .button, .button--red-warning, .button--non-focus, .button--secondary, .button--primary {
@@ -457,7 +484,7 @@ header {
   color: #039450;
 }
 
-.inputfield--text, #weightunit {
+.inputfield--text, #load_weight_unit {
   width: 100%;
   padding: 4px;
   border: 1px solid #d4d4d4;
@@ -465,7 +492,7 @@ header {
   margin-bottom: 8px;
   margin-top: 4px;
 }
-.inputfield--text:active, #weightunit:active, .inputfield--text:focus, #weightunit:focus {
+.inputfield--text:active, #load_weight_unit:active, .inputfield--text:focus, #load_weight_unit:focus {
   box-shadow: 0 0 0 2px rgba(0, 225, 176, 0.15);
   border: 1px solid rgba(32, 106, 93, 0.5);
 }
@@ -826,14 +853,14 @@ header {
   overflow-x: hidden;
 }
 
-#cargoweight {
+#load_weight {
   min-width: 6em;
   flex-grow: 2;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-#weightunit {
+#load_weight_unit {
   flex-grow: 1;
   max-width: 10em;
   border-top-left-radius: 0;

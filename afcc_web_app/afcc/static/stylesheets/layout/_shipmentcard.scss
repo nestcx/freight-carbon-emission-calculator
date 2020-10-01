@@ -10,6 +10,12 @@
   &:not(:last-child) {
     margin-bottom: $spacing-small;
   }
+
+  // Shipments contain a lot of data, so limit the height for now
+
+  // TODO: FIX THE STYLES OF THE SHIPMENT CARDS SO THAT THEY DON'T TAKE UP SO MUCH SPACE
+  overflow-y: scroll;
+  max-height: 10em;
 }
 
 
@@ -20,4 +26,30 @@
   border: 2px dashed #ccc;
   background-color: transparent;
   text-align: center;
+}
+
+
+.shipment-card .title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: $spacing-default;
+  background: lightblue;
+}
+
+.title a {
+  color: blue;
+  text-decoration: none;
+}
+
+.title a:visited {
+  color: blue;
+  text-decoration: none;
+}
+
+.heading, .data {
+  display: inline;
+}
+
+.heading {
+  font-weight: bold;
 }

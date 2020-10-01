@@ -3,8 +3,8 @@
  * addresses to the user based on what they've already typed
  */
 
-var startLocInput = document.getElementById("pickuploc");
-var endLocInput = document.getElementById("dropoffloc");
+var startLocInput = document.getElementById("start_address");
+var endLocInput = document.getElementById("end_address");
 
 startLocInput.addEventListener("input", searchPossibleAddresses);
 endLocInput.addEventListener("input", searchPossibleAddresses);
@@ -162,7 +162,7 @@ function handleClicks(e) {
     // Check if the current selected input field is the starting address. This is done so that
     // the interactivemap.js script can understand whether its the starting address or not
     var startingAddress = false;
-    if (inputField.id == "pickuploc") {
+    if (inputField.id == "start_address") {
       startingAddress = true;
     };
     
