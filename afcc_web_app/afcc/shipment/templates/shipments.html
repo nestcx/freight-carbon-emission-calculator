@@ -7,11 +7,27 @@
     <title>My Shipments</title>
 </head>
 <body>
+    <h1>My Shipments</h1>
     {% for shipment in shipments %}
     <div class="shipment">
         <div class="title">
             <a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a>
         </div>
+        <div class=edit_shipment">
+            <a href="{{ url_for('shipment.show_edit_shipment_form', shipment_id=shipment.shipment_id) }}">Edit Shipment</a>
+        </div>
+
+        <!-- display flash messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flash-error>
+            {% for message in messages %}
+            <li>{{ message }}</li> 
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
         <div class="shipment_name">
             <div class="heading">Shipment Name</div>
             <div class="data">{{ shipment.shipment_name }}</div>
@@ -19,6 +35,14 @@
         <div class="shipment_created">
             <div class="heading">Shipment Created</div>
             <div class="data">{{ shipment.shipment_created }}</div>
+        </div>
+        <div class="load_weight">
+            <div class="heading">Load Weight</div>
+            <div class="data">{{ shipment.load_weight }}</div>
+        </div>
+        <div class="load_weight_unit">
+            <div class="heading">Load Weight Unit</div>
+            <div class="data">{{ shipment.load_weight_unit }}</div>
         </div>
         <div class="trip_distance">
             <div class="heading">Trip Distance</div>
