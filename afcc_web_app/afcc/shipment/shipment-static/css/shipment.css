@@ -1,0 +1,15 @@
+.shipment {
+    border: 1px solid black;
+    padding: 1rem;
+    margin: 1rem;
+    width: 80%;
+}
+
+.heading, .data {
+    display: inline;
+}
+
+.heading {
+    font-weight: bold;
+    color: darkblue;
+}

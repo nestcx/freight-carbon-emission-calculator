@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipment</title>
+    <link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipment.css') }}">
+</head>
+<body>
+    <div class="shipment">
+        <div class="shipment_id">
+            <div class="heading">Shipment ID</div>
+            <div class="data">{{ shipment.shipment_id }}</div>
+        </div>
+        <div class="shipment_name">
+            <div class="heading">Shipment Name</div>
+            <div class="data">{{ shipment.shipment_name }}</div>
+        </div>
+        <div class="shipment_created">
+            <div class="heading">Shipment Created</div>
+            <div class="data">{{ shipment.shipment_created }}</div>
+        </div>
+        <div class="load_weight">
+            <div class="heading">Load Weight</div>
+            <div class="data">{{ shipment.load_weight }}</div>
+        </div>
+        <div class="load_weight_unit">
+            <div class="heading">Load Weight Unit</div>
+            <div class="data">{{ shipment.load_weight_unit }}</div>
+        </div>
+        <div class="trip_distance">
+            <div class="heading">Trip Distance</div>
+            <div class="data">{{ shipment.trip_distance }}</div>
+        </div>
+        <div class="trip_duration">
+            <div class="heading">Trip Duration</div>
+            <div class="data">{{ shipment.trip_duration }}</div>
+        </div>
+        <div class="fuel_economy_adjustment">
+            <div class="heading">Fuel Economy Adjustment</div>
+            <div class="data">{{ shipment.fuel_economy_adjustment }}</div>
+        </div>
+        <div class="carbon_dioxide_emission">
+            <div class="heading">Carbon Dioxide Emission</div>
+            <div class="data">{{ shipment.carbon_dioxide_emission }}</div>
+        </div>
+        <div class="methane_emission">
+            <div class="heading">Methane Emission</div>
+            <div class="data">{{ shipment.methane_emission }}</div>
+        </div>
+        <div class="nitrous_oxide_emission">
+            <div class="heading">Nitrous Oxide Emission</div>
+            <div class="data">{{ shipment.nitrous_oxide_emission }}</div>
+        </div>
+        <div class="start_address">
+            <div class="heading">Start Address</div>
+            <div class="data">{{ shipment.start_address }}</div>
+        </div>
+        <div class="start_address_coordinates">
+            <div class="heading">Start Address Coordinates</div>
+            <div class="data">{{ shipment.start_address_coordinates }}</div>
+        </div>
+        <div class="end_address">
+            <div class="heading">End Address</div>
+            <div class="data">{{ shipment.end_address }}</div>
+        </div>
+        <div class="end_address_coordinates">
+            <div class="heading">End Address Coordinates</div>
+            <div class="data">{{ shipment.end_address_coordinates }}</div>
+        </div>
+    </div>
+</body>
+</html>
