@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shipment</title>
-    <link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipment.css') }}">
-</head>
-<body>
-    <div class="shipment">
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="shipment-card--expanded">
         <div class="shipment_id">
             <div class="heading">Shipment ID</div>
             <div class="data">{{ shipment.shipment_id }}</div>
@@ -69,5 +63,4 @@
             <div class="data">{{ shipment.end_address_coordinates }}</div>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

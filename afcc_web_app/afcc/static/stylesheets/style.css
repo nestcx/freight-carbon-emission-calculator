@@ -346,7 +346,7 @@ header {
   display: block;
 }
 
-.shipment-card, .shipment-card--empty-placeholder {
+.shipment-card, .shipment-card--empty-placeholder, .shipment-card--expanded {
   width: 100%;
   border-radius: 8px;
   background-color: #fff;
@@ -355,8 +355,12 @@ header {
   overflow-y: scroll;
   max-height: 10em;
 }
-.shipment-card:not(:last-child), .shipment-card--empty-placeholder:not(:last-child) {
+.shipment-card:not(:last-child), .shipment-card--empty-placeholder:not(:last-child), .shipment-card--expanded:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.shipment-card--expanded {
+  max-height: unset;
 }
 
 .shipment-card--empty-placeholder {
@@ -365,7 +369,7 @@ header {
   text-align: center;
 }
 
-.shipment-card .title, .shipment-card--empty-placeholder .title {
+.shipment-card .title, .shipment-card--expanded .title, .shipment-card--empty-placeholder .title {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 16px;

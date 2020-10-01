@@ -18,6 +18,10 @@
   max-height: 10em;
 }
 
+  .shipment-card--expanded {
+    @extend .shipment-card;
+    max-height: unset;
+  }
 
 // This is the empty one to indicate to the user there are no shipments and
 // that they should click on the '+' button
