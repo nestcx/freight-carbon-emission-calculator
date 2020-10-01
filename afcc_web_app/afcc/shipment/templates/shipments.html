@@ -19,6 +19,14 @@
 
     {% if shipments is defined %}
     <!-- Show the list of shipments -->
+    <a href="{{ url_for('shipment.show_create_shipment_form')}}">Create New Shipment</a>
+
+    <form method="POST" enctype="multipart/form-data">
+        {{ file_form.hidden_tag() }}
+        {{ file_form.shipments }}
+        <button type="submit">Upload</button>
+    </form>
+
     {% for shipment in shipments %}
     <div class="shipment-card">
         <div class="title">
@@ -26,7 +34,7 @@
                 href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a>
         </div>
         <div class="edit_shipment">
-            <a href="{{ url_for('shipment.show_edit_shipment_form', shipment_id=shipment.shipment_id) }}">Edit
+            <a href="{{ url_for('shipment.show_edit_shipment_form', shipment_id=shipment.shipment_id) }}">Edit shipment
                 Shipment</a>
         </div>
 
