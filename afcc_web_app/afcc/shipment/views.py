@@ -120,6 +120,7 @@ def C_shipment():
         end_address=shipment_form.dropoffloc.data
         item_weight=shipment_form.cargoweight.data
         shipmentname=shipment_form.shipmentname.data
+        weight_unit=shipment_form.weightunit.data
         
         result={}
 

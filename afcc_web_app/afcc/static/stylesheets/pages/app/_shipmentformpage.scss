@@ -63,6 +63,31 @@
   width: 100%;
 }
 
+// The rules in the classes below are to fit the cargo weight and unit selection element
+// together
+.container--input-weight-and-unit {
+  display: flex;
+  overflow-x: hidden;
+}
+
+#cargoweight {
+  // Must specify a min-width, otherwise the inputfield will never shrink as the container div does
+  min-width: 6em;
+  flex-grow: 2;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#weightunit {
+  flex-grow: 1;
+  max-width: 10em;
+  @extend .inputfield--text;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 0;
+}
+
+
 
 .autosuggestbox {
   position: absolute;

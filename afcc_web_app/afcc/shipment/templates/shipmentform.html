@@ -32,10 +32,12 @@
             <div id="mapid"></div>
         </div>
         <div class="container--shipment-form-inputs">
-            <p>
-                {{ form.cargoweight.label(class_="inputfield__label") }} <br />
-                {{ form.cargoweight(class_="inputfield--text") }}
-            </p>
+            {{ form.cargoweight.label(class_="inputfield__label") }}
+            <div class="container--input-weight-and-unit">
+                <!-- Make sure the input field can't have negative values -->
+                <input class="inputfield--text" id="cargoweight" onkeyup=enforceMinMaxNumber(this) name="cargoweight" required="" type="number" min="0" value="">
+                {{ form.weightunit(class_="inputfield--select") }}
+            </div>
             <p>
                 <label class="inputfield__label" for="shipmentname">Shipment Description (Optional)</label>
                 {{ form.shipmentname(class_="inputfield--text") }}
@@ -49,5 +51,6 @@
 <!-- interactivemap.js must be called after leaflet.js -->
 <script src="/static/javascript/interactivemap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/javascript/inputfields.js"></script>
 
 {% endblock %}

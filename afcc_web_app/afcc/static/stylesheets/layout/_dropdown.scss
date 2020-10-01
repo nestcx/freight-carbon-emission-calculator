@@ -7,6 +7,7 @@
     @include border-shadow-soft-wide();
     border-bottom: 1px solid darken($color-white, 10%);
     border-left: 1px solid darken($color-white, 10%);
+    z-index: 100; // Make sure this is always at the top layer, don't allow other elements to cover it
 
     .dropdown-option {
         height: 100%;
