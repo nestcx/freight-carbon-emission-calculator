@@ -14,3 +14,13 @@
   bottom: calc(#{$header-height} + #{$spacing-default});
   right: $spacing-default;
 }
+
+
+// This is the container for the 2 add shipment buttons shown on tablet-sized viewports
+.add-shipment-buttons-container {
+
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    display: flex !important;
+    justify-content: center;
+  }
+}

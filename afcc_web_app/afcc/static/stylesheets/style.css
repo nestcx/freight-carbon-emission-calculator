@@ -360,6 +360,7 @@ header {
 .shipment-card--empty-placeholder {
   border: 2px dashed #ccc;
   background-color: transparent;
+  text-align: center;
 }
 
 .button, .button--red-warning, .button--non-focus, .button--secondary, .button--primary {
@@ -754,6 +755,13 @@ header {
   position: fixed;
   bottom: calc(60px + 16px);
   right: 16px;
+}
+
+@media only screen and (min-width: 760px) {
+  .add-shipment-buttons-container {
+    display: flex !important;
+    justify-content: center;
+  }
 }
 
 .container--location-map {

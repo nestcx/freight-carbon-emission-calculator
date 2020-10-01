@@ -4,7 +4,7 @@
 
 {% extends "base.html" %}
 {% block content %}
-  <div class="container--shipments-page">
+  <div class="container--shipments-page --enforce-max-width">
   
     <!-- NOTE: THE VARIABLE NAME IS PLACEHOLDER. CHANGE ONCE WE'VE SET UP THE ABILITY -->
     <!-- TO SEND THE LIST OF SHIPMENTS TO THE USER -->
@@ -13,12 +13,20 @@
     {% else %}
       <div class="shipment-card--empty-placeholder">
         <p>
-          Click the add shipment or '+' button below!
+          There are no shipments here! <br />
+          Get started by adding a shipment.
         </p>
       </div>
       </div>
     {% endif %}
 
+    <!-- The 2 add shipment buttons displayed on desktops -->
+    <div class="add-shipment-buttons-container --hidden-on-mobile">
+      <a href="/shipments/new" class="button--primary">Enter shipment manually</a>
+      <a href="" class="button--primary">Upload shipment data</a>
+    </div>
+
+    <!-- The + button which is only displayed on mobile -->
     <div class="add-shipment-icon-container --hidden-on-desktop">
       <a href="/shipments/new">
         <?xml version="1.0" encoding="UTF-8" standalone="no"?>
