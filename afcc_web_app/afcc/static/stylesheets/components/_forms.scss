@@ -1,0 +1,81 @@
+// The default styles for all forms
+.form {
+  width: 100%;
+  padding: $spacing-default;
+  background-color: rgb(253, 253, 253);
+  @include border-shadow-soft();
+  border-radius: 6px;
+  margin: 0 auto;
+  display: block;
+
+  // Don't need to squash inputs together on larger viewports
+  @include breakpoint-screen-larger-than($breakpoint-mobile) {
+    padding: $spacing-large;
+  }
+
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    padding: $spacing-x-large;
+  }
+}
+
+  // Forms may heave headings. These rules are for styling those
+  .form__heading {
+    margin-bottom: $spacing-default;
+  }
+  
+
+  // Used for <hr /> elements to divide forms into logical sections
+  .form__divider {
+    color: rgb(241, 241, 241);
+    margin-top: $spacing-default;
+    margin-bottom: $spacing-large;
+  }
+
+// Form found on login page
+.form--login {
+  padding-top: $spacing-default;
+  height: 100%; // Make the form take up the entirety of the screen on smaller phones
+  border-radius: 0;
+
+  // Don't make the form be so near the header bar
+  @include breakpoint-screen-larger-than($breakpoint-mobile) {
+    border-radius: 6px;
+    height: unset;
+    max-width: 450px;
+    margin-top: $spacing-large;
+  }
+
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    padding-top: $spacing-large;
+    margin-top: $spacing-x-large;
+    max-width: 450px;
+  }
+
+  
+  &__button {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+
+.form--signup {
+  @extend .form--login;
+
+  @include breakpoint-screen-larger-than($breakpoint-mobile) {
+    @extend .form--login;
+
+    // The login form's top margin is too much, as thats a smaller form, therefore, reduce
+    // this form's margin
+    margin-top: $spacing-large;
+  }
+}
+
+
+.form--edit-shipment {
+  @extend .form--login;
+
+  & input[type=text], select {
+    float: right;
+  }
+}

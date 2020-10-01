@@ -1,34 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Create a new account</h1>
-<form action="" method="POST" novalidate>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class=flash-error>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
+<div class="container --enforce-max-width">
+    <form class="form form--signup" action="" method="POST" novalidate>
 
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.username.label }} <br />
-        {{ form.username(size=32) }}
-    </p>
-    <p>
-        {{ form.email.label }} <br>
-        {{ form.email(size=32) }}
-    </p>
-    <p>
-        {{ form.password.label }} <br>
-        {{ form.password(size=32) }}
-    </p>
-    <p>
-        {{ form.password_confirm.label }} <br>
-        {{ form.password_confirm(size=32) }}
-    </p>
-    <p>{{ form.submit() }}</p>
-</form>
+        <h2 class="form__heading">Create a new account</h2>
+
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label(class_="inputfield__label") }} <br />
+            {{ form.username(class_="inputfield--text", autofocus=true) }}
+        </p>
+        <p>
+            {{ form.email.label(class_="inputfield__label") }} <br>
+            {{ form.email(class_="inputfield--text") }}
+        </p>
+        <p>
+            {{ form.password.label(class_="inputfield__label") }} <br>
+            {{ form.password(class_="inputfield--text") }}
+        </p>
+        <p>
+            {{ form.password_confirm.label(class_="inputfield__label") }} <br>
+            {{ form.password_confirm(class_="inputfield--text") }}
+        </p>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flash--error>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <input class="form--login__button button--secondary" id="submit" name="submit" type="submit" value="create account">
+        <!-- <input  id="submit" name="submit" type="submit" value="log in"> -->
+    </form>
+</div>
 {% endblock %}

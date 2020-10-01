@@ -1,14 +1,17 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import current_user
+
+import os
+from flask import send_from_directory
 
 from afcc.config import *
 from afcc.extensions import db, limiter, login_manager, mail
 
-
 def create_app():
 
     app = Flask(__name__, template_folder='templates', static_folder='static')
+    app.secret_key = b'_5#o2L"F4Q8z\n\xec]/'
 
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
@@ -37,9 +40,10 @@ def create_app():
     # Retrieve the mail object from the extensions.py file
     mail.init_app(app)
 
-    # import blueprints
+    # import blueprints.
     from afcc import maproutes, calculation
-    from afcc.user import views as uviews # import the blueprint with user-related routes
+    # import the blueprint with user-related routes
+    from afcc.user import views as uviews
     from afcc.shipment import views as sviews
 
     # register blueprints
@@ -50,13 +54,45 @@ def create_app():
 
     @app.route('/')
     def index():
-        return render_template('main.html')
-
-    @app.route('/dashboard')
-    def dashboard():
-        return render_template('dashboard.html')
+        # If a user is logged in, redirect them to the app 'home' page, since thats where
+        # they most liekly want to be
+        if current_user.is_authenticated:
+            return redirect(url_for('shipment.CR_shipments'))
+        else:
+            return render_template('index.html')
 
     @app.route('/error')
     def display_error_page():
         return render_template('error.html')
+
+    @app.route('/about')
+    def about():
+        return render_template('about.html', title='About')
+
+    @app.route('/tools')
+    def tools():
+        return render_template('tools.html', title='Tools')
+
+    @app.route('/help')
+    def help():
+        return render_template('help.html', title='Help')
+
+    @app.route('/devplayground')
+    def show_styles():
+        return render_template('playground.html', title='CSS styling playground')
+    
+
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'),
+                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
+                                
+    # Register 404 handler so that a custom 404 page can be delivered
+    app.register_error_handler(404, page_not_found)
+
     return app
+
+def page_not_found(e):
+  return render_template('404.html'), 404
+
+

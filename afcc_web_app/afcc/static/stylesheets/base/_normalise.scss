@@ -8,13 +8,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  line-height: 1.6;
 }
 
 body {
   margin: 0 auto;
+  height: 100vh;
   font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
   color: $color-font-black;
   background-color: $color-background;
+}
+
+input {
+  font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -23,4 +29,18 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
   color: $color-default-link;
+}
+
+
+// Remove the up and down arrows in input type=number
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

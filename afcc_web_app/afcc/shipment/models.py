@@ -2,6 +2,9 @@ from afcc.extensions import db
 
 # TODO:  fix coordinates data-type.
 class Shipment(db.Model):
+
+    __tablename__ = 'shipment'
+
     shipment_id = db.Column(db.Integer, primary_key=True)
     uid = db.Column(db.Integer, nullable=False)
     shipment_created = db.Column(db.DateTime)

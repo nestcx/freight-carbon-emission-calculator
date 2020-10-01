@@ -13,7 +13,7 @@
 
   // On smaller screens, make it so that the input fields are above the map, otherwise
   // the design gets all squashed up
-  @include breakpoint($breakpoint-tablet) {
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
     flex-direction: column;
     padding: 0 $spacing-medium;
   }
@@ -23,7 +23,7 @@
     width: 50%; // Make this container take up the left half of the screen
     position: relative;
     // Make the div take up 100% width on smaller screens
-    @include breakpoint($breakpoint-tablet) {
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
       width: 100%;
       margin-bottom: $spacing-default;
       padding: 0;
@@ -53,7 +53,7 @@
       }
 
       // Make the input fields extend the entire width of their parent container
-      @include breakpoint($breakpoint-tablet) {
+      @include breakpoint-screen-larger-than($breakpoint-tablet) {
         max-width: 100%;
       }
     }
@@ -68,7 +68,7 @@
     max-height: 350px;
     
     // Make the div take up 100% width on smaller screens
-    @include breakpoint($breakpoint-tablet) {
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
       width: 100%;
       text-align: center;
       padding: 0;
@@ -89,7 +89,7 @@
     & .button--primary {
       margin: 0 $spacing-small;
 
-      @include breakpoint($breakpoint-tablet) {
+      @include breakpoint-screen-larger-than($breakpoint-tablet) {
         margin: 0;
         font-size: 1em;
       }
@@ -107,7 +107,7 @@
 
   // On smaller screens, make it so that the input fields are above the map, otherwise
   // the design gets all squashed up
-  @include breakpoint($breakpoint-tablet) {
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
     flex-direction: column;
     padding: 0 $spacing-medium;
   }
@@ -122,7 +122,7 @@
     padding: 0 $spacing-small;
 
     // Make the div take up 100% width on smaller screens
-    @include breakpoint($breakpoint-tablet) {
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
       width: 100%;
       margin-bottom: $spacing-default;
       padding: 0;

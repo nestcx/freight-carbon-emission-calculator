@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<!-- ADD THIS BLOCK IF YOU WANT TO INSERT EXTRA CSS FILES -->
+{% endblock %}
+
+{% block content %}
+
+  <div class="container--playground">
+    <h1>{{ title }}</h1>
+    <br />
+    <h2>Quick note on working with templates</h2>
+    <br />
+    <p>All pages should extend the templates/base.html file. Sometimes though, you may need to insert a custom 
+      CSS or JS file specifically for the page you're working on. To do this, you can use one of the defined blocks
+    </p>
+    <br />
+    <h3>Referencing custom css files</h3>
+    <p>
+      To reference a CSS file that isn't the style.css file, use the code below in your html file:
+      <br />
+      <br />
+      {% raw %}
+      {% block extra_css %} <br />
+      <b>code for inserting css file goes here</b> <br />
+      {% endblock %} 
+      {% endraw %}
+    </p>
+    <br />
+    <br />
+    <h2>Colours</h2>
+    <p>The colours below make up the colour scheme. The colours can be found in the variables.scss file</p>
+    <br />
+    <div class="color-pallette">
+      <div>
+        <p>This container is the primary colour. Variable = $color-primary</p>
+      </div>
+      <div>
+        <p>This container is the secondary colour. Variable = $color-secondary</p>
+      </div>
+      <div>
+        <p>This container is the tertiary colour. Variable = $color-tertiary</p>
+      </div>
+      <div>
+      </div>
+    </div>
+    <br />
+    <h3>Example of colour scheme in action</h3>
+    <div class="media-box-thingy --accent-primary-left">
+      <div class="content">
+        <h3>Shipment - Fresh produce</h3>
+        <br />
+        <p>Details about the shipment</p>
+      </div>
+      <div class="button-part">
+        <button class="button--primary">
+          Button
+        </button>
+      </div>
+    </div>
+
+    <h2>Spacin margins and padding</h2>
+    <p>To ensure the app looks uniform and consistent throughout, there are variables for spacing elements</p>
+    <p>These are best used for margins and paddings</p>
+    <p><b>NOTE:</b>Don't use custom sizes for margins and paddings unless you really have to</p>
+    <br />
+    <div class="spacing-example --small">
+      <p>This div's padding and bottom-margin is $spacing-small</p>
+    </div>
+    <div class="spacing-example --default">
+      <p>This div's padding and bottom-margin is $spacing-default</p>
+    </div>
+    <div class="spacing-example --large">
+      <p>This div's padding and bottom-margin is $spacing-large</p>
+    </div>
+    <div class="spacing-example --x-large">
+      <p>This div's padding and bottom-margin is $spacing-x-large</p>
+    </div>
+
+    <h2>Component classes</h2>
+    <p>Components are common elements that will be found in most pages i.e input fields, buttons, etc</p>
+    <p>Here are some common classes for these components - most of which can be found in the components folder</p>
+    <div class="col_1_of_2">
+      <button class="button--primary">Button</button>
+      <p>&lt;button class=&quot;button--primary&quot;&gt;</p>
+    </div>
+    <div class="col_1_of_2">
+      <button class="button--secondary">Button</button>
+      <p>&lt;button class=&quot;button--secondary&quot;&gt;</p>
+    </div>
+    <div class="col_1_of_2">
+      <button class="button--non-focus">Cancel button</button>
+      <p>&lt;button class=&quot;button--non-focus&quot;&gt;</p>
+    </div>
+    <br />
+    <h3>Flashes</h3>
+    <p>Flask allows you to flash a message via the backend to the frontend. This can be useful for things like
+      providing feedback to the user if they coulnd't log in or enterred invalid input, etc. You can use Jinja
+      to display these flash messages, and add class names so they're automatically styled based on the type of message
+    </p>
+    <br />
+    <div class="col_1_of_2">
+      <div class="flash">
+        <p>Feedback</p>
+        <p>Feedback will go in here</p>
+      </div>
+      <p>        
+        &lt;div class=&quot;flash&quot;&gt; 
+        <br />
+        &lt;p&gt;Feedback&lt;/p&gt;
+      </p>
+    </div>
+    <div class="col_1_of_2">
+      <div class="flash--success">
+        <p>Success</p>
+        <p>This will provided feedback indicating success</p>
+      </div>
+      <p>
+        &lt;div class=&quot;flash--success&quot;&gt; &lt;p&gt;Success&lt;/p&gt;
+      </p>
+    </div>
+    <div class="col_1_of_2">
+      <div class="flash--error">
+        <p>Error</p>
+        <p>This will list errors</p>
+      </div>
+      <p>
+        &lt;div class=&quot;flash--error&quot;&gt; &lt;p&gt;Error&lt;/p&gt;
+      </p>
+    </div>
+    <br />
+    <br />
+    <h2>Mixins</h2>
+    <p>Mixins allow you to define styles that can easily be reused. We're not using this much for this project, but you should still have a look at the abstracts/mixins.scss page</p>
+    <br />
+    <p>To use a mixin, you type @include mixinname() { inside the current rule you're styling</p>
+    <br />
+    <p>Examples</p>
+    <br />
+    <div class="mixin-ex-1">
+      <p>@include border-shadow-soft()</p>
+    </div>
+    <div class="mixin-ex-2">
+      <p>@include border-shadow-large-example()</p>
+    </div>
+
+    <br />
+    <p><b>More importantly</b>,  we use mixins to easily write styles for larger sized screens. The default rules should be styled for mobile-sized viewports, while
+    mixins should be used to write styles for larger screens. To do so, use the code:</p>
+    <br />
+    <p>
+      @include breakpoint-screen-larger-than($breakpoint-tablet) { <br />
+        styles for larger screens go here <br />
+      }
+    </p>
+  </div>
+  <select class="inputfield--select" id="weightunit" name="weightunit"><option value="kilograms (kgs)">kilograms (kgs)</option><option value="pounds (lbs)">pounds (lbs)</option></select>
+
+  {% block extra_js_scripts %}
+  <!-- ADD THIS BLOCK IF YOU WANT TO INSERT EXTRA JS FILES -->
+  {% endblock %}
+
+{% endblock %}

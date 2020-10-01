@@ -9,19 +9,46 @@ header {
   left: 0;
   height: $header-height;
   width: 100%;
-  background-color: $color-primary;
+  background-color: $color-white;
   @include border-shadow-soft;
-  align-items: center;
+  z-index: 100; // Make sure this is always at the top layer, don't allow other elements to cover it
 }
 
-  // The 'freight carbon calculator' logo. Only used for the dashboard version
-  .header--logo {
-    color: $color-font-white;
-    font-size: 1.5em;
-    font-weight: 500;
+
+  // The style-related rules below are for adjusting the logo's size depending on the viewport
+  .logo-container {
+    max-width: 140px;
+    height: 100%;
+
+    // Make the container larger, which would automatically expand the logo img
+    @include breakpoint-screen-larger-than($breakpoint-mobile) {
+      max-width: 160px;
+    }
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+      max-width: 180px;
+    }
+    
+    // The logo image should be clickable, therefore its inside an <a> element.
+    // This <a> element also needs to be styled to be 100% the height of its container.
+    a {
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: $header-height;
+    }
   }
+
+  // Make the logo stretch to fit the container while keeping aspect ratio
+  .app-logo {
+    max-height:100%; max-width:100%;
+    vertical-align: middle
+  }
+
+
 
   // Use only when the header should always stick to the top, even when user scrolls down
   .--fixed {
     position: fixed;
   }
+

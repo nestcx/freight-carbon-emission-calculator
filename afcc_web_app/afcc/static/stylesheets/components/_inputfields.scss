@@ -1,0 +1,23 @@
+.inputfield--text {
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+  margin-bottom: $spacing-small; // Always have some empty space between input fields to reduce clutter
+  margin-top: $spacing-x-small;
+
+  &:active, &:focus {
+    box-shadow: 0 0 0 2px rgba(0, 225, 176, 0.15);
+    border: 1px solid rgb(32, 106, 93, 0.5);
+  }
+}
+
+// Rules for the labels that describe the input field
+.inputfield__label {
+  font-size: 0.9em;
+}
+
+.inputfield--select {
+  font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 0.8em;
+}

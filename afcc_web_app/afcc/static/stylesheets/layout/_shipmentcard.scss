@@ -1,0 +1,59 @@
+// This is the element that will contain all the details about the shipment
+// The shipments page will be made up of primarily these
+.shipment-card {
+  width: 100%;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  padding: $spacing-default $spacing-small;
+
+  &:not(:last-child) {
+    margin-bottom: $spacing-small;
+  }
+
+  // Shipments contain a lot of data, so limit the height for now
+
+  // TODO: FIX THE STYLES OF THE SHIPMENT CARDS SO THAT THEY DON'T TAKE UP SO MUCH SPACE
+  overflow-y: scroll;
+  max-height: 10em;
+}
+
+  .shipment-card--expanded {
+    @extend .shipment-card;
+    max-height: unset;
+  }
+
+// This is the empty one to indicate to the user there are no shipments and
+// that they should click on the '+' button
+.shipment-card--empty-placeholder {
+  @extend .shipment-card;
+  border: 2px dashed #ccc;
+  background-color: transparent;
+  text-align: center;
+}
+
+
+.shipment-card .title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: $spacing-default;
+  background: lightblue;
+}
+
+.title a {
+  color: blue;
+  text-decoration: none;
+}
+
+.title a:visited {
+  color: blue;
+  text-decoration: none;
+}
+
+.heading, .data {
+  display: inline;
+}
+
+.heading {
+  font-weight: bold;
+}

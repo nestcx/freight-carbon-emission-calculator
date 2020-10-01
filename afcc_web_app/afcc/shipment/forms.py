@@ -1,11 +1,10 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, DecimalField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length
 
 class CreateShipmentForm(FlaskForm):
-    shipment_name = StringField('Shipment Name', validators =[
-        Length(min=4, message='Shipment name must be at least 4 characters')
-    ])
+    shipment_name = StringField('Shipment Name')
 
     start_address = StringField('Start Address', validators =[
         DataRequired(message='Please enter a start location'),
@@ -28,10 +27,9 @@ class CreateShipmentForm(FlaskForm):
 
     submit = SubmitField('Create Shipment')
 
+
 class EditShipmentForm(FlaskForm):
-    shipment_name = StringField('Shipment Name', validators =[
-        Length(min=4, message='Shipment name must be at least 4 characters')
-    ])
+    shipment_name = StringField('Shipment Name')
 
     start_address = StringField('Start Address', validators =[
         DataRequired(message='Please enter a start location'),
@@ -53,3 +51,22 @@ class EditShipmentForm(FlaskForm):
         validators = [DataRequired(message='Please enter a load weight unit')])
 
     submit = SubmitField('Edit Shipment')
+
+
+class ShipmentsForm(FlaskForm):
+    shipments = FileField(validators=[FileRequired()])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

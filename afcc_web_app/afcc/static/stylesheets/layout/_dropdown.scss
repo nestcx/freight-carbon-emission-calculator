@@ -1,0 +1,33 @@
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: $color-white;
+    z-index: 1;
+    @include border-shadow-soft-wide();
+    border-bottom: 1px solid darken($color-white, 10%);
+    border-left: 1px solid darken($color-white, 10%);
+    z-index: 100; // Make sure this is always at the top layer, don't allow other elements to cover it
+
+    .dropdown-option {
+        height: 100%;
+        padding: 0 $spacing-default;
+        color: $color-font-black;
+        float: none;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        padding: $spacing-default $spacing-large;
+        padding-right: $spacing-x-large;
+        border-top: 1px solid darken($color-white, 10%);
+        
+        &:hover {
+            background-color: darken($color-white, 4%);
+            color: $color-secondary;
+        }
+    }
+}
+
+.--show-content {
+    display: block;
+}

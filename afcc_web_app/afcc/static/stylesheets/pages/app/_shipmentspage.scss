@@ -1,0 +1,63 @@
+// This will wrap the contents of the entire shipment listings page
+// The generic container class doesn't provide enough, so we use this
+// to extend it
+.container--shipments-page {
+  @extend .container;
+  padding: $spacing-default;
+}
+
+
+// This is the div container for the '+' button. Fix its positiong to the
+// bottom right corner of the screen
+.add-shipment-icon-container {
+  position: fixed;
+  bottom: calc(#{$header-height} + #{$spacing-default});
+  right: $spacing-default;
+}
+
+
+// This is the container for the 2 add shipment buttons shown on tablet-sized viewports
+.add-shipment-buttons-container {
+
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    display: flex !important;
+    justify-content: center;
+  }
+}
+
+
+// This is the modal that pops up when user hits the upload file button.
+// It contains the file upload form
+.modal--file-upload {
+  display: none;
+  position: fixed;
+  top: $header-height;
+  left: 0;
+}
+
+  .--modal-active {
+    display: block !important;
+    z-index: 1000;
+  }
+
+  
+  .black-out-screen {
+    background-color: rgb(0, 0, 0, 0.4);
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+  }
+
+
+// The actual form
+.form--shipment-upload {
+  padding: $spacing-small;
+}
+
+  #button-cancel {
+    cursor: default;
+  }

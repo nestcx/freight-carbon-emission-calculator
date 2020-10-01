@@ -1,10 +1,67 @@
 // The footer and all elements inside it will be styled in this sheet
-
 .footer {
-  padding: $spacing-small;
+
+  background-color: $color-primary;
+  
+  // Mobile-first approach. On mobiles the footer will be fixed to the bottom of viewport
+  height: $header-height;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%; // Extend the footer to 100% width, otherwise bottom nav links get bunched up on smaller viewport sizes
+  
+  // For larger screens
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    
+    height: unset; // unset the height set for the mobile version
+    padding: $spacing-small;
+    text-align: right;
+    border-top: 1px solid $color-grey-border;
+    box-shadow: 0 -2px 6px -1px rgba(0, 0, 0, 0.1), 0 0px 4px -1px rgba(0, 0, 0, 0.06);
+    padding-right: $spacing-small;
+  }
+}
+
+.bottomnav {
   width: 100%;
-  text-align: right;
-  border-top: 1px solid $color-grey-border;
-  background-color: $color-background;
-  box-shadow: 0 -2px 6px -1px rgba(0,0,0,.1),0 0px 4px -1px rgba(0,0,0,.06);
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  box-shadow: -1px -4px 6px 3px rgba(0, 0, 0, .06),0 -2px 12px 1px rgba(0, 0, 0, .02);
+  align-content: center;
+
+  .navButton {
+    width: 33%;
+    border: 0;
+    font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: transparent;
+
+    .navlink {
+      height: 100%;
+      font-size: 1.1em;
+      color: $color-white;
+      text-decoration: none; // Remove the ugly underline of links
+
+      // Rules below are to make the <a> element clickable from within the entire button, rather
+      // than forcing the user to click on the small text
+      height: $header-height;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background-color: lighten($color-primary, 4%);
+      }
+    }
+  }
+
+  // Hide the bottom navbar on larger screens
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    display: none;
+  }
+}
+
+.credit a {
+  color: $color-font-black;
+  text-decoration: none;
 }

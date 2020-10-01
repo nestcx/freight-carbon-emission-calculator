@@ -1,0 +1,122 @@
+.container--location-map {
+  max-width: 100%;
+  height: 250px;
+  border: 1px solid rgb(187, 187, 187);
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  margin-top: $spacing-default;
+
+  // On larger viewports, place the map on the right half of the form
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    width: 50%;
+    max-width: 50%;
+    align-self: flex-end; // Align it to the bottom
+    order: 5; // Place map div at the end so that it overflows and wraps to a new clumn
+  }
+}
+
+
+.form--add-shipments {
+  // Don't make the form be so near the header bar when on larger screens
+  @include breakpoint-screen-larger-than($breakpoint-mobile) {
+    border-radius: 6px;
+    max-width: 860px;
+    margin-top: $spacing-large;
+    padding-top: $spacing-large;
+  }
+
+  // Add a little accent to the form to make it a little more visually appealing
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    border-top: 3px solid $color-primary;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
+
+
+
+// This class is for styling the form such that its displayed as 1 column on mobiles
+// and displayed as 2 on larger viewports
+.form--double-column {  
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    display: flex;
+    flex-wrap: wrap; // Use wrap to push the map to a new column
+    flex-direction: column;
+    justify-content: flex-end; // Align elemnts towards bottom, which help aligns divs horizontally
+    max-height: 500px;
+  }
+}
+
+.container--location-inputs, .container--shipment-form-inputs {
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    width: 48%;
+  }
+}
+
+
+// This is required for the Leaflet map to function
+#mapid { 
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+// The rules in the classes below are to fit the cargo weight and unit selection element
+// together
+.container--input-weight-and-unit {
+  display: flex;
+  overflow-x: hidden;
+}
+
+#load_weight {
+  // Must specify a min-width, otherwise the inputfield will never shrink as the container div does
+  min-width: 6em;
+  flex-grow: 2;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#load_weight_unit {
+  flex-grow: 1;
+  max-width: 10em;
+  @extend .inputfield--text;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 0;
+}
+
+
+
+.autosuggestbox {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #d4d4d4;
+  @include border-shadow-soft;
+  
+  & p {
+    padding: $spacing-small;
+    margin: 0;
+    font-size: 0.8em;
+    border-bottom: 1px solid #ebebeb;
+    cursor: pointer;
+  }
+
+  & p:hover, p:active {
+    background-color: $color-secondary;
+    //background-color: rgb(0, 81, 255);
+    color: white;
+  }
+
+  &--active {
+    background-color: $color-secondary;
+    //background-color: rgb(0, 81, 255);
+    color: white;
+  }
+}
+
+// Remove the bottom margins on the these 2 inputs fields
+.input-pick-up, .input-drop-off {
+  margin-bottom: 0;
+}

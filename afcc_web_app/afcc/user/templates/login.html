@@ -1,26 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Sign in to your account</h1>
-<form action="" method="POST" novalidate>
-    {{ form.hidden_tag() }}
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class=flash-error>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-    <p>
-        {{ form.email.label }} <br>
-        {{ form.email(size=32) }}
-    </p>
-    <p>
-        {{ form.password.label }} <br>
-        {{ form.password(size=32) }}
-    </p>
-    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-    <p>{{ form.submit() }}</p>
-</form>
+<div class="container --enforce-max-width">
+    
+    <form class="form form--login" action="" method="POST" novalidate>
+
+        <h2 class="form__heading">Sign in to your account</h2>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label(class_="inputfield__label") }} <br>
+            {{ form.email(class_="inputfield--text", autofocus=true, required="required") }}
+        </p>
+        <p>
+            {{ form.password.label(class_="inputfield__label") }} <br>
+            {{ form.password(class_="inputfield--text", required="required") }}
+        </p>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flash--error>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <!-- <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p> -->
+        <input class="form--login__button button--secondary" id="submit" name="submit" type="submit" value="log in">
+    </form>
+</div>
+
 {% endblock %}

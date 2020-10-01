@@ -11,7 +11,7 @@
 
   // Make the intro text and img smaller on the main screen when viewed on smaller screens. 
   // It doesn't need to take up so much space.
-  @include breakpoint($breakpoint-mobile) {
+  @include breakpoint-screen-larger-than($breakpoint-mobile) {
     padding: $spacing-default !important;
 
     & h1 {
@@ -56,7 +56,7 @@
   img {
     display: block; // Used to get rid of the 4px of whitespace that would be there otherwise
 
-    @include breakpoint($breakpoint-tablet) {
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
       height: 150px; // Make the truck image smaller
     }
   }
@@ -79,7 +79,7 @@
     }
 
     // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
-    @include breakpoint($breakpoint-mobile) {
+    @include breakpoint-screen-larger-than($breakpoint-mobile) {
       padding: $spacing-x-large 0; // Remove left and right padding, so that the background takes up the entire width
     }
   }
@@ -92,7 +92,7 @@
     margin-top: $spacing-x-large; // Add space between the header and media cards
 
     // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
-    @include breakpoint($breakpoint-mobile) {
+    @include breakpoint-screen-larger-than($breakpoint-mobile) {
       // Change direction to column, so that rather than squeezing 3 media cards in 1 row, each row has 1 media card only
       flex-direction: column;
     }

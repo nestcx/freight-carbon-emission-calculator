@@ -18,13 +18,13 @@
   // The style that all attention-grabbing CTA buttons will take on
   .button--primary {
     @extend .button;
-    background-color: $color-tertiary;
+    background-color: $color-primary;
     color: white;
     border: 0;
 
     // Darken the button on hover as a means of providing visual feedback
     &:hover, :active, :focus {
-      background-color: darken($color-tertiary, 10%);
+      background-color: darken($color-primary, 5%);
     }
   }
 
@@ -37,31 +37,32 @@
 
     // Darken the button on hover as a means of providing visual feedback
     &:hover {
-      background-color: darken($color-secondary, 10%);
-    }
-  }
-
-
-  .button--file-upload {
-    @extend .button;
-    background-color: $color-tertiary;
-    font-size: 0.9em;
-    color: white;
-    // Darken the button on hover as a means of providing visual feedback
-    &:hover, :active, :focus {
-      background-color: darken($color-tertiary, 10%);
+      background-color: lighten($color-secondary, 5%);
     }
   }
 
   // The rule that will style buttons like 'cancel', 'back', etc. These shouldn't out.
-  .button--wrong {
+  .button--non-focus {
     @extend .button;
-    background-color: white;
+    background-color: rgb(231, 231, 231);
     color: $color-font-black;
-    border: 1px solid darken(white, 15%);
+    border: 1px solid darken(white, 25%);
 
     // Darken the button on hover as a means of providing visual feedback
     &:hover {
       background-color: darken(white, 8%);
+    }
+  }
+
+  // For buttons make serious changes that can't be reverted (i.e. deleting an account)
+  .button--red-warning {
+    @extend .button;
+    background-color: red;
+    color: white;
+    border: 0;
+
+    // Darken the button on hover as a means of providing visual feedback
+    &:hover, &:active, &:focus {
+      background-color: darken(red, 5%);
     }
   }

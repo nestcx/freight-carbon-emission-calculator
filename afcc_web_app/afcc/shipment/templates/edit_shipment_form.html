@@ -1,59 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Shipment</title>
-</head>
 
-<body>
+{% block content %}
+<form class="form form--edit-shipment --enforce-max-width" action="" method="POST" novalidate>
+        <h1 class="form__heading">Edit Shipment Form</h1>
+        <h2>{{ shipment.shipment_id }}</h2>
 
-    <h1>Edit Shipment Form</h1>
-    <h2>{{ shipment.shipment_id }}</h2>
-    <form action="" method="POST" novalidate>
-
-        <!-- display flash messages -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul class=flash-error>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-
-        {{ form.hidden_tag() }}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flash--error>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {{ form.hidden_tag() }}
         
-        <p>
-            {{ form.shipment_name.label }}
-            {{ form.shipment_name }}
-        </p>
-        <p>
-            {{ form.start_address.label }}
-            {{ form.start_address }}
-        </p>
-        <p>
-            {{ form.end_address.label }}
-            {{ form.end_address }}
-        </p>
-        <p>
-            {{ form.load_weight.label }}
-            {{ form.load_weight }}
-        </p>
-        <p>
-            {{ form.load_weight_unit.label }}
-            {{ form.load_weight_unit }}
-        </p>
-        <p>
-            {{ form.submit.label }}
-            {{ form.submit }}
-        </p>
-        <p>
+    <p>
+        {{ form.shipment_name.label(class_="inputfield__label") }}
+        {{ form.shipment_name(class_="inputfield--text", autofocus=true) }}
+    </p>
+    <p>
+        {{ form.start_address.label(class_="inputfield__label") }}
+        {{ form.start_address(class_="inputfield--text") }}
+    </p>
+    <p>
+        {{ form.end_address.label(class_="inputfield__label") }}
+        {{ form.end_address(class_="inputfield--text") }}
+    </p>
+    
+    {{ form.load_weight.label(class_="inputfield__label") }}
+    <div class="container--input-weight-and-unit">
+        {{ form.load_weight(class_="inputfield--text") }}
+        {{ form.load_weight_unit(class_="inputfield--select") }}
+    </div>
+    <p>
+        {{ form.submit(class="button--primary") }}
+    </p>
+</form>
 
-    </form>
 
-</body>
-
-</html>
+{% endblock %}

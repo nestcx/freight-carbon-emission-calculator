@@ -1,18 +1,26 @@
 // The navigation bar that contains the links and dropdown menu
 
-// Style rules for the <li> list element in the navbar
+
+// This is the <nav> element. This has to be styled similarly to the child <ul>
+// element that it is storing. It is a bit clunky, but we need to have <nav><ul><li>
+// in order to have valid html
 .navbar {
-  width: 100%;
-  height: $header-height; // Make the navbar's height match the header
-  align-items: stretch;
-  display: flex;
-  justify-content: flex-end;
-  
-  /** 
-   * Include the breakpoint Mixin. Tablet and smaller CSS code goes between this code block
-   * This part will have the code to display the navbar on hamburger menu click
-   */
-  @include breakpoint($breakpoint-tablet) {
+    // Place the navbar in the same position as the navbar__links class
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+
+    // On larger screens, remove the styles so that the navlinks can return back into
+    // the header bar without issues
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+      position: unset;
+      width: unset;
+    }
+}
+
+// This is the <ul> container that contains the navlinks
+.navbar__links {
     // Place the navbar just below the header menu. This will initially be hidden,
     // and be displayed when the user clicks on the hamburger menu button
     position: absolute;
@@ -21,76 +29,120 @@
     top: $header-height;
     flex-direction: column;
     height: auto; // Remove the height and let it automatically be set
-    box-shadow: -5px 5px 6px -1px rgba(0,0,0,.3),0 2px 4px -1px rgba(0,0,0,.1);
+    box-shadow: -5px 5px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+
+
+  /** 
+   * Include the breakpoint Mixin. Tablet and smaller CSS code goes between this code block
+   * This part will have the code to display the navbar on hamburger menu click
+   */
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    /* The height, align-items: stretch and display flex is there to stretch the navigation 
+     * links so that when the user hovers over a link, the background colour extends the height
+     * of the navbar
+     */
+    position: static;
+    flex-direction: row;
+    box-shadow: none;
+    width: 100%;
+    height: $header-height; // Make the navbar's height match the header
+    align-items: stretch;
+    display: flex;
+    background-color: $color-white;
   }
 }
 
-// Style rules for each <ul> element in the navbar
-.navbar--link {
-  background-color: $color-primary;
 
-  // The styles for the <a> elements found in the <ul> elements
+// Style rules for the links in the navbar
+.navbar__link {
+  background-color: white;
+  width: 100%;
+  list-style-type: none; // Remove the bullet points
+
   a {
-    // The 3 rules below are used to center the text vertically within the navbar
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding: 0 $spacing-default;
-    color: white;
-    text-decoration: none; // Remove the ugly underline of links
-    background-color: $color-primary;
+    display: block;
+    font-size: 1em;
+    border-top: 1px solid #cccccc;
+    padding: $spacing-small;
+    text-decoration: none;
+    color: $color-font-black;
+    white-space: nowrap; // Don't allow text to go the next line. Without this the link 'log in' will occupy 2 lines
 
     &:hover {
-      background-color: darken($color-primary, 4%);
+      background-color: darken($color-white, 3%);
+      color: $color-secondary;
+      font-weight: 800;
+    }
+    
+
+    @include breakpoint-screen-larger-than($breakpoint-mobile) {
+      // There may not be enough space for all the links in the navbar on tablet-sized
+      // viewports, so squash the links in a little
+      font-size: 0.9em; 
     }
 
-    // CSS rules for tablet sized screens should go here
-    @include breakpoint($breakpoint-tablet) {
-      // Adjust padding so links are easier to click on with mobile phones
-      padding: $spacing-small 0;
-      font-size: 1em;
-      border-top: 1px solid #cccccc;
-      margin: 0 $spacing-default;
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
 
+      font-size: 1em;
+
+      // Add a transparent bottom border the same width as the accent, so that when hovered
+      // over, the navlink occupies the same amount of space. Otherwise, as a border is created
+      // on hover, the text moves upwards to make room for the border
+      border-bottom: 3px solid transparent;
+      
+      // Remove the top border that's used for the navbar on mobile viewports
+      border-top: 0;
+
+      // The 3 rules below are used to center the text vertically within the navbar
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 $spacing-default;
+      color: $color-font-black;
+      text-decoration: none; // Remove the ugly underline of links
+
+      // Add a little accent on the bottom of the navlink on larger when hovered over on larger screens
       &:hover {
-        background-color: $color-primary;
-        color: darken(white, 10%);
+        border-bottom: 3px solid $color-secondary; // Create an underline accent when the user hovers over
+        font-weight: unset; // Remove the boldening of text on mobile viewports when user hovers over link
       }
     }
   }
 }
 
-// The hamburger button on that displays the dropdown menu when clicked. 
+// Larger usernames can squash the navbar, so lower the font size
+.navbar__link--username {
+  a {
+    font-size: 0.9em;
+  }
+}
+
+// The hamburger button on that displays the dropdown menu when clicked.
 // It will only be displayed on smaller screens
 .button-hamburger {
-  display: none;
 
-  @include breakpoint($breakpoint-tablet) {
-    // Rules below are to put the button all the way to the top right corner
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
+  width: $header-height * 1;
+  height: $header-height;
+  background-color: transparent;
+  border: 0;
+  padding: 12px;
 
-    width: $header-height * 1.2;
-    height: $header-height;
-    background-color: transparent;
-    border: 0;
-    padding: 12px;
+  // Hide the hamburger button on larger screens
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    display: none;
   }
 
   // The lines that are used to draw the hamburger
   &--line {
     display: block;
-    background-color: white;
+    background-color: $color-font-black;
     min-height: 3px;
     width: 100%;
     margin-bottom: 4px;
 
     // When the hamburger button is clicked and the dropdownmenu is showing
     &.--toggled-on {
-
-      // Draw an x shape 
+      // Draw an x shape
       &:nth-child(1) {
         transform: rotate(45deg);
         position: relative;
@@ -107,3 +159,20 @@
     }
   }
 }
+
+
+.user-account-links {
+  height: 100%;
+}
+  // This is the user icon, which should only be displayed on mobile sizes viewports
+  .mobile-only-user-button {
+    height: 100%;
+    width: $header-height;
+    border: 0;
+    padding: $spacing-small;
+    background-color: transparent;
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+      display: none;
+    }
+  }

@@ -1,13 +1,20 @@
-.flash-error {
-  background-color: red;
-  color: white;
-  font-size: 1.1em;
+.flash {
+  border: 1px solid rgb(207, 207, 207);
+  background-color: $color-white;
+  @include border-shadow-soft();
+  border-radius: 3px;
   padding: $spacing-small;
+  font-size: 0.9em;
+  list-style: none;
+  margin-bottom: $spacing-default;
 }
 
-.flash-success {
-  background-color: rgb(3, 148, 80);
-  color: white;
-  font-size: 1.1em;
-  padding: $spacing-small;
-}
+  .flash--error {
+    @extend .flash;
+    color: rgb(219, 3, 3);
+  }
+
+  .flash--success {
+    @extend .flash;
+    color: rgb(3, 148, 80);
+  }

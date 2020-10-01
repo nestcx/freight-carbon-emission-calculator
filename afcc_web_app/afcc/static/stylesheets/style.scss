@@ -14,26 +14,26 @@
 @import 'layout/_header.scss';
 @import 'layout/_navbar.scss';
 @import 'layout/_footer.scss';
-@import 'layout/_sidebar.scss';
-@import 'layout/_dashboard.scss';
-@import 'layout/pagemodule';
-// The breadcrumb is the part just below the header which shows the current screen name
-@import 'layout/_breadcrumb.scss';
+@import 'layout/_dropdown.scss';
+@import 'layout/shipmentcard';
 
 // Import all components
 @import 'components/_buttons.scss'; // Buttons
-@import 'components/_media-card.scss'; // Media cards
+@import 'components/headings';
 @import 'components/autosuggestbox.scss';
 @import 'components/flash-message';
-// Import the rules for dashboard screens.
-@import 'screens/_mainscreen.scss';
-@import 'screens/planshipmentscreen';
-@import 'screens/_uploadscreen';
-@import 'screens/_datapagescreen';
+@import 'components/inputfields';
+@import 'components/forms';
 
 // Import styles for specific pages
 @import 'pages/homepage';
+@import 'pages/playground';
+@import 'pages/profilepage';
+@import 'pages/usersettingspage';
 
+// Pages that are part of the app, not the webite
+@import 'pages/app/shipmentspage';
+@import 'pages/app/shipmentformpage';
 
 // --------------------------------------------------------
 // Utility classes. Classes that have only 1 responsibility
@@ -41,15 +41,19 @@
 // here for now.
 // --------------------------------------------------------
 
-// Hide screen when it's not currently the screen that the user is at
-.--screen-inactive {
-  display: none;
-}
 
 // Use this to hide elements on smaller viewsizes. For example: The navbar when
 // in mobile mode
-.--hidden {
-  @include breakpoint($breakpoint-tablet) {
+.--hidden-on-mobile {
+  display: none;
+
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    display: inherit;
+  }
+}
+
+.--hidden-on-desktop {
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
     display: none;
   }
 }
