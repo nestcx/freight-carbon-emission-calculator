@@ -10,7 +10,7 @@
 <body>
 
     <h1>Create Shipment Form</h1>
-    <form action="{{url_for('shipment.C_shipment')}}" method="POST" novalidate>
+    <form action="" method="POST" novalidate>
 
         <!-- display flash messages -->
         {% with messages = get_flashed_messages() %}
@@ -23,6 +23,8 @@
         {% endif %}
         {% endwith %}
 
+        {{ form.hidden_tag() }}
+        
         <p>
             {{ form.shipment_name.label }}
             {{ form.shipment_name }}
@@ -38,6 +40,10 @@
         <p>
             {{ form.load_weight.label }}
             {{ form.load_weight }}
+        </p>
+        <p>
+            {{ form.load_weight_unit.label }}
+            {{ form.load_weight_unit }}
         </p>
         <p>
             {{ form.submit.label }}
