@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+
 {% block extra_css %} 
 <link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
 {% endblock %}
@@ -28,6 +29,9 @@
             </div>
             <div class="edit_shipment">
                 <a href="{{ url_for('shipment.show_edit_shipment_form', shipment_id=shipment.shipment_id) }}">Edit shipment</a>
+            </div>
+            <div class="delete_button">
+                <input type="button" value="Delete Shipment" onclick="deleteShipment({{shipment.shipment_id}})">
             </div>
 
             <div class="shipment_name">
@@ -151,5 +155,9 @@
 <div class="black-out-screen" id="black-out-screen"></div>
 
 <script src="/static/javascript/shipmentmodal.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{ url_for('shipment.static', filename='javascript/delete_shipment.js') }}"></script>
 </div>
+
 {% endblock %}
