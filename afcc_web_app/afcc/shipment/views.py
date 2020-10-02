@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, flash, redirect, url_for, g
+from flask import Blueprint, request, render_template, flash, redirect, url_for, g, make_response
 from afcc.extensions import db
 from afcc.shipment.models import Shipment
 from afcc.user.models import User
@@ -16,6 +16,7 @@ from afcc.shipment.forms import EditShipmentForm
 from afcc.shipment.forms import ShipmentsForm
 from os.path import splitext 
 from sqlalchemy import desc
+import pdfkit
 
 # create shipment blueprint.
 shipment_bp = Blueprint(
@@ -193,9 +194,6 @@ def RUD_shipment(shipment_id):
     else:
         return redirect(url_for('shipment.CR_shipments'))
 
-    
-
-
 # GET  /shipments/<shipment_id>/edit  -  show form to edit individual shipment
 @shipment_bp.route('/shipments/<int:shipment_id>/edit', methods=['GET', 'POST'])
 def show_edit_shipment_form(shipment_id):
@@ -267,6 +265,38 @@ def show_edit_shipment_form(shipment_id):
 
     return render_template('edit_shipment_form.html', form=edit_shipment_form, shipment=shipment)
 
+# GET  /shipments/<shipment_id>/report  -  return pdf report of shipment 
+@shipment_bp.route('/shipments/<int:shipment_id>/report', methods=['GET'])
+def get_shipment_report(shipment_id):
+    # authenticate user
+    authentication = authenticate_user()
+    if authentication[0] is True: user = authentication[1]
+    elif authentication[0] is False: return redirect(url_for(authentication[1]))
+
+    # get shipment.
+    try:
+        shipment = Shipment.query.get(shipment_id)
+    except Exception:
+        return redirect(url_for('shipment.CR_shipments'))
+
+    # check shipment exists and belongs to user.
+    #result = check_user_shipment(user, shipment)
+    #if result is True:
+    #    rendered = render_template('shipment.html', shipment=shipment)
+    #else:
+    #    return redirect(url_for('shipment.CR_shipments'))
+    rendered = render_template('report.html', shipment = shipment)
+
+    options = {
+        "enable-local-file-access": None
+        }
+
+    pdf = pdfkit.from_string(rendered, False, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename = output.pdf'
+
+    return response
 
 def authenticate_user():
     """ Ensure a user is logged in and has a valid account.
@@ -397,3 +427,4 @@ def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress)
     response["location"]["end_location"]["coordinate"] = str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1])
 
     return response
+
