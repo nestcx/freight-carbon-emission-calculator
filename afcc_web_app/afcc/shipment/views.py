@@ -16,6 +16,7 @@ from afcc.shipment.forms import EditShipmentForm
 from afcc.shipment.forms import ShipmentsForm
 from os.path import splitext 
 from sqlalchemy import desc
+import re # Used for regex 
 
 # create shipment blueprint.
 shipment_bp = Blueprint(
@@ -69,50 +70,72 @@ def CR_shipments():
         # 3. - get shipment count
         rows = len(dfile_data["From"])
 
-        # 4. - check shipment count not greater than 25.
-        if rows > 25:
-            flash("25 shipment maximum.")
-            return redirect(url_for('shipment.CR_shipments'))
+
+        # # 4. - check shipment count not greater than 25.
+        # if rows > 25:
+        #     flash("25 shipment maximum.")
+        #     return redirect(url_for('shipment.CR_shipments'))
 
         # created shipment id's saved in this dictionary for optional use at
         # completion of upload.
         created_shipment_ids = []
 
-        # 5. - loop through each shipment row
+
+        # # 5. - loop through each shipment row
         for i in range(rows):
 
-            # generate shipment data
-            try:
-                shipment_data = generate_shipment_data(
-                    dfile_data['Weight'][i], 
-                    'tonne', dfile_data['From'][i], 
-                    dfile_data['To'][i]
-                )
-            except Exception:
-                flash("File upload failed - error generating shipment data")
-                return redirect(url_for('shipment.CR_shipments'))
+            # This pattern is to ensure that there is a postcode in the 'From' and 'To' columns
+            # There must be exactly 4 digits and they can't all be 0
+            pattern = '(?<!\d)(?!0000)\d{4}(?!\d)'
 
-            # add shipment to database session
-            try:
-                created_shipment_ids.append(create_shipment(shipment_data, 
-                                                            user.uid, 
-                                                            False, 
-                                                            shipment_name=''))
-            except Exception:
-                flash("File upload failed - error saving shipment")
-                return redirect(url_for('shipment.CR_shipments'))
+            from_postcode = re.search(pattern, dfile_data['From'][i])
+            to_postcode = re.search(pattern, dfile_data['To'][i])
 
-        # commit database session
-        try:
-            db.session.commit()
-            flash("Success! Created " + str(len(created_shipment_ids)) + " shipments.")
-        except Exception:
-            flash("Error saving shipments")
-        
+            # If a valid postcode was found in both the 'From' and 'To' column in the file, proceed
+            if from_postcode and to_postcode:
+                print(from_postcode.group() + '  >  ' + to_postcode.group())
+                if maproutes.route_exists(from_postcode.group(), to_postcode.group()):
+                    print('nice')
+            else:
+                print('Both From and To addresses need to contain a valid postcode')
+
+
+        #     # generate shipment data
+        #     try:
+        #         shipment_data = generate_shipment_data(
+        #             dfile_data['Weight'][i], 
+        #             'tonne', dfile_data['From'][i], 
+        #             dfile_data['To'][i]
+        #         )
+        #     except Exception:
+        #         flash("File upload failed - error generating shipment data")
+        #         return redirect(url_for('shipment.CR_shipments'))
+
+        #     # add shipment to database session
+        #     try:
+        #         created_shipment_ids.append(create_shipment(shipment_data, 
+        #                                                     user.uid, 
+        #                                                     False, 
+        #                                                     shipment_name=''))
+        #     except Exception:
+        #         flash("File upload failed - error saving shipment")
+        #         return redirect(url_for('shipment.CR_shipments'))
+
+        # # print(shipment_data)
+
+        # # # commit database session
+        # # try:
+        # #     db.session.commit()
+        # #     flash("Success! Created " + str(len(created_shipment_ids)) + " shipments.")
+        # # except Exception:
+        # #     flash("Error saving shipments")
+
+
         return redirect(url_for('shipment.CR_shipments'))
 
 
     return render_template('shipments.html', shipments=shipments, file_form=file_form)
+
 
 
 # GET  /shipments/new  -  show form to create new shipment
@@ -355,10 +378,12 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
 
 
 def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress):
+    
     startAddressInfo = maproutes.search_address(startAddress)
     endAddressInfo = maproutes.search_address(endAddress)
-    print(endAddressInfo)
+    
     print(startAddressInfo)
+    print(endAddressInfo)
 
     startAddressValidated = startAddressInfo["features"][0]["properties"]["label"]
     endAddressValidated = endAddressInfo["features"][0]["properties"]["label"]

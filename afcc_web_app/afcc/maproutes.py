@@ -152,6 +152,80 @@ def search_address(user_input):
         return "Error: " + response.status_code
 
 
+from afcc.models import Route
+from datetime import date
+from afcc.extensions import db
+from afcc import data_conversion
+
+def route_exists(postcode_a, postcode_b):
+    print('checking if route exists between ' + postcode_a + ' and ' + postcode_b)
+
+    route = Route.query.filter_by(
+        point_a_postcode = postcode_a,
+        point_b_postcode = postcode_b
+        ).first()
+        
+    # flip point a and point b and retry to see if a route exists
+    if route is None:
+        route = Route.query.filter_by(
+            point_a_postcode = postcode_b,
+            point_b_postcode = postcode_a
+        ).first()
+
+    # If route is still none, add it to the route database
+    ###################### TODO:
+    print('function: route_exists: ')
+    print(route)
+    
+    if route is None:
+        add_route(postcode_a, postcode_b)
+    
+    # TODO: USE ELSEIF AND CHECK IF ROUTE IS MORE THAN A YEAR OLD
+
+
+    pass
+
+
+def add_route(postcode_a, postcode_b):
+
+    postcode_a_coordinates = search_address(postcode_a)
+    postcode_b_coordinates = search_address(postcode_b)
+
+
+    geoJSONData = get_route(
+        str(postcode_a_coordinates["features"][0]["geometry"]["coordinates"][0]) + "," + 
+        str(postcode_a_coordinates["features"][0]["geometry"]["coordinates"][1]), 
+        str(postcode_b_coordinates["features"][0]["geometry"]["coordinates"][0]) + "," + 
+        str(postcode_b_coordinates["features"][0]["geometry"]["coordinates"][1])
+    )
+
+
+    length_of_route = data_conversion.metre_to_kilometre(
+        get_length_of_route(geoJSONData))
+    duration_of_route = get_duration_of_route(geoJSONData)
+
+    route = Route(
+
+        point_a_postcode = postcode_a,
+        point_a_region_name = postcode_a_coordinates["features"][0]["properties"]["label"],
+        # ORS API returns coords as [long, lat] as opposed to the common [lat, long]
+        point_a_lat = postcode_a_coordinates["features"][0]["geometry"]["coordinates"][1],
+        point_a_long = postcode_a_coordinates["features"][0]["geometry"]["coordinates"][0],
+        
+        point_b_postcode = postcode_b,
+        point_b_region_name = postcode_b_coordinates["features"][0]["properties"]["label"],
+        point_b_lat = postcode_b_coordinates["features"][0]["geometry"]["coordinates"][1],
+        point_b_long = postcode_b_coordinates["features"][0]["geometry"]["coordinates"][0],
+        
+        route_distance_in_km = length_of_route,
+        estimated_duration_in_seconds = duration_of_route,
+        last_updated = date.today()
+    )
+
+    db.session.add(route)
+    db.session.commit()
+
+
 def convert_address_to_coords(address):
     pass
 
