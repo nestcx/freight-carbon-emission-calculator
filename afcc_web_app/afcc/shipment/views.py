@@ -93,11 +93,20 @@ def CR_shipments():
 
             # If a valid postcode was found in both the 'From' and 'To' column in the file, proceed
             if from_postcode and to_postcode:
-                print(from_postcode.group() + '  >  ' + to_postcode.group())
-                if maproutes.route_exists(from_postcode.group(), to_postcode.group()):
-                    print('nice')
+
+                # Check if a route already exists between the 2 postcodes, and if they don't,
+                # add the route to the database of routes
+                if not maproutes.route_exists(from_postcode.group(), to_postcode.group()):
+
+                    # Also make sure that the route isn't outdated, meaning that it hasn't
+                    # been more than a year since the route was added or update
+                    
+                    maproutes.add_route(from_postcode.group(), to_postcode.group())
+                
             else:
                 print('Both From and To addresses need to contain a valid postcode')
+                # TODO: Add functionality here to ignore the row, and increment a counter so that we
+                # TODO  can display to the user the amount of entries that couldn't get processed
 
 
         #     # generate shipment data

@@ -157,6 +157,7 @@ from datetime import date
 from afcc.extensions import db
 from afcc import data_conversion
 
+
 def route_exists(postcode_a, postcode_b):
     print('checking if route exists between ' + postcode_a + ' and ' + postcode_b)
 
@@ -171,26 +172,26 @@ def route_exists(postcode_a, postcode_b):
             point_a_postcode = postcode_b,
             point_b_postcode = postcode_a
         ).first()
-
-    # If route is still none, add it to the route database
-    ###################### TODO:
-    print('function: route_exists: ')
-    print(route)
     
     if route is None:
-        add_route(postcode_a, postcode_b)
+        return False
+    else:
+        return True
+
+
+def route_is_up_to_date(postcode_a, postcode_b):
     
-    # TODO: USE ELSEIF AND CHECK IF ROUTE IS MORE THAN A YEAR OLD
+    todays_date = date.today()
+    print(todays_date)
+    # if route.last_updated
 
-
-    pass
 
 
 def add_route(postcode_a, postcode_b):
 
+    # TODO: CHECK IF ROUTE ALREADY EXISTS IN DB. IF SO, CHECK IF IT CAN BE UPDATED
     postcode_a_coordinates = search_address(postcode_a)
     postcode_b_coordinates = search_address(postcode_b)
-
 
     geoJSONData = get_route(
         str(postcode_a_coordinates["features"][0]["geometry"]["coordinates"][0]) + "," + 
@@ -203,6 +204,7 @@ def add_route(postcode_a, postcode_b):
     length_of_route = data_conversion.metre_to_kilometre(
         get_length_of_route(geoJSONData))
     duration_of_route = get_duration_of_route(geoJSONData)
+
 
     route = Route(
 
