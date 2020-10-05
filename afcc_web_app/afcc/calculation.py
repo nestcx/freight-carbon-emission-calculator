@@ -15,8 +15,8 @@ calculation_bp = Blueprint("calculation", __name__, url_prefix='/calculation', t
 # Fuel combusted: Diesel oil
 # Given in kg CO2-e/GJ
 CARBON_DIOXIDE = 69.9
-METHANE = 0.06
-NITROUS_OXIDE = 0.5
+METHANE = 0.07
+NITROUS_OXIDE = 0.4
 
 # Energy content factor of diesel oil
 # Transport equipment type: Heavy vehicles conforming to Euro IV+ design standards
@@ -96,7 +96,7 @@ def calculate_emissions(truck_fuel_economy, distance, load_weight, load_weight_u
     calculation_data["methane_emission"] = emission_calculation(METHANE, fuel_consumption["fuel_consumption"])
     calculation_data["nitrous_oxide_emission"] = emission_calculation(NITROUS_OXIDE, fuel_consumption["fuel_consumption"])
     calculation_data["distance"] = distance
-    calculation_data["fuel_consumptionn"] = fuel_consumption["fuel_consumption"]
+    calculation_data["fuel_consumption"] = fuel_consumption["fuel_consumption"]
     calculation_data["adjusted_fuel_economy"] = fuel_consumption["adjusted_fuel_economy"]
     
     return calculation_data

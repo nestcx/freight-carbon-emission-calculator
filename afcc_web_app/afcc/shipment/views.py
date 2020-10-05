@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, flash, redirect, url_for,
 from afcc.extensions import db
 from afcc.shipment.models import Shipment
 from afcc.user.models import User
+from afcc.shipment.models import TruckConfiguration
 from flask_login import current_user
 import datetime
 import os
@@ -389,7 +390,12 @@ def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress)
         maproutes.get_length_of_route(geoJSONData))
     duration_of_route = maproutes.get_duration_of_route(geoJSONData)
 
-    calculation_data = calculation.calculate_emissions(18.1, length_of_route, float(loadWeight), loadWeightUnit)
+
+    # get default truck configuration by passing in configuration id
+    truck = TruckConfiguration.query.get(1)
+
+
+    calculation_data = calculation.calculate_emissions(23.1, length_of_route, float(loadWeight), loadWeightUnit)
 
     response = {}
 
