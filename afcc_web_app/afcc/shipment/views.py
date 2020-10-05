@@ -172,7 +172,7 @@ def show_create_shipment_form():
 
 
 # GET  /shipments/<shipment_id>  -  get individual shipment
-@shipment_bp.route('/shipments/<int:shipment_id>', methods=['GET'])
+@shipment_bp.route('/shipments/<int:shipment_id>', methods=['GET', 'DELETE'])
 def RUD_shipment(shipment_id):
 
     # authenticate user
@@ -185,14 +185,31 @@ def RUD_shipment(shipment_id):
         shipment = Shipment.query.get(shipment_id)
     except Exception:
         return redirect(url_for('shipment.CR_shipments'))
-
+    
     # check shipment exists and belongs to user.
     result = check_user_shipment(user, shipment)
-    if result is True:
-        return render_template('shipment.html', shipment=shipment)
-    else:
+       
+    if (request.method == 'GET'):
+        if result is True:
+            return render_template('shipment.html', shipment=shipment)
+       
         return redirect(url_for('shipment.CR_shipments'))
+    
+    if (request.method == 'DELETE'):  
+        if result is False:
+            flash("Error deleting shipment")
+     
+        # delete shipment and commit database session
+        try:
+            db.session.delete(shipment)
+            db.session.commit()
+            flash("Deleted Shipment: " + str(shipment_id))
+        except Exception:
+            flash("Error deleting shipment")
 
+    return redirect(url_for('shipment.CR_shipments'))
+
+ 
     
 
 
