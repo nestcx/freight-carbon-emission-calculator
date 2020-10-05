@@ -23,7 +23,6 @@ def get_route():
     if "startCoords" in request.args and "endCoords" in request.args:
         start_coords = request.args.get("startCoords")
         end_coords = request.args.get("endCoords")
-        print(start_coords)
 
         # Return the GeoJSON data and a status code of 200 indicating success
         return get_route(start_coords, end_coords), 200
@@ -74,11 +73,11 @@ def get_route(start_coords, end_coords):
         result = response.json()
 
         # For Debugging purposes
-        print("total length in metres: " + str(get_length_of_route(result)))
-        print("estimated length of trip in seconds: " +
-              str(get_duration_of_route(result)))
-        print(data_conversion.convert_seconds_to_dhms(
-            get_duration_of_route(result)))
+        #print("total length in metres: " + str(get_length_of_route(result)))
+        #print("estimated length of trip in seconds: " +
+        #      str(get_duration_of_route(result)))
+        #print(data_conversion.convert_seconds_to_dhms(
+        #    get_duration_of_route(result)))
 
         return result
 
