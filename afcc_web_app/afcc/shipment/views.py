@@ -108,6 +108,7 @@ def CR_shipments():
             db.session.commit()
             flash("Success! Created " + str(len(created_shipment_ids)) + " shipments.")
         except Exception:
+            db.session.rollback()
             flash("Error saving shipments")
         
         return redirect(url_for('shipment.CR_shipments'))
@@ -143,7 +144,8 @@ def show_create_shipment_form():
                 create_shipment_form.start_address.data,
                 create_shipment_form.end_address.data
             )
-        except Exception:
+        except Exception as e:
+            print(e)
             flash("An error occurred while trying to generate the shipment.")
             return render_template('create_shipment_form.html', form=create_shipment_form)
 
@@ -206,6 +208,7 @@ def RUD_shipment(shipment_id):
             db.session.commit()
             flash("Deleted Shipment: " + str(shipment_id))
         except Exception:
+            db.session.rollback()
             flash("Error deleting shipment")
 
     return redirect(url_for('shipment.CR_shipments'))
@@ -253,7 +256,8 @@ def show_edit_shipment_form(shipment_id):
                 edit_shipment_form.start_address.data, 
                 edit_shipment_form.end_address.data
             )
-        except Exception:
+        except Exception as e:
+            print(e)
             flash("An error occurred while trying to generate the shipment")
             return render_template('edit_shipment_form.html', form=edit_shipment_form, shipment=shipment)
 
@@ -339,7 +343,10 @@ def edit_shipment(shipment, updated, shipment_name):
     shipment.start_address_coordinates = updated["location"]["start_location"]["coordinate"]
     shipment.end_address_coordinates = updated["location"]["end_location"]["coordinate"]
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
 
 
 def create_shipment(shipment_data, user_id, commit=True, **kwargs):
@@ -363,12 +370,16 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
         start_address_coordinates=shipment_data["location"]["start_location"]["coordinate"],
         end_address_coordinates=shipment_data["location"]["end_location"]["coordinate"]
     )
-
-    db.session.add(myShipment)
+    
 
     if commit == True:
-        db.session.commit()
+        try:
+            db.session.add(myShipment)
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
 
+    print(myShipment.shipment_name)
     return myShipment.shipment_id
 
 
@@ -391,11 +402,10 @@ def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress)
     duration_of_route = maproutes.get_duration_of_route(geoJSONData)
 
 
-    # get default truck configuration by passing in configuration id
     truck = TruckConfiguration.query.get(1)
 
 
-    calculation_data = calculation.calculate_emissions(23.1, length_of_route, float(loadWeight), loadWeightUnit)
+    calculation_data = calculation.calculate_emissions(truck.fuel_economy, length_of_route, float(loadWeight), loadWeightUnit)
 
     response = {}
 
@@ -404,7 +414,7 @@ def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress)
     response["emissions"]["methane_emission"] = calculation_data["methane_emission"]
     response["emissions"]["nitrous_oxide_emission"] = calculation_data["nitrous_oxide_emission"]
 
-    response["fuel_consumption"] = calculation_data["fuel_consumptionn"]
+    response["fuel_consumption"] = calculation_data["fuel_consumption"]
     response["adjusted_fuel_economy"] = calculation_data["adjusted_fuel_economy"]
     response["distance"] = length_of_route
     response["duration"] = duration_of_route
