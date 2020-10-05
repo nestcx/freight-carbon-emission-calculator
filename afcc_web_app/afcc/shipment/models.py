@@ -4,7 +4,6 @@ from afcc.extensions import db
 class Shipment(db.Model):
 
     __tablename__ = 'shipment'
-    __table_args__ = {'extend_existing': True}
 
 
     shipment_id = db.Column(db.Integer, primary_key=True)
@@ -26,11 +25,11 @@ class Shipment(db.Model):
 
 class TruckConfiguration(db.Model):
 
-    __tablename__ = 'shipment'
+    __tablename__ = 'truck_configuration'
     __table_args__ = {'extend_existing': True}
 
 
-    configuration_id = db.Column(db.Integer, primary_key=True)
+    config_id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(20), nullable=False)
     description = db.Column(db.String(50), nullable=False)
     gcm = db.Column(db.Float, nullable=False)
