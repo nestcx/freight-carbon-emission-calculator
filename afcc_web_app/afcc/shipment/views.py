@@ -384,28 +384,35 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
 
 
 def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress):
+
+    # retrieve valid origin and destination addresses
     startAddressInfo = maproutes.search_address(startAddress)
     endAddressInfo = maproutes.search_address(endAddress)
-    print(endAddressInfo)
-    print(startAddressInfo)
-
     startAddressValidated = startAddressInfo["features"][0]["properties"]["label"]
     endAddressValidated = endAddressInfo["features"][0]["properties"]["label"]
 
+    # retrieve origin and destination coordinates
     startAddressCoordinates = startAddressInfo["features"][0]["geometry"]["coordinates"]
     endAddressCoordinates = endAddressInfo["features"][0]["geometry"]["coordinates"]
 
+    # retrieve route from origin to destination
     geoJSONData = maproutes.get_route(str(startAddressCoordinates[0]) + "," + str(startAddressCoordinates[1]), str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1]))
 
+    # retrieve route length and duration 
     length_of_route = data_conversion.metre_to_kilometre(
         maproutes.get_length_of_route(geoJSONData))
     duration_of_route = maproutes.get_duration_of_route(geoJSONData)
 
 
+    # choose default truck configuration.
     truck = TruckConfiguration.query.get(1)
+    
+    # get base fuel economy
+    base_fuel_economy = truck.fuel_economy
 
 
-    calculation_data = calculation.calculate_emissions(truck.fuel_economy, length_of_route, float(loadWeight), loadWeightUnit)
+    # calculate emissions data
+    calculation_data = calculation.calculate_emissions(base_fuel_economy, length_of_route, float(loadWeight), loadWeightUnit)
 
     response = {}
 

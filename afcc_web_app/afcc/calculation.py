@@ -95,7 +95,6 @@ def calculate_emissions(truck_fuel_economy, distance, load_weight, load_weight_u
     calculation_data["carbon_dioxide_emission"] = emission_calculation(CARBON_DIOXIDE, fuel_consumption["fuel_consumption"])
     calculation_data["methane_emission"] = emission_calculation(METHANE, fuel_consumption["fuel_consumption"])
     calculation_data["nitrous_oxide_emission"] = emission_calculation(NITROUS_OXIDE, fuel_consumption["fuel_consumption"])
-    calculation_data["distance"] = distance
     calculation_data["fuel_consumption"] = fuel_consumption["fuel_consumption"]
     calculation_data["adjusted_fuel_economy"] = fuel_consumption["adjusted_fuel_economy"]
     
