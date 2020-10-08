@@ -1,0 +1,85 @@
+.shipment-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.shipment-expand {
+    padding-left: 20%;
+    padding-right: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &:hover {
+        background-color: darken($color-white, 10%);
+    }
+}
+
+.container--shipmentinfo {
+    padding-top: 60px;
+}
+
+.shipment-info-table {
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+
+    .col-one {
+        text-align: left;
+    }
+
+    .col-two {
+        text-align: right;
+    }
+}
+
+.containershipment {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.container--emissions {
+    @extend .containershipment;
+}
+
+.container--distance {
+    @extend .containershipment;
+}
+
+.container--tree {
+    @extend .containershipment;
+}
+
+.container--price {
+    @extend .containershipment;
+}
+
+.container--fuel {
+    @extend .containershipment;
+}
+
+.btn-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+#table--pricing {
+    width: 100%;
+    border: none;
+    border-spacing: 0px;
+
+    .price {
+        &:hover {
+            background-color: darken($color-white, 10%);
+        }
+    }
+}
+
+#table--emissions {
+    width: 100%;
+}
