@@ -9,6 +9,12 @@ from afcc import data_conversion
 from afcc.extensions import limiter
 from afcc.config import *  # Import sensitive config data
 
+from afcc.models import Route
+from datetime import date, timedelta
+from afcc.extensions import db
+from afcc import data_conversion
+
+
 maproutes_bp = Blueprint("maproutes", __name__, url_prefix="/maproutes",
                          static_folder='static', template_folder='templates')
 
@@ -145,11 +151,6 @@ def search_address(user_input):
         # TODO: Handle error more gracefully
         return "Error: " + response.status_code
 
-
-from afcc.models import Route
-from datetime import date, timedelta
-from afcc.extensions import db
-from afcc import data_conversion
 
 
 def route_exists(postcode_a, postcode_b):

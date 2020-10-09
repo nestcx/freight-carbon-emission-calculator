@@ -70,12 +70,6 @@ def CR_shipments():
         # 3. - get shipment count
         rows = len(dfile_data["From"])
 
-
-        # # 4. - check shipment count not greater than 25.
-        # if rows > 25:
-        #     flash("25 shipment maximum.")
-        #     return redirect(url_for('shipment.CR_shipments'))
-
         # created shipment id's saved in this dictionary for optional use at
         # completion of upload.
         created_shipment_ids = []
@@ -94,6 +88,8 @@ def CR_shipments():
             from_postcode = re.search(pattern, dfile_data['From'][i])
             to_postcode = re.search(pattern, dfile_data['To'][i])
 
+            print('1')
+
             # If a valid postcode was found in both the 'From' and 'To' column in the file, proceed
             if from_postcode and to_postcode:
                 # Check if a route already exists between the 2 postcodes, and if they don't,
@@ -104,39 +100,45 @@ def CR_shipments():
                     # If not, increment the number of invalid shipments
                     if not maproutes.add_route(from_postcode.group(), to_postcode.group()):
                         invalid_shipment_count += 1
-
+                        continue
                 # The route exists, therefore, check to see if it is up to date. If not,
                 # Update the route entry in the DB
                 elif not maproutes.route_is_up_to_date(route):
                     maproutes.update_route(route)
 
+                print('2')
+                
+                if route is None:
+                    route = maproutes.route_exists(from_postcode.group(), to_postcode.group())
+
+                print('3')
+
+                # try:
+                shipment_data = generate_bulk_shipment_data(
+                    dfile_data['Weight'][i], 
+                    'tonne',
+                    route)
+                # except Exception:
+                #     invalid_shipment_count += 1
+                #     continue
+
+                print('4')
+
+                # add shipment to database session
+                try:
+                    created_shipment_ids.append(create_shipment(shipment_data, 
+                                                                user.uid, 
+                                                                False, 
+                                                                shipment_name=''))
+                except Exception:
+                    invalid_shipment_count += 1
+                    continue
+
+            # Both coordinates weren't valid, therefore ignore and increment counter
             else:
                 invalid_shipment_count += 1
 
-
-            # generate shipment data
-            try:
-                shipment_data = generate_shipment_data(
-                    dfile_data['Weight'][i], 
-                    'tonne', dfile_data['From'][i], 
-                    dfile_data['To'][i]
-                )
-            except Exception:
-                flash("File upload failed - error generating shipment data")
-                return redirect(url_for('shipment.CR_shipments'))
-
-            # add shipment to database session
-            try:
-                created_shipment_ids.append(create_shipment(shipment_data, 
-                                                            user.uid, 
-                                                            False, 
-                                                            shipment_name=''))
-            except Exception:
-                flash("File upload failed - error saving shipment")
-                return redirect(url_for('shipment.CR_shipments'))
-
-        print(shipment_data)
-
+        print('5')
         # commit database session
         try:
             db.session.commit()
@@ -395,6 +397,47 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
     return myShipment.shipment_id
 
 
+
+def generate_bulk_shipment_data(loadWeight, loadWeightUnit, route):
+    print('doing bulk shipment')
+    """
+    This function is a faster, though less-accurate alternative to generating shipment data.
+    It is specifically used for bulk shipments from file uploads 
+
+    """
+    calculation_data = calculation.calculate_emissions(
+        18.1, 
+        route.route_distance_in_km, 
+        float(loadWeight), 
+        loadWeightUnit)
+
+    response = {}
+
+    response["emissions"] = {}
+    response["emissions"]["carbon_dioxide_emission"] = calculation_data["carbon_dioxide_emission"]
+    response["emissions"]["methane_emission"] = calculation_data["methane_emission"]
+    response["emissions"]["nitrous_oxide_emission"] = calculation_data["nitrous_oxide_emission"]
+
+    response["fuel_consumption"] = calculation_data["fuel_consumptionn"]
+    response["adjusted_fuel_economy"] = calculation_data["adjusted_fuel_economy"]
+    response["distance"] = route.route_distance_in_km
+    response["duration"] = route.estimated_duration_in_seconds
+    response["load_weight"] = loadWeight
+    response["load_weight_unit"] = loadWeightUnit
+
+    response["location"] = {}
+    response["location"]["start_location"] = {}
+    response["location"]["end_location"] = {}
+    response["location"]["start_location"]["address"] = route.point_a_region_name
+    response["location"]["start_location"]["coordinate"] = str(route.point_a_long) + "," + str(route.point_a_lat)
+    response["location"]["end_location"]["address"] = route.point_b_region_name
+    response["location"]["end_location"]["coordinate"] = str(route.point_b_long) + "," + str(route.point_b_lat)
+
+    return response
+
+
+
+
 def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress):
     
     startAddressInfo = maproutes.search_address(startAddress)
@@ -411,9 +454,6 @@ def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress)
 
     geoJSONData = maproutes.get_route(str(startAddressCoordinates[0]) + "," + str(startAddressCoordinates[1]), str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1]))
 
-    print('generate_shipment_data')
-    print(geoJSONData)
-    print('\n\n\n')
 
     length_of_route = data_conversion.metre_to_kilometre(
         maproutes.get_length_of_route(geoJSONData))
