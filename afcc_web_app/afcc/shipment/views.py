@@ -81,6 +81,9 @@ def CR_shipments():
         created_shipment_ids = []
 
 
+        # This will be used to count how many shipments were not able to be inserted
+        invalid_shipment_count = 0
+
         # # 5. - loop through each shipment row
         for i in range(rows):
 
@@ -93,52 +96,58 @@ def CR_shipments():
 
             # If a valid postcode was found in both the 'From' and 'To' column in the file, proceed
             if from_postcode and to_postcode:
-
                 # Check if a route already exists between the 2 postcodes, and if they don't,
                 # add the route to the database of routes
-                if not maproutes.route_exists(from_postcode.group(), to_postcode.group()):
+                route = maproutes.route_exists(from_postcode.group(), to_postcode.group())
+                if route is None:
+                    # Check to see if add_route is able to successfully create the new route.
+                    # If not, increment the number of invalid shipments
+                    if not maproutes.add_route(from_postcode.group(), to_postcode.group()):
+                        invalid_shipment_count += 1
 
-                    # Also make sure that the route isn't outdated, meaning that it hasn't
-                    # been more than a year since the route was added or update
-                    
-                    maproutes.add_route(from_postcode.group(), to_postcode.group())
-                
+                # The route exists, therefore, check to see if it is up to date. If not,
+                # Update the route entry in the DB
+                elif not maproutes.route_is_up_to_date(route):
+                    maproutes.update_route(route)
+
             else:
-                print('Both From and To addresses need to contain a valid postcode')
-                # TODO: Add functionality here to ignore the row, and increment a counter so that we
-                # TODO  can display to the user the amount of entries that couldn't get processed
+                invalid_shipment_count += 1
 
 
-        #     # generate shipment data
-        #     try:
-        #         shipment_data = generate_shipment_data(
-        #             dfile_data['Weight'][i], 
-        #             'tonne', dfile_data['From'][i], 
-        #             dfile_data['To'][i]
-        #         )
-        #     except Exception:
-        #         flash("File upload failed - error generating shipment data")
-        #         return redirect(url_for('shipment.CR_shipments'))
+            # generate shipment data
+            try:
+                shipment_data = generate_shipment_data(
+                    dfile_data['Weight'][i], 
+                    'tonne', dfile_data['From'][i], 
+                    dfile_data['To'][i]
+                )
+            except Exception:
+                flash("File upload failed - error generating shipment data")
+                return redirect(url_for('shipment.CR_shipments'))
 
-        #     # add shipment to database session
-        #     try:
-        #         created_shipment_ids.append(create_shipment(shipment_data, 
-        #                                                     user.uid, 
-        #                                                     False, 
-        #                                                     shipment_name=''))
-        #     except Exception:
-        #         flash("File upload failed - error saving shipment")
-        #         return redirect(url_for('shipment.CR_shipments'))
+            # add shipment to database session
+            try:
+                created_shipment_ids.append(create_shipment(shipment_data, 
+                                                            user.uid, 
+                                                            False, 
+                                                            shipment_name=''))
+            except Exception:
+                flash("File upload failed - error saving shipment")
+                return redirect(url_for('shipment.CR_shipments'))
 
-        # # print(shipment_data)
+        print(shipment_data)
 
-        # # # commit database session
-        # # try:
-        # #     db.session.commit()
-        # #     flash("Success! Created " + str(len(created_shipment_ids)) + " shipments.")
-        # # except Exception:
-        # #     flash("Error saving shipments")
+        # commit database session
+        try:
+            db.session.commit()
+            flash("Success! Created " + str(len(created_shipment_ids)) + " shipments.")
+        except Exception:
+            flash("Error saving shipments")
 
+
+        # If there were shipments that couldn't be processed, inform the user
+        if invalid_shipment_count is not 0:
+            flash('Some shipments could not be processed.\nThe number of shipments that couldn\'t be processed: ' + str(invalid_shipment_count))
 
         return redirect(url_for('shipment.CR_shipments'))
 
@@ -401,6 +410,10 @@ def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress)
     endAddressCoordinates = endAddressInfo["features"][0]["geometry"]["coordinates"]
 
     geoJSONData = maproutes.get_route(str(startAddressCoordinates[0]) + "," + str(startAddressCoordinates[1]), str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1]))
+
+    print('generate_shipment_data')
+    print(geoJSONData)
+    print('\n\n\n')
 
     length_of_route = data_conversion.metre_to_kilometre(
         maproutes.get_length_of_route(geoJSONData))

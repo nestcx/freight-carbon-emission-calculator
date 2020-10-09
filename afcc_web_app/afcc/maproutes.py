@@ -52,7 +52,6 @@ def find_coordinate_of_address():
 #  END VIEWS  #
 ###############
 
-
 def get_route(start_coords, end_coords):
     """Get a route between two coordinates by sending a GET request to an API
 
@@ -82,14 +81,9 @@ def get_route(start_coords, end_coords):
 
         return result
 
-    # Status code of 400 means that we sent an incorrect request/inputs, therefore provide the user with feedback.
-    elif response.status_code == 400:
-        # TODO: Change this to handle the error gracefully
-        return "Error: request was unable to processed"
-    # Handle any other of the various possible errors
+    # Status code wasn't 200, therefore, something went wrong in the route calculation
     else:
-        # TODO: Change this to handle the error gracefully
-        return "Error: " + str(response.status_code)
+        return None
 
 
 def get_length_of_route(route_geojson):
@@ -153,7 +147,7 @@ def search_address(user_input):
 
 
 from afcc.models import Route
-from datetime import date
+from datetime import date, timedelta
 from afcc.extensions import db
 from afcc import data_conversion
 
@@ -174,22 +168,76 @@ def route_exists(postcode_a, postcode_b):
         ).first()
     
     if route is None:
+        print('Route doesn\'t exist')
+        return None
+    else:
+        print('Route does exist')
+        return route
+
+
+def route_is_up_to_date(route):
+    """Check if a route is up to date, meaning that it hasn't been more than a year since
+    the route was calculated and stored in the routes table
+
+    Arguments:
+    route {object} the route object whose date will be checked
+
+    Returns:
+    [Boolean] -- True if it is up to date, otherwise false
+    """
+
+    todays_date = date.today()
+    year_ago = todays_date - timedelta(days=365)
+    
+    if route.last_updated < year_ago:
         return False
     else:
         return True
 
 
-def route_is_up_to_date(postcode_a, postcode_b):
-    
-    todays_date = date.today()
-    print(todays_date)
-    # if route.last_updated
 
+def update_route(route):
+    """Update a route in the routes table. Do so by calling the API service and updating the distance
+    and duration as calculated by the API service. This is done to account for the fact that new features/
+    roads/etc may be built or removed, which would alter the distance and duration of a route
+
+    Arguments:
+    route {object} the route object to update
+
+    Returns:
+    [Boolean] -- True if the route was able to be updated. Otherwise, false
+    """
+
+    coords_a = str(route.point_a_long) + ',' + str(route.point_a_lat)
+    coords_b = str(route.point_b_long) + ',' + str(route.point_b_lat)
+
+    print(coords_a + ' ' + coords_b)
+
+    # Call API service and retrieve the route directions again, so that the distance
+    # and duration of the trip can be updated
+    route_updated_GeoJSON = get_route(coords_a, coords_b)
+
+    if route_updated_GeoJSON is not None:
+        try:
+            updated_length = data_conversion.metre_to_kilometre(
+                get_length_of_route(route_updated_GeoJSON))
+            updated_duration = get_duration_of_route(route_updated_GeoJSON)
+
+            # Update the route object and commit to db
+            route.route_distance_in_km = updated_length
+            route.estimated_duration_in_seconds = updated_duration
+
+            route.last_updated = date.today()
+            db.session.commit()
+            return True
+
+        except:
+            db.session.rollback()
+            return False
 
 
 def add_route(postcode_a, postcode_b):
 
-    # TODO: CHECK IF ROUTE ALREADY EXISTS IN DB. IF SO, CHECK IF IT CAN BE UPDATED
     postcode_a_coordinates = search_address(postcode_a)
     postcode_b_coordinates = search_address(postcode_b)
 
@@ -200,37 +248,33 @@ def add_route(postcode_a, postcode_b):
         str(postcode_b_coordinates["features"][0]["geometry"]["coordinates"][1])
     )
 
+    # If valid geoJSON data was returned from API service, continue
+    if geoJSONData is not None:
+        length_of_route = data_conversion.metre_to_kilometre(
+            get_length_of_route(geoJSONData))
+        duration_of_route = get_duration_of_route(geoJSONData)
 
-    length_of_route = data_conversion.metre_to_kilometre(
-        get_length_of_route(geoJSONData))
-    duration_of_route = get_duration_of_route(geoJSONData)
+        route = Route(
 
+            point_a_postcode = postcode_a,
+            point_a_region_name = postcode_a_coordinates["features"][0]["properties"]["label"],
+            # ORS API returns coords as [long, lat] as opposed to the common [lat, long]
+            point_a_lat = postcode_a_coordinates["features"][0]["geometry"]["coordinates"][1],
+            point_a_long = postcode_a_coordinates["features"][0]["geometry"]["coordinates"][0],
+            
+            point_b_postcode = postcode_b,
+            point_b_region_name = postcode_b_coordinates["features"][0]["properties"]["label"],
+            point_b_lat = postcode_b_coordinates["features"][0]["geometry"]["coordinates"][1],
+            point_b_long = postcode_b_coordinates["features"][0]["geometry"]["coordinates"][0],
+            
+            route_distance_in_km = length_of_route,
+            estimated_duration_in_seconds = duration_of_route,
+            last_updated = date.today()
+        )
 
-    route = Route(
+        db.session.add(route)
+        db.session.commit()
 
-        point_a_postcode = postcode_a,
-        point_a_region_name = postcode_a_coordinates["features"][0]["properties"]["label"],
-        # ORS API returns coords as [long, lat] as opposed to the common [lat, long]
-        point_a_lat = postcode_a_coordinates["features"][0]["geometry"]["coordinates"][1],
-        point_a_long = postcode_a_coordinates["features"][0]["geometry"]["coordinates"][0],
-        
-        point_b_postcode = postcode_b,
-        point_b_region_name = postcode_b_coordinates["features"][0]["properties"]["label"],
-        point_b_lat = postcode_b_coordinates["features"][0]["geometry"]["coordinates"][1],
-        point_b_long = postcode_b_coordinates["features"][0]["geometry"]["coordinates"][0],
-        
-        route_distance_in_km = length_of_route,
-        estimated_duration_in_seconds = duration_of_route,
-        last_updated = date.today()
-    )
+        return True
 
-    db.session.add(route)
-    db.session.commit()
-
-
-def convert_address_to_coords(address):
-    pass
-
-
-def convert_coords_to_address(coords):
-    pass
+    return False
