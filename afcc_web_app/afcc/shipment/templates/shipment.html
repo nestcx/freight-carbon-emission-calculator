@@ -44,17 +44,17 @@
         <h2>EMISSIONTOTAL</h2>
     </div>
     <table id="table--emissions">
-        <tr>
+        <tr class="gas --selected">
             <td>Carbon Dioxide</td>
             <td>{{ shipment.carbon_dioxide_emission }}</td>
             <td>%JS</td>
         </tr>
-        <tr>
+        <tr class="gas">
             <td>Nitrous Oxide</td>
             <td>{{ shipment.nitrous_oxide_emission }}</td>
             <td>%JS</td>
         </tr>
-        <tr>
+        <tr class="gas">
             <td>Methane</td>
             <td>{{ shipment.methane_emission }}</td>
             <td>%JS</td>
@@ -63,8 +63,8 @@
 
     <div class="container--distance">
         <h1>DISTANCE GRAPHIC</h1>
-        <h2>{{ shipment.trip_distance }}</h2>
-        <p>This shipment is travelling {{ shipment.trip_distance }}</p>
+        <h2>{{ shipment.trip_distance }}km</h2>
+        <p>This shipment is travelling {{ shipment.trip_distance }}km</p>
     </div>
 
     <div class="container--tree">
@@ -112,6 +112,11 @@
             How was this calculated?
         </button>
     </div>
+</div>
+<div class="buttons-modify">
+    <button class="btn-delete --hidden">Delete</button>
+    <button class="btn-edit --hidden" onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'">Edit</button>
+    <button class="btn-modify" onClick=modify()>Modify</button>
 </div>
 <script src="/static/javascript/viewshipment.js"></script>
 {% endblock %}

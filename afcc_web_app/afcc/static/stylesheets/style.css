@@ -940,20 +940,6 @@ header {
   padding-top: 60px;
 }
 
-.shipment-info-table {
-  width: 100%;
-  padding-left: 10%;
-  padding-right: 10%;
-}
-
-.shipment-info-table .col-one {
-  text-align: left;
-}
-
-.shipment-info-table .col-two {
-  text-align: right;
-}
-
 .containershipment, .container--emissions, .container--distance, .container--tree, .container--price, .container--fuel {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -982,6 +968,63 @@ header {
           align-items: center;
 }
 
+.buttons-modify {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 25%;
+  position: absolute;
+  bottom: 70px;
+  margin-left: 5%;
+}
+
+.buttons-modify .btn-modify {
+  margin: 10%;
+  height: 60px;
+  width: 60px;
+  border: none;
+  border-radius: 50%;
+}
+
+.buttons-modify .btn-edit {
+  margin: 10%;
+  height: 60px;
+  width: 60px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(126, 193, 241, 0.4);
+}
+
+.buttons-modify .btn-delete {
+  margin: 10%;
+  height: 60px;
+  width: 60px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(242, 169, 167, 0.4);
+}
+
+.shipment-info-table {
+  width: 100%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.shipment-info-table .col-one {
+  text-align: left;
+}
+
+.shipment-info-table .col-two {
+  text-align: right;
+}
+
 #table--pricing {
   width: 100%;
   border: none;
@@ -994,6 +1037,16 @@ header {
 
 #table--emissions {
   width: 100%;
+  border: none;
+  border-spacing: 0px;
+}
+
+#table--emissions .gas:hover {
+  background-color: #e6e6e6;
+}
+
+.--selected {
+  background-color: #e6e6e6;
 }
 
 .container--shipments-page {

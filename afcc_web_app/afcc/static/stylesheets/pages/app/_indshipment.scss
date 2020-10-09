@@ -16,22 +16,10 @@
     }
 }
 
+//CONTAINERS
+
 .container--shipmentinfo {
     padding-top: 60px;
-}
-
-.shipment-info-table {
-    width: 100%;
-    padding-left: 10%;
-    padding-right: 10%;
-
-    .col-one {
-        text-align: left;
-    }
-
-    .col-two {
-        text-align: right;
-    }
 }
 
 .containershipment {
@@ -61,11 +49,65 @@
     @extend .containershipment;
 }
 
+//BUTTONS
+
 .btn-info {
     display: flex;
     flex-direction: column;
     width: 100%;
     align-items: center;
+}
+
+.buttons-modify {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
+    position: absolute;
+    bottom: $header-height + 10px;
+    margin-left: 5%;
+
+    .btn-modify {
+        margin: 10%;
+        height: $header-height;
+        width: $header-height;
+        border: none;
+        border-radius: 50%;
+    }
+
+    .btn-edit {
+        margin: 10%;
+        height: $header-height;
+        width: $header-height;
+        border: none;
+        border-radius: 50%;
+        background-color: rgba(126, 193, 241, .4);
+    }
+
+    .btn-delete {
+        margin: 10%;
+        height: $header-height;
+        width: $header-height;
+        border: none;
+        border-radius: 50%;
+        background-color: rgba(242, 169, 167, .4)
+    }
+}
+
+
+//TABLES//
+.shipment-info-table {
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+
+    .col-one {
+        text-align: left;
+    }
+
+    .col-two {
+        text-align: right;
+    }
 }
 
 #table--pricing {
@@ -82,4 +124,15 @@
 
 #table--emissions {
     width: 100%;
+    border: none;
+    border-spacing: 0px;
+    .gas {
+        &:hover {
+            background-color: darken($color-white, 10%);
+        }
+    }
+}
+
+.--selected {
+    background-color: darken($color-white, 10%);
 }
