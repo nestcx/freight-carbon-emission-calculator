@@ -42,6 +42,7 @@
     <div class="container--emissions">
         <h1>EMISSIONS GRAPHIC</h1>
         <h2>EMISSIONTOTAL</h2>
+        <p id="emission"></p>
     </div>
     <table id="table--emissions">
         <tr class="gas --selected">
@@ -69,13 +70,13 @@
 
     <div class="container--tree">
         <h1>TREE GRAPHIC</h1>
-        <h2>TREEJS</h2>
+        <p id="trees"></p>
         <p>You would need to plant XX trees to remove the produced carbon from the atomsphere</p>
     </div>
 
     <div class="container--price">
         <h1>COIN GRAPHIC</h1>
-        <h2>COINJS</h2>
+        <p id="coins"></p>
         <p>This shipment would cost XX under the 2011 proposed carbon pricing scheme</p>
     </div>
 
@@ -119,4 +120,6 @@
     <button class="btn-modify" onClick=modify()>Modify</button>
 </div>
 <script src="/static/javascript/viewshipment.js"></script>
+<script src="/static/javascript/shipmentgraphics.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
 {% endblock %}
