@@ -1,5 +1,20 @@
 "use strict";
 
+function init(){    
+    
+    var win = window,
+    doc = document,
+    docElem = doc.documentElement,
+    body = doc.getElementsByTagName('body')[0],
+    x = win.innerWidth || docElem.clientWidth || body.clientWidth,
+    y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
+    
+    draw_trees(x,y);
+    draw_coins(x,y);
+    draw_emissions();
+    rowClickHandler("table--pricing");
+}
+
 function expandinfo() {
     var tablerows = document.getElementsByClassName("shipment-row");
     var i;
@@ -25,9 +40,10 @@ function modify() {
     document.getElementsByClassName("btn-delete")[0].classList.toggle("--hidden");
 }
 
-function rowClickHandlers(tableId) {
+function priceClickHandler(tableId) {
     var table = document.getElementById(tableId);
     var rows = table.getElementsByTagName("tr");
+    var i;
     for (i = 0; i < rows.length; i++) {
         var currentRow = table.rows[i];
         var createClickHandler = function(row) {
@@ -41,7 +57,8 @@ function rowClickHandlers(tableId) {
     }
 }
 
-document.onload = loadFunction() {
-    rowClickHandlers("table--emissions");
-    rowClickHandlers("tablers--emissions");
+function rowClick() {
+    alert("test");
 }
+
+window.onload = init;

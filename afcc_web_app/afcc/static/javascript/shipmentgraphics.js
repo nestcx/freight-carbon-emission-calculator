@@ -1,18 +1,4 @@
 "use strict";
-function init(){    
-    
-    var win = window,
-    doc = document,
-    docElem = doc.documentElement,
-    body = doc.getElementsByTagName('body')[0],
-    x = win.innerWidth || docElem.clientWidth || body.clientWidth,
-    y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
-    
-    draw_trees(x,y);
-    draw_coins(x,y);
-    draw_emissions();
-
-}
 
 function draw_trees(ww,wh){
     var emission_amount=1.5;
@@ -313,8 +299,4 @@ function draw_emissions(){
         });
   
 }
-
-
-
-window.onload = init;
   

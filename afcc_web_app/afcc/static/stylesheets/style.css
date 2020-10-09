@@ -305,7 +305,7 @@ header {
 .footer {
   background-color: #8ab914;
   height: 60px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   width: 100%;
@@ -980,7 +980,7 @@ header {
       -ms-flex-pack: justify;
           justify-content: space-between;
   width: 25%;
-  position: absolute;
+  position: fixed;
   bottom: 70px;
   margin-left: 5%;
 }

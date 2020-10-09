@@ -45,7 +45,7 @@
         <p id="emission"></p>
     </div>
     <table id="table--emissions">
-        <tr class="gas --selected">
+        <tr class="gas --selected" onClick="rowClick()">
             <td>Carbon Dioxide</td>
             <td>{{ shipment.carbon_dioxide_emission }}</td>
             <td>%JS</td>
@@ -69,14 +69,14 @@
     </div>
 
     <div class="container--tree">
-        <h1>TREE GRAPHIC</h1>
         <p id="trees"></p>
+        <h2>TREENOJS</h2>
         <p>You would need to plant XX trees to remove the produced carbon from the atomsphere</p>
     </div>
 
     <div class="container--price">
-        <h1>COIN GRAPHIC</h1>
         <p id="coins"></p>
+        <h2>PRICEJS</h2>
         <p>This shipment would cost XX under the 2011 proposed carbon pricing scheme</p>
     </div>
 
@@ -119,7 +119,7 @@
     <button class="btn-edit --hidden" onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'">Edit</button>
     <button class="btn-modify" onClick=modify()>Modify</button>
 </div>
-<script src="/static/javascript/viewshipment.js"></script>
 <script src="/static/javascript/shipmentgraphics.js"></script>
+<script src="/static/javascript/viewshipment.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 {% endblock %}
