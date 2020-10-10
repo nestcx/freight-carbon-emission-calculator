@@ -1,4 +1,5 @@
 "use strict";
+<<<<<<< HEAD
 function init(){    
     
     var win = window,
@@ -13,6 +14,8 @@ function init(){
   
 
 }
+=======
+>>>>>>> 5a6206e3bdc37fa7724386ece1749dc4fb8695ec
 
 function draw_trees(carbon_emission,methane_emission,nitrousoxide_emission){
     var emission_amount=carbon_emission;
@@ -318,8 +321,4 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
         });
   
 }
-
-
-
-window.onload = init;
   
