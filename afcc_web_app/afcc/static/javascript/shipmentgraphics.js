@@ -1,21 +1,4 @@
 "use strict";
-<<<<<<< HEAD
-function init(){    
-    
-    var win = window,
-    doc = document,
-    docElem = doc.documentElement,
-    body = doc.getElementsByTagName('body')[0],
-    x = win.innerWidth || docElem.clientWidth || body.clientWidth,
-    y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
-    
-    //draw_trees(x,y);
-    draw_coins(x,y);
-  
-
-}
-=======
->>>>>>> 5a6206e3bdc37fa7724386ece1749dc4fb8695ec
 
 function draw_trees(carbon_emission,methane_emission,nitrousoxide_emission){
     var emission_amount=carbon_emission;
@@ -153,7 +136,7 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
     var w=400;
     var h=350;
   
-    var dataset1={ "Carbon": carbon_emission, "Methane": methane_emission, "Nitrousoxide": nitrousoxide_emission };
+    var dataset1={ "Carbon": carbon_emission, "Methane": 84*methane_emission, "Nitrousoxide": 298*nitrousoxide_emission };
   
     var outerRadius = 100;
     var innerRadius = 0;

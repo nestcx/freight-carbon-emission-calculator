@@ -9,9 +9,8 @@ function init(){
     x = win.innerWidth || docElem.clientWidth || body.clientWidth,
     y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
     
-    draw_trees(x,y);
+    
     draw_coins(x,y);
-    draw_emissions();
     rowClickHandler("table--pricing");
 }
 
