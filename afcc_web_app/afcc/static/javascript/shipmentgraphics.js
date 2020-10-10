@@ -8,16 +8,19 @@ function init(){
     x = win.innerWidth || docElem.clientWidth || body.clientWidth,
     y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
     
-    draw_trees(x,y);
+    //draw_trees(x,y);
     draw_coins(x,y);
-    draw_emissions();
+  
 
 }
 
-function draw_trees(ww,wh){
-    var emission_amount=1.5;
+function draw_trees(carbon_emission,methane_emission,nitrousoxide_emission){
+    var emission_amount=carbon_emission;
     var trees=emission_amount/0.066;
 
+    console.log(carbon_emission);
+    console.log(trees);
+    
     var xaxis=0;
     var yaxis=0;
 
@@ -33,6 +36,8 @@ function draw_trees(ww,wh){
     var total_trees=Math.round(trees);
     var max_tree=w/tree_w;
 
+    console.log(total_trees);
+
     var text=total_trees-20
     
     var loopcount=total_trees
@@ -40,7 +45,7 @@ function draw_trees(ww,wh){
     if(total_trees>(max_tree*2)){
         loopcount=(max_tree*2)
     }
-
+    console.log(loopcount);
     for(var i = 0; i<loopcount;i++){
                             
         svg.append('svg:image')
@@ -140,12 +145,12 @@ function draw_coins(ww,wh){
         
     }
 }
-function draw_emissions(){
+function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
     
     var w=400;
     var h=350;
   
-    var dataset1={ "Carbon": 0.129, "Methane": 0.024, "Nitrousoxide": 0.009 };
+    var dataset1={ "Carbon": carbon_emission, "Methane": methane_emission, "Nitrousoxide": nitrousoxide_emission };
   
     var outerRadius = 100;
     var innerRadius = 0;

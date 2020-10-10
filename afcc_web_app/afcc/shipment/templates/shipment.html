@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
 <div class="shipment-header --fixed">
     <button class="button-back" onClick=BACK()>BACK</button>
     <div class="shipment-title">
@@ -62,17 +61,28 @@
         </tr>
     </table>
 
+    <script src="/static/javascript/shipmentgraphics.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <script type="text/javascript">
+        draw_emissions({{ shipment.carbon_dioxide_emission }},{{ shipment.nitrous_oxide_emission }},{{ shipment.methane_emission }})
+    </script>
+
     <div class="container--distance">
         <h1>DISTANCE GRAPHIC</h1>
         <h2>{{ shipment.trip_distance }}</h2>
         <p>This shipment is travelling {{ shipment.trip_distance }}</p>
-    </div>
+    </div>    
 
     <div class="container--tree">
         <h1>TREE GRAPHIC</h1>
         <p id="trees"></p>
         <p>You would need to plant XX trees to remove the produced carbon from the atomsphere</p>
     </div>
+    
+    <script type="text/javascript">
+        draw_trees({{ shipment.carbon_dioxide_emission }},{{ shipment.nitrous_oxide_emission }},{{ shipment.methane_emission }})
+    </script>
 
     <div class="container--price">
         <h1>COIN GRAPHIC</h1>
@@ -115,6 +125,5 @@
     </div>
 </div>
 <script src="/static/javascript/viewshipment.js"></script>
-<script src="/static/javascript/shipmentgraphics.js"></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
+
 {% endblock %}
