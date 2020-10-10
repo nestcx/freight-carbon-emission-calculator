@@ -13,6 +13,8 @@ def create_app():
     app = Flask(__name__, template_folder='templates', static_folder='static')
     app.secret_key = b'_5#o2L"F4Q8z\n\xec]/'
 
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
     # Use the secret key as the salt as well. NOTE: This is temporary
@@ -45,6 +47,10 @@ def create_app():
     # import the blueprint with user-related routes
     from afcc.user import views as uviews
     from afcc.shipment import views as sviews
+
+    # TODO: REMOVE ################
+    from afcc import geoJSON
+    app.register_blueprint(geoJSON.geojson_bp)
 
     # register blueprints
     app.register_blueprint(maproutes.maproutes_bp)
