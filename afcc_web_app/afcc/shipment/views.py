@@ -17,6 +17,7 @@ from afcc.shipment.forms import ShipmentsForm
 from os.path import splitext 
 from sqlalchemy import desc
 import re # Used for regex 
+import json
 
 # create shipment blueprint.
 shipment_bp = Blueprint(
@@ -111,9 +112,15 @@ def CR_shipments():
 
 
 
-        matrix_geojson = maproutes.add_routes_matrix(set_of_new_routes_to_add)
-        geojson_data = matrix_geojson.get_geojson_data()
-        return geojson_data
+        list_of_matrices_geojson = maproutes.add_routes_matrix(set_of_new_routes_to_add)
+        
+
+        # Create a new list so you can return the list of all matrices in JSON format 
+        list_geojson_data = []
+        for i in range(len(list_of_matrices_geojson)):
+            list_geojson_data.append(list_of_matrices_geojson[i].get_geojson_data())
+
+        return jsonify(list_geojson_data)
 
         # for postcode_tuple in set_of_new_routes_to_add:
         #     maproutes.add_route(postcode_tuple[0], postcode_tuple[1])
