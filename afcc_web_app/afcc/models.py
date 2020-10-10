@@ -19,6 +19,7 @@ class Route(db.Model):
 
 class Postcode(db.Model):
     postcode = db.Column(db.Integer, nullable=False, primary_key=True)
+    region_name = db.Column(db.String(200), nullable=False)
     long = db.Column(db.Float, nullable=False)
     lat = db.Column(db.Float, nullable=False)
 

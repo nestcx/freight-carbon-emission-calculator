@@ -39,19 +39,9 @@ def CR_shipments():
     if (request.method == 'GET'):
         shipments = Shipment.query.order_by(desc(Shipment.shipment_created)).filter_by(uid=user.uid).all()
 
-
     # create file form
     file_form = ShipmentsForm()
 
-    # if submitted form is valid:
-    #    1. - check file extension and read file with pandas
-    #    2. - convert file data to python dictionary
-    #    3. - get shipment count
-    #    4. - check shipment count is not greater than 25
-    #    5. - loop through each shipment row
-    #    6. - return list of created shipment ID's.
-    #    all shipments committed at once at the end.
-    #    if a shipment fails, no shipments are committed.
     if file_form.validate_on_submit():
         
         # 1. - check file extension and read file
@@ -65,22 +55,19 @@ def CR_shipments():
             flash("invalid file type")
             return redirect(url_for('shipment.CR_shipments'))
         
-        # 2. - convert file data to python dictionary
+        # Convert file data to python dictionary and then get shipment count
         dfile_data = file_data.to_dict()
-
-        # 3. - get shipment count
         rows = len(dfile_data["From"])
 
         # Use sets rather than arrays, as we don't want to create duplicates when creating
         # new routes or post code entries
         set_of_new_routes_to_add = set()
-        set_of_routes_to_update = set()
+
 
         for i in range(rows):
             
-            # get postcodes a and b
-            # check if route exists between postcode a and postcode b
-
+            # Get the postcodes from the row. Do so by finding a 4 digit number
+            # in both the 'from' and 'to' columns
             pattern = '(?<!\d)(?!0000)\d{4}(?!\d)'
 
             from_postcode = re.search(pattern, dfile_data['From'][i])
@@ -90,117 +77,97 @@ def CR_shipments():
             if from_postcode and to_postcode:
 
                 # Check if a route already exists between the 2 postcodes, and if they don't,
-                # add the route to the database of routes
+                # add the route to the set of routes, so that a matrix of routes and their
+                # distances/durations can be calculated later
                 route = maproutes.route_exists(from_postcode.group(), to_postcode.group())
-                
                 if route is None:
                     # Insert the route as a tuple of postcode_a and postcode_b
                     set_of_new_routes_to_add.add((from_postcode.group(), to_postcode.group()))
 
 
-                    # # Check to see if add_route is able to successfully create the new route.
-                    # # If not, increment the number of invalid shipments
-                    # if not maproutes.add_route(from_postcode.group(), to_postcode.group()):
-                    #     continue
-                # # The route exists, therefore, check to see if it is up to date. If not,
-                # # Update the route entry in the DB
-                # elif not maproutes.route_is_up_to_date(route):
-                #     maproutes.update_route(route)
-
-                # if route is None:
-                #     route = maproutes.route_exists(from_postcode.group(), to_postcode.group())
-
-
-
-        list_of_matrices_geojson = maproutes.add_routes_matrix(set_of_new_routes_to_add)
+        # Seperate the set of new routes into lists of 50 elements, as OpenRouteService
+        # allows a max of 50x50 for the matrix of addresses
+        list_of_fifty_postcodes = [list(set_of_new_routes_to_add)[i:i+59] for i in range(0, len(set_of_new_routes_to_add), 50)]
         
+        # Since a matrix can only have a max of 50x50, we need to have multiple matrices in order
+        # to be able to process files with more than 50 shipments. Therefore have a list
+        # of 50x50 matrices
+        list_of_matrices = []
 
-        # Create a new list so you can return the list of all matrices in JSON format 
-        list_geojson_data = []
-        for i in range(len(list_of_matrices_geojson)):
-            list_geojson_data.append(list_of_matrices_geojson[i].get_geojson_data())
-
-        return jsonify(list_geojson_data)
-
-        # for postcode_tuple in set_of_new_routes_to_add:
-        #     maproutes.add_route(postcode_tuple[0], postcode_tuple[1])
-
-        # # created shipment id's saved in this dictionary for optional use at
-        # # completion of upload.
-        # created_shipment_ids = []
+        # Now generate all the matrices and append them to 1 list
+        for i in range(0, len(list_of_fifty_postcodes)):
+            list_of_matrices.append(maproutes.add_routes_matrix(set(list_of_fifty_postcodes[i])))
 
 
-        # # This will be used to count how many shipments were not able to be inserted
-        # invalid_shipment_count = 0
+        # # Now create another list, which will store only the geojson data, so that
+        # # the geojson data of all matrices can easily be returned to an API client or user
+        # list_geojson_data = []
 
-        # # # 5. - loop through each shipment row
-        # for i in range(rows):
+        # for i in range(len(list_of_matrices)):
+        #     list_geojson_data.append(list_of_matrices[i].get_geojson_data())
 
-        #     # This pattern is to ensure that there is a postcode in the 'From' and 'To' columns
-        #     # There must be exactly 4 digits and they can't all be 0
-        #     pattern = '(?<!\d)(?!0000)\d{4}(?!\d)'
-
-        #     from_postcode = re.search(pattern, dfile_data['From'][i])
-        #     to_postcode = re.search(pattern, dfile_data['To'][i])
-
-        #     # If a valid postcode was found in both the 'From' and 'To' column in the file, proceed
-        #     if from_postcode and to_postcode:
-        #         # Check if a route already exists between the 2 postcodes, and if they don't,
-        #         # add the route to the database of routes
-        #         route = maproutes.route_exists(from_postcode.group(), to_postcode.group())
-        #         if route is None:
-        #             # Check to see if add_route is able to successfully create the new route.
-        #             # If not, increment the number of invalid shipments
-        #             if not maproutes.add_route(from_postcode.group(), to_postcode.group()):
-        #                 invalid_shipment_count += 1
-        #                 continue
-        #         # The route exists, therefore, check to see if it is up to date. If not,
-        #         # Update the route entry in the DB
-        #         elif not maproutes.route_is_up_to_date(route):
-        #             maproutes.update_route(route)
-
-        #         if route is None:
-        #             route = maproutes.route_exists(from_postcode.group(), to_postcode.group())
-
-        #         print('[' + str(route.point_a_long) + ',' + str(route.point_a_lat) + '],[' + str(route.point_b_long) + ',' + str(route.point_b_lat) + ']')
-                
-        #         # try:
-        #         shipment_data = generate_bulk_shipment_data(
-        #             dfile_data['Weight'][i], 
-        #             'tonne',
-        #             route)
-        #         # except Exception:
-        #         #     invalid_shipment_count += 1
-        #         #     continue
-
-        #         print('4')
-
-        #         # add shipment to database session
-        #         try:
-        #             created_shipment_ids.append(create_shipment(shipment_data, 
-        #                                                         user.uid, 
-        #                                                         False, 
-        #                                                         shipment_name=''))
-        #         except Exception:
-        #             invalid_shipment_count += 1
-        #             continue
-
-        #     # Both coordinates weren't valid, therefore ignore and increment counter
-        #     else:
-        #         invalid_shipment_count += 1
-
-        # print('5')
-        # # commit database session
-        # try:
-        #     db.session.commit()
-        #     flash("Success! Created " + str(len(created_shipment_ids)) + " shipments.")
-        # except Exception:
-        #     flash("Error saving shipments")
+        # return jsonify(list_geojson_data)
 
 
-        # # If there were shipments that couldn't be processed, inform the user
-        # if invalid_shipment_count is not 0:
-        #     flash('Some shipments could not be processed.\nThe number of shipments that couldn\'t be processed: ' + str(invalid_shipment_count))
+        # created shipment id's saved in this dictionary for optional use at
+        # completion of upload.
+        created_shipment_ids = []
+        invalid_shipment_count = 0
+
+        # Loop through again, this time, inserting the shipments. Now the routes should exist
+        # in the database, and if they don't something has gone wrong with processing that
+        # specific route, therefore, ignore it
+        for i in range(rows):
+
+            # This pattern is to ensure that there is a postcode in the 'From' and 'To' columns
+            # There must be exactly 4 digits and they can't all be 0
+            pattern = '(?<!\d)(?!0000)\d{4}(?!\d)'
+
+            from_postcode = re.search(pattern, dfile_data['From'][i])
+            to_postcode = re.search(pattern, dfile_data['To'][i])
+
+            route = maproutes.route_exists(from_postcode.group(), to_postcode.group())
+
+            if route is None:
+                # TODO: Some postcodes can't be processed, so see if we can find another way
+                # to create a route between 2 postcodes (using another API request maybe)
+                invalid_shipment_count += 1
+                continue
+
+            # If the route is outdated, update it
+            elif not maproutes.route_is_up_to_date(route):
+                maproutes.update_route(route)
+
+            try:
+                shipment_data = generate_bulk_shipment_data(
+                    dfile_data['Weight'][i], 
+                    'tonne',
+                    route)
+            except Exception:
+                invalid_shipment_count += 1
+                continue
+
+
+            # add shipment to database session
+            try:
+                created_shipment_ids.append(create_shipment(shipment_data, 
+                                                            user.uid, 
+                                                            False, 
+                                                            shipment_name=''))
+            except Exception:
+                invalid_shipment_count += 1
+                continue
+
+        try:
+            db.session.commit()
+            flash("Success! Created " + str(len(created_shipment_ids)) + " shipments.")
+        except Exception:
+            flash("Error saving shipments")
+
+
+        # If there were shipments that couldn't be processed, inform the user
+        if invalid_shipment_count is not 0:
+            flash('Some shipments could not be processed.\nThe number of shipments that couldn\'t be processed: ' + str(invalid_shipment_count))
 
         return redirect(url_for('shipment.CR_shipments'))
 

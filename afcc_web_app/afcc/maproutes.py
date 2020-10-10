@@ -174,7 +174,7 @@ def search_address(address_input):
 
 
 def route_exists(postcode_a, postcode_b):
-    print('route_exists(): checking if route exists between ' + postcode_a + ' and ' + postcode_b)
+    # print('route_exists(): checking if route exists between ' + postcode_a + ' and ' + postcode_b)
 
     route = Route.query.filter_by(
         point_a_postcode = postcode_a,
@@ -269,17 +269,22 @@ def add_postcode_to_db(postcode):
     [Boolean] -- True if the postcode was able to be stored in the db, otherwise false
     """
 
-    # Generate a GeoJSON_Address object and feed it the GeoJSON data that is retrieved from the API service
-    postcode_data = GeoJSON_Address(search_address(postcode), postcode)
-    
+    # Try generate a GeoJSON_Address object and feed it the GeoJSON data that is retrieved from the API service
+    # The API service may not have complete coverage of all areas and postcodes, so account for that
+    # by adding a try/catch block
+    try:
+        postcode_data = GeoJSON_Address(search_address(postcode), postcode)
+    except(Exception):
+        print('add_postcode_to_db(): ERROR: could not add postcode to db table')
+        return False
+
     print('add_postcode_to_db(): created postcode GeoJSON data')
     print('add_postcode_to_db(): postcode is: ' + str(postcode_data.get_postcode()))
-    print('add_postcode_to_db(): postcode coords are: ' + str(postcode_data.get_long()) + ',' + str(postcode_data.get_lat()))    
-    print('add_postcode_to_db(): adding postcode to db postcode table')
 
     try:
         new_postcode = Postcode(
             postcode = postcode_data.get_postcode(),
+            region_name = postcode_data.get_address_name(),
             long = postcode_data.get_long(),
             lat = postcode_data.get_lat()
         )
@@ -297,192 +302,116 @@ def add_postcode_to_db(postcode):
 
 
 
-def add_route(postcode_a, postcode_b):
+def get_postcode(postcode):
+    """Try get a postcode and its coords. If a postcode doesn't exist in the DB postcode table, create it.
 
+    Arguments:
+    postcode {number} The postcode
 
+    Returns:
+    [Object] -- The postcode object if it exists, or a newly created postcode object. Return None if it wasn't able to be created.
+    """
+    
     # Check if the database postcode table has a record of the postcode and its coords.
     # If not, create a new postcode record by calling the API service and retrieving
     # coordinate data of the postcode
-    postcode_a_obj = Postcode.query.get(postcode_a)
-    postcode_b_obj = Postcode.query.get(postcode_b)
+    postcode_obj = Postcode.query.get(postcode)
 
-    # If postcode a doesn't exist in the postcode db table, create it now
-    if postcode_a_obj is None:
-        print('add_route(): postcode ' + str(postcode_a) + ' doesn\'t exist in postcodes table')
+    if postcode_obj is None:
+        print('get_postcode(): postcode ' + postcode + ' doesn\'t exist in postcodes table')
         
-        # If the postcode was able to be added to the db, continue.
-        # If not, return false as we can't calculate the route without valid coordinates
-        if add_postcode_to_db(postcode_a):
-            postcode_a_obj = Postcode.query.get(postcode_a) # Retrive the newly created entry, as we need it for route creation
+        if add_postcode_to_db(postcode):
+            return Postcode.query.get(postcode) # Retrieve the newly created entry, as we need it for route creation
         else:
-            print('add_route(): postcode ' + str(postcode_a) + ' was not able to be added to the postcodes table')
-            return False
+            print('get_postcode(): postcode ' + postcode + ' was not able to be added to the postcodes table')
+            return None
 
-    # If postcode b doesn't exist in the postcode db table, create it now
-    if postcode_b_obj is None:
-        print('add_route(): postcode ' + str(postcode_b) + ' doesn\'t exist in postcodes table')
+    return postcode_obj
 
-        if add_postcode_to_db(postcode_b):
-            postcode_b_obj = Postcode.query.get(postcode_b) # Retrive the newly created entry, as we need it for route creation
-        else:
-            print('add_route(): postcode ' + str(postcode_b) + ' was not able to be added to the postcodes table')
-            return False
-
-    print('')
-
-    print([postcode_a_obj.long, postcode_a_obj.lat], [postcode_b_obj.long, postcode_b_obj.lat])
-
-    geoJSONData = get_route(
-        [postcode_a_obj.long, postcode_a_obj.lat],
-        [postcode_b_obj.long, postcode_b_obj.lat]
-    )
-
-
-    print(geoJSONData)
-
-    return
-
-    # If valid geoJSON data was returned from API service, continue
-    if geoJSONData is not None:
-        length_of_route = data_conversion.metre_to_kilometre(
-            get_length_of_route(geoJSONData))
-        duration_of_route = get_duration_of_route(geoJSONData)
-
-        route = Route(
-
-            point_a_postcode = postcode_a,
-            point_a_region_name = postcode_a_coordinates["features"][0]["properties"]["label"],
-            # ORS API returns coords as [long, lat] as opposed to the common [lat, long]
-            point_a_lat = postcode_a_coordinates["features"][0]["geometry"]["coordinates"][1],
-            point_a_long = postcode_a_coordinates["features"][0]["geometry"]["coordinates"][0],
-            
-            point_b_postcode = postcode_b,
-            point_b_region_name = postcode_b_coordinates["features"][0]["properties"]["label"],
-            point_b_lat = postcode_b_coordinates["features"][0]["geometry"]["coordinates"][1],
-            point_b_long = postcode_b_coordinates["features"][0]["geometry"]["coordinates"][0],
-            
-            route_distance_in_km = length_of_route,
-            estimated_duration_in_seconds = duration_of_route,
-            last_updated = date.today()
-        )
-
-        db.session.add(route)
-        db.session.commit()
-
-        return True
-
-    return False
 
 
 def add_routes_matrix(set_of_postcodes):
 
-    # OpenRouteService limits matrices to 50x50. That means if a set has more
-    # than 50 elements, we have to iterate through 50 elements at a time 
+    # Create a dictionary mapping all the postcodes to coordinates, with the key
+    # being the coordinate
+    dict_postcodes = dict()
 
 
-    list_of_fifty_postcodes = []
-    # Make a list of the set and make sure it is a deep copy
-    list_of_postcodes = []
-    for element in set_of_postcodes:
-        list_of_postcodes.append(element)
-    
-    list_of_matrices = []
-
-    # print('test \n\n')
-    # print(list_of_postcodes)
-    # print(len(list_of_postcodes))
-
-    # Each element in list_of_postcodes contains 2 postcodes (start and end locations),
-    # therefore, iterate through 25 elements at a time
-    for i in range(0, len(list_of_postcodes), 2):
-        # print('\nadd_routes_matrix(): Going to call API for matrix of route data')
-        # print('working for the postcodes: ')
-        # print(list_of_postcodes[i])
-        # print('\n')
-        # Create a dictionary mapping all the postcodes to coordinates, with the key
-        # being the coordinate
-        dict_postcodes = dict()
-
-        # for j in range(i, i + 1):
-        #     postcode_a_obj = Postcode.query.get(list_of_postcodes[j][0])
-        #     postcode_b_obj = Postcode.query.get(list_of_postcodes[j][1])
-
-        #     dict_postcodes[postcode_a_obj.long, postcode_a_obj.lat] = list_of_postcodes[j][0]
-        #     dict_postcodes[postcode_b_obj.long, postcode_b_obj.lat] = list_of_postcodes[j][1]
-
-        # for postcode_tuple in set_of_postcodes:
-        #     postcode_a_obj = Postcode.query.get(postcode_tuple[0])
-        #     postcode_b_obj = Postcode.query.get(postcode_tuple[1])
-
-        #     # Key: [long, lat], Value: postcode
-        #     dict_postcodes[postcode_a_obj.long, postcode_a_obj.lat] = postcode_tuple[0]
-        #     dict_postcodes[postcode_b_obj.long, postcode_b_obj.lat] = postcode_tuple[1]
-
+    for postcode_tuple in set_of_postcodes:
+        postcode_a_obj = get_postcode(postcode_tuple[0])
+        postcode_b_obj = get_postcode(postcode_tuple[1])
         
-        list_of_postcode_coords = list(dict_postcodes.keys())
 
-        # Create a new geojson matrix object, passing the list of coordinates gained from
-        # the dictionary as an argument
-        matrix = GeoJSON_Route_Matrix(list_of_postcode_coords)
-        list_of_matrices.append(matrix)
+        if postcode_a_obj is None:
+            print('Error postcode_a_obj: ' + str(postcode_tuple[0]))
+            continue
 
-        # The matrix looks like so (note that an identical matrix is also created for duration):
+        if postcode_b_obj is None:
+            print('Error postcode_b_obj: ' + str(postcode_tuple[1]))
+            continue
 
-        # distance      coords_1    coords_2    coords_3    coords_4    coords_5
-        # coords_1      0           distance    distance    distance    distance
-        # coords_2      distance    0           distance    distance    distance
-        # coords_3      distance    distance    0           distance    distance
-        # coords_4      distance    distance    distance    0           distance
-        # coords_5      distance    distance    distance    distance    0
+        # Key: [long, lat], Value: Postcode object
+        dict_postcodes[postcode_a_obj.long, postcode_a_obj.lat] = postcode_a_obj
+        dict_postcodes[postcode_b_obj.long, postcode_b_obj.lat] = postcode_b_obj
+
+    
+    list_of_postcode_coords = list(dict_postcodes.keys())
+
+    # Create a new geojson matrix object, passing the list of coordinates gained from
+    # the dictionary as an argument
+    matrix = GeoJSON_Route_Matrix(list_of_postcode_coords)
+
+    # The matrix looks like so (note that an identical matrix is also created for duration):
+
+    # distance      coords_1    coords_2    coords_3    coords_4    coords_5
+    # coords_1      0           distance    distance    distance    distance
+    # coords_2      distance    0           distance    distance    distance
+    # coords_3      distance    distance    0           distance    distance
+    # coords_4      distance    distance    distance    0           distance
+    # coords_5      distance    distance    distance    distance    0
 
 
-        # Iterate through all the rows and columns in the matrix, adding the distance
-        # and duration for every single route between post codes, to the db
-        row_and_column_count = matrix.get_location_count()
-        for i in range(row_and_column_count):
+    # Iterate through all the rows and columns in the matrix, adding the distance
+    # and duration for every single route between post codes, to the db
+    row_and_column_count = matrix.get_location_count()
+    for i in range(row_and_column_count):
 
-            # Get the coordinates of location a, so that you can then find the postcode
-            # by searching the dictionary.
-            loc_a = matrix.get_location_coordinates(i)
-            loc_a_postcode = dict_postcodes[loc_a]
-            
-            for j in range(row_and_column_count):
+        # Get the coordinates of location a, so that you can then find the postcode
+        # object by searching the dictionary.
+        loc_a = matrix.get_location_coordinates(i)
+        loc_a_postcode_obj = dict_postcodes[loc_a]
+        
+        for j in range(row_and_column_count):
 
-                # Get location b
-                loc_b = matrix.get_location_coordinates(j)
-                loc_b_postcode = dict_postcodes[loc_b]
+            # Get location b
+            loc_b = matrix.get_location_coordinates(j)
+            loc_b_postcode_obj = dict_postcodes[loc_b]
 
-                # Ignore when the row and column are the same, as that essentially
-                # means you're looking at distance and duration between location a to location a
-                if i == j:
-                    continue
+            # Ignore when the row and column are the same, as that essentially
+            # means you're looking at distance and duration from location a to location a
+            if i == j:
+                continue
 
-                route = Route(
-                    point_a_postcode = loc_a_postcode,
-                    # ORS API returns coords as [long, lat] as opposed to the common [lat, long]
-                    point_a_long = loc_a[0],
-                    point_a_lat = loc_a[1],
+            route = Route(
+                point_a_postcode = loc_a_postcode_obj.postcode,
+                point_a_region_name = loc_a_postcode_obj.region_name,
+                # ORS API returns coords as [long, lat] as opposed to the common [lat, long]
+                point_a_long = loc_a[0],
+                point_a_lat = loc_a[1],
 
-                    point_b_postcode = loc_b_postcode,
-                    # ORS API returns coords as [long, lat] as opposed to the common [lat, long]
-                    point_b_long = loc_b[0],
-                    point_b_lat = loc_b[1],
-                    
-                    route_distance_in_km = matrix.get_distance_between(i, j),
-                    estimated_duration_in_seconds = matrix.get_duration_between(i, j),
-                    last_updated = date.today()
-                )
+                point_b_postcode = loc_b_postcode_obj.postcode,
+                point_b_region_name = loc_b_postcode_obj.region_name,
+                # ORS API returns coords as [long, lat] as opposed to the common [lat, long]
+                point_b_long = loc_b[0],
+                point_b_lat = loc_b[1],
+                
+                route_distance_in_km = matrix.get_distance_between(i, j),
+                estimated_duration_in_seconds = matrix.get_duration_between(i, j),
+                last_updated = date.today()
+            )
 
-                db.session.add(route)
-                # # There is an issue where sometimes a duplicate route tries to get added.
-                # # NOTE: Use a try/catch block to ignore for now
-                # # TODO: Find out why this issue is being caused
-                # try:
-                #     db.session.add(route)
-                #     db.session.commit()
-                # except:
-                #     continue
+            db.session.add(route)
 
     db.session.commit()
 
-    return list_of_matrices
+    return matrix

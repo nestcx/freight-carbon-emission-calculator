@@ -89,53 +89,6 @@ class GeoJSON_Route_Matrix:
 
     self.geojson_data = response.json()
 
-    # self.list_of_postcode_coords = []
-
-    # # OpenRouteService's Matrix API service requires a very specific format when it comes to coordinates
-    # # This is what the list of coordinates should look like:
-    # # let Rn = Route n, PCAlong = Postcode A longitude, PCAlat = Postcode A latitude, PCBlong = Postcode B longitude
-    # # Storte the postcodes in this format:
-    # # [[R1 PCAlong, R1 PCAlat], [R1 PCBlong, R1 PCBlat], 
-    # # [R2 PCAlong, R2 PCAlat], [R2 PCBlong, R2 PCBlat],
-    # # .. ,
-    # # [Rn PCAlong, Rn PCAlat], [Rn PCBlong, Rn PCBlat]] 
-
-    # # The operations below are all specifically to format the postcode coordinates in the required format
-    # for postcodes in set_of_postcodes:
-    #   postcode_a_obj = Postcode.query.get(postcodes[0])
-    #   postcode_b_obj = Postcode.query.get(postcodes[1])
-
-    #   # self.list_of_postcode_coords.append([postcodes[0], postcodes[1]])
-    #   self.list_of_postcode_coords.append([postcode_a_obj.long, postcode_a_obj.lat])
-    #   self.list_of_postcode_coords.append([postcode_b_obj.long, postcode_b_obj.lat])
-
-    # print(self.list_of_postcode_coords)
-
-    # # You have to specify which indices are starting locations and ending locations
-    # # We've stored them in this format: [[route_1_start],[route_1_end],[route_2_start],[route_2_end]]
-    # # Therefore, start locations look like so [0, 2, 4, 6] , whereas end locations are like so: [1, 3, 5, 7]
-    # start_locations = list(range(0, len(self.list_of_postcode_coords), 2))
-    # end_locations = list(range(1, len(self.list_of_postcode_coords), 2))
-
-    # print(start_locations)
-    # print(end_locations)
-
-    # json = {
-    #   "locations" : self.list_of_postcode_coords,
-    #   "sources" : start_locations,
-    #   "destinations" : end_locations,
-    #   "metrics" : ["distance","duration"]}
-
-    # headers = {
-    #     'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
-    #     'Authorization': API_KEY,
-    #     'Content-Type': 'application/json; charset=utf-8'
-    # }
-
-    # response = requests.post('https://api.openrouteservice.org/v2/matrix/driving-hgv', json=json, headers=headers)
-
-    # self.geojson_data = response.json()
-
 
   def get_geojson_data(self):
     return self.geojson_data
