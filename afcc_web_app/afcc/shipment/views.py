@@ -95,6 +95,8 @@ def CR_shipments():
                 if route is None:
                     # Insert the route as a tuple of postcode_a and postcode_b
                     set_of_new_routes_to_add.add((from_postcode.group(), to_postcode.group()))
+
+
                     # # Check to see if add_route is able to successfully create the new route.
                     # # If not, increment the number of invalid shipments
                     # if not maproutes.add_route(from_postcode.group(), to_postcode.group()):
@@ -109,8 +111,12 @@ def CR_shipments():
 
 
 
-        for postcode_tuple in set_of_new_routes_to_add:
-            maproutes.add_route(postcode_tuple[0], postcode_tuple[1])
+        matrix_geojson = maproutes.add_routes_matrix(set_of_new_routes_to_add)
+        geojson_data = matrix_geojson.get_geojson_data()
+        return geojson_data
+
+        # for postcode_tuple in set_of_new_routes_to_add:
+        #     maproutes.add_route(postcode_tuple[0], postcode_tuple[1])
 
         # # created shipment id's saved in this dictionary for optional use at
         # # completion of upload.

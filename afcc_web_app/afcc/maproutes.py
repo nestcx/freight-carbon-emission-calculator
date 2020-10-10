@@ -14,7 +14,7 @@ from datetime import date, timedelta
 from afcc.extensions import db
 from afcc import data_conversion
 
-from afcc.geoJSON import GeoJSON_Address
+from afcc.geoJSON import GeoJSON_Address, GeoJSON_Route_Matrix
 
 maproutes_bp = Blueprint("maproutes", __name__, url_prefix="/maproutes",
                          static_folder='static', template_folder='templates')
@@ -87,7 +87,7 @@ def get_route(start_coords, end_coords):
         "coordinates": [start_coords, end_coords],
         "instructions" : "false", # Don't want driving instructions, as we're only interested in the route distance and duration
         "radiuses" : [road_search_radius, road_search_radius]} # Must specify radius for both points
-
+ 
     response = requests.post(endpointURL, headers=headers, json=json)
 
     # First check if the API service was able to process the requests successfully.
@@ -147,11 +147,11 @@ def get_duration_of_route(route_geojson):
         return -1
 
 
-def search_address(user_input):
+def search_address(address_input):
     """Try predict what address the user will type, by calling an API and returning all possible addresses
 
     Arguments:
-    user_input {string} -- The user's input so far
+    address_input {string} -- The user's input so far
 
     Returns:
     [JSON] -- JSON data of all the possible addresses so far. Note that JSON data will still be returned 
@@ -161,7 +161,7 @@ def search_address(user_input):
     country = "AUS"  # restrict all searches to addresses in Australia only.
 
     endpointURL = "https://api.openrouteservice.org/geocode/search?api_key={}&text={}&boundary.country={}" \
-        .format(API_KEY, user_input, country)
+        .format(API_KEY, address_input, country)
     response = requests.get(endpointURL)
 
     # Check if API service was able to process the request successfully, and if so, return the data
@@ -259,13 +259,22 @@ def update_route(route):
 
 
 def add_postcode_to_db(postcode):
+    """Add a postcode and its coords to the postcode database. This is so that the app can avoid having
+    to call the API service every time it needs to retrieve the coordinates of a postcode
 
+    Arguments:
+    postcode {int} -- The postcode that will be stored
+
+    Returns:
+    [Boolean] -- True if the postcode was able to be stored in the db, otherwise false
+    """
+
+    # Generate a GeoJSON_Address object and feed it the GeoJSON data that is retrieved from the API service
     postcode_data = GeoJSON_Address(search_address(postcode), postcode)
     
     print('add_postcode_to_db(): created postcode GeoJSON data')
     print('add_postcode_to_db(): postcode is: ' + str(postcode_data.get_postcode()))
-    print('add_postcode_to_db(): postcode coords are: ' + str(postcode_data.get_long()) + ',' + str(postcode_data.get_lat()))
-    
+    print('add_postcode_to_db(): postcode coords are: ' + str(postcode_data.get_long()) + ',' + str(postcode_data.get_lat()))    
     print('add_postcode_to_db(): adding postcode to db postcode table')
 
     try:
@@ -279,32 +288,59 @@ def add_postcode_to_db(postcode):
         db.session.commit()
 
         print('add_postcode_to_db(): successfully added postcode to db table')
+        return True
+
     except:
         db.session.rollback()
-        print('add_postcode_to_db(): ERROR: could not dadd postcode to db table')
+        print('add_postcode_to_db(): ERROR: could not add postcode to db table')
+        return False
+
 
 
 def add_route(postcode_a, postcode_b):
-    print('add_route(): postcode a = ' + str(postcode_a))
-    print('add_route(): postcode b = ' + str(postcode_b))
 
+
+    # Check if the database postcode table has a record of the postcode and its coords.
+    # If not, create a new postcode record by calling the API service and retrieving
+    # coordinate data of the postcode
     postcode_a_obj = Postcode.query.get(postcode_a)
-    
+    postcode_b_obj = Postcode.query.get(postcode_b)
+
+    # If postcode a doesn't exist in the postcode db table, create it now
     if postcode_a_obj is None:
         print('add_route(): postcode ' + str(postcode_a) + ' doesn\'t exist in postcodes table')
-        add_postcode_to_db(postcode_a)
+        
+        # If the postcode was able to be added to the db, continue.
+        # If not, return false as we can't calculate the route without valid coordinates
+        if add_postcode_to_db(postcode_a):
+            postcode_a_obj = Postcode.query.get(postcode_a) # Retrive the newly created entry, as we need it for route creation
+        else:
+            print('add_route(): postcode ' + str(postcode_a) + ' was not able to be added to the postcodes table')
+            return False
 
-    return 
-    postcode_a_coordinates = search_address(postcode_a)
-    postcode_b_coordinates = search_address(postcode_b)
+    # If postcode b doesn't exist in the postcode db table, create it now
+    if postcode_b_obj is None:
+        print('add_route(): postcode ' + str(postcode_b) + ' doesn\'t exist in postcodes table')
+
+        if add_postcode_to_db(postcode_b):
+            postcode_b_obj = Postcode.query.get(postcode_b) # Retrive the newly created entry, as we need it for route creation
+        else:
+            print('add_route(): postcode ' + str(postcode_b) + ' was not able to be added to the postcodes table')
+            return False
+
+    print('')
+
+    print([postcode_a_obj.long, postcode_a_obj.lat], [postcode_b_obj.long, postcode_b_obj.lat])
 
     geoJSONData = get_route(
-        [postcode_a_coordinates["features"][0]["geometry"]["coordinates"][0], 
-            postcode_a_coordinates["features"][0]["geometry"]["coordinates"][1]],
-        [postcode_b_coordinates["features"][0]["geometry"]["coordinates"][0], 
-            postcode_b_coordinates["features"][0]["geometry"]["coordinates"][1]]
+        [postcode_a_obj.long, postcode_a_obj.lat],
+        [postcode_b_obj.long, postcode_b_obj.lat]
     )
 
+
+    print(geoJSONData)
+
+    return
 
     # If valid geoJSON data was returned from API service, continue
     if geoJSONData is not None:
@@ -336,3 +372,13 @@ def add_route(postcode_a, postcode_b):
         return True
 
     return False
+
+
+def add_routes_matrix(set_of_postcodes):
+    print('\nadd_routes_matrix(): Going to call API for matrix of route data')
+    geojson_matrix = GeoJSON_Route_Matrix(set_of_postcodes)
+    
+    print('\n\n\n\n')
+    print(geojson_matrix.get_location_count())
+
+    return geojson_matrix
