@@ -40,8 +40,8 @@
     </div>
     <div class="container--emissions">
         <h1>EMISSIONS GRAPHIC</h1>
-        <h2>EMISSIONTOTAL</h2>
         <p id="emission"></p>
+        <h2 id="emissionsTotal">10</h2>
     </div>
     <table id="table--emissions">
         <tr class="gas --selected" onClick="rowClick()">
@@ -49,7 +49,7 @@
             <td>{{ shipment.carbon_dioxide_emission }}</td>
             <td>%JS</td>
         </tr>
-        <tr class="gas">
+        <tr class="gas" id="Nitrous">
             <td>Nitrous Oxide</td>
             <td>{{ shipment.nitrous_oxide_emission }}</td>
             <td>%JS</td>
@@ -86,27 +86,27 @@
 
     <div class="container--price">
         <p id="coins"></p>
-        <h2>PRICEJS</h2>
-        <p>This shipment would cost XX under the 2011 proposed carbon pricing scheme</p>
+        <h2 id="calculatedPrice">PRICEJS</h2>
+        <p id="priceDescription">This shipment would cost XX under the 2011 proposed carbon pricing scheme</p>
     </div>
 
     <table id="table--pricing">
-        <tr class="price">
+        <tr class="price --selected" id="AU">
             <td>Cancelled 2014 Australia Carbon Tax</td>
             <td>24.15</td>
             <td>AUD</td>
         </tr>
-        <tr class="price">
+        <tr class="price" id="GB">
             <td>California Cap and Trade Price</td>
             <td>15</td>
             <td>USD</td>
         </tr>
-        <tr class="price">
+        <tr class="price" id="CAL">
             <td>Great Britain Carbon Tax</td>
             <td>25</td>
             <td>GPB</td>
         </tr>
-        <tr class="price">
+        <tr class="price" id="UN">
             <td>UN Recommended Minimum Carbon Price</td>
             <td>135</td>
             <td>USD</td>
