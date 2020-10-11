@@ -15,6 +15,7 @@ function init(){
     emissionClickHandler("table--emissions");
     calculateTotal();
     calculateCost("AU");
+    calculateTrees();
 
 }
 
@@ -75,14 +76,19 @@ function calculateCost(currency) {
     }
     //calculates 
     var emissions = document.getElementById("emissionsTotal").innerHTML;
-    var cost = price * emissions;
-    document.getElementById("calculatedPrice").innerHTML = unit + cost;
+    var cost = price * parseFloat(emissions);
+    document.getElementById("calculatedPrice").innerHTML = unit + cost.toFixed(2);
     document.getElementById("priceDescription").innerHTML = text;
 
 }
 
 function calculateTrees() {
-
+    var treeFactor = 15;
+    var emissions = document.getElementById("emissionsTotal").innerHTML;
+    var treeValue = parseFloat(emissions) * treeFactor;
+    var treeValueText = treeValue.toFixed(2);
+    document.getElementById("treeValue").innerHTML = treeValueText + " Trees";
+    document.getElementById("treeDesc").innerHTML = "You would need to plant " + treeValueText + " trees to remove your shipments produced carbon from the atmosphere";
 }
 
 //opens and closes edit and delete button options
@@ -97,7 +103,7 @@ function costClickHandler(tableId) {
     var table = document.getElementById(tableId);
     var rows = table.getElementsByTagName("tr");
     var i;
-    for (i = 0; i < rows.length; i++) {
+    for (i = 1; i < rows.length; i++) {
         var id = rows[i].id;
         var currentRow = table.rows[i];
         var createClickHandler = function(id, tableId) {
