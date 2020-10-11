@@ -373,6 +373,11 @@ def add_routes_matrix(set_of_postcodes):
 
     # Iterate through all the rows and columns in the matrix, adding the distance
     # and duration for every single route between post codes, to the db
+    
+    if matrix.get_location_count() is None:
+        print('bloody ell\n\n\n\n\n\n\n')
+        return None
+
     row_and_column_count = matrix.get_location_count()
     for i in range(row_and_column_count):
 
@@ -390,6 +395,18 @@ def add_routes_matrix(set_of_postcodes):
             # Ignore when the row and column are the same, as that essentially
             # means you're looking at distance and duration from location a to location a
             if i == j:
+                continue
+
+            # Check if route exists, as it may have been created as a previous matrix
+            # was being processed
+            if route_exists(loc_a_postcode_obj.postcode, loc_b_postcode_obj.postcode) is not None:
+                continue
+
+            # Check if any of the route's distances and durations were not able to be created 
+            # between point A and point B by the API, and if so, continue
+            # TODO: Add the slower method of finding the route here
+            if matrix.get_distance_between(i, j) is None:
+                print('CANNOT CREATE ROUTE BETWEEN ' + str(loc_a_postcode_obj.postcode) + str(loc_b_postcode_obj.postcode)  + '==========')
                 continue
 
             route = Route(
@@ -410,7 +427,14 @@ def add_routes_matrix(set_of_postcodes):
                 last_updated = date.today()
             )
 
-            db.session.add(route)
+            
+
+            try:
+                db.session.add(route)
+            except:
+                print('========================================================================')
+                print(matrix)
+                print('========================================================================\n\n')
 
     db.session.commit()
 

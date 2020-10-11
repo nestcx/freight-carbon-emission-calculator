@@ -100,7 +100,12 @@ class GeoJSON_Route_Matrix:
   # Note that the location count is effectively the amount of rows and columns
   # that the matrix will have.
   def get_location_count(self):
-    return len(self.geojson_data["metadata"]["query"]["locations"])
+    try:
+      return len(self.geojson_data["metadata"]["query"]["locations"])
+    except:
+      # TODO: Add logging here
+      print(self.geojson_data)
+      return None
 
   def get_distance_between(self, i, j):
     """Return the distance between coordinates for location and a and b, in kms

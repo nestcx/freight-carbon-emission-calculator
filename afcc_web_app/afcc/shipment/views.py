@@ -87,7 +87,7 @@ def CR_shipments():
 
         # Seperate the set of new routes into lists of 50 elements, as OpenRouteService
         # allows a max of 50x50 for the matrix of addresses
-        list_of_fifty_postcodes = [list(set_of_new_routes_to_add)[i:i+59] for i in range(0, len(set_of_new_routes_to_add), 50)]
+        list_of_fifty_postcodes = [list(set_of_new_routes_to_add)[i:i+49] for i in range(0, len(set_of_new_routes_to_add), 49)]
         
         # Since a matrix can only have a max of 50x50, we need to have multiple matrices in order
         # to be able to process files with more than 50 shipments. Therefore have a list
