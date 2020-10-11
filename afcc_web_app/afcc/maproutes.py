@@ -74,7 +74,9 @@ def get_route(start_coords, end_coords):
     # of a coordinate. A larger number means that it would search a larger area when routing,
     # which means more often it will find successful route, but the algorithm might be a little
     # less accurate (though this is a non-issue in practice)
-    road_search_radius = 1000
+    # In this case, a radius of 5,000 metres is used because some very rural areas may not
+    # have a road within a close radius of the 'centre' coordinate of the region
+    road_search_radius = 5000
     
     endpointURL = "https://api.openrouteservice.org/v2/directions/driving-hgv"
     headers = { 
@@ -94,18 +96,17 @@ def get_route(start_coords, end_coords):
     # They will return a status code of 200 if so.
     if response.status_code == 200:
         result = response.json()
-
-        # For Debugging purposes
-        # print("total length in metres: " + str(get_length_of_route(result)))
-        # print("estimated length of trip in seconds: " +
-        #       str(get_duration_of_route(result)))
-        # print(data_conversion.convert_seconds_to_dhms(
-        #     get_duration_of_route(result)))
-
-        if get_length_of_route(result) < 0:
+        
+        # Some shipments just can't be processed due to incorrect data entry or
+        # issues like inserting the same postcode in the 'from' and 'to' columns.
+        # So try check if the data is valid, and if not, discard entirely. For some
+        # errors, the API service will not include the distance as part of geoJSON data,
+        # so you must try see if it exists, and if not, just return none anyway
+        try:
+            if result["routes"][0]["summary"]["distance"] > 0:
+                return result
+        except:
             return None
-
-        return result
 
     # Status code wasn't 200, therefore, something went wrong in the route calculation
     else:
@@ -189,10 +190,10 @@ def route_exists(postcode_a, postcode_b):
         ).first()
     
     if route is None:
-        print('route_exists(): Route doesn\'t exist')
+        # print('route_exists(): Route doesn\'t exist')
         return None
     else:
-        print('route_exists(): Route does exist')
+        # print('route_exists(): Route does exist')
         return route
 
 
@@ -331,7 +332,7 @@ def get_postcode(postcode):
 
 
 def add_routes_matrix(set_of_postcodes):
-
+    print('add_routes_matrix===================================================================================')
     # Create a dictionary mapping all the postcodes to coordinates, with the key
     # being the coordinate
     dict_postcodes = dict()
@@ -375,7 +376,6 @@ def add_routes_matrix(set_of_postcodes):
     # and duration for every single route between post codes, to the db
     
     if matrix.get_location_count() is None:
-        print('bloody ell\n\n\n\n\n\n\n')
         return None
 
     row_and_column_count = matrix.get_location_count()
@@ -404,9 +404,7 @@ def add_routes_matrix(set_of_postcodes):
 
             # Check if any of the route's distances and durations were not able to be created 
             # between point A and point B by the API, and if so, continue
-            # TODO: Add the slower method of finding the route here
             if matrix.get_distance_between(i, j) is None:
-                print('CANNOT CREATE ROUTE BETWEEN ' + str(loc_a_postcode_obj.postcode) + str(loc_b_postcode_obj.postcode)  + '==========')
                 continue
 
             route = Route(
@@ -427,14 +425,11 @@ def add_routes_matrix(set_of_postcodes):
                 last_updated = date.today()
             )
 
-            
-
             try:
                 db.session.add(route)
             except:
-                print('========================================================================')
-                print(matrix)
-                print('========================================================================\n\n')
+                # TODO: Add graceful error handling
+                continue
 
     db.session.commit()
 

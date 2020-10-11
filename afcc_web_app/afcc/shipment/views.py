@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, flash, redirect, url_for,
 from afcc.extensions import db
 from afcc.shipment.models import Shipment
 from afcc.user.models import User
+from afcc.models import Postcode
 from flask_login import current_user
 import datetime
 import os
@@ -64,6 +65,7 @@ def CR_shipments():
         set_of_new_routes_to_add = set()
 
 
+
         for i in range(rows):
             
             # Get the postcodes from the row. Do so by finding a 4 digit number
@@ -87,7 +89,7 @@ def CR_shipments():
 
         # Seperate the set of new routes into lists of 50 elements, as OpenRouteService
         # allows a max of 50x50 for the matrix of addresses
-        list_of_fifty_postcodes = [list(set_of_new_routes_to_add)[i:i+49] for i in range(0, len(set_of_new_routes_to_add), 49)]
+        list_of_fifty_postcodes = [list(set_of_new_routes_to_add)[i:i+25] for i in range(0, len(set_of_new_routes_to_add), 25)]
         
         # Since a matrix can only have a max of 50x50, we need to have multiple matrices in order
         # to be able to process files with more than 50 shipments. Therefore have a list
@@ -113,6 +115,9 @@ def CR_shipments():
         # completion of upload.
         created_shipment_ids = []
         invalid_shipment_count = 0
+        invalid_shipment_msg = []
+
+        slower_route_fallback_option = True
 
         # Loop through again, this time, inserting the shipments. Now the routes should exist
         # in the database, and if they don't something has gone wrong with processing that
@@ -131,8 +136,43 @@ def CR_shipments():
             if route is None:
                 # TODO: Some postcodes can't be processed, so see if we can find another way
                 # to create a route between 2 postcodes (using another API request maybe)
-                invalid_shipment_count += 1
-                continue
+                print('shipments/views/bulkshipments: Route does not exist between ' + from_postcode.group() + ' > ' + to_postcode.group())
+                
+                # OpenRouteService matrix option `has a hard limit of 350m radius in which it
+                # it looks for an accessible road when trying to calculate routes and their distances/
+                # durations. This means that some routes will fail, as the coordinate may not have
+                # a road within 350m radius.
+
+                # The API call for directions allow you to specify a larger radius, which increases tolerance
+                # and makes it so that more shipments are able to be processed.
+
+                # NOTE: Calling directions for individual routes is much slower than the matrix call,
+                # so making slower_route_fallback_option: false will make the bulk shipment processing
+                # much faster, at the expense of not being able to process some shipments 
+                if slower_route_fallback_option is True:
+
+                    postcode_a_obj = maproutes.get_postcode(from_postcode.group())
+                    postcode_b_obj = maproutes.get_postcode(to_postcode.group())
+                    # postcode_a_obj = Postcode.query.get(from_postcode.group())
+                    # postcode_b_obj = Postcode.query.get(to_postcode.group())
+
+                    if postcode_a_obj is None:
+                        invalid_shipment_msg.append('Error: cannot locate postcode: ' + from_postcode.group())
+                        invalid_shipment_count += 1
+                        continue
+
+                    if postcode_b_obj is None:
+                        invalid_shipment_msg.append('Error: cannot locate postcode: ' + to_postcode.group())
+                        invalid_shipment_count += 1
+                        continue
+
+                    a_coords = [postcode_a_obj.long, postcode_a_obj.lat]
+                    b_coords = [postcode_b_obj.long, postcode_b_obj.lat]
+
+                    route = maproutes.get_route(a_coords, b_coords)
+                else:
+                    invalid_shipment_count += 1
+                    continue
 
             # If the route is outdated, update it
             elif not maproutes.route_is_up_to_date(route):
@@ -144,6 +184,15 @@ def CR_shipments():
                     'tonne',
                     route)
             except Exception:
+                print('shipments/view/bulkshipments: Shipment object could not be created')
+                print(dfile_data['From'][i])
+                print(dfile_data['To'][i])
+                
+
+                invalid_shipment_msg.append(
+                    'Error: could not create shipment data for shipment between: ' + \
+                        str(dfile_data['From'][i]) + ' to ' + str(dfile_data['To'][i]))
+
                 invalid_shipment_count += 1
                 continue
 
@@ -155,12 +204,14 @@ def CR_shipments():
                                                             False, 
                                                             shipment_name=''))
             except Exception:
+                print('shipments/view/bulkshipments: Shipment object could not be inserted into db')
+                invalid_shipment_msg.append('Shipment for row ' + str(i) + ' could not be created')
                 invalid_shipment_count += 1
                 continue
 
         try:
             db.session.commit()
-            flash("Success! Created " + str(len(created_shipment_ids)) + " shipments.")
+            flash("Processed " + str(len(created_shipment_ids)) + " shipments from file.")
         except Exception:
             flash("Error saving shipments")
 
@@ -168,6 +219,11 @@ def CR_shipments():
         # If there were shipments that couldn't be processed, inform the user
         if invalid_shipment_count is not 0:
             flash('Some shipments could not be processed.\nThe number of shipments that couldn\'t be processed: ' + str(invalid_shipment_count))
+
+            # Flash all errors
+            for i in range(len(invalid_shipment_msg)):
+                flash(invalid_shipment_msg[i])
+
 
         return redirect(url_for('shipment.CR_shipments'))
 
@@ -417,7 +473,6 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
 
 
 def generate_bulk_shipment_data(loadWeight, loadWeightUnit, route):
-    print('doing bulk shipment')
     """
     This function is a faster, though less-accurate alternative to generating shipment data.
     It is specifically used for bulk shipments from file uploads 
