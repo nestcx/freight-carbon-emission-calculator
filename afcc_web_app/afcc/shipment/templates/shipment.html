@@ -44,7 +44,7 @@
         <h2 id="emissionsTotal">10</h2>
     </div>
     <table id="table--emissions">
-        <tr class="gas --selected" onClick="rowClick()">
+        <tr class="gas --selected" id="Carbon">
             <td>Carbon Dioxide</td>
             <td>{{ shipment.carbon_dioxide_emission }}</td>
             <td>%JS</td>
@@ -54,7 +54,7 @@
             <td>{{ shipment.nitrous_oxide_emission }}</td>
             <td>%JS</td>
         </tr>
-        <tr class="gas">
+        <tr class="gas" id="Methane">
             <td>Methane</td>
             <td>{{ shipment.methane_emission }}</td>
             <td>%JS</td>
