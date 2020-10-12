@@ -133,10 +133,10 @@ function draw_coins(ww,wh){
 }
 function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
     
-    var w=400;
+    var w=450;
     var h=350;
   
-    var dataset1={ "Carbon": carbon_emission, "Methane": 84*methane_emission, "Nitrousoxide": 298*nitrousoxide_emission };
+    var dataset1={ "Carbon": carbon_emission, "Methane": methane_emission, "Nitrousoxide": nitrousoxide_emission };
   
     var outerRadius = 100;
     var innerRadius = 0;
@@ -236,9 +236,9 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
             
             d3.select("#result_text")
                 .style("visibility","visible")
-                .text(d.value+" -e tonnes")
+                .text((d.value).toFixed(4)+" -e tonnes Carbon Equivalent")
                 .attr("font-weight","600")
-                .attr("font-size","36");
+                .attr("font-size","24");
             
            
             
