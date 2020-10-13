@@ -126,5 +126,10 @@
 </div>
 <!-- Used for blacking out the screen when the modal is displayed-->
 <div class="black-out-screen" id="black-out-screen"></div>
+
+<script src="/static/javascript/shipmentmodal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{ url_for('shipment.static', filename='javascript/delete_shipment.js') }}"></script>
 </div>
+
 {% endblock %}
