@@ -61,10 +61,15 @@
                             <div class="carbon_emission_data">{{ '%0.2f'|format(shipment.carbon_dioxide_emission|float) }}</div>
                             <div class="carbon_text_data">tonnes of CO2e</div>
                         </div>
+                        <div class="report_arrow_container">
+                            <img class = "report_arrow_image" src="../../../static/images/report_arrow.png" alt="Report Arrow">
+                        </div>
                         <div class="shipment_id_container">
                             <div class="shipment_id_data"><a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a></div>
                         </div>
+                        
                     </div>
+                    
                 </div>
             </a>
         {% endfor %}

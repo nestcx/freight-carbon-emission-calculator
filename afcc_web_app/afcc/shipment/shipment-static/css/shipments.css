@@ -1,7 +1,14 @@
 .shipment-card {
-    padding-top: 5px;
+    padding-top: 0px;
     width: 100%;
     height: 180px;
+    box-shadow: 3.5px 3.5px LightGray;
+    margin-top: 18px;
+    transition: transform .2s;
+}
+
+.shipment-card:hover{
+	transform: scale(1.05);
 }
 
 .shipment_created_container, .shipment_name_container{
@@ -14,7 +21,10 @@
     color: white;
     font-weight: bold;
     padding-left: 5px;
+    color: #F5F5F5;
+
 }
+
 
 .shipment_name_container{
     text-align: right;
@@ -25,7 +35,9 @@
     float: left;
     width: 50%;
     height: 80%;
+    color: #484848;
 }
+
 
 .start_address_container, .end_address_container{
     float: left;
@@ -33,12 +45,19 @@
     height: 30%;
     font-size: 13px;
     padding-top: 2px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.start_address_container{
+	padding-top: 0px;
 }
 
 .start_address_data, .end_address_data{
-    line-height: 1.1;
-    overflow: hidden;
+    text-align: center;
+    line-height: 100%;
+
 }
 
 .arrow_container{
@@ -103,13 +122,15 @@
     border-left: 1px solid #E8E8E8;
 }
 
-
 .carbon_dioxide_emission_container{
-    width: 100%;
-    height: 80%;
-    padding-top: 20px;
+	float: left;
+    width: 90%;
+    height: 85%;
+    padding-top: 16px;
+    padding-left: 8px;
     overflow: hidden;
-    text-align: center;
+    text-align: center;  
+    color: #484848;
 }
 
 .carbon_emission_data{
@@ -117,11 +138,35 @@
     font-size: 32px;
 }
 
+.report_arrow_container{
+	float: left;
+	width: 10%;
+	height: 85%;
+	padding-top: 10px;
+}
+
+.report_arrow_image{
+	width: 80%;
+	height: 80%;
+	opacity: 0.3;
+	margin-left: auto;
+    margin-right: auto;
+    display: block;
+    transition: transform .2s;
+    margin-right: 5px;
+
+}
+
+.report_arrow_image:hover{
+	transform: scale(1.25);
+}
+
 .shipment_id_container{
     text-align: right;
     padding-top: 8px;
     padding-right: 8px;
     width: 100%;
+    height: 10%;
 }
 
 .shipment-card a {
@@ -138,6 +183,7 @@
     color: #A9A9A9;
 }
 
+
 @media only screen and (min-width: 760px) {
     .distance_container, .duration_container, .weight_container{
         font-size: 14px;
@@ -148,11 +194,11 @@
     }
     .start_address_container, .end_address_container
     {
-        padding-top: 10px;
+        /*padding-top: 6px;*/
         font-size: 14px;
     }
     .start_address_container{
-        padding-top: 13px;
+       /* padding-top: 18px;*/
     }
     .shipment_id_created{
         padding-top: 5px;
@@ -170,10 +216,11 @@
 
 @media only screen and (min-width: 1000px) {
     .start_address_container, .end_address_container{
-        padding-top: 12px;
+        /*padding-top: 14px;*/
         font-size: 17px;
     }
     .end_address_container{
-        padding-top: 8px;
+        /*padding-top: 6px;*/
     }
 }
+
