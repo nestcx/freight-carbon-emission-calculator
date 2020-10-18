@@ -21,11 +21,11 @@ function searchPossibleAddresses(e) {
   inputField = e.target;
 
   /**
-   * Only bother trying to autosuggest if the user has entered more than 4 characters,
+   * Only bother trying to autosuggest if the user has entered more than 3 characters,
    * otherwise the search space is too large to provide a likely guess of what address the
    * user is looking for
    */
-  if (inputField.value.length > 4) {
+  if (inputField.value.length > 3) {
     
     /**
      * Send an asychronous request to the server, adding the user's input so far as an argument.

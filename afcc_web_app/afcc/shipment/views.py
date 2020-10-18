@@ -1,29 +1,25 @@
-from flask import Blueprint, request, render_template, flash, redirect, url_for, g
+import re # Used for regex 
+import json
+import datetime
+import os
+import string
+from os.path import splitext 
+from flask import Blueprint, request, render_template, flash, redirect, url_for, g, jsonify
+from flask_login import current_user
+import pandas as pd
+from sqlalchemy import desc
 from afcc.extensions import db
 from afcc.shipment.models import Shipment
 from afcc.user.models import User
-from afcc.models import Postcode
-from flask_login import current_user
-import datetime
-import os
-import pandas as pd
-from flask import jsonify
+from afcc.models import Postcode, Route
 from afcc import maproutes
 from afcc import calculation
 from afcc import data_conversion
-import string
-from afcc.shipment.forms import CreateShipmentForm
-from afcc.shipment.forms import EditShipmentForm
-from afcc.shipment.forms import ShipmentsForm
-from os.path import splitext 
-from sqlalchemy import desc
-import re # Used for regex 
-import json
+from afcc.shipment.forms import CreateShipmentForm, EditShipmentForm, ShipmentsForm
 
 # create shipment blueprint.
 shipment_bp = Blueprint(
     'shipment', __name__, template_folder='templates', static_folder='shipment-static')
-
 
 
 # GET  /shipments  -  get a list of shipments
@@ -65,7 +61,6 @@ def CR_shipments():
         set_of_new_routes_to_add = set()
 
 
-
         for i in range(rows):
             
             # Get the postcodes from the row. Do so by finding a 4 digit number
@@ -100,21 +95,9 @@ def CR_shipments():
         for i in range(0, len(list_of_fifty_postcodes)):
             list_of_matrices.append(maproutes.add_routes_matrix(set(list_of_fifty_postcodes[i])))
 
-
-        # # Now create another list, which will store only the geojson data, so that
-        # # the geojson data of all matrices can easily be returned to an API client or user
-        # list_geojson_data = []
-
-        # for i in range(len(list_of_matrices)):
-        #     list_geojson_data.append(list_of_matrices[i].get_geojson_data())
-
-        # return jsonify(list_geojson_data)
-
-
         # created shipment id's saved in this dictionary for optional use at
         # completion of upload.
         created_shipment_ids = []
-        invalid_shipment_count = 0
         invalid_shipment_msg = []
 
         slower_route_fallback_option = True
@@ -138,7 +121,7 @@ def CR_shipments():
                 # to create a route between 2 postcodes (using another API request maybe)
                 print('shipments/views/bulkshipments: Route does not exist between ' + from_postcode.group() + ' > ' + to_postcode.group())
                 
-                # OpenRouteService matrix option `has a hard limit of 350m radius in which it
+                # OpenRouteService matrix option has a hard limit of 350m radius in which it
                 # it looks for an accessible road when trying to calculate routes and their distances/
                 # durations. This means that some routes will fail, as the coordinate may not have
                 # a road within 350m radius.
@@ -153,26 +136,53 @@ def CR_shipments():
 
                     postcode_a_obj = maproutes.get_postcode(from_postcode.group())
                     postcode_b_obj = maproutes.get_postcode(to_postcode.group())
-                    # postcode_a_obj = Postcode.query.get(from_postcode.group())
-                    # postcode_b_obj = Postcode.query.get(to_postcode.group())
 
                     if postcode_a_obj is None:
                         invalid_shipment_msg.append('Error: cannot locate postcode: ' + from_postcode.group())
-                        invalid_shipment_count += 1
                         continue
 
                     if postcode_b_obj is None:
                         invalid_shipment_msg.append('Error: cannot locate postcode: ' + to_postcode.group())
-                        invalid_shipment_count += 1
                         continue
 
                     a_coords = [postcode_a_obj.long, postcode_a_obj.lat]
                     b_coords = [postcode_b_obj.long, postcode_b_obj.lat]
 
-                    route = maproutes.get_route(a_coords, b_coords)
-                else:
-                    invalid_shipment_count += 1
-                    continue
+                    # Try find a route by sending a POST directions request, and see if the API service was
+                    # was able to generate a route
+                    route_geojson = maproutes.get_route_geojson_data(a_coords, b_coords)
+
+                    if route_geojson is not None:
+                        # The API service was able to find the route once the fallback option was used,
+                        # therefore, create a new Route object and store the route data in the database
+                        route = Route(
+                            point_a_postcode = postcode_a_obj.postcode,
+                            point_a_region_name =  postcode_a_obj.region_name,
+                            point_a_long =  postcode_a_obj.long,
+                            point_a_lat =  postcode_a_obj.lat,
+
+                            point_b_postcode = postcode_b_obj.postcode,
+                            point_b_region_name = postcode_b_obj.region_name,
+                            point_b_long = postcode_b_obj.long,
+                            point_b_lat = postcode_b_obj.lat,
+                            
+                            route_distance_in_km = route_geojson.get_distance(),
+                            estimated_duration_in_seconds = route_geojson.get_duration(),
+                            last_updated = datetime.date.today()
+                        )
+
+                        # Now add this route to the DB to avoid having to use the slower process
+                        # whenever a new shipment with the same start and end addresses is added 
+                        db.session.add(route)
+                        db.session.commit()
+                        continue
+
+                    else:
+                        invalid_shipment_msg.append(
+                            'Error: could not create shipment data for shipment between: ' + \
+                                str(dfile_data['From'][i]) + ' to ' + str(dfile_data['To'][i]))
+                        continue
+
 
             # If the route is outdated, update it
             elif not maproutes.route_is_up_to_date(route):
@@ -183,17 +193,11 @@ def CR_shipments():
                     dfile_data['Weight'][i], 
                     'tonne',
                     route)
-            except Exception:
-                print('shipments/view/bulkshipments: Shipment object could not be created')
-                print(dfile_data['From'][i])
-                print(dfile_data['To'][i])
-                
-
+            except Exception as e:
                 invalid_shipment_msg.append(
                     'Error: could not create shipment data for shipment between: ' + \
                         str(dfile_data['From'][i]) + ' to ' + str(dfile_data['To'][i]))
 
-                invalid_shipment_count += 1
                 continue
 
 
@@ -206,7 +210,6 @@ def CR_shipments():
             except Exception:
                 print('shipments/view/bulkshipments: Shipment object could not be inserted into db')
                 invalid_shipment_msg.append('Shipment for row ' + str(i) + ' could not be created')
-                invalid_shipment_count += 1
                 continue
 
         try:
@@ -217,16 +220,15 @@ def CR_shipments():
 
 
         # If there were shipments that couldn't be processed, inform the user
-        if invalid_shipment_count is not 0:
-            flash('Some shipments could not be processed.\nThe number of shipments that couldn\'t be processed: ' + str(invalid_shipment_count))
+        if len(invalid_shipment_msg) != 0:
+            flash('Some shipments could not be processed.\nThe number of shipments that ' \
+                'couldn\'t be processed: ' + str(len(invalid_shipment_msg)))
 
             # Flash all errors
             for i in range(len(invalid_shipment_msg)):
                 flash(invalid_shipment_msg[i])
 
-
         return redirect(url_for('shipment.CR_shipments'))
-
 
     return render_template('shipments.html', shipments=shipments, file_form=file_form)
 
@@ -259,7 +261,8 @@ def show_create_shipment_form():
                 create_shipment_form.start_address.data,
                 create_shipment_form.end_address.data
             )
-        except Exception:
+        except Exception as e:
+            print(e)
             flash("An error occurred while trying to generate the shipment.")
             return render_template('create_shipment_form.html', form=create_shipment_form)
 
@@ -395,9 +398,6 @@ def authenticate_user():
         True, user           -- if user is valid, return True and user object.
     """
     
-    # check user is logged in.
-    print(current_user.is_authenticated)
-
     if not current_user.is_authenticated:
         flash("Please log in.")
         return False, 'user.log_in'
@@ -471,12 +471,10 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
     return myShipment.shipment_id
 
 
-
 def generate_bulk_shipment_data(loadWeight, loadWeightUnit, route):
     """
     This function is a faster, though less-accurate alternative to generating shipment data.
     It is specifically used for bulk shipments from file uploads 
-
     """
     calculation_data = calculation.calculate_emissions(
         18.1, 
@@ -511,51 +509,44 @@ def generate_bulk_shipment_data(loadWeight, loadWeightUnit, route):
 
 
 
-def generate_shipment_data(loadWeight, loadWeightUnit, startAddress, endAddress):
+def generate_shipment_data(loadWeight, loadWeightUnit, point_a, point_b):
     
-    startAddressInfo = maproutes.search_address(startAddress)
-    endAddressInfo = maproutes.search_address(endAddress)
-    
-    print(startAddressInfo)
-    print(endAddressInfo)
+    # Create a GeoJSON object containing data about the each location
+    startAddress = maproutes.search_address(point_a)
+    endAddress = maproutes.search_address(point_b)
 
-    startAddressValidated = startAddressInfo["features"][0]["properties"]["label"]
-    endAddressValidated = endAddressInfo["features"][0]["properties"]["label"]
+    if startAddress.is_valid() and endAddress.is_valid():
 
-    startAddressCoordinates = startAddressInfo["features"][0]["geometry"]["coordinates"]
-    endAddressCoordinates = endAddressInfo["features"][0]["geometry"]["coordinates"]
+        # Create a GeoJSON_Route object which wraps the GeoJSON data from the API service
+        route_geojson = maproutes.get_route_geojson_data(
+            [startAddress.get_long(), startAddress.get_lat()],
+            [endAddress.get_long(), endAddress.get_lat()])
+            
+        length_of_route = data_conversion.metre_to_kilometre(route_geojson.get_distance())
+        duration_of_route = route_geojson.get_duration()
 
-    geoJSONData = maproutes.get_route(
-        [startAddressCoordinates[0], startAddressCoordinates[1]],
-        [endAddressCoordinates[0], endAddressCoordinates[1]])
-        
+        calculation_data = calculation.calculate_emissions(18.1, length_of_route, float(loadWeight), loadWeightUnit)
 
-    length_of_route = data_conversion.metre_to_kilometre(
-        maproutes.get_length_of_route(geoJSONData))
-    duration_of_route = maproutes.get_duration_of_route(geoJSONData)
+        response = {}
 
-    calculation_data = calculation.calculate_emissions(18.1, length_of_route, float(loadWeight), loadWeightUnit)
+        response["emissions"] = {}
+        response["emissions"]["carbon_dioxide_emission"] = calculation_data["carbon_dioxide_emission"]
+        response["emissions"]["methane_emission"] = calculation_data["methane_emission"]
+        response["emissions"]["nitrous_oxide_emission"] = calculation_data["nitrous_oxide_emission"]
 
-    response = {}
+        response["fuel_consumption"] = calculation_data["fuel_consumptionn"]
+        response["adjusted_fuel_economy"] = calculation_data["adjusted_fuel_economy"]
+        response["distance"] = length_of_route
+        response["duration"] = duration_of_route
+        response["load_weight"] = loadWeight
+        response["load_weight_unit"] = loadWeightUnit
 
-    response["emissions"] = {}
-    response["emissions"]["carbon_dioxide_emission"] = calculation_data["carbon_dioxide_emission"]
-    response["emissions"]["methane_emission"] = calculation_data["methane_emission"]
-    response["emissions"]["nitrous_oxide_emission"] = calculation_data["nitrous_oxide_emission"]
+        response["location"] = {}
+        response["location"]["start_location"] = {}
+        response["location"]["end_location"] = {}
+        response["location"]["start_location"]["address"] = startAddress.get_address_name()
+        response["location"]["start_location"]["coordinate"] = str(startAddress.get_long()) + "," + str(startAddress.get_lat())
+        response["location"]["end_location"]["address"] = endAddress.get_address_name()
+        response["location"]["end_location"]["coordinate"] = str(endAddress.get_long()) + "," + str(endAddress.get_lat())
 
-    response["fuel_consumption"] = calculation_data["fuel_consumptionn"]
-    response["adjusted_fuel_economy"] = calculation_data["adjusted_fuel_economy"]
-    response["distance"] = length_of_route
-    response["duration"] = duration_of_route
-    response["load_weight"] = loadWeight
-    response["load_weight_unit"] = loadWeightUnit
-
-    response["location"] = {}
-    response["location"]["start_location"] = {}
-    response["location"]["end_location"] = {}
-    response["location"]["start_location"]["address"] = startAddressValidated
-    response["location"]["start_location"]["coordinate"] = str(startAddressCoordinates[0]) + "," + str(startAddressCoordinates[1])
-    response["location"]["end_location"]["address"] = endAddressValidated
-    response["location"]["end_location"]["coordinate"] = str(endAddressCoordinates[0]) + "," + str(endAddressCoordinates[1])
-
-    return response
+        return response

@@ -23,11 +23,11 @@
     <div class="form--double-column">
         {{ form.hidden_tag() }}
         <div class="container--location-inputs">
-            {{ form.start_address.label(class_="inputfield__label") }} <br />
-            {{ form.start_address(class_="inputfield--text input-pick-up", autofocus=true, autocomplete="off") }}
+            <label class="inputfield__label" for="start_address">Start location</label><br />
+            {{ form.start_address(class_="inputfield--text input-pick-up", autofocus=true, autocomplete="off", placeholder="Postcode, region name, or street address") }}
 
-            {{ form.end_address.label(class_="inputfield__label") }} <br />
-            {{ form.end_address(class_="inputfield--text input-drop-off", autocomplete="off") }}
+            <label class="inputfield__label" for="end_address">Destination</label><br />
+            {{ form.end_address(class_="inputfield--text input-drop-off", autocomplete="off", placeholder="Postcode, region name, or street address") }}
         </div>
         <div class="container--location-map">
             <div id="mapid"></div>

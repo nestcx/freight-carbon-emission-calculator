@@ -14,7 +14,7 @@ from datetime import date, timedelta
 from afcc.extensions import db
 from afcc import data_conversion
 
-from afcc.geoJSON import GeoJSON_Address, GeoJSON_Route_Matrix
+from afcc.geoJSON import GeoJSON_Address, GeoJSON_Route, GeoJSON_Route_Matrix
 
 maproutes_bp = Blueprint("maproutes", __name__, url_prefix="/maproutes",
                          static_folder='static', template_folder='templates')
@@ -26,126 +26,75 @@ maproutes_bp = Blueprint("maproutes", __name__, url_prefix="/maproutes",
 
 @maproutes_bp.route("/route", methods=["GET"])
 def get_route():
+    """This function called via async request by interactive map JS file, and is used to display 
+    the route on the interactive leaflet map
+    """
+    
     # Ensure that two coordinates are passed as arguments
     if "startCoords" in request.args and "endCoords" in request.args:
-        start_coords = request.args.get("startCoords")
-        end_coords = request.args.get("endCoords")
-        print(start_coords)
+        start_coords_str = request.args.get("startCoords")
+        end_coords_str = request.args.get("endCoords")
 
-        # Return the GeoJSON data and a status code of 200 indicating success
-        return get_route(start_coords, end_coords), 200
+        # Need to seperate the long, lat into an array so that it can properly be passed to get_route_geojson_data
+        start_coords = start_coords_str.split(",")
+        end_coords = end_coords_str.split(",")
+
+        result = get_route_geojson_data(start_coords, end_coords)
+
+        if result is not None:
+            return result.get_geojson_data(), 200
+        else:
+            return "Error, could not find route", 500
     else:
         # TODO: Handle error more gracefully
         return "Need to input coordinates as request arguments"
 
 
-# This will be used for asynchronous requests.
-# Find suggestions for address/places depending on the user's input so far
-# Returns a list of possible addresses if found
+
 @maproutes_bp.route("/search/address", methods=["GET"])
 # Throttle requests to 4 per second as per OpenRouteService's request/guidelines
 @limiter.limit("4 per second")
 def find_coordinate_of_address():
+    """Used for async requests, to autosuggest possible addresses as the user types in the input fields
+    """
+    
     if "input" in request.args:
         user_input = request.args.get("input")
         # Return the JSON data and a status code of 200 indicating success
-        return search_address(user_input), 200
+
+        addresses = search_address(user_input)
+        if addresses.is_valid():
+            return addresses.get_geojson_data(), 200
+        else:
+            return "Error, could not find addresses", 400
     else:
         # TODO: Handle error more gracefully
-        # 400 status code indicates that there was a client error
-        return "Need to input something", 400
+        return "Need to input something", 400 # 400 status code indicates that there was a client error
 
 ###############
 #  END VIEWS  #
 ###############
 
-def get_route(start_coords, end_coords):
-    """Get a route between two coordinates by sending a GET request to an API
+
+def get_route_geojson_data(start_coords, end_coords):
+    """Get GeoJSON data for a route between two coordinates by instantiating a new GeoJSON object
 
     Arguments:
     start_coords {number} -- Coordinates of starting location as an array of floats in [longitude, latitude] form
     end_coords {number} -- Coordinates of destination as an array of floats in [longitude, latitude] form
-
+ 
     Returns:
-    [JSON] -- Retrieved data about the route, in GeoJSON format.
+    [Object] -- A GeoJSON_Route object that serves as a wrapper for the GeoJSON data retrieved from the API service. 
+    None if the GeoJSON_Route obejct is considered invalid.
     """
     
-    # This is the amount of metres that the API service should look for a road from the point
-    # of a coordinate. A larger number means that it would search a larger area when routing,
-    # which means more often it will find successful route, but the algorithm might be a little
-    # less accurate (though this is a non-issue in practice)
-    # In this case, a radius of 5,000 metres is used because some very rural areas may not
-    # have a road within a close radius of the 'centre' coordinate of the region
-    road_search_radius = 5000
-    
-    endpointURL = "https://api.openrouteservice.org/v2/directions/driving-hgv"
-    headers = { 
-        'Authorization': API_KEY,
-        'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
-        'Content-Type': 'application/json; charset=utf-8'}
-
-
-    json = {
-        "coordinates": [start_coords, end_coords],
-        "instructions" : "false", # Don't want driving instructions, as we're only interested in the route distance and duration
-        "radiuses" : [road_search_radius, road_search_radius]} # Must specify radius for both points
- 
-    response = requests.post(endpointURL, headers=headers, json=json)
+    route_geojson = GeoJSON_Route(start_coords, end_coords)
 
     # First check if the API service was able to process the requests successfully.
-    # They will return a status code of 200 if so.
-    if response.status_code == 200:
-        result = response.json()
-        
-        # Some shipments just can't be processed due to incorrect data entry or
-        # issues like inserting the same postcode in the 'from' and 'to' columns.
-        # So try check if the data is valid, and if not, discard entirely. For some
-        # errors, the API service will not include the distance as part of geoJSON data,
-        # so you must try see if it exists, and if not, just return none anyway
-        try:
-            if result["routes"][0]["summary"]["distance"] > 0:
-                return result
-        except:
-            return None
-
-    # Status code wasn't 200, therefore, something went wrong in the route calculation
+    if route_geojson.is_valid():
+        return route_geojson
     else:
         return None
-
-
-def get_length_of_route(route_geojson):
-    """Get the distance between the starting location and destination. Note that distance refers to the
-    total amount of metres if the route is followed exactly (i.e, it is not the straight line distance 
-    between 2 points).
-
-    Arguments:
-    route_geojson {JSON} -- the GeoJSON data containing data about the route
-
-    Returns:
-    [float] -- Total distance between point A and point B, in metres. -1 if an error was encountered
-    """
-
-    # Create a try/catch block to handle errors in the event that the JSON data is incorrect/changed format
-    try:
-        return route_geojson["features"][0]["properties"]["summary"]["distance"]
-    except:
-        return -1
-
-
-def get_duration_of_route(route_geojson):
-    """Get the estimated time it will take to reach the destination from starting location
-
-    Arguments:
-    route_geojson {JSON} -- the GeoJSON data containing data about the route
-
-    Returns:
-    [float] -- Duration of route in seconds. -1 if an error was encountered
-    """
-    # Create a try/catch block to handle errors in the event that the JSON data is incorrect/changed format
-    try:
-        return route_geojson["features"][0]["properties"]["summary"]["duration"]
-    except:
-        return -1
 
 
 def search_address(address_input):
@@ -155,22 +104,17 @@ def search_address(address_input):
     address_input {string} -- The user's input so far
 
     Returns:
-    [JSON] -- JSON data of all the possible addresses so far. Note that JSON data will still be returned 
-    even if no addresses were found
+    [Object] -- A GeoJSON_Address object containing JSON data of all the possible addresses so far. 
+    None if nothing was found or API request was invalid
     """
 
-    country = "AUS"  # restrict all searches to addresses in Australia only.
-
-    endpointURL = "https://api.openrouteservice.org/geocode/search?api_key={}&text={}&boundary.country={}" \
-        .format(API_KEY, address_input, country)
-    response = requests.get(endpointURL)
-
+    address_data = GeoJSON_Address(address_input)
     # Check if API service was able to process the request successfully, and if so, return the data
-    if response.status_code == 200:
-        return response.json()
+    if address_data.is_valid():
+        return address_data
     else:
         # TODO: Handle error more gracefully
-        return "Error: " + response.status_code
+        return None
 
 
 
@@ -182,12 +126,12 @@ def route_exists(postcode_a, postcode_b):
         point_b_postcode = postcode_b
         ).first()
         
-    # flip point a and point b and retry to see if a route exists
-    if route is None:
-        route = Route.query.filter_by(
-            point_a_postcode = postcode_b,
-            point_b_postcode = postcode_a
-        ).first()
+    # # flip point a and point b and retry to see if a route exists
+    # if route is None:
+    #     route = Route.query.filter_by(
+    #         point_a_postcode = postcode_b,
+    #         point_b_postcode = postcode_a
+    #     ).first()
     
     if route is None:
         # print('route_exists(): Route doesn\'t exist')
@@ -238,13 +182,12 @@ def update_route(route):
 
     # Call API service and retrieve the route directions again, so that the distance
     # and duration of the trip can be updated
-    route_updated_GeoJSON = get_route(coords_a, coords_b)
+    route_updated_GeoJSON = get_route_geojson_data(coords_a, coords_b)
 
     if route_updated_GeoJSON is not None:
         try:
-            updated_length = data_conversion.metre_to_kilometre(
-                get_length_of_route(route_updated_GeoJSON))
-            updated_duration = get_duration_of_route(route_updated_GeoJSON)
+            updated_length = data_conversion.metre_to_kilometre(route_updated_GeoJSON.get_distance())
+            updated_duration = route_updated_GeoJSON.get_duration()
 
             # Update the route object and commit to db
             route.route_distance_in_km = updated_length

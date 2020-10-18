@@ -48,10 +48,6 @@ def create_app():
     from afcc.user import views as uviews
     from afcc.shipment import views as sviews
 
-    # TODO: REMOVE ################
-    from afcc import geoJSON
-    app.register_blueprint(geoJSON.geojson_bp)
-
     # register blueprints
     app.register_blueprint(maproutes.maproutes_bp)
     app.register_blueprint(calculation.calculation_bp)
