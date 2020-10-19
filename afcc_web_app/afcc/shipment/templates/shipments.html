@@ -4,12 +4,69 @@
 <link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
 {% endblock %}
 
+
+
+
+
+
+ 
 {% block content %}
 <div class="container--shipments-page --enforce-max-width">
 
+<script type="application/javascript"> 
+    function sayHi() {
+            //alert('hi');
+            var input, filter, div, a, j, i, txtValue;
+            input = document.getElementById('filter_shipment');
+            filter = input.value.toUpperCase();
+            div = document.getElementById("shipment_c");
+            a = div.getElementsByTagName('a');
+            let divs = document.getElementsByClassName("shipment-card");
+
+
+            // to loop through all the items
+            for (i = 0; i < divs.length; i++) {
+                a = divs[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                divs[i].style.display  ="block";
+                }
+                else    divs[i].style.display  ="none";
+            }
+        }
+/*..function Search_Function() {
+	
+alert('hit teh search');
+		var input, filter, div, a, j, i, txtValue;
+		input = document.getElementById('filter_shipment');
+		filter = input.value.toUpperCase();
+		div = document.getElementById("shipment_c");
+		a = div.getElementsByTagName('a');
+		
+	// to loop through all the items
+	for (i=0; i<j.lenght; i++) {
+	j = a[i].getElementsByTagName("a")[0];
+	txtValue = a.textContent || a.innerText;
+	if (txtValue.toUpperCase().indexOf(filter) > -1) {
+	a[i].style.display + "";
+	}
+		else {
+		a[i].style.display ="none";
+
+	}	
+} */
+</script> 
+<div>
+<!--<input type="search" onmouseover="sayHi()" class="filter" placeholder="Filter Search">-->
+<input type="search" id="filter_shipment" onkeyup="sayHi()" class="filter" placeholder="Filter Search">
+</div> 
+
+
+
+
     {% with messages = get_flashed_messages() %}
     {% if messages %}
-    <ul class=flash>
+    <ul class= "flash" id = "flash">
         {% for message in messages %}
         <li>{{ message }}</li>
         {% endfor %}
@@ -22,6 +79,7 @@
     </div>
     {% if shipments is defined %}
         {% for shipment in shipments %}
+<<<<<<< Updated upstream
             <!-- Data for the shipments cards -->
             <a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">
                 <div class="shipment-card">
@@ -72,6 +130,77 @@
                     
                 </div>
             </a>
+=======
+        <div class="shipment-card" id="shipment_c" >
+            <div class="title">
+                <a
+                    href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a>
+            </div>
+            <div class="edit_shipment">
+                <a href="{{ url_for('shipment.show_edit_shipment_form', shipment_id=shipment.shipment_id) }}">Edit shipment</a>
+            </div>
+            <div class="delete_button">
+                <!-- <input type="button" value="Delete Shipment" onclick="deleteShipment({{shipment.shipment_id}})">-->
+            </div>
+
+            <div class="shipment_name" id="shipment _na" >
+                <div class="heading">Shipment Name</div>
+                <div class="data">{{ shipment.shipment_name }}</div>
+            </div>
+            <div class="shipment_created">
+                <div class="heading">Shipment Created</div>
+                <div class="data">{{ shipment.shipment_created }}</div>
+            </div>
+            <div class="load_weight">
+                <div class="heading">Load Weight</div>
+                <div class="data">{{ shipment.load_weight }}</div>
+            </div>
+            <div class="load_weight_unit">
+                <div class="heading">Load Weight Unit</div>
+                <div class="data">{{ shipment.load_weight_unit }}</div>
+            </div>
+            <div class="trip_distance">
+                <div class="heading">Trip Distance</div>
+                <div class="data">{{ shipment.trip_distance }}</div>
+            </div>
+            <div class="trip_duration">
+                <div class="heading">Trip Duration</div>
+                <div class="data">{{ shipment.trip_duration }}</div>
+            </div>
+            <div class="fuel_economy_adjustment">
+                <div class="heading">Fuel Economy Adjustment</div>
+                <div class="data">{{ shipment.fuel_economy_adjustment }}</div>
+            </div>
+            <div class="carbon_dioxide_emission">
+                <div class="heading">Carbon Dioxide Emission</div>
+                <div class="data">{{ shipment.carbon_dioxide_emission }}</div>
+            </div>
+            <div class="methane_emission">
+                <div class="heading">Methane Emission</div>
+                <div class="data">{{ shipment.methane_emission }}</div>
+            </div>
+            <div class="nitrous_oxide_emission">
+                <div class="heading">Nitrous Oxide Emission</div>
+                <div class="data">{{ shipment.nitrous_oxide_emission }}</div>
+            </div>
+            <div class="start_address">
+                <div class="heading">Start Address</div>
+                <div class="data">{{ shipment.start_address }}</div>
+            </div>
+            <div class="start_address_coordinates">
+                <div class="heading">Start Address Coordinates</div>
+                <div class="data">{{ shipment.start_address_coordinates }}</div>
+            </div>
+            <div class="end_address">
+                <div class="heading">End Address</div>
+                <div class="data">{{ shipment.end_address }}</div>
+            </div>
+            <div class="end_address_coordinates">
+                <div class="heading">End Address Coordinates</div>
+                <div class="data">{{ shipment.end_address_coordinates }}</div>
+            </div>
+        </div>
+>>>>>>> Stashed changes
         {% endfor %}
     {% else %}
     <div class="shipment-card--empty-placeholder">
