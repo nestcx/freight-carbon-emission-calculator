@@ -1,3 +1,5 @@
+//shipment header container, holds back button, title and download button in mobile version
+//only displays back and title for desktop version
 .shipment-header {
     display: flex;
     justify-content: space-between;
@@ -5,27 +7,21 @@
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         justify-content: left;
+        width: 98%;
         position: unset;
+        margin-top: 1%;
+        margin-left: 1%;
     }
 }
 
-.shipment-data {
-    @extend .containershipment;
-
-    @include breakpoint-screen-larger-than($breakpoint-tablet) {
-        margin-left: 5%;
-        height: 300px;
-        width: 30%;
-        padding: 3px;
-    }
-}
-
+//Shipment info table heading
 .shipment-expand {
     padding-left: 20%;
     padding-right: 20%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
     &:hover {
         background-color: darken($color-white, 10%);
     }
@@ -36,28 +32,30 @@
         padding-right: unset;
         flex-direction: unset;
         padding-left: 3px;
+        //removes default hover effect
+        &:hover {
+            background-color:white;
+        }
     }
 }
 
 //CONTAINERS
-
+//whole page container, lists child containers in column on mobile and wraps down page on desktop
 .container--shipmentinfo {
     padding-top: 60px;
     display: flex;
     flex-direction: column;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-    padding-top: unset;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
+        padding-top: unset;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
     }
 }
-
-
+//default styling for container elements, width of entire screen on mobile, varying width on desktop
 .containershipment {
-    @include border-shadow-soft;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -65,48 +63,68 @@
     justify-content: space-around;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-    background-color: white;
-    width: 30%;
-    margin-top: 2.5%;
-    margin-left: 2.5%;
+        @include border-shadow-soft;
+        background-color: white;
+        height: 300px;
+        width: 30%;
+        margin-top: 2.5%;
+        margin-left: 2.5%;
+        padding-bottom: 5%;
     }
 }
+//contains shipment details section
+.container-data {
+    @extend .containershipment;
 
-
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        margin-left: 5%;
+        height: 300px;
+        width: 30.8%;
+        padding: 3px;
+    }
+}
+//contains emission detail section
 .container--emissions {
     @extend .containershipment;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-    height: 50%;
-    width: 60%;
+        width: 62.5%;
+        flex-direction: row;
     }
 }
-
+//contains distance detail section
 .container--distance {
     @extend .containershipment;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-        height: 50%;
-        width: 30%;
-        }
+        width: 46.25%;
+    }
 }
-
+//contains tree detail section
 .container--tree {
     @extend .containershipment;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-        height: 50%;
-        width: 30%;
-        }
+        width: 46.25%;
+    }
 }
-
+//contains pricing detail section
 .container--price {
     @extend .containershipment;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-        height: 50%;
-        width: 30%;
-        }
+        width: 60%;
+        margin-left: 20%;
+        margin-right: 20%;
+        flex-direction: row;
+    }
+}
+//additional div only used in desktop styling
+//used to display graphic on left and all other elements on right within container
+.price-desktop {
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        flex-direction: column;
+    }
 }
 
 .container--fuel {
@@ -158,6 +176,17 @@
     }
 }
 
+.buttons-desktop {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#learn {
+    margin-left: 35%;
+}
+
 //TABLES//
 .shipment-info-table {
     width: 100%;
@@ -171,12 +200,20 @@
     .col-two {
         text-align: right;
     }
-
-    @include breakpoint-screen-larger-than($breakpoint-tablet) {
-    }
-
 }
-
+//default display for shipment information table rows
+//hidden on mobile and displayed on desktop
+.shipment-row {
+    display: none;
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        display: table-row;
+    }
+}
+//used to toggle display of shipment information rows with js
+.--show {
+    display: table-row;
+}
+//table pricing styling
 #table--pricing {
     width: 100%;
     border: none;
@@ -188,7 +225,7 @@
         }
     }
 }
-
+//table emissions styling
 #table--emissions {
     width: 100%;
     border: none;
@@ -198,8 +235,11 @@
             background-color: darken($color-white, 10%);
         }
     }
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        width: 30%;
+    }
 }
-
+//used to indicate table row is selected
 .--selected {
     background-color: darken($color-white, 10%);
 }

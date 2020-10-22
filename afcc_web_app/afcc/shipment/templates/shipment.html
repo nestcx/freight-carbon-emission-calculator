@@ -10,29 +10,29 @@
     <button class="button--primary --hidden-on-desktop" onClick=DOWNLOAD()>DWN</button>
 </div>
 <div class="container--shipmentinfo">
-    <div class="shipment-data">
+    <div class="container-data">
         <div class="shipment-expand" onClick="expandinfo()">
             <h3>Shipment Details</h3>
             <h3>ICON</h3>
         </div>
         <table class="shipment-info-table" id="shipment-table">
-            <tr class="shipment-row --hidden">
+            <tr class="shipment-row">
                 <td class="col-one">Shipment ID</td>
                 <td class="col-two">{{ shipment.shipment_id }}</td>
             </tr>
-            <tr class="shipment-row --hidden">
+            <tr class="shipment-row">
                 <td class="col-one">Shipment Created</td>
                 <td class="col-two">{{ shipment.shipment_created }}</td>
             </tr>
-            <tr class="shipment-row --hidden">
+            <tr class="shipment-row">
                 <td class="col-one">Shipment Weight</td>
                 <td class="col-two">{{ shipment.load_weight }} {{ shipment.load_weight_unit }}</td>
             </tr>
-            <tr class="shipment-row --hidden">
+            <tr class="shipment-row">
                 <td class="col-one">Origin</td>
                 <td class="col-two">{{ shipment.start_address }}</td>
             </tr>
-            <tr class="shipment-row --hidden">
+            <tr class="shipment-row">
                 <td class="col-one">Destination</td>
                 <td class="col-two">{{ shipment.end_address }}</td>
             </tr>
@@ -68,7 +68,9 @@
     </script>
 
     <div class="container--distance">
-        <h1>DISTANCE GRAPHIC</h1>
+        <div class="container--location-map">
+            <div id="mapid"></div>
+        </div>
         <h2>{{ shipment.trip_distance }}km</h2>
         <p>This shipment is travelling {{ shipment.trip_distance }}km</p>
     </div>
@@ -86,35 +88,37 @@
 
     <div class="container--price">
         <p id="coins"></p>
-        <h2 id="calculatedPrice">PRICEJS</h2>
-        <p id="priceDescription">This shipment would cost XX under the 2011 proposed carbon pricing scheme</p>
+        <div class="price-desktop">
+            <h2 id="calculatedPrice">PRICEJS</h2>
+            <p id="priceDescription">This shipment would cost XX under the 2011 proposed carbon pricing scheme</p>
 
-        <table id="table--pricing">
-            <tr>
-                <th>Emissions Pricing Scheme</th>
-                <th>Price per Tonne CO2e</th>
-            </tr>
-            <tr class="price --selected" id="AU">
-                <td>Cancelled 2014 Australia Carbon Tax</td>
-                <td>24.15</td>
-                <td>AUD</td>
-            </tr>
-            <tr class="price" id="GB">
-                <td>California Cap and Trade Price</td>
-                <td>15</td>
-                <td>USD</td>
-            </tr>
-            <tr class="price" id="CAL">
-                <td>Great Britain Carbon Tax</td>
-                <td>25</td>
-                <td>GPB</td>
-            </tr>
-            <tr class="price" id="UN">
-                <td>UN Recommended Minimum Carbon Price</td>
-                <td>135</td>
-                <td>USD</td>
-            </tr>
-        </table>
+            <table id="table--pricing">
+                <tr>
+                    <th>Emissions Pricing Scheme</th>
+                    <th>Price per Tonne CO2e</th>
+                </tr>
+                <tr class="price --selected" id="AU">
+                    <td>Cancelled 2014 Australia Carbon Tax</td>
+                    <td>24.15</td>
+                    <td>AUD</td>
+                </tr>
+                <tr class="price" id="GB">
+                    <td>California Cap and Trade Price</td>
+                    <td>15</td>
+                    <td>USD</td>
+                </tr>
+                <tr class="price" id="CAL">
+                    <td>Great Britain Carbon Tax</td>
+                    <td>25</td>
+                    <td>GPB</td>
+                </tr>
+                <tr class="price" id="UN">
+                    <td>UN Recommended Minimum Carbon Price</td>
+                    <td>135</td>
+                    <td>USD</td>
+                </tr>
+            </table>
+        </div>
     </div>
     <!--<div class="container--fuel">
         <h1>FUEL GRAPHIC</h1>
@@ -134,5 +138,14 @@
         onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'">Edit</button>
     <button class="btn-modify" onClick=modify()>Modify</button>
 </div>
+<div class="buttons-desktop --hidden-on-mobile">
+    <button class="button--primary" id="learn" onClick="window.location.href='/about'">Learn More</button>
+    <button class="button--primary" id="report">Download Report</button>
+</div>
 <script src="/static/javascript/viewshipment.js"></script>
+<script src="/static/leaflet/leaflet.js"></script>
+<!-- interactivemap.js must be called after leaflet.js -->
+<script src="/static/javascript/interactivemap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/javascript/inputfields.js"></script>
 {% endblock %}

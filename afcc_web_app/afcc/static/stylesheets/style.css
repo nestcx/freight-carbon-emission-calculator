@@ -922,16 +922,10 @@ header {
     -webkit-box-pack: left;
         -ms-flex-pack: left;
             justify-content: left;
+    width: 98%;
     position: unset;
-  }
-}
-
-@media only screen and (min-width: 760px) {
-  .shipment-data {
-    margin-left: 5%;
-    height: 300px;
-    width: 30%;
-    padding: 3px;
+    margin-top: 1%;
+    margin-left: 1%;
   }
 }
 
@@ -965,6 +959,9 @@ header {
             flex-direction: unset;
     padding-left: 3px;
   }
+  .shipment-expand:hover {
+    background-color: white;
+  }
 }
 
 .container--shipmentinfo {
@@ -994,9 +991,7 @@ header {
   }
 }
 
-.containershipment, .shipment-data, .container--emissions, .container--distance, .container--tree, .container--price, .container--fuel {
-  -webkit-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+.containershipment, .container-data, .container--emissions, .container--distance, .container--tree, .container--price, .container--fuel {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1013,39 +1008,67 @@ header {
 }
 
 @media only screen and (min-width: 760px) {
-  .containershipment, .shipment-data, .container--emissions, .container--distance, .container--tree, .container--price, .container--fuel {
+  .containershipment, .container-data, .container--emissions, .container--distance, .container--tree, .container--price, .container--fuel {
+    -webkit-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     background-color: white;
+    height: 300px;
     width: 30%;
     margin-top: 2.5%;
     margin-left: 2.5%;
+    padding-bottom: 5%;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .container-data {
+    margin-left: 5%;
+    height: 300px;
+    width: 30.8%;
+    padding: 3px;
   }
 }
 
 @media only screen and (min-width: 760px) {
   .container--emissions {
-    height: 50%;
-    width: 60%;
+    width: 62.5%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
   }
 }
 
 @media only screen and (min-width: 760px) {
   .container--distance {
-    height: 50%;
-    width: 30%;
+    width: 46.25%;
   }
 }
 
 @media only screen and (min-width: 760px) {
   .container--tree {
-    height: 50%;
-    width: 30%;
+    width: 46.25%;
   }
 }
 
 @media only screen and (min-width: 760px) {
   .container--price {
-    height: 50%;
-    width: 30%;
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .price-desktop {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
 }
 
@@ -1106,6 +1129,24 @@ header {
   background-color: rgba(242, 169, 167, 0.4);
 }
 
+.buttons-desktop {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#learn {
+  margin-left: 35%;
+}
+
 .shipment-info-table {
   width: 100%;
   padding-left: 10%;
@@ -1118,6 +1159,20 @@ header {
 
 .shipment-info-table .col-two {
   text-align: right;
+}
+
+.shipment-row {
+  display: none;
+}
+
+@media only screen and (min-width: 760px) {
+  .shipment-row {
+    display: table-row;
+  }
+}
+
+.--show {
+  display: table-row;
 }
 
 #table--pricing {
@@ -1138,6 +1193,12 @@ header {
 
 #table--emissions .gas:hover {
   background-color: #e6e6e6;
+}
+
+@media only screen and (min-width: 760px) {
+  #table--emissions {
+    width: 30%;
+  }
 }
 
 .--selected {

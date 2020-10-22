@@ -1,29 +1,32 @@
 "use strict";
 
-function init(){    
-    
+function init() {
+
     var win = window,
-    doc = document,
-    docElem = doc.documentElement,
-    body = doc.getElementsByTagName('body')[0],
-    x = win.innerWidth || docElem.clientWidth || body.clientWidth,
-    y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
-    
-    
-    draw_coins(x,y);
+        doc = document,
+        docElem = doc.documentElement,
+        body = doc.getElementsByTagName('body')[0],
+        x = win.innerWidth || docElem.clientWidth || body.clientWidth,
+        y = win.innerHeight || docElem.clientHeight || body.clientHeight;
+
+
+    draw_coins(x, y);
     costClickHandler("table--pricing");
     emissionClickHandler("table--emissions");
     calculateTotal();
     calculateCost("AU");
     calculateTrees();
-
 }
 
 function expandinfo() {
     var tablerows = document.getElementsByClassName("shipment-row");
     var i;
-    for (i = 0; i < tablerows.length; i++) {
-        tablerows[i].classList.toggle("--hidden");
+    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    console.log(vw);
+    if (vw <= 760) {
+        for (i = 0; i < tablerows.length; i++) {
+            tablerows[i].classList.toggle("--show");
+        }
     }
 }
 
@@ -53,22 +56,22 @@ function calculateCost(currency) {
             price = 24.15;
             unit = "&#36 "  //ASCII code for dollar symbol
             text = "This is how much your shipment would cost based on the repealed 2014 Australian carbon tax";
-        break;
+            break;
         case "CAL":
             price = 15;
             unit = "&#36 "       //ASCII code for dollar symbol
             text = "This is how much your shipment would cost under the Californian carbon trading scheme"
-        break;
+            break;
         case "GB":
             price = 25;
             unit = "&#163 " //ASCII code for pound symbol
             text = "This is how much your shipment would cost under Great Britains current Cap and Trade policy"
-        break;
+            break;
         case "UN":
             price = 135;
             unit = "&#36 "  //ASCII code for dollar symbol
             text = "This is how much your shipment would cost under the United Nations recommended pricing to keep global temperature increase to below 1.5 degrees"
-        break;
+            break;
         default:
             price = 24.15;
             unit = "&#36 "  //ASCII code for dollar symbol
@@ -106,8 +109,8 @@ function costClickHandler(tableId) {
     for (i = 1; i < rows.length; i++) {
         var id = rows[i].id;
         var currentRow = table.rows[i];
-        var createClickHandler = function(id, tableId) {
-            return function() {
+        var createClickHandler = function (id, tableId) {
+            return function () {
                 makeSelected(id, tableId);
                 calculateCost(id);
             };
@@ -123,8 +126,8 @@ function emissionClickHandler(tableId) {
     for (i = 0; i < rows.length; i++) {
         var id = rows[i].id;
         var currentRow = table.rows[i];
-        var createClickHandler = function(id, tableId) {
-            return function() {
+        var createClickHandler = function (id, tableId) {
+            return function () {
                 makeSelected(id, tableId);
             };
         };
