@@ -11,3 +11,7 @@ tools_bp = Blueprint(
 @tools_bp.route('/tools', methods=['GET'])
 def tools():
     return render_template('tools.html')
+
+@tools_bp.route('/tools/compare', methods=['GET'])
+def compare():
+    return render_template('compare.html')

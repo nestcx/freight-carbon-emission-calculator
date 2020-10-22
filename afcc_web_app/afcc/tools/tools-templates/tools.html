@@ -6,7 +6,7 @@
     <h1 class="tools-title">Tools</h1>
     <div class="tools-description">Learn more about the impact of your shipments with our interactive suite of tools</div>
     
-    <div class="tools--card">
+    <div class="tools--card" onclick="redirect('compare')">
         <img src="{{ url_for('static', filename='images/placeholder_100.png') }}" class="tool--image"></img>
         <h3 class="tool--name">Compare Shipments</h3>
         <div class="tool--description">Compare and analyse two of your shipments.</div>
@@ -19,5 +19,8 @@
     </div>
     
 </div>
+
+<script src="{{ url_for('tools.static', filename='javascript/_toolspage.js') }}"></script>
+
 
 {% endblock %}
