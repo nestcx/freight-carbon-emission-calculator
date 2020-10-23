@@ -69,7 +69,6 @@
         width: 30%;
         margin-top: 2.5%;
         margin-left: 2.5%;
-        padding-bottom: 5%;
     }
 }
 //contains shipment details section
@@ -77,7 +76,7 @@
     @extend .containershipment;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-        margin-left: 5%;
+        margin-left: 2.5%;
         height: 300px;
         width: 30.8%;
         padding: 3px;
@@ -88,7 +87,7 @@
     @extend .containershipment;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-        width: 62.5%;
+        width: 62%;
         flex-direction: row;
     }
 }
@@ -106,6 +105,10 @@
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         width: 46.25%;
+        flex-direction: column;
+        padding-left: 2px;
+        padding-right: 2px;
+        justify-content: space-evenly;
     }
 }
 //contains pricing detail section
@@ -224,7 +227,17 @@
             background-color: darken($color-white, 10%);
         }
     }
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        width: 50%;
+    }
 }
+
+.price-desktop {
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        width: 50%;
+    }
+}
+
 //table emissions styling
 #table--emissions {
     width: 100%;

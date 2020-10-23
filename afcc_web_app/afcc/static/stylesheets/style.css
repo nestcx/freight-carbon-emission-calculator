@@ -1016,13 +1016,12 @@ header {
     width: 30%;
     margin-top: 2.5%;
     margin-left: 2.5%;
-    padding-bottom: 5%;
   }
 }
 
 @media only screen and (min-width: 760px) {
   .container-data {
-    margin-left: 5%;
+    margin-left: 2.5%;
     height: 300px;
     width: 30.8%;
     padding: 3px;
@@ -1031,7 +1030,7 @@ header {
 
 @media only screen and (min-width: 760px) {
   .container--emissions {
-    width: 62.5%;
+    width: 62%;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
@@ -1048,6 +1047,15 @@ header {
 @media only screen and (min-width: 760px) {
   .container--tree {
     width: 46.25%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding-left: 2px;
+    padding-right: 2px;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
   }
 }
 
@@ -1183,6 +1191,18 @@ header {
 
 #table--pricing .price:hover {
   background-color: #e6e6e6;
+}
+
+@media only screen and (min-width: 760px) {
+  #table--pricing {
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .price-desktop {
+    width: 50%;
+  }
 }
 
 #table--emissions {

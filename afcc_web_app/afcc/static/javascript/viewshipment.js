@@ -9,7 +9,8 @@ function init() {
         x = win.innerWidth || docElem.clientWidth || body.clientWidth,
         y = win.innerHeight || docElem.clientHeight || body.clientHeight;
 
-
+    var emissions = document.getElementById("emissionsTotal").innerHTML;
+    draw_trees(emissions);
     draw_coins(x, y);
     costClickHandler("table--pricing");
     emissionClickHandler("table--emissions");
@@ -70,7 +71,7 @@ function calculateCost(currency) {
         case "UN":
             price = 135;
             unit = "&#36 "  //ASCII code for dollar symbol
-            text = "This is how much your shipment would cost under the United Nations recommended pricing to keep global temperature increase to below 1.5 degrees"
+            text = "This is how much your shipment would cost under the United Nations recommended pricing scheme"
             break;
         default:
             price = 24.15;
