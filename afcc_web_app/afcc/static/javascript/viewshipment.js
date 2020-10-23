@@ -178,4 +178,16 @@ function roundEmissions() {
 
 }
 
+function deleteShipment() {
+    //get shipment id
+    var idToDelete = document.getElementById("shipId").innerHTML;
+    console.log(idToDelete);
+
+    var result = confirm("Delete this shipment?");
+    if (result) {
+        
+    }
+}
+
+
 window.onload = init;

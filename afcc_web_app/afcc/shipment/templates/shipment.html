@@ -19,7 +19,7 @@
         <table class="shipment-info-table" id="shipment-table">
             <tr class="shipment-row">
                 <td class="col-one">Shipment ID</td>
-                <td class="col-two">{{ shipment.shipment_id }}</td>
+                <td class="col-two" id="shipId">{{ shipment.shipment_id }}</td>
             </tr>
             <tr class="shipment-row">
                 <td class="col-one">Shipment Created</td>
@@ -131,7 +131,7 @@
     -->
 </div>
 <div class="buttons-modify  --hidden-on-desktop">
-    <button class="btn-delete --hidden"><i class="far fa-trash-alt fa-2x"></i></button>
+    <button class="btn-delete --hidden" onClick="deleteShipment({{shipment.shipment_id }})"><i class="far fa-trash-alt fa-2x"></i></button>
     <button class="btn-edit --hidden"
         onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'"><i class="far fa-edit fa-2x"></i></button>
     <button class="btn-modify" onClick=modify()><i class="fas fa-cog fa-2x"></i></button>
@@ -147,4 +147,5 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/static/javascript/inputfields.js"></script>
 <script src="https://kit.fontawesome.com/d6fc443413.js" crossorigin="anonymous"></script>
+<script src="{{ url_for('shipment.static', filename='javascript/delete_shipment.js') }}"></script>
 {% endblock %}
