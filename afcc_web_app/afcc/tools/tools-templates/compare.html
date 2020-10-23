@@ -4,27 +4,32 @@
 
 <div class="compare--container">
 
-    <div class="tool-header">
+    <div class="non_data_container">
+        <div class="tool-header">
 
-        <svg class="back_arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
-            aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <path data-name="layer1" fill="#202020"
-                d="M28.001 48L12 32l16.001-16 4.242 4.243-8.759 8.758H52v6H23.486l8.757 8.757L28.001 48z"></path>
-        </svg>
-        <h2 class="tool_name">Compare Shipments</h2>
-        <div class="filla_in_manilla"></div>
+            <svg class="back_arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path data-name="layer1" fill="#202020"
+                    d="M28.001 48L12 32l16.001-16 4.242 4.243-8.759 8.758H52v6H23.486l8.757 8.757L28.001 48z"></path>
+            </svg>
+            <h2 class="tool_name">Compare Shipments</h2>
+            <div class="filla_in_manilla"></div>
+        </div>
+
+        <div class="search_container">
+            <div class="field1">
+                <div class="search_title inputfield__label">Shipment 1</div>
+                <input class="inputfield--text" id="shipment1" type="text" placeholder="Search...">
+            </div>
+            <div class="field2">
+                <div class="search_title inputfield__label">Shipment 2</div>
+                <input class="inputfield--text" id="shipment2" type="text" placeholder="Search...">
+            </div>
+        </div>
+
+        <hr class="f_divider">
     </div>
 
-    <div class="search_container">
-        <div>
-            <h3>Shipment 1</h3>
-            <input class="inputfield--text" id="shipment1" type="text">
-        </div>
-        <div>
-            <h3>Shipment 2</h3>
-            <input class="inputfield--text" id="shipment2" type="text">
-        </div>
-    </div>
 
     <div class="comparative_visualisation_container">
         <div class="data_heading">Carbon Dioxide Emissions</div>
@@ -74,8 +79,8 @@
     <div class="shipments_data_container">
         <div class="data_heading">Duration</div>
         <div class="shipment_data">
-            <div class="shipment_1_data">dfskjhfdskjhfdskjhfdskjhfdskjhfdskhfds kdsfjh fdkh fdskh fdsk</div>
-            <div class="shipment_2_data"></div>
+            <div class="shipment_1_data">1H 23M</div>
+            <div class="shipment_2_data">5H 42M</div>
         </div>
     </div>
 
@@ -92,7 +97,14 @@
             <div class="shipment1"></div>
             <div class="shipment2"></div>
         </div>
-        <div class="price_selection"></div>
+        <div class="price_selection">
+            <input type="radio" id="" name="price" value="" checked="checked">
+            <label for="">-</label><br>
+            <input type="radio" id="" name="price" value="">
+            <label for="">-</label><br>
+            <input type="radio" id="" name="price" value="">
+            <label for="">-</label>
+        </div>
     </div>
 
     <div class="fuel_container">
