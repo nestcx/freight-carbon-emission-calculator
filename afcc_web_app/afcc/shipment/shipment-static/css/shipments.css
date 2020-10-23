@@ -183,6 +183,13 @@
     color: #A9A9A9;
 }
 
+p#coins{
+    float : center !important;
+}
+p#bottom--button-two{
+    float : center !important;
+}
+
 
 @media only screen and (min-width: 760px) {
     .distance_container, .duration_container, .weight_container{

@@ -1,11 +1,7 @@
 "use strict";
 
-function draw_trees(carbon_emission,methane_emission,nitrousoxide_emission){
+function draw_trees(trees){
     console.log('drawtrees');
-    var emission_amount=carbon_emission;
-    var trees=emission_amount/0.066;
-
-    console.log(carbon_emission);
     console.log(trees);
     
     var xaxis=0;
@@ -54,7 +50,7 @@ function draw_trees(carbon_emission,methane_emission,nitrousoxide_emission){
         console.log(i);
 
         if(xaxis<w-100){
-            xaxis=xaxis+100;
+            xaxis=xaxis+50;
         }
         else if(yaxis<tree_h+10) {
             yaxis+=tree_h+10;
@@ -75,21 +71,23 @@ function draw_trees(carbon_emission,methane_emission,nitrousoxide_emission){
     }
 }
 
-function draw_coins(ww,wh){
-    var carbon_cost=100, coin_price=1, coins=carbon_cost/coin_price;
+function draw_coins(cost){
+    var carbon_cost=cost, coin_price=1, coins=carbon_cost/coin_price;
 
     var xaxis=50;
-    var yaxis=100;
+    var yaxis=50;
 
     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
     const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
     if (vw <= 760) {
-    var w=vw, h=150;
+    var w=vw*0.5, h=120;
     } else {
-        var w=0.3*vw, h=150;
+        var w=0.2*vw, h=120;
     }
-    var coin_w=100, coin_h=100;
+
+    
+    var coin_w=50, coin_h=50;
 
     var maxcoinx=10;
     var maxcoiny=8;
@@ -97,12 +95,15 @@ function draw_coins(ww,wh){
 
     var loopcount=total_coins
     var remaining_coins=0;
-
+    
+    
     if(total_coins>(maxcoinx*maxcoiny)){
         loopcount=(maxcoinx*maxcoiny)
         remaining_coins=total_coins-(maxcoinx*maxcoiny);
         
     }
+
+    d3.select("#coins").select("svg").remove();
     
     var svg = d3.select('#coins')
         .append('svg')
@@ -113,22 +114,22 @@ function draw_coins(ww,wh){
     var coin_stacks=1;
     for(var i = 0; i<loopcount;i++){
 
-        if(yaxis==40 && coin_stacks>=5){
+        if(yaxis==20 && coin_stacks>=5){
             
-            yaxis=140;
-            xaxis+=80;
+            yaxis=70;
+            xaxis+=40;
             coin_stacks++;
         }
         else if(yaxis==0 && coin_stacks<=3)
         {
-            yaxis=100;
-            xaxis+=80;
+            yaxis=50;
+            xaxis+=40;
             coin_stacks++;
         }
         else if(yaxis==0 && coin_stacks==4)
         {
-            yaxis=140;
-            xaxis=0;
+            yaxis=70;
+            xaxis=20;
             coin_stacks++;
         }
         
@@ -140,7 +141,7 @@ function draw_coins(ww,wh){
         .attr('width', coin_w)
         .attr('height', coin_h);
 
-        yaxis-=10;
+        yaxis-=5;
         
 
         

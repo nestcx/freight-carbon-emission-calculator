@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+
+{% block extra_css %} 
+<link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="shipment-header --fixed">
     <button class="button--primary" id="btn-back" onClick="window.location.href='/shipments'"><i class="fas fa-chevron-circle-left fa-2x"></i></button>
@@ -136,7 +141,7 @@
         onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'"><i class="far fa-edit fa-2x"></i></button>
     <button class="btn-modify" onClick=modify()><i class="fas fa-cog fa-2x"></i></button>
 </div>
-<div class="buttons-desktop --hidden-on-mobile">
+<div class="buttons-desktop --hidden-on-mobile" id="bottom--button-two">
     <button class="button--primary" id="learn" onClick="window.location.href='/about'">Learn More</button>
     <button class="button--primary" id="report">Download Report</button>
 </div>

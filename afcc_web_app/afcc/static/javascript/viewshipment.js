@@ -9,10 +9,8 @@ function init() {
         x = win.innerWidth || docElem.clientWidth || body.clientWidth,
         y = win.innerHeight || docElem.clientHeight || body.clientHeight;
 
-    var emissions = document.getElementById("calculatedEmission").innerHTML;
+    
     roundEmissions();
-    draw_trees(emissions);
-    draw_coins(x, y);
     costClickHandler("table--pricing");
     emissionClickHandler("table--emissions");
     calculateTotal();
@@ -89,6 +87,8 @@ function calculateCost(currency) {
     document.getElementById("calculatedPrice").innerHTML = unit + cost.toFixed(2);
     document.getElementById("priceDescription").innerHTML = text;
 
+    draw_coins(cost);
+
 }
 
 function calculateTrees() {
@@ -98,6 +98,7 @@ function calculateTrees() {
     var treeValueText = treeValue.toFixed(2);
     document.getElementById("calculatedTree").innerHTML = treeValueText + " Trees";
     document.getElementById("treeDesc").innerHTML = "You would need to plant " + treeValueText + " trees to remove your shipments produced carbon from the atmosphere";
+    draw_trees(parseInt(treeValue));
 }
 
 //opens and closes edit and delete button options
