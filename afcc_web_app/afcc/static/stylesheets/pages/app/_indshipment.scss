@@ -4,13 +4,13 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    margin-top: 1%;
+    margin-left: 1%;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         justify-content: left;
         width: 98%;
         position: unset;
-        margin-top: 1%;
-        margin-left: 1%;
     }
 }
 
@@ -30,11 +30,11 @@
         position: inherit;
         padding-left: unset;
         padding-right: unset;
-        flex-direction: unset;
+        justify-content: space-between;
         padding-left: 3px;
         //removes default hover effect
         &:hover {
-            background-color:white;
+            background-color: white;
         }
     }
 }
@@ -60,7 +60,10 @@
     flex-direction: column;
     width: 100%;
     align-items: center;
+    text-align: center;
     justify-content: space-around;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         @include border-shadow-soft;
@@ -143,6 +146,14 @@
     align-items: center;
 }
 
+#btn-back {
+    background-color: $color-tertiary;
+}
+
+#btn-download {
+    background-color: $color-tertiary;
+}
+
 .buttons-modify {
     display: flex;
     flex-direction: column;
@@ -158,6 +169,8 @@
         width: $header-height;
         border: none;
         border-radius: 50%;
+        background-color: $color-tertiary;
+        color: $color-white;
     }
 
     .btn-edit {
@@ -166,7 +179,8 @@
         width: $header-height;
         border: none;
         border-radius: 50%;
-        background-color: rgba(126, 193, 241, 0.4);
+        background-color: rgb(68, 132, 177);
+        color: $color-white;
     }
 
     .btn-delete {
@@ -175,7 +189,8 @@
         width: $header-height;
         border: none;
         border-radius: 50%;
-        background-color: rgba(242, 169, 167, 0.4);
+        background-color: rgb(242, 169, 167);
+        color: $color-white;
     }
 }
 
@@ -221,7 +236,7 @@
     width: 100%;
     border: none;
     border-spacing: 0px;
-
+    padding-top: 1%;
     .price {
         &:hover {
             background-color: darken($color-white, 10%);
@@ -233,6 +248,9 @@
 }
 
 .price-desktop {
+    width: 100%;
+    align-items: center;
+
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         width: 50%;
     }
@@ -243,6 +261,7 @@
     width: 100%;
     border: none;
     border-spacing: 0px;
+    padding-top: 1%;
     .gas {
         &:hover {
             background-color: darken($color-white, 10%);
@@ -255,4 +274,11 @@
 //used to indicate table row is selected
 .--selected {
     background-color: darken($color-white, 10%);
+}
+
+
+//Calculated Total Styling 
+
+#calculatedEmission {
+    font-weight: 800;
 }

@@ -14,8 +14,11 @@ function draw_trees(carbon_emission,methane_emission,nitrousoxide_emission){
     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
     const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-    var w= 0.4*vw;
-    var h=125;
+    if (vw <= 760) {
+        var w=vw, h=150;
+        } else {
+            var w=0.3*vw, h=150;
+        }
     var tree_w=60, tree_h=60;
 
     var svg = d3.select('#trees')
@@ -81,7 +84,11 @@ function draw_coins(ww,wh){
     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
     const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-    var w=0.3*vw, h=150;
+    if (vw <= 760) {
+    var w=vw, h=150;
+    } else {
+        var w=0.3*vw, h=150;
+    }
     var coin_w=100, coin_h=100;
 
     var maxcoinx=10;

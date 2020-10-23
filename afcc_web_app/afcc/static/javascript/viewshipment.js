@@ -9,7 +9,8 @@ function init() {
         x = win.innerWidth || docElem.clientWidth || body.clientWidth,
         y = win.innerHeight || docElem.clientHeight || body.clientHeight;
 
-    var emissions = document.getElementById("emissionsTotal").innerHTML;
+    var emissions = document.getElementById("calculatedEmission").innerHTML;
+    roundEmissions();
     draw_trees(emissions);
     draw_coins(x, y);
     costClickHandler("table--pricing");
@@ -29,6 +30,10 @@ function expandinfo() {
             tablerows[i].classList.toggle("--show");
         }
     }
+    if (vw <= 760) {
+        document.getElementById("arrowIconRight").classList.toggle("--hidden");
+        document.getElementById("arrowIconDown").classList.toggle("--hidden");
+    }
 }
 
 //calculates total emission from emission table data and fills html element with value
@@ -45,7 +50,7 @@ function calculateTotal() {
         total = total + emission;
     }
     //sets total emission element to total value
-    document.getElementById("emissionsTotal").innerHTML = total + " tCO2e";
+    document.getElementById("calculatedEmission").innerHTML = total + " tCO2e";
 }
 
 function calculateCost(currency) {
@@ -79,7 +84,7 @@ function calculateCost(currency) {
             text = "This is how much your shipment would cost based on the repealed 2014 Australian carbon tax";
     }
     //calculates 
-    var emissions = document.getElementById("emissionsTotal").innerHTML;
+    var emissions = document.getElementById("calculatedEmission").innerHTML;
     var cost = price * parseFloat(emissions);
     document.getElementById("calculatedPrice").innerHTML = unit + cost.toFixed(2);
     document.getElementById("priceDescription").innerHTML = text;
@@ -88,10 +93,10 @@ function calculateCost(currency) {
 
 function calculateTrees() {
     var treeFactor = 15;
-    var emissions = document.getElementById("emissionsTotal").innerHTML;
+    var emissions = document.getElementById("calculatedEmission").innerHTML;
     var treeValue = parseFloat(emissions) * treeFactor;
     var treeValueText = treeValue.toFixed(2);
-    document.getElementById("treeValue").innerHTML = treeValueText + " Trees";
+    document.getElementById("calculatedTree").innerHTML = treeValueText + " Trees";
     document.getElementById("treeDesc").innerHTML = "You would need to plant " + treeValueText + " trees to remove your shipments produced carbon from the atmosphere";
 }
 
@@ -147,6 +152,30 @@ function makeSelected(rowId, tableId) {
     }
     //Make clicked row selected
     document.getElementById(rowId).classList.add("--selected");
+}
+
+function roundEmissions() {
+    //get values
+    var emissions = document.getElementById("table--emissions");
+    var gasses = emissions.getElementsByTagName("tr");
+    var carbon = gasses[0].getElementsByTagName("td");
+    var nitrous = gasses[1].getElementsByTagName("td");
+    var methane = gasses[2].getElementsByTagName("td");
+
+    var carbonval = carbon[1].innerHTML;
+    var nitval = nitrous[1].innerHTML;
+    var methval = methane[1].innerHTML;
+
+    //round values
+    var carbonrounded = parseFloat(carbonval).toFixed(7);
+    var nitrounded = parseFloat(nitval).toFixed(7);
+    var methrounded = parseFloat(methval).toFixed(7);
+
+    //resetting rounded values
+    carbon[1].innerHTML = carbonrounded + " TCO2e";
+    nitrous[1].innerHTML = nitrounded + " TCO2e";
+    methane[1].innerHTML = methrounded + " TCO2e";
+
 }
 
 window.onload = init;

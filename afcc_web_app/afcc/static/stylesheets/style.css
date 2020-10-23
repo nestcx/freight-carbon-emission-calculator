@@ -915,6 +915,8 @@ header {
       -ms-flex-pack: justify;
           justify-content: space-between;
   width: 100%;
+  margin-top: 1%;
+  margin-left: 1%;
 }
 
 @media only screen and (min-width: 760px) {
@@ -924,8 +926,6 @@ header {
             justify-content: left;
     width: 98%;
     position: unset;
-    margin-top: 1%;
-    margin-left: 1%;
   }
 }
 
@@ -953,10 +953,9 @@ header {
     position: inherit;
     padding-left: unset;
     padding-right: unset;
-    -webkit-box-orient: unset;
-    -webkit-box-direction: unset;
-        -ms-flex-direction: unset;
-            flex-direction: unset;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     padding-left: 3px;
   }
   .shipment-expand:hover {
@@ -1003,8 +1002,11 @@ header {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  text-align: center;
   -ms-flex-pack: distribute;
       justify-content: space-around;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
 }
 
 @media only screen and (min-width: 760px) {
@@ -1094,6 +1096,14 @@ header {
           align-items: center;
 }
 
+#btn-back {
+  background-color: #bfdcae;
+}
+
+#btn-download {
+  background-color: #bfdcae;
+}
+
 .buttons-modify {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1117,6 +1127,8 @@ header {
   width: 60px;
   border: none;
   border-radius: 50%;
+  background-color: #bfdcae;
+  color: #ffffff;
 }
 
 .buttons-modify .btn-edit {
@@ -1125,7 +1137,8 @@ header {
   width: 60px;
   border: none;
   border-radius: 50%;
-  background-color: rgba(126, 193, 241, 0.4);
+  background-color: #4484b1;
+  color: #ffffff;
 }
 
 .buttons-modify .btn-delete {
@@ -1134,7 +1147,8 @@ header {
   width: 60px;
   border: none;
   border-radius: 50%;
-  background-color: rgba(242, 169, 167, 0.4);
+  background-color: #f2a9a7;
+  color: #ffffff;
 }
 
 .buttons-desktop {
@@ -1187,6 +1201,7 @@ header {
   width: 100%;
   border: none;
   border-spacing: 0px;
+  padding-top: 1%;
 }
 
 #table--pricing .price:hover {
@@ -1199,6 +1214,13 @@ header {
   }
 }
 
+.price-desktop {
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 @media only screen and (min-width: 760px) {
   .price-desktop {
     width: 50%;
@@ -1209,6 +1231,7 @@ header {
   width: 100%;
   border: none;
   border-spacing: 0px;
+  padding-top: 1%;
 }
 
 #table--emissions .gas:hover {
@@ -1223,6 +1246,10 @@ header {
 
 .--selected {
   background-color: #e6e6e6;
+}
+
+#calculatedEmission {
+  font-weight: 800;
 }
 
 .container--shipments-page {
