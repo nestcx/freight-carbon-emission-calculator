@@ -28,6 +28,8 @@ def compare():
     return render_template('compare.html')
 
 
+
+
 # WARNING: This is terrible code. 
 
 @tools_bp.route('/tools/compare/search', methods=['GET'])
@@ -50,8 +52,6 @@ def search():
     for i in range(len(splitted)):
         query_string = query_string + " AND (CAST(shipment_id AS TEXT) ILIKE '%%{}%%' OR shipment_name ILIKE '%%{}%%')".format(splitted[i], splitted[i])
 
-    print(user.uid)
-
     query_string = query_string + "AND uid={} LIMIT 5;".format(user.uid)
 
     result = db.engine.execute(query_string)
@@ -59,14 +59,59 @@ def search():
     results_dict = {}
 
     d, a = {}, []
+    i = 0
     for rowproxy in result:
+        results_dict[i] = {}
         for column, value in rowproxy.items():
-            # build up the dictionary
+            results_dict[i][column] = value
+            print("column " + str(column))
+            print("value " + str(value))
             d = {**d, **{column: value}}
         a.append(d)
-        results_dict[d['shipment_id']] = d['shipment_name']
+        i = i + 1
 
     return results_dict
+
+
+@tools_bp.route('/tools/compare/shipment_information', methods=['GET'])
+def shipment_information():
+
+    # get the search string input
+    shipment_id = request.args.get('id')
+
+    # authenticate user
+    authentication = authenticate_user()
+    if authentication[0] is True: user = authentication[1]
+    elif authentication[0] is False: return redirect(url_for(authentication[1]))
+
+     # get shipment.
+    try:
+        shipment = Shipment.query.get(shipment_id)
+    except Exception:
+        return "error"
+    
+     # check shipment exists and belongs to user.
+    result = check_user_shipment(user, shipment)
+    if result is False:
+        return "error"
+
+    result = {}
+    result["shipment_id"] = shipment.shipment_id
+    result["carbon_dioxide"] = shipment.carbon_dioxide_emission
+    result["name"] = shipment.shipment_name
+    result["trip_distance"] = shipment.trip_distance
+    result["trip_duration"] = shipment.trip_duration
+    result["load_weight"] = shipment.load_weight
+    result["load_weight_unit"] = shipment.load_weight_unit
+    result["start_address"] = shipment.start_address
+    result["end_address"] = shipment.end_address
+
+    
+    return result
+    
+    
+
+
 
 
 def authenticate_user():
