@@ -71,6 +71,9 @@ function populate(id, shipment_no) {
 }
 
 function populate_again(shipment, shipment_no) {
+
+    // get shipment data here for visualisations.
+
     document.getElementById("shipment" + shipment_no).value = shipment.shipment_id
     document.getElementById("name_" + shipment_no).innerText = shipment.name
     document.getElementById("origin_" + shipment_no).innerText = shipment.start_address
