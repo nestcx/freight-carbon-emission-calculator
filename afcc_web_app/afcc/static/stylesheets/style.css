@@ -1022,6 +1022,115 @@ header {
     max-width: 600px;
   }
 }
+.compare--container {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.tool-header {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.back_arrow {
+  width: 50px;
+  height: 50px;
+  margin-left: 0.75rem;
+  flex-shrink: 0;
+}
+
+.tool_name {
+  width: 100%;
+  text-align: center;
+}
+
+.back_arrow > path {
+  fill: #34343b;
+}
+
+.filla_in_manilla {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  margin-right: 1rem;
+}
+
+.search_container {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  display: flex;
+}
+
+.search_container h3 {
+  text-align: center;
+}
+
+#shipment1, #shipment2 {
+  width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.shipments_data_container {
+  margin-top: 1rem;
+}
+
+.data_heading {
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.shipment_data {
+  display: flex;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.shipment_1_data, .shipment_2_data {
+  min-height: 30px;
+  width: 0;
+  background-color: white;
+  flex-grow: 1;
+  padding: 0.5rem;
+}
+
+.shipment_1_data {
+  border-right: 1px solid grey;
+}
+
+.comparative_visualisation {
+  height: 150px;
+  width: 100%;
+  background-color: white;
+}
+
+.trees_container, .price_container, .fuel_container {
+  margin-top: 64px;
+}
+
+.trees_container > .data, .price_container > .data, .fuel_container > .data {
+  display: flex;
+}
+
+.shipment1, .shipment2 {
+  height: 100px;
+  width: 100%;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.description {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.fuel_container {
+  margin-bottom: 64px;
+}
+
 .--hidden-on-mobile {
   display: none;
 }
