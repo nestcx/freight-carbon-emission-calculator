@@ -1212,6 +1212,23 @@ header {
   margin-top: 8px;
 }
 
+.search_result {
+  font-size: 0.8rem;
+  border: 1px solid lightgray;
+  padding: 0.5rem;
+  position: relative;
+}
+
+.search_result:hover {
+  background: #206a5d;
+  color: white;
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
 .--hidden-on-mobile {
   display: none;
 }

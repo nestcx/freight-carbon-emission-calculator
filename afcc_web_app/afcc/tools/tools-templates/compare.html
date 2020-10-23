@@ -19,11 +19,11 @@
         <div class="search_container">
             <div class="field1">
                 <div class="search_title inputfield__label">Shipment 1</div>
-                <input class="inputfield--text" onkeyup="myFunction()" id="shipment1" type="text" placeholder="Search...">
+                <input class="inputfield--text"  onkeyup="myFunction('1')" onfocusout="myOtherFunction()" id="shipment1" type="text" placeholder="Search...">
             </div>
             <div class="field2">
                 <div class="search_title inputfield__label">Shipment 2</div>
-                <input class="inputfield--text" id="shipment2" type="text" placeholder="Search...">
+                <input class="inputfield--text" onkeyup="myFunction('2')" id="shipment2" type="text" placeholder="Search...">
             </div>
         </div>
 
@@ -39,48 +39,48 @@
     <div class="shipments_data_container">
         <div class="data_heading">Name</div>
         <div class="shipment_data">
-            <div class="shipment_1_data">Shipments From Malta</div>
-            <div class="shipment_2_data">Electronics Shipment #12</div>
+            <div class="shipment_1_data" id="name_1"></div>
+            <div class="shipment_2_data" id="name_2"></div>
         </div>
     </div>
 
     <div class="shipments_data_container">
         <div class="data_heading">Origin</div>
         <div class="shipment_data">
-            <div class="shipment_1_data">Geelong, VIC, Australia</div>
-            <div class="shipment_2_data">10 Collins Street, Melbourne, VIC, Australia</div>
+            <div class="shipment_1_data" id="origin_1"></div>
+            <div class="shipment_2_data" id="origin_2"></div>
         </div>
     </div>
 
     <div class="shipments_data_container">
         <div class="data_heading">Destination</div>
         <div class="shipment_data">
-            <div class="shipment_1_data">Sydney, NSW, Australia</div>
-            <div class="shipment_2_data">Woolongong, VIC, Australia</div>
+            <div class="shipment_1_data" id="destination_1"></div>
+            <div class="shipment_2_data" id="destination_2"></div>
         </div>
     </div>
 
     <div class="shipments_data_container">
         <div class="data_heading">Distance</div>
         <div class="shipment_data">
-            <div class="shipment_1_data">443 KM</div>
-            <div class="shipment_2_data">332 KM</div>
+            <div class="shipment_1_data" id="distance_1"></div>
+            <div class="shipment_2_data" id="distance_2"></div>
         </div>
     </div>
 
     <div class="shipments_data_container">
         <div class="data_heading">Load Weight</div>
         <div class="shipment_data">
-            <div class="shipment_1_data">1.32 tonnes</div>
-            <div class="shipment_2_data">1.22 tonnes</div>
+            <div class="shipment_1_data" id="load_weight_1"></div>
+            <div class="shipment_2_data" id="load_weight_2"></div>
         </div>
     </div>
 
     <div class="shipments_data_container">
         <div class="data_heading">Duration</div>
         <div class="shipment_data">
-            <div class="shipment_1_data">1H 23M</div>
-            <div class="shipment_2_data">5H 42M</div>
+            <div class="shipment_1_data" id="duration_1"></div>
+            <div class="shipment_2_data" id="duration_2"></div>
         </div>
     </div>
 
