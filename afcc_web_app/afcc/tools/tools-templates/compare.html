@@ -7,7 +7,7 @@
     <div class="non_data_container">
         <div class="tool-header">
 
-            <svg class="back_arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+            <svg onclick="back_to_tools()" class="back_arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <path data-name="layer1" fill="#202020"
                     d="M28.001 48L12 32l16.001-16 4.242 4.243-8.759 8.758H52v6H23.486l8.757 8.757L28.001 48z"></path>
@@ -19,7 +19,7 @@
         <div class="search_container">
             <div class="field1">
                 <div class="search_title inputfield__label">Shipment 1</div>
-                <input class="inputfield--text" id="shipment1" type="text" placeholder="Search...">
+                <input class="inputfield--text" onkeyup="myFunction()" id="shipment1" type="text" placeholder="Search...">
             </div>
             <div class="field2">
                 <div class="search_title inputfield__label">Shipment 2</div>
@@ -115,8 +115,10 @@
         <div class="description">Litres of fuel consumed</div>
     </div>
 
-
-
 </div>
+
+<script src="{{ url_for('tools.static', filename='javascript/_comparepage.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 {% endblock %}
