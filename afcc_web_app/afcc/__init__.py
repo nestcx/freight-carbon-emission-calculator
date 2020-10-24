@@ -47,12 +47,14 @@ def create_app():
     # import the blueprint with user-related routes
     from afcc.user import views as uviews
     from afcc.shipment import views as sviews
+    from afcc.tools import views as tviews
 
     # register blueprints
     app.register_blueprint(maproutes.maproutes_bp)
     app.register_blueprint(calculation.calculation_bp)
     app.register_blueprint(uviews.user_bp)
     app.register_blueprint(sviews.shipment_bp)
+    app.register_blueprint(tviews.tools_bp)
 
     @app.route('/')
     def index():
@@ -70,10 +72,6 @@ def create_app():
     @app.route('/about')
     def about():
         return render_template('about.html', title='About')
-
-    @app.route('/tools')
-    def tools():
-        return render_template('tools.html', title='Tools')
 
     @app.route('/help')
     def help():

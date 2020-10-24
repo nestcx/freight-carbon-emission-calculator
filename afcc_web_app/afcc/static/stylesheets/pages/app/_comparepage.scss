@@ -1,0 +1,248 @@
+
+//******************
+//  PAGE CONTAINER
+//******************
+
+.compare--container {
+    margin: 0 auto;
+    margin-bottom: 16px;
+    background-color: #fdfdfd;
+    padding-bottom: 8px;
+}
+
+.non_data_container {
+    padding: $spacing-default; 
+}
+
+@media only screen and (min-width: $breakpoint-mobile) {
+    .non_data_container {
+        margin-top: $spacing-large;
+    }
+
+    .compare--container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .comparative_visualisation {
+        border-right: 2px solid #f5f5f7;
+        border-left: 2px solid #f5f5f7;
+    } 
+
+    .shipment_data {
+        display: flex;
+        border-right: 2px solid #f5f5f7;
+        border-left: 2px solid #f5f5f7;
+    }
+
+    .shipment1, .shipment2 {
+        border-left: 2px solid #f5f5f7;
+        border-right: 2px solid #f5f5f7;
+    }
+
+    .search_container {
+        margin-bottom: 32px;
+    }
+
+}
+
+@media only screen and (min-width: $breakpoint-tablet) {
+    .compare--container {
+        margin-top: 32px;
+        padding-left: 32px;
+        padding-right: 32px;
+        border-top: 3px solid $color-secondary;
+        max-width: 600px;
+    }
+
+
+}
+
+
+//***************
+//  TOP HEADING
+//***************
+
+
+.tool-header {
+    display: flex;
+    margin-bottom: $spacing-medium;
+}
+
+.back_arrow {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+.back_arrow > path {
+    fill: $color-secondary;
+}
+
+.back_arrow:hover {
+    cursor: pointer;
+}
+
+.tool_name {
+    width: 100%;
+    margin-left: $spacing-default;
+}
+
+.tool-header, .back_arrow, .tool_name, .filla_in_manilla {
+    // border: 1px solid black;
+ }
+
+ .tool_subtitle {
+     margin-bottom: $spacing-default;
+ }
+
+
+//*****************************
+//  SHIPMENT SEARCH CONTAINER 
+//*****************************
+
+.search_container {
+    //border: 1px solid black;
+    display: flex;
+    align-items: stretch;
+}
+
+.field1, .field2 {
+    //border: 1px solid black;
+    flex-grow: 1;
+}
+
+.field1 {
+    margin-right: 8px;
+}
+
+.field2 {
+    margin-left: 8px;
+}
+
+.search_title {
+    text-align: left;
+}
+
+#shipment1, #shipment2 { 
+    width: 100%;
+}
+
+
+.f_divider {
+    color: #f1f1f1;
+    margin-top: 16px;
+}
+
+
+
+
+
+
+.comparative_visualisation_container {
+    padding-top: $spacing-default;
+    margin-bottom: $spacing-large;
+}
+
+.comparative_visualisation {
+    height: 200px;
+    width: 100%;
+    background: white;
+    border-top: 2px solid #f5f5f7;
+    border-bottom: 2px solid #f5f5f7;
+}
+
+
+
+
+
+.shipments_data_container {
+    margin-top: $spacing-default;
+}
+
+.data_heading {
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.shipment_data {
+    display: flex;
+    border-top: 2px solid #f5f5f7;
+    border-bottom: 2px solid #f5f5f7;
+
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.shipment_1_data, .shipment_2_data {
+    min-height: 30px;
+    width: 0;
+    background-color: white;
+    flex-grow: 1;
+    padding: 0.5rem;
+}
+
+.shipment_1_data {
+    border-right: 2px solid $color-secondary;
+}
+
+
+.trees_container {
+    margin-top: $spacing-x-large;
+}
+
+.price_container, .fuel_container {
+    margin-top: $spacing-large;
+}
+
+
+.trees_container > .data, .price_container > .data, .fuel_container > .data {
+    display: flex;
+}
+
+.shipment1 {
+    border-right: 2px solid $color-secondary;
+}
+
+
+.shipment1, .shipment2 {
+    height: 100px;
+    width: 100%;
+    background-color: white;
+    border-top: 2px solid #f5f5f7;
+    border-bottom: 2px solid #f5f5f7;
+}
+
+.description {
+    margin-top: $spacing-small;
+    text-align: center;
+}
+
+.fuel_container {
+    margin-bottom: $spacing-x-large;
+}
+
+.price_selection {
+    margin-left: $spacing-default;
+    margin-top: $spacing-small;
+}
+
+
+
+.search_result {
+    font-size: 0.8rem;
+    border: 1px solid lightgray;
+    padding: 0.5rem;
+    position: relative;
+} 
+
+.search_result:hover {
+    background: #206a5d;
+    color: white;
+    cursor: pointer;
+} 
+
+.hide {
+    display: none;
+}

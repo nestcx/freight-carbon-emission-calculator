@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="compare--container">
+
+    <div class="non_data_container">
+        <div class="tool-header">
+
+            <svg onclick="back_to_tools()" class="back_arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path data-name="layer1" fill="#202020"
+                    d="M28.001 48L12 32l16.001-16 4.242 4.243-8.759 8.758H52v6H23.486l8.757 8.757L28.001 48z"></path>
+            </svg>
+            <h2 class="tool_name">Compare Shipments</h2>
+            <div class="filla_in_manilla"></div>
+        </div>
+
+        <div class="search_container">
+            <div class="field1">
+                <div class="search_title inputfield__label">Shipment 1</div>
+                <input class="inputfield--text"  onkeyup="myFunction('1')" onfocusout="myOtherFunction()" id="shipment1" type="text" placeholder="Search...">
+            </div>
+            <div class="field2">
+                <div class="search_title inputfield__label">Shipment 2</div>
+                <input class="inputfield--text" onkeyup="myFunction('2')" id="shipment2" type="text" placeholder="Search...">
+            </div>
+        </div>
+
+        <hr class="f_divider">
+    </div>
+
+
+    <div class="comparative_visualisation_container">
+        <div class="data_heading">Carbon Dioxide Emissions</div>
+        <div class="comparative_visualisation"></div>
+    </div>
+
+    <div class="shipments_data_container">
+        <div class="data_heading">Name</div>
+        <div class="shipment_data">
+            <div class="shipment_1_data" id="name_1"></div>
+            <div class="shipment_2_data" id="name_2"></div>
+        </div>
+    </div>
+
+    <div class="shipments_data_container">
+        <div class="data_heading">Origin</div>
+        <div class="shipment_data">
+            <div class="shipment_1_data" id="origin_1"></div>
+            <div class="shipment_2_data" id="origin_2"></div>
+        </div>
+    </div>
+
+    <div class="shipments_data_container">
+        <div class="data_heading">Destination</div>
+        <div class="shipment_data">
+            <div class="shipment_1_data" id="destination_1"></div>
+            <div class="shipment_2_data" id="destination_2"></div>
+        </div>
+    </div>
+
+    <div class="shipments_data_container">
+        <div class="data_heading">Distance</div>
+        <div class="shipment_data">
+            <div class="shipment_1_data" id="distance_1"></div>
+            <div class="shipment_2_data" id="distance_2"></div>
+        </div>
+    </div>
+
+    <div class="shipments_data_container">
+        <div class="data_heading">Load Weight</div>
+        <div class="shipment_data">
+            <div class="shipment_1_data" id="load_weight_1"></div>
+            <div class="shipment_2_data" id="load_weight_2"></div>
+        </div>
+    </div>
+
+    <div class="shipments_data_container">
+        <div class="data_heading">Duration</div>
+        <div class="shipment_data">
+            <div class="shipment_1_data" id="duration_1"></div>
+            <div class="shipment_2_data" id="duration_2"></div>
+        </div>
+    </div>
+
+
+    <!--- VISUALISATIONS START -->
+
+    <div class="trees_container">
+        <div class="data">
+            <div class="shipment1"></div>
+            <div class="shipment2"></div>
+        </div>
+        <div class="description">Trees required to offset emissions</div>
+    </div>
+
+    <div class="price_container">
+        <div class="data">
+            <div class="shipment1"></div>
+            <div class="shipment2"></div>
+        </div>
+        <div class="price_selection">
+            <input type="radio" id="" name="price" value="" checked="checked">
+            <label for="">Australian Carbon Tax (2014)</label><br>
+
+            <input type="radio" id="" name="price" value="">
+            <label for="">California Cap and Trade Price</label><br>
+
+            <input type="radio" id="" name="price" value="">
+            <label for="">Great Britain Carbon Tax</label><br>
+
+            <input type="radio" id="" name="price" value="">
+            <label for="">UN Recommended Minimum Carbon Price</label>
+        </div>
+    </div>
+
+    <div class="fuel_container">
+        <div class="data">
+            <div class="shipment1"></div>
+            <div class="shipment2"></div>
+        </div>
+        <div class="description">Litres of fuel consumed</div>
+    </div>
+
+    <!--- VISUALISATIONS END -->
+
+
+</div>
+
+<script src="{{ url_for('tools.static', filename='javascript/_comparepage.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+{% endblock %}
