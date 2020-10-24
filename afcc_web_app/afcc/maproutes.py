@@ -1,19 +1,14 @@
 import requests
 import json
 import math
+from datetime import date, timedelta
+from flask import Blueprint, request
 
-from flask import Blueprint
-from flask import request
-
-from afcc import data_conversion
 from afcc.extensions import limiter
 from afcc.config import *  # Import sensitive config data
-
 from afcc.models import Route, Postcode
-from datetime import date, timedelta
 from afcc.extensions import db
-from afcc import data_conversion
-
+from afcc import data_conversion, create_app
 from afcc.geoJSON import GeoJSON_Address, GeoJSON_Route, GeoJSON_Route_Matrix
 
 maproutes_bp = Blueprint("maproutes", __name__, url_prefix="/maproutes",
@@ -259,23 +254,27 @@ def get_postcode(postcode):
     # Check if the database postcode table has a record of the postcode and its coords.
     # If not, create a new postcode record by calling the API service and retrieving
     # coordinate data of the postcode
+    # Note that as this function is run on a thread, you must get the current app context,
+    # otherwise flask-sqlalchemy has no way of knowing the current context its working in
+    app = create_app()
+    app.app_context().push()
+    
     postcode_obj = Postcode.query.get(postcode)
 
     if postcode_obj is None:
-        print('get_postcode(): postcode ' + postcode + ' doesn\'t exist in postcodes table')
+        print('get_postcode(): postcode ' + str(postcode) + ' doesn\'t exist in postcodes table')
         
         if add_postcode_to_db(postcode):
             return Postcode.query.get(postcode) # Retrieve the newly created entry, as we need it for route creation
         else:
-            print('get_postcode(): postcode ' + postcode + ' was not able to be added to the postcodes table')
+            print('get_postcode(): postcode ' + str(postcode) + ' was not able to be added to the postcodes table')
             return None
 
     return postcode_obj
 
 
 
-def add_routes_matrix(set_of_postcodes):
-    print('add_routes_matrix===================================================================================')
+def add_routes_matrix(set_of_postcodes, list_of_routes):
     # Create a dictionary mapping all the postcodes to coordinates, with the key
     # being the coordinate
     dict_postcodes = dict()
@@ -369,11 +368,7 @@ def add_routes_matrix(set_of_postcodes):
             )
 
             try:
-                db.session.add(route)
+                list_of_routes.append(route)
             except:
                 # TODO: Add graceful error handling
-                continue
-
-    db.session.commit()
-
-    return matrix
+                print('Could not append matrix to the list of routes')

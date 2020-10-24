@@ -2,6 +2,8 @@ from afcc.extensions import db
 
 class Route(db.Model):
 
+    __tablename__ = 'route'
+
     point_a_region_name = db.Column(db.String(100))
     point_a_postcode = db.Column(db.Integer, nullable=False, primary_key=True)
     point_a_lat = db.Column(db.Float, nullable=False)

@@ -469,7 +469,7 @@ header {
   color: white;
 }
 
-.flash, .flash--success, .flash--error {
+.flash, .flash--toast, .flash--success, .flash--error {
   border: 1px solid #cfcfcf;
   background-color: #ffffff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -486,6 +486,25 @@ header {
 
 .flash--success {
   color: #039450;
+}
+
+.flash--toast {
+  position: fixed;
+  right: 0;
+  margin: 8px;
+  opacity: 100%;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+}
+@media only screen and (min-width: 440px) {
+  .flash--toast {
+    width: unset;
+  }
+}
+
+.flash--toast--transparent {
+  opacity: 0%;
 }
 
 .inputfield--text, #load_weight_unit {
