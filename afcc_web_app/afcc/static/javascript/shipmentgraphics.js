@@ -157,7 +157,9 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
     var parentContainer = document.getElementById('emission').parentElement
 
     var w = 0
-    if (window.innerWidth < 760) {
+    if (window.innerWidth < 560) {
+        w = 0.7 * window.innerWidth
+    } else if (window.innerWidth < 760) {
         w = 0.5 * window.innerWidth
     } else {
         w=0.4 * parentContainer.getBoundingClientRect().width
