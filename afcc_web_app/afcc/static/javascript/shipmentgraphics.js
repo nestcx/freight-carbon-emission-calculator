@@ -380,14 +380,23 @@ function draw_emissionbar(vEmissiondata){
             .attr("fill","#c80815")
             .on("mouseover",function(d){
                 infoBox(d)
-            })
-            .on("mouseout",function(d){
-                infoBoxOut();
             });
+
+        var textbox=svg.append("g")
+                        .attr("id","infoboxrect");
+       
+        textbox.append("text")
+                    .attr("id","infotextname")
+                    .attr("x", 100)
+                    .attr("y", 20 )
+                    .text("Please hover over the bar to display the info.")
+                    .attr("fill","black");
+
     
     var rectangle;
     function infoBox(data){
-        infoBoxOut();
+        d3.selectAll("#infoboxrect").remove();
+        
 
         rectangle=svg.append("g")
                   .attr("id","infoboxrect");
@@ -423,9 +432,7 @@ function draw_emissionbar(vEmissiondata){
                               .text(tonnestr)
                   .attr("fill","black");
     }
-    function infoBoxOut(){
-        d3.selectAll("#infoboxrect").remove();
-    }
+    
 }
 
 function comparetool_drawtrees(trees,tree_id){
