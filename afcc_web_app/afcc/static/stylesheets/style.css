@@ -1536,4 +1536,41 @@ header {
   display: none;
 }
 
+.about_us_title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.about_us_info {
+  text-align: center;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.container--about_us_image{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.about_us_image {
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (min-width: 440px) {
+  .about_us_image {
+    max-width: 490px;
+    max-height: 320px;  
+  }
+
+@media only screen and (min-width: 760px) {
+  .container--about_us_info {
+    float: left;
+    width: 33%;
+    padding: 8px;
+    margin-bottom: 26px;
+  }
+
 /*# sourceMappingURL=style.css.map */
