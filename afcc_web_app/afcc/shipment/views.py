@@ -11,7 +11,7 @@ from flask_login import current_user
 import pandas as pd
 from sqlalchemy import desc
 from afcc.extensions import db
-from afcc.shipment.models import Shipment
+from afcc.shipment.models import Shipment, TruckConfiguration
 from afcc.user.models import User
 from afcc.models import Postcode, Route
 from afcc import maproutes
@@ -479,6 +479,7 @@ def edit_shipment(shipment, updated, shipment_name):
     shipment.end_address = updated["location"]["end_location"]["address"]
     shipment.start_address_coordinates = updated["location"]["start_location"]["coordinate"]
     shipment.end_address_coordinates = updated["location"]["end_location"]["coordinate"]
+    shipment.truck_configuration_id = updated["truck_id"]
 
     db.session.commit()
 
@@ -502,7 +503,8 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
         start_address=shipment_data["location"]["start_location"]["address"],
         end_address=shipment_data["location"]["end_location"]["address"],
         start_address_coordinates=shipment_data["location"]["start_location"]["coordinate"],
-        end_address_coordinates=shipment_data["location"]["end_location"]["coordinate"]
+        end_address_coordinates=shipment_data["location"]["end_location"]["coordinate"],
+        truck_configuration_id=shipment_data["truck_id"]
     )
 
     db.session.add(myShipment)
@@ -518,8 +520,32 @@ def generate_bulk_shipment_data(loadWeight, loadWeightUnit, route):
     This function is a faster, though less-accurate alternative to generating shipment data.
     It is specifically used for bulk shipments from file uploads 
     """
+
+    # we need to pass a fuel economy value to the calculation method
+    # this value is based on the type of truck that is selected
+    # which is determined based on the load weight
+    #   1.  convert load weight to kilograms
+    #   2.  determine the type of truck to use
+    #   3.  get that trucks fuel economy
+    #   4.  call the calculation method with this value.
+
+    # 1.
+    kg = 0
+    if loadWeightUnit == 'tonne':
+        kg = loadWeight * 1000
+    else:
+        kg = loadWeight
+    
+    # 2.
+    truck_id = determine_truck(kg)
+
+    #3. 
+    fuel_economy = get_truck_fuel_economy(truck_id)
+    print(fuel_economy)
+
+
     calculation_data = calculation.calculate_emissions(
-        18.1, 
+        fuel_economy, 
         route.route_distance_in_km, 
         float(loadWeight), 
         loadWeightUnit)
@@ -546,6 +572,8 @@ def generate_bulk_shipment_data(loadWeight, loadWeightUnit, route):
     response["location"]["end_location"]["address"] = route.point_b_region_name
     response["location"]["end_location"]["coordinate"] = str(route.point_b_long) + "," + str(route.point_b_lat)
 
+    response["truck_id"] = truck_id
+
     return response
 
 
@@ -567,8 +595,35 @@ def generate_shipment_data(loadWeight, loadWeightUnit, point_a, point_b):
         length_of_route = data_conversion.metre_to_kilometre(route_geojson.get_distance())
         duration_of_route = route_geojson.get_duration()
 
-        calculation_data = calculation.calculate_emissions(18.1, length_of_route, float(loadWeight), loadWeightUnit)
 
+
+        # we need to pass a fuel economy value to the calculation method
+        # this value is based on the type of truck that is selected
+        # which is determined based on the load weight
+        #   1.  convert load weight to kilograms
+        #   2.  determine the type of truck to use
+        #   3.  get that trucks fuel economy
+        #   4.  call the calculation method with this value.
+
+        # 1.
+        kg = 0
+        if loadWeightUnit == 'tonne':
+            kg = loadWeight * 1000
+        else:
+            kg = loadWeight
+        
+        # 2.
+        truck_id = determine_truck(kg)
+
+        #3. 
+        fuel_economy = get_truck_fuel_economy(truck_id)
+        print(fuel_economy)
+
+        #4. 
+        calculation_data = calculation.calculate_emissions(fuel_economy, length_of_route, float(loadWeight), loadWeightUnit)
+
+
+        # generate response with all the received data.
         response = {}
 
         response["emissions"] = {}
@@ -591,4 +646,34 @@ def generate_shipment_data(loadWeight, loadWeightUnit, point_a, point_b):
         response["location"]["end_location"]["address"] = endAddress.get_address_name()
         response["location"]["end_location"]["coordinate"] = str(endAddress.get_long()) + "," + str(endAddress.get_lat())
 
+        response["truck_id"] = truck_id
+
         return response
+
+
+
+def determine_truck(kg):
+    TOYOTA_HIACE = 101
+    TWO_AXLE_RIGID_EURO4 = 2
+    FOUR_AXLE_RIGID_GML = 5
+    SIX_AXLE_ARTIC_GML = 7
+
+    if (kg <= 1000): 
+        return TOYOTA_HIACE
+    elif (kg > 1000 and kg <= 7000): 
+        return TWO_AXLE_RIGID_EURO4
+    elif (kg > 7000 and kg <= 15000): 
+        return FOUR_AXLE_RIGID_GML
+    elif (kg > 15000): 
+        return SIX_AXLE_ARTIC_GML
+    else: 
+        return TOYOTA_HIACE
+
+def get_truck_fuel_economy(truck_id):
+
+    # get truck
+    try:
+        truck = TruckConfiguration.query.get(truck_id)
+        return truck.fuel_economy
+    except Exception:
+        return 8

@@ -103,6 +103,7 @@ function populate_again(shipment, shipment_no) {
     document.getElementById("distance_" + shipment_no).innerText = shipment.trip_distance.toFixed(1) + " km"
     document.getElementById("load_weight_" + shipment_no).innerText = weight + " kg"
     document.getElementById("duration_" + shipment_no).innerText = timestr
+    document.getElementById("truck_type_" + shipment_no).innerText = shipment.truck_id
 }
 
 function myOtherFunction() {

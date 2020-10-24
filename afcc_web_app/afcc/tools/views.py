@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, url_for, redirect, flash
 from afcc.extensions import db
-from afcc.shipment.models import Shipment
+from afcc.shipment.models import Shipment, TruckConfiguration
 from afcc.user.models import User
 from flask_login import current_user
 
@@ -106,6 +106,9 @@ def shipment_information():
     result["start_address"] = shipment.start_address
     result["end_address"] = shipment.end_address
 
+    # get truck name from truck id
+    truck_name = TruckConfiguration.query.get(shipment.truck_configuration_id).description
+    result["truck_id"] = truck_name
     
     return result
     
