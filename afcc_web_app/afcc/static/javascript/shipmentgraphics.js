@@ -149,6 +149,9 @@ function draw_coins(cost){
 }
 function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
     
+    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
     var w=450;
     var h=350;
   
