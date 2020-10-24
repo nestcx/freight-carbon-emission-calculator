@@ -18,8 +18,6 @@
         <h1>{{ shipment.shipment_name }}</h1>
         {% endif %}
     </div>
-    <button class="button--primary --hidden-on-desktop" id="btn-download" onClick=DOWNLOAD()><i
-            class="fas fa-file-download fa-2x"></i></button>
 </div>
 <div class="container--shipmentinfo">
     <div class="container-data">
@@ -54,8 +52,8 @@
     </div>
     </table>
     <div class="container--emissions">
-        <p id="emission"></p>
         <h2 id="calculatedEmission"></h2>
+        <p id="emission"></p>
         <table id="table--emissions">
             <tr class="gas --selected" id="Carbon">
                 <td>Carbon Dioxide</td>
@@ -150,10 +148,10 @@
             class="far fa-edit fa-2x"></i></button>
     <button class="btn-modify" onClick=modify()><i class="fas fa-cog fa-2x"></i></button>
 </div>
-<div class="buttons-desktop --hidden-on-mobile" id="bottom--button-two">
+<!-- <div class="buttons-desktop --hidden-on-mobile" id="bottom--button-two">
     <button class="button--primary" id="learn" onClick="window.location.href='/about'">Learn More</button>
     <button class="button--primary" id="report">Download Report</button>
-</div>
+</div> -->
 <script src="/static/javascript/viewshipment.js"></script>
 <script src="/static/leaflet/leaflet.js"></script>
 <!-- interactivemap.js must be called after leaflet.js -->

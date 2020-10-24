@@ -6,7 +6,8 @@
     width: 100%;
     margin-top: 1%;
     margin-left: 1%;
-
+    z-index: 999;
+    
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         justify-content: left;
         width: 98%;
@@ -64,7 +65,7 @@
     justify-content: space-around;
     padding-left: 1.5%;
     padding-right: 1.5%;
-
+    
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         @include border-shadow-soft;
         background-color: white;
@@ -92,6 +93,7 @@
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         width: 62%;
         flex-direction: row;
+        flex-wrap: wrap;
     }
 }
 
@@ -110,8 +112,10 @@
     @extend .containershipment;
     width: 100%;
 
+
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         width: 46.25%;
+        padding-bottom: $spacing-default !important;
     }
 }
 //contains tree detail section
@@ -160,11 +164,9 @@
 
 #btn-back {
     background-color: $color-tertiary;
+    z-index: 999;
 }
 
-#btn-download {
-    background-color: $color-tertiary;
-}
 
 .buttons-modify {
     display: flex;
@@ -174,6 +176,7 @@
     position: fixed;
     bottom: $header-height + 10px;
     margin-left: 5%;
+    z-index: 999;
 
     .btn-modify {
         margin: 10%;
@@ -183,6 +186,7 @@
         border-radius: 50%;
         background-color: $color-tertiary;
         color: $color-white;
+        z-index: 999;
     }
 
     .btn-edit {
@@ -249,6 +253,7 @@
     border: none;
     border-spacing: 0px;
     padding-top: 1%;
+    
     .price {
         &:hover {
             background-color: darken($color-white, 10%);
@@ -256,6 +261,11 @@
     }
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         width: 50%;
+    }
+
+    // Add some space between cells so they're easier to read
+    & tbody tr td {
+        padding: $spacing-x-small;
     }
 }
 
@@ -270,7 +280,6 @@
 
 //table emissions styling
 #table--emissions {
-    width: 100%;
     border: none;
     border-spacing: 0px;
     padding-top: 1%;
@@ -279,9 +288,11 @@
             background-color: darken($color-white, 10%);
         }
     }
-    // @include breakpoint-screen-larger-than($breakpoint-tablet) {
-    //     width: 100%;
-    // }
+
+    // Add some space between each cell, so they're more easily distinguished
+    & tbody tr td {
+        padding: 4px;
+    }
 }
 //used to indicate table row is selected
 .--selected {
@@ -293,4 +304,5 @@
 
 #calculatedEmission {
     font-weight: 800;
+    width: 100%;
 }

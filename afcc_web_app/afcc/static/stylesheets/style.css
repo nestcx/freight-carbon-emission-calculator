@@ -808,6 +808,7 @@ header {
   width: 100%;
   margin-top: 1%;
   margin-left: 1%;
+  z-index: 999;
 }
 @media only screen and (min-width: 760px) {
   .shipment-header {
@@ -889,6 +890,7 @@ header {
   .container--emissions {
     width: 62%;
     flex-direction: row;
+    flex-wrap: wrap;
   }
 }
 
@@ -903,6 +905,7 @@ header {
 @media only screen and (min-width: 760px) {
   .container--distance {
     width: 46.25%;
+    padding-bottom: 16px !important;
   }
 }
 
@@ -940,10 +943,7 @@ header {
 
 #btn-back {
   background-color: #bfdcae;
-}
-
-#btn-download {
-  background-color: #bfdcae;
+  z-index: 999;
 }
 
 .buttons-modify {
@@ -954,6 +954,7 @@ header {
   position: fixed;
   bottom: 70px;
   margin-left: 5%;
+  z-index: 999;
 }
 .buttons-modify .btn-modify {
   margin: 10%;
@@ -963,6 +964,7 @@ header {
   border-radius: 50%;
   background-color: #bfdcae;
   color: #ffffff;
+  z-index: 999;
 }
 .buttons-modify .btn-edit {
   margin: 10%;
@@ -1033,6 +1035,9 @@ header {
     width: 50%;
   }
 }
+#table--pricing tbody tr td {
+  padding: 4px;
+}
 
 .price-desktop {
   width: 100%;
@@ -1045,13 +1050,15 @@ header {
 }
 
 #table--emissions {
-  width: 100%;
   border: none;
   border-spacing: 0px;
   padding-top: 1%;
 }
 #table--emissions .gas:hover {
   background-color: #e6e6e6;
+}
+#table--emissions tbody tr td {
+  padding: 4px;
 }
 
 .--selected {
@@ -1060,6 +1067,7 @@ header {
 
 #calculatedEmission {
   font-weight: 800;
+  width: 100%;
 }
 
 .container--shipments-page {

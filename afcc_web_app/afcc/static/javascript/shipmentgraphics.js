@@ -152,7 +152,17 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
     const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-    var w=0.2*vw;
+    // Adjust the graphic's size, depending on the viewport's width, and size it according
+    // to the container's width
+    var parentContainer = document.getElementById('emission').parentElement
+
+    var w = 0
+    if (window.innerWidth < 760) {
+        w = 0.5 * window.innerWidth
+    } else {
+        w=0.4 * parentContainer.getBoundingClientRect().width
+    }
+    // var w=0.4*vw;
     var h=200;
   
     var dataset1={ "Carbon": carbon_emission, "Methane": methane_emission, "Nitrousoxide": nitrousoxide_emission };
@@ -257,7 +267,7 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
                 .style("visibility","visible")
                 .text((d.value).toFixed(4)+" -e tonnes Carbon Equivalent")
                 .attr("font-weight","600")
-                .attr("font-size","24");
+                .attr("font-size","1em");
             
            
             
