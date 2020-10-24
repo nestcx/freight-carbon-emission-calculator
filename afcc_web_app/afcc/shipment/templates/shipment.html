@@ -55,24 +55,21 @@
     </table>
     <div class="container--emissions">
         <p id="emission"></p>
-        <!-- <div class="container--tablular-data"> -->
-            <h2 id="calculatedEmission"></h2>
-            <table id="table--emissions">
-                <tr class="gas --selected" id="Carbon">
-                    <td>Carbon Dioxide</td>
-                    <td>{{ shipment.carbon_dioxide_emission }}</td>
-                </tr>
-                <tr class="gas" id="Nitrous">
-                    <td>Nitrous Oxide</td>
-                    <td>{{ shipment.nitrous_oxide_emission }}</td>
-                </tr>
-                <tr class="gas" id="Methane">
-                    <td>Methane</td>
-                    <td>{{ shipment.methane_emission }}</td>
-                </tr>
-            </table>
-        <!-- </div> -->
-        
+        <h2 id="calculatedEmission"></h2>
+        <table id="table--emissions">
+            <tr class="gas --selected" id="Carbon">
+                <td>Carbon Dioxide</td>
+                <td>{{ shipment.carbon_dioxide_emission }}</td>
+            </tr>
+            <tr class="gas" id="Nitrous">
+                <td>Nitrous Oxide</td>
+                <td>{{ shipment.nitrous_oxide_emission }}</td>
+            </tr>
+            <tr class="gas" id="Methane">
+                <td>Methane</td>
+                <td>{{ shipment.methane_emission }}</td>
+            </tr>
+        </table>
     </div>
     <script src="/static/javascript/shipmentgraphics.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>

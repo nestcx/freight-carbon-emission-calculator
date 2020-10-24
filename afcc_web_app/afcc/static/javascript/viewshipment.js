@@ -47,7 +47,7 @@ function calculateTotal() {
         total = total + emission;
     }
     //sets total emission element to total value
-    var totalround = parseFloat(total).toFixed(7);
+    var totalround = parseFloat(total).toFixed(4);
     console.log(totalround);
     document.getElementById("calculatedEmission").innerHTML = totalround + " tCO2e";
 }
