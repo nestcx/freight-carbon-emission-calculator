@@ -28,6 +28,19 @@
   }
 }
 
+.background {
+  background-image: url(../images/fogtrees.jpg);
+  background-color: $color-background;
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  margin-top: 0px;
+  margin-bottom: 0;
+  width: 100%;
+  height: 800px;
+  overflow-y: hidden;
+  align-items: center;
+}
 
 // The div that has the intro text on the Home screen
 .container--intro-text {
@@ -39,12 +52,42 @@
     max-width: 680px;
     color: $color-font-black-header-soft; 
   }
+
+  p {
+    color: $color-font-black;
+    padding-top: $spacing-default;
+  }
+}
+
+.container--index {
+  @extend .container;
+  @include border-shadow-soft;
+  background-color: $color-white;
+  margin-top: $spacing-x-large;
+  margin-bottom: $spacing-default;
+
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    //margin-right: 2.5%;
+    //margin-left: 2.5%;
+    background-color: $color-background-transparent;
+    
+  }
 }
 
 
 .container--logo {
   @extend .container;
-  margin-top: $header-height;
+  //margin-top: $header-height;
+}
+
+.hrule {
+  border-bottom: 2.5px solid $color-primary;
+}
+
+.graphic {
+  text-align: center;
+  padding-top: $spacing-large;
+  color: $color-secondary;
 }
 
 // Container used to wrap around images that span more than the entire width of the page.
@@ -52,12 +95,12 @@
 .container--page-wide-image {
   max-width: 100%; // Make sure the container can't be large than the browsing window
   overflow: hidden; // Hide the overflowing parts of the image, so there's no horizontal scrollbar (awful for usability)
-
+  height: 150px; // Make the truck image smaller
   img {
     display: block; // Used to get rid of the 4px of whitespace that would be there otherwise
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-      height: 150px; // Make the truck image smaller
+      
     }
   }
 }
@@ -124,5 +167,7 @@
   text-align: center;
   padding-bottom: 20px;
 }
+
+
 
 

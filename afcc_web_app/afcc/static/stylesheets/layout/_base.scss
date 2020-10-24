@@ -8,6 +8,11 @@
   position: relative;
   padding-top: $header-height;
   padding-bottom: $header-height;
+  width: 100%;
+
+  background-image: url(../images/fogtrees.jpg);
+  background-color: $color-background;
+  background-attachment: fixed;
 }
 
 // The default rules for container type divs. All divs that represent a chunk of the layout should extend this
@@ -52,4 +57,11 @@
   @include breakpoint-screen-larger-than($breakpoint-tablet) {
     width: max-content;
   }
+}
+
+.bckgrd {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }
