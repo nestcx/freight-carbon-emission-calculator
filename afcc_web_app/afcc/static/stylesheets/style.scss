@@ -30,6 +30,7 @@
 @import 'pages/playground';
 @import 'pages/profilepage';
 @import 'pages/usersettingspage';
+@import 'pages/app/indshipment';
 
 // Pages that are part of the app, not the webite
 @import 'pages/app/shipmentspage';
@@ -58,4 +59,8 @@
   @include breakpoint-screen-larger-than($breakpoint-tablet) {
     display: none;
   }
+}
+
+.--hidden {
+  display: none;
 }

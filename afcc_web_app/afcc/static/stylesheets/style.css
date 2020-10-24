@@ -260,7 +260,7 @@ header {
 .footer {
   background-color: #8ab914;
   height: 60px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   width: 100%;
@@ -801,6 +801,263 @@ header {
   margin-bottom: 16px;
 }
 
+.shipment-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1%;
+  margin-left: 1%;
+}
+@media only screen and (min-width: 760px) {
+  .shipment-header {
+    justify-content: left;
+    width: 98%;
+    position: unset;
+  }
+}
+
+.shipment-expand {
+  padding-left: 20%;
+  padding-right: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.shipment-expand:hover {
+  background-color: #e6e6e6;
+}
+@media only screen and (min-width: 760px) {
+  .shipment-expand {
+    position: inherit;
+    padding-left: unset;
+    padding-right: unset;
+    justify-content: space-between;
+    padding-left: 3px;
+  }
+  .shipment-expand:hover {
+    background-color: white;
+  }
+}
+
+.container--shipmentinfo {
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 760px) {
+  .container--shipmentinfo {
+    padding-top: unset;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+
+.containershipment, .container--fuel, .container--price, .container--tree, .container--distance, .container--emissions, .container-data {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  justify-content: space-around;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+}
+@media only screen and (min-width: 760px) {
+  .containershipment, .container--fuel, .container--price, .container--tree, .container--distance, .container--emissions, .container-data {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background-color: white;
+    height: 300px;
+    width: 30%;
+    margin-top: 2.5%;
+    margin-left: 2.5%;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .container-data {
+    margin-left: 2.5%;
+    height: 300px;
+    width: 30.8%;
+    padding: 3px;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .container--emissions {
+    width: 62%;
+    flex-direction: row;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .container--distance {
+    width: 46.25%;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .container--tree {
+    width: 46.25%;
+    flex-direction: column;
+    padding-left: 2px;
+    padding-right: 2px;
+    justify-content: space-evenly;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .container--price {
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+    flex-direction: row;
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  .price-desktop {
+    flex-direction: column;
+  }
+}
+
+.btn-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+#btn-back {
+  background-color: #bfdcae;
+}
+
+#btn-download {
+  background-color: #bfdcae;
+}
+
+.buttons-modify {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25%;
+  position: fixed;
+  bottom: 70px;
+  margin-left: 5%;
+}
+.buttons-modify .btn-modify {
+  margin: 10%;
+  height: 60px;
+  width: 60px;
+  border: none;
+  border-radius: 50%;
+  background-color: #bfdcae;
+  color: #ffffff;
+}
+.buttons-modify .btn-edit {
+  margin: 10%;
+  height: 60px;
+  width: 60px;
+  border: none;
+  border-radius: 50%;
+  background-color: #4484b1;
+  color: #ffffff;
+}
+.buttons-modify .btn-delete {
+  margin: 10%;
+  height: 60px;
+  width: 60px;
+  border: none;
+  border-radius: 50%;
+  background-color: #f2a9a7;
+  color: #ffffff;
+}
+
+.buttons-desktop {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#learn {
+  margin-left: 35%;
+}
+
+.shipment-info-table {
+  width: 100%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+.shipment-info-table .col-one {
+  text-align: left;
+}
+.shipment-info-table .col-two {
+  text-align: right;
+}
+
+.shipment-row {
+  display: none;
+}
+@media only screen and (min-width: 760px) {
+  .shipment-row {
+    display: table-row;
+  }
+}
+
+.--show {
+  display: table-row;
+}
+
+#table--pricing {
+  width: 100%;
+  border: none;
+  border-spacing: 0px;
+  padding-top: 1%;
+}
+#table--pricing .price:hover {
+  background-color: #e6e6e6;
+}
+@media only screen and (min-width: 760px) {
+  #table--pricing {
+    width: 50%;
+  }
+}
+
+.price-desktop {
+  width: 100%;
+  align-items: center;
+}
+@media only screen and (min-width: 760px) {
+  .price-desktop {
+    width: 50%;
+  }
+}
+
+#table--emissions {
+  width: 100%;
+  border: none;
+  border-spacing: 0px;
+  padding-top: 1%;
+}
+#table--emissions .gas:hover {
+  background-color: #e6e6e6;
+}
+@media only screen and (min-width: 760px) {
+  #table--emissions {
+    width: 30%;
+  }
+}
+
+.--selected {
+  background-color: #e6e6e6;
+}
+
+#calculatedEmission {
+  font-weight: 800;
+}
+
 .container--shipments-page {
   padding: 16px;
 }
@@ -1261,6 +1518,10 @@ header {
   .--hidden-on-desktop {
     display: none;
   }
+}
+
+.--hidden {
+  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */

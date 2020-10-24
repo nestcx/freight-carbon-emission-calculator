@@ -63,7 +63,6 @@
   @extend .form--login;
 
   @include breakpoint-screen-larger-than($breakpoint-mobile) {
-    @extend .form--login;
 
     // The login form's top margin is too much, as thats a smaller form, therefore, reduce
     // this form's margin

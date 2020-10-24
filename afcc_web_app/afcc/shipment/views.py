@@ -433,7 +433,6 @@ def show_edit_shipment_form(shipment_id):
 
 def authenticate_user():
     """ Ensure a user is logged in and has a valid account.
-
         Returns:
         False, redirect_url  -- if user is not logged in, if user doesn't exist 
                                 in database, or if user has inactive account,
