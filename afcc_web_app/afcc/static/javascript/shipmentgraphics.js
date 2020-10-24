@@ -152,7 +152,7 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
     const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-    var w=0.2*vw;
+    var w=200;
     var h=200;
   
     var dataset1={ "Carbon": carbon_emission, "Methane": methane_emission, "Nitrousoxide": nitrousoxide_emission };
