@@ -152,20 +152,20 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
     const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-    var w=450;
-    var h=350;
+    var w=0.2*vw;
+    var h=200;
   
     var dataset1={ "Carbon": carbon_emission, "Methane": methane_emission, "Nitrousoxide": nitrousoxide_emission };
   
-    var outerRadius = 100;
+    var outerRadius = 50;
     var innerRadius = 0;
   
     var arc= d3.arc()
                 .outerRadius(outerRadius)
-                .innerRadius(innerRadius+40);
+                .innerRadius(innerRadius+20);
     var arcOver=d3.arc()
-                    .outerRadius(outerRadius+10)
-                    .innerRadius(innerRadius+50);
+                    .outerRadius(outerRadius+5)
+                    .innerRadius(innerRadius+25);
   
   
     var pie = d3.pie();
@@ -182,7 +182,7 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
                   .enter()
                   .append("g")
                   .attr("class","arc")
-                  .attr("transform","translate("+ 120 +","+ 150 +")");
+                  .attr("transform","translate("+ 60 +","+ 75 +")");
     
    
     var color = d3.scaleOrdinal()
@@ -190,50 +190,50 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
                     .range(['#96C5F7','#6DC0D5','#C2EFEB']);
   
     svg.append("rect")
-        .attr("x", 275)
-        .attr("y", 100)
+        .attr("x", 130)
+        .attr("y", 48)
         .attr("width", 15)
         .attr("height", 15)
         .attr("fill","#96C5F7")
         .attr("id","co2_square");
     
     svg.append("text")
-        .attr("x",300)
-        .attr("y",112)
-        .text("CO2 content")
+        .attr("x",150)
+        .attr("y",60)
+        .text("CO2")
         .attr("id","co2_text");
     
     svg.append("rect")
-        .attr("x", 275)
-        .attr("y", 130)
+        .attr("x", 130)
+        .attr("y", 70)
         .attr("width", 15)
         .attr("height", 15)
         .attr("fill","#6DC0D5")
         .attr("id","ch4_square");
 
     svg.append("text")
-        .attr("x",300)
-        .attr("y",142)
-        .text("CH4 content")
+        .attr("x",150)
+        .attr("y",82)
+        .text("CH4")
         .attr("id","ch4_text");
     
     svg.append("rect")
-        .attr("x", 275)
-        .attr("y", 160)
+        .attr("x", 130)
+        .attr("y", 92)
         .attr("width", 15)
         .attr("height", 15)
         .attr("fill","#C2EFEB")
         .attr("id","n2o_square");
     
     svg.append("text")
-        .attr("x",300)
-        .attr("y",172)
-        .text("N2O Content")
+        .attr("x",150)
+        .attr("y",104)
+        .text("N2O")
         .attr("id","n2o_text");
 
     svg.append("text")
-        .attr("x",20)
-        .attr("y",320)
+        .attr("x",10)
+        .attr("y",170)
         .attr("id","result_text")
         .style("visibility","hidden");
 
