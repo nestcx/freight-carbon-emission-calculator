@@ -70,17 +70,39 @@ function populate(id, shipment_no) {
     
 }
 
+function secondsToHms(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return hDisplay + mDisplay + sDisplay; 
+}
+
 function populate_again(shipment, shipment_no) {
 
     // get shipment data here for visualisations.
+
+    var weight;
+
+    if (shipment.load_weight_unit == 'tonne') {
+        weight = shipment.load_weight * 1000;
+    } else { 
+        weight = shipment.load_weight;
+    }
+
+    timestr = secondsToHms(shipment.trip_duration)
 
     document.getElementById("shipment" + shipment_no).value = shipment.shipment_id
     document.getElementById("name_" + shipment_no).innerText = shipment.name
     document.getElementById("origin_" + shipment_no).innerText = shipment.start_address
     document.getElementById("destination_" + shipment_no).innerText = shipment.end_address
-    document.getElementById("distance_" + shipment_no).innerText = shipment.trip_distance
-    document.getElementById("load_weight_" + shipment_no).innerText = shipment.load_weight
-    document.getElementById("duration_" + shipment_no).innerText = new Date(shipment.trip_duration * 1000).toISOString().substr(11, 8)
+    document.getElementById("distance_" + shipment_no).innerText = shipment.trip_distance.toFixed(1) + " km"
+    document.getElementById("load_weight_" + shipment_no).innerText = weight + " kg"
+    document.getElementById("duration_" + shipment_no).innerText = timestr
 }
 
 function myOtherFunction() {
