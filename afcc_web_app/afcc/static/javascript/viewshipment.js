@@ -48,7 +48,7 @@ function calculateTotal() {
         total = total + emission;
     }
     //sets total emission element to total value
-    document.getElementById("calculatedEmission").innerHTML = total + " tCO2e";
+    document.getElementById("calculatedEmission").innerHTML = total.toFixed(3) + " tCO2e";
 }
 
 function calculateCost(currency) {

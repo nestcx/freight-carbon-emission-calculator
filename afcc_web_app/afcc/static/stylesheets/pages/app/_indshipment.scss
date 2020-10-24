@@ -94,9 +94,21 @@
         flex-direction: row;
     }
 }
+
+// The container that contains the Leaflet map
+.container--route-map {
+    @extend .container--location-map;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    
+}
+
 //contains distance detail section
 .container--distance {
     @extend .containershipment;
+    width: 100%;
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         width: 46.25%;
@@ -267,9 +279,9 @@
             background-color: darken($color-white, 10%);
         }
     }
-    @include breakpoint-screen-larger-than($breakpoint-tablet) {
-        width: 30%;
-    }
+    // @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    //     width: 100%;
+    // }
 }
 //used to indicate table row is selected
 .--selected {
