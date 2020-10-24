@@ -23,12 +23,10 @@ function draw_trees(trees){
         .attr('height', h)
         .append("g");
     
-    var total_trees=Math.round(trees);
+    var total_trees=Math.ceil(trees);
     var max_tree=w/tree_w;
 
     console.log(total_trees);
-
-    var text=total_trees-20
     
     var loopcount=total_trees
 
@@ -56,17 +54,6 @@ function draw_trees(trees){
             yaxis+=tree_h+10;
             xaxis=0;
         }
-        /*if(total_trees>max_tree){
-            svg.append("text")
-                .attr("x", 930)
-                .attr("y", 150)
-                .attr("dy", ".75em")
-                .style("font-size", "34px")
-                .text("+"+);
-            
-            
-        }*/
-        var remaining_trees=(total_trees-(max_tree*2-1));
         
     }
 }

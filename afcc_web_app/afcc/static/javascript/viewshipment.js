@@ -99,7 +99,7 @@ function calculateTrees() {
     var treeValueText = Math.ceil(treeValue.toFixed(2)); // Always get the ceiling, since you can't plant 1.5 trees
     document.getElementById("calculatedTree").innerHTML = treeValueText + " Trees";
     document.getElementById("treeDesc").innerHTML = "You would need to plant " + treeValueText + " trees to offset this shipment's emissions";
-    draw_trees(parseInt(treeValue));
+    draw_trees(treeValue);
 }
 
 //opens and closes edit and delete button options
