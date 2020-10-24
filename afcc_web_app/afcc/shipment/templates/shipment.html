@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block extra_css %} 
+{% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
 <!-- This is needed to ensure leaflet works properly-->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -11,18 +11,20 @@
 
 {% block content %}
 <div class="shipment-header --fixed">
-    <button class="button--primary" id="btn-back" onClick="window.location.href='/shipments'"><i class="fas fa-chevron-circle-left fa-2x"></i></button>
+    <button class="button--primary" id="btn-back" onClick="window.location.href='/shipments'"><i
+            class="fas fa-chevron-circle-left fa-2x"></i></button>
     <div class="shipment-title">
         {% if shipment.shipment_name %}
         <h1>{{ shipment.shipment_name }}</h1>
         {% endif %}
     </div>
-    <button class="button--primary --hidden-on-desktop" id="btn-download" onClick=DOWNLOAD()><i class="fas fa-file-download fa-2x"></i></button>
+    <button class="button--primary --hidden-on-desktop" id="btn-download" onClick=DOWNLOAD()><i
+            class="fas fa-file-download fa-2x"></i></button>
 </div>
 <div class="container--shipmentinfo">
     <div class="container-data">
         <div class="shipment-expand" onClick="expandinfo()">
-            <h3>Shipment Details    </h3>
+            <h3>Shipment Details </h3>
             <p id="arrowIconRight"><i class="fas fa-caret-down fa-2x fa-rotate-270"></i></p>
             <p id="arrowIconDown" class="--hidden"><i class="fas fa-caret-down fa-2x"></i></p>
         </div>
@@ -145,9 +147,10 @@
     -->
 </div>
 <div class="buttons-modify  --hidden-on-desktop">
-    <button class="btn-delete --hidden" onClick="deleteShipment({{shipment.shipment_id }})"><i class="far fa-trash-alt fa-2x"></i></button>
-    <button class="btn-edit --hidden"
-        onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'"><i class="far fa-edit fa-2x"></i></button>
+    <button class="btn-delete --hidden" onClick="deleteShipment({{shipment.shipment_id }})"><i
+            class="far fa-trash-alt fa-2x"></i></button>
+    <button class="btn-edit --hidden" onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'"><i
+            class="far fa-edit fa-2x"></i></button>
     <button class="btn-modify" onClick=modify()><i class="fas fa-cog fa-2x"></i></button>
 </div>
 <div class="buttons-desktop --hidden-on-mobile" id="bottom--button-two">
