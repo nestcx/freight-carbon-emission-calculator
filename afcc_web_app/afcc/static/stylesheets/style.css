@@ -84,7 +84,7 @@ header {
   width: 100%;
   background-color: #ffffff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  z-index: 100;
+  z-index: 1000;
 }
 
 .logo-container {
@@ -865,15 +865,27 @@ header {
   justify-content: space-around;
   padding-left: 1.5%;
   padding-right: 1.5%;
+  padding-bottom: 16px;
+  padding-top: 16px;
+  border-bottom: 1px solid #ddd;
+}
+.containershipment:nth-child(even), .container--fuel:nth-child(even), .container--price:nth-child(even), .container--tree:nth-child(even), .container--distance:nth-child(even), .container--emissions:nth-child(even), .container-data:nth-child(even) {
+  background-color: #fbfbfb;
 }
 @media only screen and (min-width: 760px) {
   .containershipment, .container--fuel, .container--price, .container--tree, .container--distance, .container--emissions, .container-data {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding-bottom: unset;
+    margin-bottom: unset;
+    border-bottom: unset;
     background-color: white;
     height: 300px;
     width: 30%;
     margin-top: 2.5%;
     margin-left: 2.5%;
+  }
+  .containershipment:nth-child(even), .container--fuel:nth-child(even), .container--price:nth-child(even), .container--tree:nth-child(even), .container--distance:nth-child(even), .container--emissions:nth-child(even), .container-data:nth-child(even) {
+    background-color: white;
   }
 }
 
@@ -1006,6 +1018,13 @@ header {
 }
 .shipment-info-table .col-two {
   text-align: right;
+}
+.shipment-info-table tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+.shipment-info-table tbody tr td {
+  padding: 4px;
+  border-bottom: 1px solid #e4e4e4;
 }
 
 .shipment-row {
@@ -1495,7 +1514,7 @@ header {
   margin-bottom: 64px;
 }
 
-.price_selection {
+.price_selection, .emission_selection {
   margin-left: 16px;
   margin-top: 8px;
 }

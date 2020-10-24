@@ -23,10 +23,10 @@
     <div class="container-data">
         <div class="shipment-expand" onClick="expandinfo()">
             <h3>Shipment Details </h3>
-            <p id="arrowIconRight"><i class="fas fa-caret-down fa-2x fa-rotate-270"></i></p>
-            <p id="arrowIconDown" class="--hidden"><i class="fas fa-caret-down fa-2x"></i></p>
+            <p id="arrowIconRight" class="--hidden-on-desktop"><i class="fas fa-caret-down fa-2x fa-rotate-270"></i></p>
+            <p id="arrowIconDown" class="--hidden --hidden-on-desktop"><i class="fas fa-caret-down fa-2x"></i></p>
         </div>
-        <table class="shipment-info-table" id="shipment-table">
+        <table class="shipment-info-table" id="shipment-table" cellspacing="0">
             <tr class="shipment-row">
                 <td class="col-one">Shipment ID</td>
                 <td class="col-two" id="shipId">{{ shipment.shipment_id }}</td>

@@ -7,7 +7,7 @@
     margin-top: 1%;
     margin-left: 1%;
     z-index: 999;
-    
+
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         justify-content: left;
         width: 98%;
@@ -66,8 +66,26 @@
     padding-left: 1.5%;
     padding-right: 1.5%;
     
+    // Add some whitespace between container on mobile, to seperate them logically
+    padding-bottom: $spacing-default;
+    padding-top: $spacing-default;
+    border-bottom: 1px solid #ddd; 
+    &:nth-child(even) {
+        background-color: rgb(251, 251, 251);
+    }
+
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
         @include border-shadow-soft;
+
+        // Undo the rules that were added to create logical seperation on mobile phones
+        padding-bottom: unset;
+        margin-bottom: unset;
+        border-bottom: unset;
+        &:nth-child(even) {
+            background-color: white;
+        }
+
+        // Set new rules to style for larger pages appropriately
         background-color: white;
         height: 300px;
         width: 30%;
@@ -233,6 +251,16 @@
 
     .col-two {
         text-align: right;
+    }
+
+    // Make rows easier to distinguish
+    & tbody tr:nth-child(odd) {
+        background-color: #fafafa;
+    }
+
+    & tbody tr td {
+        padding: $spacing-x-small;
+        border-bottom: 1px solid #e4e4e4;
     }
 }
 //default display for shipment information table rows
