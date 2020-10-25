@@ -1,7 +1,6 @@
-
 // This is the container that contains all the elements within the body
-// Essentially this class'es purpose is to wrap everything like the body 
-// element does, since we don't want to add styles to the body element itself, 
+// Essentially this class'es purpose is to wrap everything like the body
+// element does, since we don't want to add styles to the body element itself,
 // just in case some pages may need radically different styles
 .page-container {
   min-height: 100vh;
@@ -38,7 +37,6 @@
   }
 }
 
-
 // This is used for not allowing larger containers to exceed a certain width.
 // It will mostly be used for containers containing large blocks of code,
 // and enforces the width so the website doesn't stretch too much on larger screens.
@@ -48,12 +46,10 @@
   max-width: $dimension-max-app-width;
 }
 
-
 // This is used for when you want to resize container divs so that they don't
 // automatically take up all the available width. Instead, its width is enough
 // to cover the content inside of it
 .--width-equal-to-content {
-
   @include breakpoint-screen-larger-than($breakpoint-tablet) {
     width: max-content;
   }
