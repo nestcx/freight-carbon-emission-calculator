@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+
+{% block extra_css %} 
+<link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
+{% endblock %}
+
+
+
+
+
+
+ 
+{% block content %}
+<div class="container--shipments-page --enforce-max-width">
+
+<script type="application/javascript"> 
+    function sayHi() {
+            //alert('hi');
+            var input, filter, div, a, j, i, txtValue;
+            input = document.getElementById('filter_shipment');
+            filter = input.value.toUpperCase();
+            div = document.getElementById("shipment_c");
+            a = div.getElementsByTagName('a');
+            let divs = document.getElementsByClassName("shipment-card");
+
+
+            // to loop through all the items
+            for (i = 0; i < divs.length; i++) {
+                a = divs[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                divs[i].style.display  ="block";
+                }
+                else    divs[i].style.display  ="none";
+            }
+        }
+/*..function Search_Function() {
+	
+alert('hit teh search');
+		var input, filter, div, a, j, i, txtValue;
+		input = document.getElementById('filter_shipment');
+		filter = input.value.toUpperCase();
+		div = document.getElementById("shipment_c");
+		a = div.getElementsByTagName('a');
+		
+	// to loop through all the items
+	for (i=0; i<j.lenght; i++) {
+	j = a[i].getElementsByTagName("a")[0];
+	txtValue = a.textContent || a.innerText;
+	if (txtValue.toUpperCase().indexOf(filter) > -1) {
+	a[i].style.display + "";
+	}
+		else {
+		a[i].style.display ="none";
+
+	}	
+} */
+</script> 
+<div>
+<!--<input type="search" onmouseover="sayHi()" class="filter" placeholder="Filter Search">-->
+<input type="search" id="filter_shipment" onkeyup="sayHi()" class="filter" placeholder="Filter Search">
+</div> 
+
+
+
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class= "flash" id = "flash">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <div class="add-shipment-buttons-container --hidden-on-mobile">
+        <a href="{{ url_for('shipment.show_create_shipment_form') }}" class="button--primary">Enter shipment manually</a>
+        <button class="button--primary" onClick="displayModal()">Upload shipment data</button>
+    </div>
+    {% if shipments is defined %}
+        {% for shipment in shipments %}
+<<<<<<< Updated upstream
+            <!-- Data for the shipments cards -->
+            <a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">
+                <div class="shipment-card">
+                    <div class="shipment_created_container">
+                        <div class="created_data">{{ shipment.shipment_created.strftime('%Y-%m-%d %H:%M:%S') }}</div> 
+                    </div>
+                    <div class="shipment_name_container">
+                        <div class="name_data">{{ shipment.shipment_name }}</div>
+                    </div>            
+                    <div class="address_container">
+                        <div class="start_address_container">
+                            <div class="start_address_data">{{ shipment.start_address }}</div>
+                        </div>
+                        <div class ="arrow_container">
+                            <img class = "arrow_down_image" src="../../../static/images/arrow_down.png" alt="Arrow Down">
+                        </div>
+                        <div class="end_address_container">
+                            <div class="end_address_data">{{ shipment.end_address }}</div>
+                        </div>
+                        <div class="metric_containter">
+                            <div class="distance_container">
+                                <div class="distance_data_container">
+                                    <div class="distance_data">{{ '%0.0f'|format(shipment.trip_distance|float) }} KM</div>
+                                </div>
+                            </div>
+                            <div class="duration_container">
+                                <div class="duration_data">{{ '%0.0f'|format(shipment.trip_duration / 60|float) }} mins</div>
+                            </div>
+                            <div class="weight_container">
+                                <div class="weight_data">{{ '%0.2f'|format(shipment.load_weight|float) }}</div>
+                                <div class="unit_data">{{ shipment.load_weight_unit }}</div>
+                            </div>
+                        </div>
+                    </div>     
+    	            <div class="carbon_emission_container">
+                        <div class="carbon_dioxide_emission_container">
+                            <div class="carbon_emission_data">{{ '%0.2f'|format(shipment.carbon_dioxide_emission|float) }}</div>
+                            <div class="carbon_text_data">tonnes of CO2e</div>
+                        </div>
+                        <div class="report_arrow_container">
+                            <img class = "report_arrow_image" src="../../../static/images/report_arrow.png" alt="Report Arrow">
+                        </div>
+                        <div class="shipment_id_container">
+                            <div class="shipment_id_data"><a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </a>
+=======
+        <div class="shipment-card" id="shipment_c" >
+            <div class="title">
+                <a
+                    href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a>
+            </div>
+            <div class="edit_shipment">
+                <a href="{{ url_for('shipment.show_edit_shipment_form', shipment_id=shipment.shipment_id) }}">Edit shipment</a>
+            </div>
+            <div class="delete_button">
+                <!-- <input type="button" value="Delete Shipment" onclick="deleteShipment({{shipment.shipment_id}})">-->
+            </div>
+
+            <div class="shipment_name" id="shipment _na" >
+                <div class="heading">Shipment Name</div>
+                <div class="data">{{ shipment.shipment_name }}</div>
+            </div>
+            <div class="shipment_created">
+                <div class="heading">Shipment Created</div>
+                <div class="data">{{ shipment.shipment_created }}</div>
+            </div>
+            <div class="load_weight">
+                <div class="heading">Load Weight</div>
+                <div class="data">{{ shipment.load_weight }}</div>
+            </div>
+            <div class="load_weight_unit">
+                <div class="heading">Load Weight Unit</div>
+                <div class="data">{{ shipment.load_weight_unit }}</div>
+            </div>
+            <div class="trip_distance">
+                <div class="heading">Trip Distance</div>
+                <div class="data">{{ shipment.trip_distance }}</div>
+            </div>
+            <div class="trip_duration">
+                <div class="heading">Trip Duration</div>
+                <div class="data">{{ shipment.trip_duration }}</div>
+            </div>
+            <div class="fuel_economy_adjustment">
+                <div class="heading">Fuel Economy Adjustment</div>
+                <div class="data">{{ shipment.fuel_economy_adjustment }}</div>
+            </div>
+            <div class="carbon_dioxide_emission">
+                <div class="heading">Carbon Dioxide Emission</div>
+                <div class="data">{{ shipment.carbon_dioxide_emission }}</div>
+            </div>
+            <div class="methane_emission">
+                <div class="heading">Methane Emission</div>
+                <div class="data">{{ shipment.methane_emission }}</div>
+            </div>
+            <div class="nitrous_oxide_emission">
+                <div class="heading">Nitrous Oxide Emission</div>
+                <div class="data">{{ shipment.nitrous_oxide_emission }}</div>
+            </div>
+            <div class="start_address">
+                <div class="heading">Start Address</div>
+                <div class="data">{{ shipment.start_address }}</div>
+            </div>
+            <div class="start_address_coordinates">
+                <div class="heading">Start Address Coordinates</div>
+                <div class="data">{{ shipment.start_address_coordinates }}</div>
+            </div>
+            <div class="end_address">
+                <div class="heading">End Address</div>
+                <div class="data">{{ shipment.end_address }}</div>
+            </div>
+            <div class="end_address_coordinates">
+                <div class="heading">End Address Coordinates</div>
+                <div class="data">{{ shipment.end_address_coordinates }}</div>
+            </div>
+        </div>
+>>>>>>> Stashed changes
+        {% endfor %}
+    {% else %}
+    <div class="shipment-card--empty-placeholder">
+        <p>
+            There are no shipments here! <br />
+            Get started by adding a shipment.
+        </p>
+    </div>
+</div>
+{% endif %}
+
+<!-- The 2 add shipment buttons displayed on desktops -->
+
+
+<!-- The + button which is only displayed on mobile -->
+<div class="add-shipment-icon-container --hidden-on-desktop">
+    <a href="{{ url_for('shipment.show_create_shipment_form') }}">
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="164.04488535130736 292.85026780366775 77.01359592122355 75.59082275317405" width="54" height="54">
+            <defs>
+                <path
+                    d="M238.06 329.65C238.06 349.4 221.7 365.44 201.55 365.44C181.4 365.44 165.04 349.4 165.04 329.65C165.04 309.89 181.4 293.85 201.55 293.85C221.7 293.85 238.06 309.89 238.06 329.65Z"
+                    id="d1tP3gG5CM"></path>
+                <path
+                    d="M177.55 329.62C177.55 328.08 178.81 326.82 180.35 326.82C189.39 326.82 213.71 326.82 222.75 326.82C224.3 326.82 225.55 328.08 225.55 329.62C225.55 330.19 225.55 329.1 225.55 329.67C225.55 331.21 224.3 332.47 222.75 332.47C213.71 332.47 189.39 332.47 180.35 332.47C178.81 332.47 177.55 331.21 177.55 329.67C177.55 329.1 177.55 330.19 177.55 329.62Z"
+                    id="bE1nuRZmC"></path>
+                <path
+                    d="M201.22 304.91C202.76 304.91 204.02 306.16 204.02 307.71C204.02 316.75 204.02 341.07 204.02 350.11C204.02 351.66 202.76 352.91 201.22 352.91C200.65 352.91 201.74 352.91 201.17 352.91C199.63 352.91 198.37 351.65 198.37 350.11C198.37 341.07 198.37 316.75 198.37 307.71C198.37 306.16 199.63 304.91 201.17 304.91C201.74 304.91 200.65 304.91 201.22 304.91Z"
+                    id="dbJeEmnDO"></path>
+            </defs>
+            <g>
+                <g>
+                    <use xlink:href="#d1tP3gG5CM" opacity="1" fill="#8ab914" fill-opacity="1"></use>
+                </g>
+                <g>
+                    <use xlink:href="#bE1nuRZmC" opacity="1" fill="#ffffff" fill-opacity="1"></use>
+                </g>
+                <g>
+                    <use xlink:href="#dbJeEmnDO" opacity="1" fill="#ffffff" fill-opacity="1"></use>
+                </g>
+            </g>
+        </svg>
+    </a>
+</div>
+
+<div class="modal--file-upload" id="modal-file-upload">
+    <form method="POST" class="form form--shipment-upload" enctype="multipart/form-data">
+        {{ file_form.hidden_tag() }}
+        {{ file_form.shipments }}
+        <!-- Using span as button wrongfully prompts the user to upload a file -->
+        <span class="button--non-focus" onClick="closeModal()" id="button-cancel">Cancel</span>
+        <button type="submit" class="button--primary">Upload</button>
+    </form>
+</div>
+<!-- Used for blacking out the screen when the modal is displayed-->
+<div class="black-out-screen" id="black-out-screen"></div>
+
+<script src="/static/javascript/shipmentmodal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{ url_for('shipment.static', filename='javascript/delete_shipment.js') }}"></script>
+</div>
+
+{% endblock %}
