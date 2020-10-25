@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block extra_css %} 
+{% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
 <!-- This is needed to ensure leaflet works properly-->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -8,66 +8,69 @@
     crossorigin=""/>
 {% endblock %}
 
-
 {% block content %}
-<div class="shipment-header --fixed">
-    <button class="button--primary" id="btn-back" onClick="window.location.href='/shipments'"><i class="fas fa-chevron-circle-left fa-2x"></i></button>
-    <div class="shipment-title">
-        {% if shipment.shipment_name %}
-        <h1>{{ shipment.shipment_name }}</h1>
-        {% endif %}
-    </div>
-    <button class="button--primary --hidden-on-desktop" id="btn-download" onClick=DOWNLOAD()><i class="fas fa-file-download fa-2x"></i></button>
+
+<button class="button--primary" id="btn-back" onClick="window.location.href='/shipments'"><i
+    class="fas fa-chevron-circle-left fa-2x"></i></button>
+<div class="shipment-title --enforce-max-width">
+    {% if shipment.shipment_name %}
+    <h1>{{ shipment.shipment_name }}</h1>
+    {% endif %}
 </div>
-<div class="container--shipmentinfo">
-    <div class="container-data">
-        <div class="shipment-expand" onClick="expandinfo()">
-            <h3>Shipment Details    </h3>
-            <p id="arrowIconRight"><i class="fas fa-caret-down fa-2x fa-rotate-270"></i></p>
-            <p id="arrowIconDown" class="--hidden"><i class="fas fa-caret-down fa-2x"></i></p>
+<div class="container--shipmentinfo --enforce-max-width">
+    <div class="container-card-row">
+        <div class="container-data">
+            <div class="shipment-expand" onClick="expandinfo()">
+                <h3 class="header">Shipment Details </h3>
+                <p id="arrowIconRight" class="--hidden-on-desktop"><i class="fas fa-caret-down fa-2x fa-rotate-270"></i></p>
+                <p id="arrowIconDown" class="--hidden --hidden-on-desktop"><i class="fas fa-caret-down fa-2x"></i></p>
+            </div>
+            <table class="shipment-info-table" id="shipment-table" cellspacing="0">
+                <tr class="shipment-row">
+                    <td class="col-one">Shipment ID</td>
+                    <td class="col-two" id="shipId">{{ shipment.shipment_id }}</td>
+                </tr>
+                <tr class="shipment-row">
+                    <td class="col-one">Shipment Created</td>
+                    <!-- Only display the date - don't display the time -->
+                    <td class="col-two">{{ shipment.shipment_created.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                <tr class="shipment-row">
+                    <td class="col-one">Shipment Weight</td>
+                    <td class="col-two">{{ shipment.load_weight }} {{ shipment.load_weight_unit }}</td>
+                </tr>
+                <tr class="shipment-row">
+                    <td class="col-one">Origin</td>
+                    <td class="col-two" id="start_location">{{ shipment.start_address }}</td>
+                </tr>
+                <tr class="shipment-row">
+                    <td class="col-one">Destination</td>
+                    <td class="col-two" id="end_location">{{ shipment.end_address }}</td>
+                </tr>
+            </table>
         </div>
-        <table class="shipment-info-table" id="shipment-table">
-            <tr class="shipment-row">
-                <td class="col-one">Shipment ID</td>
-                <td class="col-two" id="shipId">{{ shipment.shipment_id }}</td>
-            </tr>
-            <tr class="shipment-row">
-                <td class="col-one">Shipment Created</td>
-                <td class="col-two">{{ shipment.shipment_created }}</td>
-            </tr>
-            <tr class="shipment-row">
-                <td class="col-one">Shipment Weight</td>
-                <td class="col-two">{{ shipment.load_weight }} {{ shipment.load_weight_unit }}</td>
-            </tr>
-            <tr class="shipment-row">
-                <td class="col-one">Origin</td>
-                <td class="col-two">{{ shipment.start_address }}</td>
-            </tr>
-            <tr class="shipment-row">
-                <td class="col-one">Destination</td>
-                <td class="col-two">{{ shipment.end_address }}</td>
-            </tr>
         </table>
+        <div class="container--emissions">
+            <h3 class="header">This shipment's emissions: <span id="calculatedEmission"></span></h3>
+            <!-- <h3 id="calculatedEmission" class="header"></h3> -->
+            <p id="emission"></p>
+            <table id="table--emissions">
+                <tr class="gas --selected" id="Carbon">
+                    <td>Carbon Dioxide</td>
+                    <td>{{ shipment.carbon_dioxide_emission }}</td>
+                </tr>
+                <tr class="gas" id="Nitrous">
+                    <td>Nitrous Oxide</td>
+                    <td>{{ shipment.nitrous_oxide_emission }}</td>
+                </tr>
+                <tr class="gas" id="Methane">
+                    <td>Methane</td>
+                    <td>{{ shipment.methane_emission }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
-    </table>
-    <div class="container--emissions">
-        <p id="emission"></p>
-        <h2 id="calculatedEmission"></h2>
-        <table id="table--emissions">
-            <tr class="gas --selected" id="Carbon">
-                <td>Carbon Dioxide</td>
-                <td>{{ shipment.carbon_dioxide_emission }}</td>
-            </tr>
-            <tr class="gas" id="Nitrous">
-                <td>Nitrous Oxide</td>
-                <td>{{ shipment.nitrous_oxide_emission }}</td>
-            </tr>
-            <tr class="gas" id="Methane">
-                <td>Methane</td>
-                <td>{{ shipment.methane_emission }}</td>
-            </tr>
-        </table>
-    </div>
+    
     <script src="/static/javascript/shipmentgraphics.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 
@@ -75,19 +78,27 @@
         draw_emissions({{ shipment.carbon_dioxide_emission }}, {{ shipment.nitrous_oxide_emission }}, {{ shipment.methane_emission }})
     </script>
 
-    <div class="container--distance">
-        <div class="container--location-map">
-            <div id="mapid"></div>
-        </div>
-        <h2>{{ shipment.trip_distance }}km</h2>
-        <p>This shipment is travelling {{ shipment.trip_distance }}km</p>
-    </div>
+    <div class="container-card-row">
+        <div class="container--distance">
+            <div class="container--route-map">
+                <div id="mapid"></div>
+            </div>
 
-    <div class="container--tree">
-        <p id="trees"></p>
-        <h2 id="calculatedTree"></h2>
-        <p id="treeDesc">You would need to plant XX trees to remove your shipments produced carbon from the atomsphere
-        </p>
+            <h3 class="header">Distance travelled</h3>
+            <p>This shipment covers a rough distance of {{ '%0.1f' | format(shipment.trip_distance|float) }}km</p>
+
+            <!-- <h3 class="header">{{ shipment.trip_distance }}km</h3>
+            <p>This shipment is travelling {{ shipment.trip_distance }}km</p> -->
+
+        </div>
+
+        <div class="container--tree">
+            <h3 class="header">Offsetting your emissions</h3>
+            <p id="trees"></p>
+            <h3 id="calculatedTree"></h3>
+            <p id="treeDesc">You would need to plant XX trees to offset the emissions this shipment has produced
+            </p>
+        </div>
     </div>
 
     <!--<script type="text/javascript">
@@ -95,9 +106,10 @@
     </script>-->
 
     <div class="container--price">
+        <h3 class="header">How much it would cost you</h3>
         <div class="price-desktop">
             <p id="coins"></p>
-            <h2 id="calculatedPrice">PRICEJS</h2>
+            <h3 id="calculatedPrice">PRICEJS</h3>
             <p id="priceDescription">This shipment would cost XX under the 2011 proposed carbon pricing scheme</p>
         </div>
         <table id="table--pricing">
@@ -141,21 +153,22 @@
     -->
 </div>
 <div class="buttons-modify  --hidden-on-desktop">
-    <button class="btn-delete --hidden" onClick="deleteShipment({{shipment.shipment_id }})"><i class="far fa-trash-alt fa-2x"></i></button>
-    <button class="btn-edit --hidden"
-        onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'"><i class="far fa-edit fa-2x"></i></button>
+    <button class="btn-delete --hidden" onClick="deleteShipment({{shipment.shipment_id }})"><i
+            class="far fa-trash-alt fa-2x"></i></button>
+    <button class="btn-edit --hidden" onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'"><i
+            class="far fa-edit fa-2x"></i></button>
     <button class="btn-modify" onClick=modify()><i class="fas fa-cog fa-2x"></i></button>
 </div>
-<div class="buttons-desktop --hidden-on-mobile" id="bottom--button-two">
+<!-- <div class="buttons-desktop --hidden-on-mobile" id="bottom--button-two">
     <button class="button--primary" id="learn" onClick="window.location.href='/about'">Learn More</button>
     <button class="button--primary" id="report">Download Report</button>
-</div>
+</div> -->
 <script src="/static/javascript/viewshipment.js"></script>
 <script src="/static/leaflet/leaflet.js"></script>
 <!-- interactivemap.js must be called after leaflet.js -->
 <script src="/static/javascript/interactivemap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="/static/javascript/inputfields.js"></script>
 <script src="https://kit.fontawesome.com/d6fc443413.js" crossorigin="anonymous"></script>
 <script src="{{ url_for('shipment.static', filename='javascript/delete_shipment.js') }}"></script>
+<script src="{{ url_for('shipment.static', filename='javascript/display_route.js') }}"></script>
 {% endblock %}

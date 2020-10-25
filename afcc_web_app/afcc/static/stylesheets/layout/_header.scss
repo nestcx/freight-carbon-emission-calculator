@@ -11,7 +11,7 @@ header {
   width: 100%;
   background-color: $color-white;
   @include border-shadow-soft;
-  z-index: 100; // Make sure this is always at the top layer, don't allow other elements to cover it
+  z-index: 1000; // Make sure this is always at the top layer, don't allow other elements to cover it
 }
 
 

@@ -1,11 +1,15 @@
-from flask import Blueprint
+import requests
+from flask import Blueprint, jsonify
 from afcc import data_conversion
 from afcc.models import Postcode
 from afcc.extensions import db
-import requests
 from afcc.config import *
-from flask import jsonify
 
+"""
+The classes in this file are used to serve as a wrapper for the map API response JSON data. 
+This should make it easier to switch APIs in the future, as only the wrapper classes would 
+need to be changed in such an event.
+"""
 
 class GeoJSON_Route:
 
