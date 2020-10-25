@@ -694,20 +694,26 @@ header {
 }
 
 .background {
-  background-image: url(../images/fogtrees.jpg);
-  background-color: #fdfaf1;
-  background-attachment: fixed;
-  position: absolute;
-  top: 60px;
-  left: 0;
-  margin-top: 0px;
-  margin-bottom: 0;
-  width: 100%;
-  height: 800px;
-  overflow-y: hidden;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  background-image: unset;
+}
+
+@media only screen and (min-width: 760px) {
+  .background {
+    background-image: url(../images/fogtrees.jpg);
+    background-color: #fdfaf1;
+    background-attachment: fixed;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    margin-top: 0px;
+    margin-bottom: 0;
+    width: 100%;
+    height: 800px;
+    overflow-y: hidden;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
 }
 
 .container--intro-text {
