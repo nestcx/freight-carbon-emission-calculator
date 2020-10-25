@@ -44,9 +44,6 @@ input[type=number] {
   padding-top: 60px;
   padding-bottom: 60px;
   width: 100%;
-  background-image: url(../images/fogtrees.jpg);
-  background-color: #fdfaf1;
-  background-attachment: fixed;
 }
 
 .container, .container--text-content, .container--logo, .container--intro-text, .container--index, .container--ad-copy-text, .container--cta-buttons, .container--shipments-page {
@@ -699,6 +696,7 @@ header {
 .background {
   background-image: url(../images/fogtrees.jpg);
   background-color: #fdfaf1;
+  background-attachment: fixed;
   position: absolute;
   top: 60px;
   left: 0;

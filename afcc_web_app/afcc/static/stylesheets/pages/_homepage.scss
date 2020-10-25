@@ -31,6 +31,7 @@
 .background {
   background-image: url(../images/fogtrees.jpg);
   background-color: $color-background;
+  background-attachment: fixed;
   position: absolute;
   top: $header-height;
   left: 0;
