@@ -13,12 +13,11 @@ function uploadShipment() {
     }
   })
   .then(function (response) {
-    if (response.status = 200) {
-      location.reload()
-    }
+    location.reload()
   })
   .catch(function (error) {
     console.log(error)
+    location.reload()
   })
 }
 

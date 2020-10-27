@@ -36,12 +36,16 @@
             {{ form.load_weight.label(class_="inputfield__label") }}
             <div class="container--input-weight-and-unit">
                 <!-- Make sure the input field can't have negative values -->
-                <input id="load_weight" class="inputfield--text" onkeyup=enforceMinMaxNumber(this) name="load_weight" required="" type="number" min="0" value="">
+                <input id="load_weight" class="inputfield--text" onkeyup=enforceMinMaxNumber(this) name="load_weight" required="" type="number" min="0" value="" placeholder="eg: 2400">
                 {{ form.load_weight_unit(class_="inputfield--select") }}
             </div>
             <p>
+                <label class="inputfield__label" for="load_volume">Volume of cargo (Optional)</label>
+                <input class="inputfield--text" id="load_volume" name="load_volume" required="" type="text" value="" placeholder="Volume in Cubic metres">    
+            </p>
+            <p>
                 <label class="inputfield__label" for="shipmentname">Shipment Description</label>
-                {{ form.shipment_name(class_="inputfield--text") }}
+                <input class="inputfield--text" id="shipment_name" name="shipment_name" type="text" value="" placeholder="Give this shipment a name">
             </p>
         </div>
     </div>

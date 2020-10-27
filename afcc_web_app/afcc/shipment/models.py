@@ -13,6 +13,7 @@ class Shipment(db.Model):
     trip_duration = db.Column(db.Integer, nullable=False)
     load_weight = db.Column(db.Float, nullable=False)
     load_weight_unit = db.Column(db.String(20), nullable=False)
+    load_volume = db.Column(db.Float, nullable=True) # Volume in cubic metres
     fuel_economy_adjustment = db.Column(db.Float, nullable=False)
     carbon_dioxide_emission = db.Column(db.Float, nullable=False)
     methane_emission = db.Column(db.Float, nullable=False)
