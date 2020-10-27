@@ -1,0 +1,365 @@
+
+.shipment-title {
+    font-size: 0.8em; // Make the text a little smaller on smaller sized screens
+    width: 100%;
+    text-align: center;
+    margin: $spacing-default auto;
+    padding-bottom: $spacing-default;
+    border-bottom: 1px solid #ddd;
+
+    
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        font-size: 1em;
+        border-bottom: unset;
+        margin-bottom: unset;
+    }
+}
+
+//Shipment info table heading
+.shipment-expand {
+    padding-left: 20%;
+    padding-right: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &:hover {
+        background-color: darken($color-white, 10%);
+    }
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        width: 100%;
+        position: inherit;
+        padding-left: unset;
+        padding-right: unset;
+        justify-content: space-between;
+        padding-left: 3px;
+        //removes default hover effect
+        &:hover {
+            background-color: white;
+        }
+    }
+}
+
+//CONTAINERS
+//whole page container, lists child containers in column on mobile and wraps down page on desktop
+.container--shipmentinfo {
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        padding-top: unset;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+}
+
+
+// This container is used to logically seperate rows of cards. This helps to style
+// cards on larger viewports
+.container-card-row {
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+//default styling for container elements, width of entire screen on mobile, varying width on desktop
+.containershipment {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    justify-content: space-around;
+    padding-left: $spacing-small;
+    padding-right: $spacing-small;
+    
+    // Add some whitespace between container on mobile, to seperate them logically
+    padding-bottom: $spacing-default;
+    padding-top: $spacing-default;
+
+    border-bottom: 1px solid #ddd; 
+    &:nth-child(even) {
+        background-color: rgb(251, 251, 251);
+    }
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        @include border-shadow-soft;
+
+        // Undo the rules that were added to create logical seperation on mobile phones
+        margin-bottom: unset;
+        border-bottom: unset;
+        &:nth-child(even) {
+            background-color: white;
+        }
+
+        // Set new rules to style for larger pages appropriately
+        background-color: white;
+        min-height: 300px;
+        width: 30%;
+        margin-top: 2.5%;
+        margin-left: 2.5%;
+
+        padding-left: $spacing-default;
+        padding-right: $spacing-default;
+    
+        // Add wrapping to allow the header to be on top. 
+        // NOTE: This may break some layouts so this may need to change
+        flex-wrap: wrap; 
+    }
+
+    // The header inside the card
+    .header {
+
+        @include breakpoint-screen-larger-than($breakpoint-tablet) {
+            width: 100%;
+            padding-bottom: $spacing-default;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: $spacing-small;    
+        }
+    }
+}
+//contains shipment details section
+.container-data {
+    @extend .containershipment;
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        margin-left: 2.5%;
+        width: 40%;
+        padding-top: $spacing-medium;
+    }
+}
+//contains emission detail section
+.container--emissions {
+    @extend .containershipment;
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        flex-grow: 4;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+// The container that contains the Leaflet map
+.container--route-map {
+    @extend .container--location-map;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    
+}
+
+//contains distance detail section
+.container--distance {
+    @extend .containershipment;
+    width: 100%;
+
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        width: 46.25%;
+        padding-bottom: $spacing-default !important;
+    }
+}
+
+//contains tree detail section
+.container--tree {
+    @extend .containershipment;
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        flex-grow: 2;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+}
+//contains pricing detail section
+.container--price {
+    @extend .containershipment;
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        width: 60%;
+        margin-left: 20%;
+        margin-right: 20%;
+        flex-direction: row;
+    }
+}
+//additional div only used in desktop styling
+//used to display graphic on left and all other elements on right within container
+.price-desktop {
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        flex-direction: column;
+    }
+}
+
+.container--fuel {
+    @extend .containershipment;
+}
+
+//BUTTONS
+
+.btn-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+#btn-back {
+    background-color: $color-tertiary;
+    z-index: 999;
+    left: $spacing-small;
+    top: calc(#{$spacing-small} + #{$header-height}); // Place it just below the header
+    display: block;
+    position: fixed;
+}
+
+
+.buttons-modify {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
+    position: fixed;
+    bottom: $header-height + $spacing-small;
+    z-index: 999;
+
+    .btn-modify {
+        margin: 10%;
+        height: $header-height;
+        width: $header-height;
+        border: none;
+        border-radius: 50%;
+        background-color: $color-tertiary;
+        color: $color-white;
+        z-index: 999;
+    }
+
+    .btn-edit {
+        margin: 10%;
+        height: $header-height;
+        width: $header-height;
+        border: none;
+        border-radius: 50%;
+        background-color: rgb(68, 132, 177);
+        color: $color-white;
+    }
+
+    .btn-delete {
+        margin: 10%;
+        height: $header-height;
+        width: $header-height;
+        border: none;
+        border-radius: 50%;
+        background-color: rgb(242, 169, 167);
+        color: $color-white;
+    }
+}
+
+.buttons-desktop {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#learn {
+    margin-left: 35%;
+}
+
+//TABLES//
+.shipment-info-table {
+    width: 100%;
+
+    .col-one {
+        text-align: left;
+    }
+
+    .col-two {
+        text-align: right;
+    }
+
+    // Make rows easier to distinguish
+    & tbody tr:nth-child(odd) {
+        background-color: #fafafa;
+    }
+
+    & tbody tr td {
+        padding: $spacing-x-small;
+    }
+}
+//default display for shipment information table rows
+//hidden on mobile and displayed on desktop
+.shipment-row {
+    display: none;
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        display: table-row;
+    }
+}
+//used to toggle display of shipment information rows with js
+.--show {
+    display: table-row;
+}
+//table pricing styling
+#table--pricing {
+    width: 100%;
+    border: none;
+    border-spacing: 0px;
+    margin-top: $spacing-medium;
+    
+    .price {
+        &:hover {
+            background-color: darken($color-white, 10%);
+        }
+    }
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        width: 50%;
+        margin-top: unset;
+    }
+
+    // Add some space between cells so they're easier to read
+    & tbody tr td {
+        padding: $spacing-x-small;
+    }
+}
+
+.price-desktop {
+    width: 100%;
+    align-items: center;
+
+    @include breakpoint-screen-larger-than($breakpoint-tablet) {
+        width: 50%;
+    }
+}
+
+//table emissions styling
+#table--emissions {
+    border: none;
+    border-spacing: 0px;
+    padding-top: 1%;
+    .gas {
+        &:hover {
+            background-color: darken($color-white, 10%);
+        }
+    }
+
+    // Add some space between each cell, so they're more easily distinguished
+    & tbody tr td {
+        padding: 4px;
+    }
+}
+//used to indicate table row is selected
+.--selected {
+    background-color: darken($color-white, 10%);
+}
+
+
+table tbody tr td {
+    // Make the text a little smaller, as it will take much less space, and
+    // should still be easily readable
+    font-size: 0.9em;
+}

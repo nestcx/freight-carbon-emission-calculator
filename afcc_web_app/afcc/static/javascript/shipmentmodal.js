@@ -27,3 +27,5 @@ function closeModal() {
   modalElement.classList.remove('--modal-active');
   blackBg.classList.remove('--modal-active');
 }
+
+//filter shipments 

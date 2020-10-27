@@ -18,3 +18,24 @@
     @extend .flash;
     color: rgb(3, 148, 80);
   }
+
+  // Used for displaying messages on the bottom of the screen, detached from the flow of the document
+  .flash--toast {
+    @extend .flash;
+    position: fixed;
+    right: 0;
+    margin: $spacing-small;
+    opacity: 100%;
+
+    -webkit-transition: opacity 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+
+    @include breakpoint-screen-larger-than($breakpoint-mobile) {
+      width: unset;
+    }
+  }
+
+  .flash--toast--transparent {
+    opacity: 0%;
+  }

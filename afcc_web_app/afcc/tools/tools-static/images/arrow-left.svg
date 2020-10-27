@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Arrow Left</title>
+  <desc>A solid styled icon from Orion Icon Library.</desc>
+  <path data-name="layer1"
+  fill="#202020" d="M28.001 48L12 32l16.001-16 4.242 4.243-8.759 8.758H52v6H23.486l8.757 8.757L28.001 48z"></path>
+</svg>

@@ -13,6 +13,8 @@ def create_app():
     app = Flask(__name__, template_folder='templates', static_folder='static')
     app.secret_key = b'_5#o2L"F4Q8z\n\xec]/'
 
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
     # Use the secret key as the salt as well. NOTE: This is temporary
@@ -45,12 +47,14 @@ def create_app():
     # import the blueprint with user-related routes
     from afcc.user import views as uviews
     from afcc.shipment import views as sviews
+    from afcc.tools import views as tviews
 
     # register blueprints
     app.register_blueprint(maproutes.maproutes_bp)
     app.register_blueprint(calculation.calculation_bp)
     app.register_blueprint(uviews.user_bp)
     app.register_blueprint(sviews.shipment_bp)
+    app.register_blueprint(tviews.tools_bp)
 
     @app.route('/')
     def index():
@@ -68,10 +72,6 @@ def create_app():
     @app.route('/about')
     def about():
         return render_template('about.html', title='About')
-
-    @app.route('/tools')
-    def tools():
-        return render_template('tools.html', title='Tools')
 
     @app.route('/help')
     def help():

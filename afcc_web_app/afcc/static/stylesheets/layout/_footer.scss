@@ -5,10 +5,11 @@
   
   // Mobile-first approach. On mobiles the footer will be fixed to the bottom of viewport
   height: $header-height;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   width: 100%; // Extend the footer to 100% width, otherwise bottom nav links get bunched up on smaller viewport sizes
+  z-index: 999;
   
   // For larger screens
   @include breakpoint-screen-larger-than($breakpoint-tablet) {

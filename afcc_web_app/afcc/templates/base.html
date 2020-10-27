@@ -38,7 +38,7 @@
         </button>
         <div class="logo-container">
             <a href="/">
-                <img class="app-logo" src="/static/images/Logo3.png" width="180px" />
+                <img class="app-logo" src="{{ url_for('static', filename='images/logo3.png') }}" width="180px" />
             </a>
         </div>
         <nav class="navbar --hidden-on-mobile">
@@ -89,7 +89,7 @@
     <footer class="footer">
         <div class="bottomnav">
             <button class="navButton">
-                <a class="navlink" href="/my_shipments">Shipments</a>
+                <a class="navlink" href="{{ url_for('shipment.CR_shipments') }}">Shipments</a>
             </button>
             <button class="navButton">
                 <a class="navlink" href="/tools">Tools</a>

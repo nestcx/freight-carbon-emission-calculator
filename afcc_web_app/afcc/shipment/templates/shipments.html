@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
-
 {% block extra_css %} 
 <link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="container--shipments-page --enforce-max-width">
+<div class="container--shipments-page --enforce-max-card-width">
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -17,80 +16,62 @@
     </ul>
     {% endif %}
     {% endwith %}
-
+    <div class="add-shipment-buttons-container --hidden-on-mobile">
+        <a href="{{ url_for('shipment.show_create_shipment_form') }}" class="button--primary">Enter shipment manually</a>
+        <button class="button--primary" onClick="displayModal()">Upload shipment data</button>
+    </div>
     {% if shipments is defined %}
-    <!-- Show the list of shipments -->
-
         {% for shipment in shipments %}
-        <div class="shipment-card">
-            <div class="title">
-                <a
-                    href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a>
-            </div>
-            <div class="edit_shipment">
-                <a href="{{ url_for('shipment.show_edit_shipment_form', shipment_id=shipment.shipment_id) }}">Edit shipment</a>
-            </div>
-            <div class="delete_button">
-                <input type="button" value="Delete Shipment" onclick="deleteShipment({{shipment.shipment_id}})">
-            </div>
-
-            <div class="shipment_name">
-                <div class="heading">Shipment Name</div>
-                <div class="data">{{ shipment.shipment_name }}</div>
-            </div>
-            <div class="shipment_created">
-                <div class="heading">Shipment Created</div>
-                <div class="data">{{ shipment.shipment_created }}</div>
-            </div>
-            <div class="load_weight">
-                <div class="heading">Load Weight</div>
-                <div class="data">{{ shipment.load_weight }}</div>
-            </div>
-            <div class="load_weight_unit">
-                <div class="heading">Load Weight Unit</div>
-                <div class="data">{{ shipment.load_weight_unit }}</div>
-            </div>
-            <div class="trip_distance">
-                <div class="heading">Trip Distance</div>
-                <div class="data">{{ shipment.trip_distance }}</div>
-            </div>
-            <div class="trip_duration">
-                <div class="heading">Trip Duration</div>
-                <div class="data">{{ shipment.trip_duration }}</div>
-            </div>
-            <div class="fuel_economy_adjustment">
-                <div class="heading">Fuel Economy Adjustment</div>
-                <div class="data">{{ shipment.fuel_economy_adjustment }}</div>
-            </div>
-            <div class="carbon_dioxide_emission">
-                <div class="heading">Carbon Dioxide Emission</div>
-                <div class="data">{{ shipment.carbon_dioxide_emission }}</div>
-            </div>
-            <div class="methane_emission">
-                <div class="heading">Methane Emission</div>
-                <div class="data">{{ shipment.methane_emission }}</div>
-            </div>
-            <div class="nitrous_oxide_emission">
-                <div class="heading">Nitrous Oxide Emission</div>
-                <div class="data">{{ shipment.nitrous_oxide_emission }}</div>
-            </div>
-            <div class="start_address">
-                <div class="heading">Start Address</div>
-                <div class="data">{{ shipment.start_address }}</div>
-            </div>
-            <div class="start_address_coordinates">
-                <div class="heading">Start Address Coordinates</div>
-                <div class="data">{{ shipment.start_address_coordinates }}</div>
-            </div>
-            <div class="end_address">
-                <div class="heading">End Address</div>
-                <div class="data">{{ shipment.end_address }}</div>
-            </div>
-            <div class="end_address_coordinates">
-                <div class="heading">End Address Coordinates</div>
-                <div class="data">{{ shipment.end_address_coordinates }}</div>
-            </div>
-        </div>
+            <!-- Data for the shipments cards -->
+            <a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">
+                <div class="shipment-card">
+                    <div class="shipment_created_container">
+                        <div class="created_data">{{ shipment.shipment_created.strftime('%Y-%m-%d %H:%M:%S') }}</div> 
+                    </div>
+                    <div class="shipment_name_container">
+                        <div class="name_data">{{ shipment.shipment_name }}</div>
+                    </div>            
+                    <div class="address_container">
+                        <div class="start_address_container">
+                            <div class="start_address_data">{{ shipment.start_address }}</div>
+                        </div>
+                        <div class ="arrow_container">
+                            <img class = "arrow_down_image" src="../../../static/images/arrow_down.png" alt="Arrow Down">
+                        </div>
+                        <div class="end_address_container">
+                            <div class="end_address_data">{{ shipment.end_address }}</div>
+                        </div>
+                        <div class="metric_containter">
+                            <div class="distance_container">
+                                <div class="distance_data_container">
+                                    <div class="distance_data">{{ '%0.0f'|format(shipment.trip_distance|float) }} KM</div>
+                                </div>
+                            </div>
+                            <div class="duration_container">
+                                <div class="duration_data">{{ '%0.0f'|format(shipment.trip_duration / 60|float) }} mins</div>
+                            </div>
+                            <div class="weight_container">
+                                <div class="weight_data">{{ '%0.2f'|format(shipment.load_weight|float) }}</div>
+                                <div class="unit_data">{{ shipment.load_weight_unit }}</div>
+                            </div>
+                        </div>
+                    </div>     
+                    <div class="carbon_emission_container">
+                        <div class="carbon_dioxide_emission_container">
+                            <div class="carbon_emission_data">{{ '%0.2f'|format(shipment.carbon_dioxide_emission|float) }}</div>
+                            <div class="carbon_text_data">tonnes of CO2e</div>
+                        </div>
+                        <div class="report_arrow_container">
+                    
+                        </div>
+                        <div class="shipment_id_container">
+                            <div class="shipment_id_data"><a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </a>
         {% endfor %}
     {% else %}
     <div class="shipment-card--empty-placeholder">
@@ -103,10 +84,7 @@
 {% endif %}
 
 <!-- The 2 add shipment buttons displayed on desktops -->
-<div class="add-shipment-buttons-container --hidden-on-mobile">
-    <a href="{{ url_for('shipment.show_create_shipment_form') }}" class="button--primary">Enter shipment manually</a>
-    <button class="button--primary" onClick="displayModal()">Upload shipment data</button>
-</div>
+
 
 <!-- The + button which is only displayed on mobile -->
 <div class="add-shipment-icon-container --hidden-on-desktop">
@@ -143,19 +121,19 @@
 </div>
 
 <div class="modal--file-upload" id="modal-file-upload">
-    <form method="POST" class="form form--shipment-upload" enctype="multipart/form-data">
+    <form method="POST" class="form form--shipment-upload" onsubmit="event.preventDefault();" enctype="multipart/form-data">
         {{ file_form.hidden_tag() }}
         {{ file_form.shipments }}
         <!-- Using span as button wrongfully prompts the user to upload a file -->
         <span class="button--non-focus" onClick="closeModal()" id="button-cancel">Cancel</span>
-        <button type="submit" class="button--primary">Upload</button>
+        <button type="submit" class="button--primary" onClick="uploadShipment()">Upload file</button>
     </form>
 </div>
 <!-- Used for blacking out the screen when the modal is displayed-->
 <div class="black-out-screen" id="black-out-screen"></div>
 
 <script src="/static/javascript/shipmentmodal.js"></script>
-
+<script src="/static/javascript/shipmentupload.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{{ url_for('shipment.static', filename='javascript/delete_shipment.js') }}"></script>
 </div>
