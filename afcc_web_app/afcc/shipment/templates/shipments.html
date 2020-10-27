@@ -131,9 +131,9 @@
         <p>
             Please fill in the template given for the batch upload of shipments. 
         </p>
-        <p>
-            Calculator will not work if this format is not followed.
-            <a href="{{ url_for('shipment.download_batchuploadfile', filename='batchshipmentfile.xlsx') }}">Download</a>
+        <p id="warning-text">
+            Calculator will not work if this format is not followed.&nbsp;&nbsp;&nbsp;&nbsp;  
+            <a id="download-link" href="{{ url_for('shipment.download_batchuploadfile', filename='batchshipmentfile.xlsx') }}">Download</a>
         </p>
     </form>
 </div>
