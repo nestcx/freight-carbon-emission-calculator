@@ -12,6 +12,8 @@ need to be changed in such an event.
 """
 
 class GeoJSON_Route:
+    """This class is used to store GeoJSON data about a route between 2 points
+    """
 
     def __init__(self, start_coords, end_coords):
 
@@ -115,9 +117,11 @@ class GeoJSON_Address:
 
 
 class GeoJSON_Route_Matrix:
+    """This class is used to store the matrices of postcodes and route distances and durations between them.
+    This class is built specifically for OpenRouteService's Matrix API call
+    """
 
     def __init__(self, list_of_postcode_coords):
-        print('Class GeoJSON_Route_Matrix: initialising')
 
         self.list_of_postcode_coords = list_of_postcode_coords
 
@@ -151,7 +155,6 @@ class GeoJSON_Route_Matrix:
             return len(self.geojson_data["metadata"]["query"]["locations"])
         except:
             # TODO: Add logging here
-            print(self.geojson_data)
             return None
 
     def get_distance_between(self, i, j):
