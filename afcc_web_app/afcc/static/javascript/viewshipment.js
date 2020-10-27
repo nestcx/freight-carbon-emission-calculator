@@ -9,7 +9,6 @@ function init() {
         x = win.innerWidth || docElem.clientWidth || body.clientWidth,
         y = win.innerHeight || docElem.clientHeight || body.clientHeight;
 
-    
     roundEmissions();
     costClickHandler("table--pricing");
     emissionClickHandler("table--emissions");
@@ -48,7 +47,9 @@ function calculateTotal() {
         total = total + emission;
     }
     //sets total emission element to total value
-    document.getElementById("calculatedEmission").innerHTML = total + " tCO2e";
+    var totalround = parseFloat(total).toFixed(4);
+    console.log(totalround);
+    document.getElementById("calculatedEmission").innerHTML = totalround + " tCO2e";
 }
 
 function calculateCost(currency) {
@@ -95,9 +96,9 @@ function calculateTrees() {
     var treeFactor = 15;
     var emissions = document.getElementById("calculatedEmission").innerHTML;
     var treeValue = parseFloat(emissions) * treeFactor;
-    var treeValueText = treeValue.toFixed(2);
+    var treeValueText = Math.ceil(treeValue.toFixed(2)); // Always get the ceiling, since you can't plant 1.5 trees
     document.getElementById("calculatedTree").innerHTML = treeValueText + " Trees";
-    document.getElementById("treeDesc").innerHTML = "You would need to plant " + treeValueText + " trees to remove your shipments produced carbon from the atmosphere";
+    document.getElementById("treeDesc").innerHTML = "You would need to plant " + treeValueText + " trees to offset this shipment's emissions";
     draw_trees(parseInt(treeValue));
 }
 
@@ -158,6 +159,7 @@ function makeSelected(rowId, tableId) {
 function roundEmissions() {
     //get values
     var emissions = document.getElementById("table--emissions");
+
     var gasses = emissions.getElementsByTagName("tr");
     var carbon = gasses[0].getElementsByTagName("td");
     var nitrous = gasses[1].getElementsByTagName("td");
@@ -176,7 +178,6 @@ function roundEmissions() {
     carbon[1].innerHTML = carbonrounded + " TCO2e";
     nitrous[1].innerHTML = nitrounded + " TCO2e";
     methane[1].innerHTML = methrounded + " TCO2e";
-
 }
 
 function deleteShipment() {

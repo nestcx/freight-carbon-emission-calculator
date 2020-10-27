@@ -92,7 +92,6 @@ function displayRouteOnMap(geoJSON) {
     interactiveMap.removeLayer(currentlyDisplayedRoute);
   } 
 
-  console.log(geoJSON)
   currentlyDisplayedRoute = L.geoJSON(geoJSON).addTo(interactiveMap);
 
   interactiveMap.fitBounds([

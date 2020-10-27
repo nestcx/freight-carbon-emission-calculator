@@ -114,25 +114,25 @@ def search_address(address_input):
 
 
 def route_exists(postcode_a, postcode_b):
-    # print('route_exists(): checking if route exists between ' + postcode_a + ' and ' + postcode_b)
+    """Check if a route exists in the database between postcodes, and return a route object if it does
+
+    Arguments:
+    postcode_a {string} Postcode a
+    postcode_b {string} Postcode b
+
+    Returns:
+    [Object] -- The route object if found, oherwise return None
+    """
 
     route = Route.query.filter_by(
         point_a_postcode = postcode_a,
         point_b_postcode = postcode_b
         ).first()
         
-    # # flip point a and point b and retry to see if a route exists
-    # if route is None:
-    #     route = Route.query.filter_by(
-    #         point_a_postcode = postcode_b,
-    #         point_b_postcode = postcode_a
-    #     ).first()
     
     if route is None:
-        # print('route_exists(): Route doesn\'t exist')
         return None
     else:
-        # print('route_exists(): Route does exist')
         return route
 
 
@@ -231,12 +231,11 @@ def add_postcode_to_db(postcode):
         db.session.add(new_postcode)
         db.session.commit()
 
-        print('add_postcode_to_db(): successfully added postcode to db table')
+        print('add_postcode_to_db(): Successfully added postcode to db table')
         return True
 
     except:
         db.session.rollback()
-        print('add_postcode_to_db(): ERROR: could not add postcode to db table')
         return False
 
 
@@ -344,9 +343,8 @@ def add_routes_matrix(set_of_postcodes, list_of_routes):
             if route_exists(loc_a_postcode_obj.postcode, loc_b_postcode_obj.postcode) is not None:
                 continue
 
-            # Check if any of the route's distances and durations were not able to be created 
-            # between point A and point B by the API, and if so, continue
-            if matrix.get_distance_between(i, j) is None:
+            # Check if the route is considered valid, and if not, ignore
+            if not matrix.is_valid(i, j):
                 continue
 
             route = Route(

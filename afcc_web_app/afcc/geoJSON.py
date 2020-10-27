@@ -1,13 +1,19 @@
-from flask import Blueprint
+import requests
+from flask import Blueprint, jsonify
 from afcc import data_conversion
 from afcc.models import Postcode
 from afcc.extensions import db
-import requests
 from afcc.config import *
-from flask import jsonify
 
+"""
+The classes in this file are used to serve as a wrapper for the map API response JSON data. 
+This should make it easier to switch APIs in the future, as only the wrapper classes would 
+need to be changed in such an event.
+"""
 
 class GeoJSON_Route:
+    """This class is used to store GeoJSON data about a route between 2 points
+    """
 
     def __init__(self, start_coords, end_coords):
 
@@ -53,7 +59,8 @@ class GeoJSON_Route:
 
     def is_valid(self):
         try:
-            return self.response.status_code == 200 and self.get_distance() is not None and self.get_distance() > 0 and self.get_duration is not None
+            if self.response.status_code == 200 and self.get_distance() is not None and self.get_duration() > 0 and self.get_duration is not None:
+                return True
         except:
             return False
 
@@ -110,9 +117,11 @@ class GeoJSON_Address:
 
 
 class GeoJSON_Route_Matrix:
+    """This class is used to store the matrices of postcodes and route distances and durations between them.
+    This class is built specifically for OpenRouteService's Matrix API call
+    """
 
     def __init__(self, list_of_postcode_coords):
-        print('Class GeoJSON_Route_Matrix: initialising')
 
         self.list_of_postcode_coords = list_of_postcode_coords
 
@@ -146,7 +155,6 @@ class GeoJSON_Route_Matrix:
             return len(self.geojson_data["metadata"]["query"]["locations"])
         except:
             # TODO: Add logging here
-            print(self.geojson_data)
             return None
 
     def get_distance_between(self, i, j):
@@ -157,3 +165,9 @@ class GeoJSON_Route_Matrix:
 
     def get_duration_between(self, i, j):
         return self.geojson_data["durations"][i][j]
+
+    def is_valid(self, i, j):
+        try:
+            return self.get_distance_between(i, j) is not None and self.get_distance_between(i, j) > 0
+        except:
+            return False
