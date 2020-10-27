@@ -25,6 +25,8 @@ class CreateShipmentForm(FlaskForm):
         ('tonne', 'Tonnes')],
         validators = [DataRequired(message='Please enter a load weight unit')])
 
+    load_volume = DecimalField('Load volume')
+
     submit = SubmitField('Create Shipment')
 
 
@@ -49,6 +51,8 @@ class EditShipmentForm(FlaskForm):
         ('kilogram', 'Kilograms'), 
         ('tonne', 'Tonnes')], 
         validators = [DataRequired(message='Please enter a load weight unit')])
+
+    load_volume = DecimalField('Load volume')
 
     submit = SubmitField('Edit Shipment')
 

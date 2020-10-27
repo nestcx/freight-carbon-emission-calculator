@@ -34,7 +34,7 @@ class GeoJSON_Route:
             "coordinates": [start_coords, end_coords],
             "instructions": False,
             "attributes": ["avgspeed"],
-            "geometry_simplify": "false",
+            "geome/try_simplify": "false",
             "radiuses": [road_search_radius, road_search_radius]}  # Must specify radius for both points
 
         self.response = requests.post(endpointURL, headers=headers, json=json)
@@ -57,7 +57,8 @@ class GeoJSON_Route:
 
     def is_valid(self):
         try:
-            return self.response.status_code == 200 and self.get_distance() is not None and self.get_distance() > 0 and self.get_duration is not None
+            if self.response.status_code == 200 and self.get_distance() is not None and self.get_duration() > 0 and self.get_duration is not None:
+                return True
         except:
             return False
 
@@ -161,3 +162,9 @@ class GeoJSON_Route_Matrix:
 
     def get_duration_between(self, i, j):
         return self.geojson_data["durations"][i][j]
+
+    def is_valid(self, i, j):
+        try:
+            return self.get_distance_between(i, j) is not None and self.get_distance_between(i, j) > 0
+        except:
+            return False

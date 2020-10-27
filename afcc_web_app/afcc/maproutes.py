@@ -121,12 +121,6 @@ def route_exists(postcode_a, postcode_b):
         point_b_postcode = postcode_b
         ).first()
         
-    # # flip point a and point b and retry to see if a route exists
-    # if route is None:
-    #     route = Route.query.filter_by(
-    #         point_a_postcode = postcode_b,
-    #         point_b_postcode = postcode_a
-    #     ).first()
     
     if route is None:
         # print('route_exists(): Route doesn\'t exist')
@@ -344,9 +338,9 @@ def add_routes_matrix(set_of_postcodes, list_of_routes):
             if route_exists(loc_a_postcode_obj.postcode, loc_b_postcode_obj.postcode) is not None:
                 continue
 
-            # Check if any of the route's distances and durations were not able to be created 
-            # between point A and point B by the API, and if so, continue
-            if matrix.get_distance_between(i, j) is None:
+            print(str(matrix.get_distance_between(i, j)))
+            # Check if the route is considered valid, and if not, ignore
+            if not matrix.is_valid(i, j):
                 continue
 
             route = Route(

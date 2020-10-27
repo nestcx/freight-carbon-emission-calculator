@@ -46,20 +46,27 @@ def CR_shipments():
         return render_template('shipments.html', shipments=shipments, file_form=file_form)
 
     # Check if the request includes a file to process, and if so, continue
-    if 'file' not in request.files:
-        return 'no file was submitted', 400
+    # if 'file' not in request.files:
+        flash('No file was submitted. Please submit a csv or xls file')
+        return jsonify('No file was submitted'), 400
 
 
     # Check file extension and read file
     uploaded_file = request.files['file']
+
+    # if file_form.validate_on_submit():
+        
+    #     # 1. - check file extension and read file
+    #     uploaded_file = file_form.shipments.data
+
     file_extension = splitext(uploaded_file.filename)[1]
     if file_extension == '.xlsx' or file_extension == '.xls':
         file_data = pd.read_excel(uploaded_file)
     elif file_extension =='.csv':
         file_data = pd.read_csv(uploaded_file)
     else:
-        flash("invalid file type")
-        return redirect(url_for('shipment.CR_shipments'))
+        flash('Invalid file type. Acceptable file types are .xls, .xlsx and .csv')
+        return jsonify('Invalid file type. Acceptable file types are .xls, .xlsx and .csv'), 400
     
     # Convert file data to python dictionary and then get shipment count
     dfile_data = file_data.to_dict()
@@ -160,55 +167,56 @@ def CR_shipments():
             # so making slower_route_fallback_option: false will make the bulk shipment processing
             # much faster, at the expense of not being able to process some shipments 
             if slower_route_fallback_option is True:
-
-                postcode_a_obj = maproutes.get_postcode(from_postcode.group())
-                postcode_b_obj = maproutes.get_postcode(to_postcode.group())
-
+                postcode_a_obj = Postcode.query.get(from_postcode.group())
+                postcode_b_obj = Postcode.query.get(to_postcode.group())
+                # Postcode.query.get(postcode)
+                # postcode_a_obj = maproutes.get_postcode(from_postcode.group())
+                # postcode_b_obj = maproutes.get_postcode(to_postcode.group())
                 if postcode_a_obj is None:
                     invalid_shipment_msg.append('Error: cannot locate postcode: ' + from_postcode.group())
-                    continue
-
-                if postcode_b_obj is None:
+                elif postcode_b_obj is None:
                     invalid_shipment_msg.append('Error: cannot locate postcode: ' + to_postcode.group())
-                    continue
-
-                a_coords = [postcode_a_obj.long, postcode_a_obj.lat]
-                b_coords = [postcode_b_obj.long, postcode_b_obj.lat]
-
-                # Try find a route by sending a POST directions request, and see if the API service was
-                # was able to generate a route
-                route_geojson = maproutes.get_route_geojson_data(a_coords, b_coords)
-
-                if route_geojson is not None:
-                    # The API service was able to find the route once the fallback option was used,
-                    # therefore, create a new Route object and store the route data in the database
-                    route = Route(
-                        point_a_postcode = postcode_a_obj.postcode,
-                        point_a_region_name =  postcode_a_obj.region_name,
-                        point_a_long =  postcode_a_obj.long,
-                        point_a_lat =  postcode_a_obj.lat,
-
-                        point_b_postcode = postcode_b_obj.postcode,
-                        point_b_region_name = postcode_b_obj.region_name,
-                        point_b_long = postcode_b_obj.long,
-                        point_b_lat = postcode_b_obj.lat,
-                        
-                        route_distance_in_km = route_geojson.get_distance(),
-                        estimated_duration_in_seconds = route_geojson.get_duration(),
-                        last_updated = datetime.date.today()
-                    )
-
-                    # Now add this route to the DB to avoid having to use the slower process
-                    # whenever a new shipment with the same start and end addresses is added 
-                    db.session.add(route)
-                    db.session.commit()
-                    continue
-
                 else:
-                    invalid_shipment_msg.append(
-                        'Error: could not create shipment data for shipment between: ' + \
-                            str(dfile_data['From'][i]) + ' to ' + str(dfile_data['To'][i]))
-                    continue
+
+                    a_coords = [postcode_a_obj.long, postcode_a_obj.lat]
+                    b_coords = [postcode_b_obj.long, postcode_b_obj.lat]
+
+                    # Try find a route by sending a POST directions request, and see if the API service was
+                    # was able to generate a route
+                    route_geojson = maproutes.get_route_geojson_data(a_coords, b_coords)
+
+                    if route_geojson is not None:
+                        # The API service was able to find the route once the fallback option was used,
+                        # therefore, create a new Route object and store the route data in the database
+                        route = Route(
+                            point_a_postcode = postcode_a_obj.postcode,
+                            point_a_region_name =  postcode_a_obj.region_name,
+                            point_a_long =  postcode_a_obj.long,
+                            point_a_lat =  postcode_a_obj.lat,
+
+                            point_b_postcode = postcode_b_obj.postcode,
+                            point_b_region_name = postcode_b_obj.region_name,
+                            point_b_long = postcode_b_obj.long,
+                            point_b_lat = postcode_b_obj.lat,
+                            
+                            route_distance_in_km = route_geojson.get_distance(),
+                            estimated_duration_in_seconds = route_geojson.get_duration(),
+                            last_updated = datetime.date.today()
+                        )
+
+                        # Now add this route to the DB to avoid having to use the slower process
+                        # whenever a new shipment with the same start and end addresses is added 
+                        db.session.add(route)
+                        db.session.commit()
+                        
+                    else:
+                        invalid_shipment_msg.append(
+                            'Error: could not create shipment data for shipment between: ' + \
+                                str(dfile_data['From'][i]) + ' to ' + str(dfile_data['To'][i]))
+
+                        # Shipment can't be created no matter what, so skip the rest of the steps
+                        # for this particular shipment
+                        continue
 
 
         # If the route is outdated, update it, as there may be new roads or obstacles
@@ -220,6 +228,7 @@ def CR_shipments():
             shipment_data = generate_bulk_shipment_data(
                 dfile_data['Weight'][i], 
                 'tonne',
+                dfile_data['Volume'][i],
                 route)
         except Exception as e:
             invalid_shipment_msg.append(
@@ -248,15 +257,18 @@ def CR_shipments():
 
 
     # If there were shipments that couldn't be processed, inform the user
-    if len(invalid_shipment_msg) != 0:
-        flash('Some shipments could not be processed.\nThe number of shipments that ' \
-            'couldn\'t be processed: ' + str(len(invalid_shipment_msg)))
+    # if len(invalid_shipment_msg) != 0:
+        # flash('Some shipments could not be processed.\nThe number of shipments that ' \
+        #     'couldn\'t be processed: ' + str(len(invalid_shipment_msg)))
 
         # Flash all errors
-        for i in range(len(invalid_shipment_msg)):
-            flash(invalid_shipment_msg[i])
+        # for i in range(len(invalid_shipment_msg)):
+        #     flash(invalid_shipment_msg[i])
     
-    return render_template('shipments.html', shipments=shipments, file_form=file_form)
+
+    shipments = Shipment.query.order_by(desc(Shipment.shipment_created)).filter_by(uid=user.uid).all()
+    # return render_template('shipments.html', shipments=shipments, file_form=file_form)
+    return jsonify(invalid_shipment_msg), 200
 
 
 
@@ -284,6 +296,7 @@ def show_create_shipment_form():
             shipment_data = generate_shipment_data(
                 create_shipment_form.load_weight.data,
                 create_shipment_form.load_weight_unit.data,
+                create_shipment_form.load_volume.data,
                 create_shipment_form.start_address.data,
                 create_shipment_form.end_address.data
             )
@@ -395,6 +408,7 @@ def show_edit_shipment_form(shipment_id):
             shipment_data = generate_shipment_data(
                 edit_shipment_form.load_weight.data, 
                 edit_shipment_form.load_weight_unit.data,
+                edit_shipment_form.load_volume.data,
                 edit_shipment_form.start_address.data, 
                 edit_shipment_form.end_address.data
             )
@@ -471,6 +485,7 @@ def edit_shipment(shipment, updated, shipment_name):
     shipment.trip_duration = updated["duration"]
     shipment.load_weight = updated["load_weight"]
     shipment.load_weight_unit = updated["load_weight_unit"]
+    shipment.load_volume = update["load_volume"]
     shipment.fuel_economy_adjustment = updated["adjusted_fuel_economy"]
     shipment.carbon_dioxide_emission = updated["emissions"]["carbon_dioxide_emission"]
     shipment.methane_emission = updated["emissions"]["methane_emission"]
@@ -494,6 +509,7 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
         trip_duration=shipment_data["duration"],
         load_weight=shipment_data["load_weight"],
         load_weight_unit=shipment_data["load_weight_unit"],
+        load_volume=shipment_data["load_volume"],
         shipment_created=datetime.datetime.now(),
         fuel_economy_adjustment=shipment_data["adjusted_fuel_economy"],
         carbon_dioxide_emission=shipment_data["emissions"]["carbon_dioxide_emission"],
@@ -513,7 +529,7 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
     return myShipment.shipment_id
 
 
-def generate_bulk_shipment_data(loadWeight, loadWeightUnit, route):
+def generate_bulk_shipment_data(loadWeight, loadWeightUnit, loadVolume, route):
     """
     This function is a faster, though less-accurate alternative to generating shipment data.
     It is specifically used for bulk shipments from file uploads 
@@ -537,6 +553,7 @@ def generate_bulk_shipment_data(loadWeight, loadWeightUnit, route):
     response["duration"] = route.estimated_duration_in_seconds
     response["load_weight"] = loadWeight
     response["load_weight_unit"] = loadWeightUnit
+    response["load_volume"] = loadVolume
 
     response["location"] = {}
     response["location"]["start_location"] = {}
@@ -551,7 +568,7 @@ def generate_bulk_shipment_data(loadWeight, loadWeightUnit, route):
 
 
 
-def generate_shipment_data(loadWeight, loadWeightUnit, point_a, point_b):
+def generate_shipment_data(loadWeight, loadWeightUnit, loadVolume, point_a, point_b):
     
     # Create a GeoJSON object containing data about the each location
     startAddress = maproutes.search_address(point_a)
@@ -582,6 +599,7 @@ def generate_shipment_data(loadWeight, loadWeightUnit, point_a, point_b):
         response["duration"] = duration_of_route
         response["load_weight"] = loadWeight
         response["load_weight_unit"] = loadWeightUnit
+        response["load_volume"] = loadVolume
 
         response["location"] = {}
         response["location"]["start_location"] = {}
