@@ -153,8 +153,7 @@ def CR_shipments():
         route = maproutes.route_exists(from_postcode.group(), to_postcode.group())
 
         if route is None:
-            print('shipments/views/bulkshipments: Route does not exist between ' + from_postcode.group() + ' > ' + to_postcode.group())
-            
+
             # OpenRouteService matrix option has a hard limit of 350m radius in which it
             # it looks for an accessible road when trying to calculate routes and their distances/
             # durations. This means that some routes will fail, as the coordinate may not have
@@ -169,9 +168,7 @@ def CR_shipments():
             if slower_route_fallback_option is True:
                 postcode_a_obj = Postcode.query.get(from_postcode.group())
                 postcode_b_obj = Postcode.query.get(to_postcode.group())
-                # Postcode.query.get(postcode)
-                # postcode_a_obj = maproutes.get_postcode(from_postcode.group())
-                # postcode_b_obj = maproutes.get_postcode(to_postcode.group())
+
                 if postcode_a_obj is None:
                     invalid_shipment_msg.append('Error: cannot locate postcode: ' + from_postcode.group())
                 elif postcode_b_obj is None:
@@ -237,7 +234,6 @@ def CR_shipments():
 
             continue
 
-
         # Add shipment to database session
         try:
             created_shipment_ids.append(create_shipment(shipment_data, 
@@ -257,17 +253,15 @@ def CR_shipments():
 
 
     # If there were shipments that couldn't be processed, inform the user
-    # if len(invalid_shipment_msg) != 0:
-        # flash('Some shipments could not be processed.\nThe number of shipments that ' \
-        #     'couldn\'t be processed: ' + str(len(invalid_shipment_msg)))
+    if len(invalid_shipment_msg) != 0:
+        flash('Some shipments could not be processed.\nThe number of shipments that ' \
+            'couldn\'t be processed: ' + str(len(invalid_shipment_msg)))
 
         # Flash all errors
         # for i in range(len(invalid_shipment_msg)):
         #     flash(invalid_shipment_msg[i])
     
-
     shipments = Shipment.query.order_by(desc(Shipment.shipment_created)).filter_by(uid=user.uid).all()
-    # return render_template('shipments.html', shipments=shipments, file_form=file_form)
     return jsonify(invalid_shipment_msg), 200
 
 
