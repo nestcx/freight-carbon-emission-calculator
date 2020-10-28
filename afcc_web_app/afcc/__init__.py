@@ -12,7 +12,7 @@ def create_app():
 
     app = Flask(__name__, template_folder='templates', static_folder='static')
     app.secret_key = b'_5#o2L"F4Q8z\n\xec]/'
-
+    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     app.config['SECRET_KEY'] = SECRET_KEY
