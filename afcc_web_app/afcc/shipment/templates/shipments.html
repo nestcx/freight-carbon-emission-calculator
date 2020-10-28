@@ -6,11 +6,73 @@
 {% block content %}
 <div class="container--shipments-page --enforce-max-card-width">
 
-	<input type ="search"  name="" id="filter_shipment" onkeyup="filter()">
-	Sorting: <button style="cursor:pointer" onclick="sortShipments('az')">&nbsp;Name A-Z&nbsp;</button>
-	<button style="cursor:pointer" onclick="sortShipments('za')">&nbsp;Name Z-A&nbsp;</button>
-   <button style="cursor:pointer" onclick="sortShipments('daz')">&nbsp;Date newest&nbsp;</button>
-	<button style="cursor:pointer" onclick="sortShipments('dza')">&nbsp;Date oldest&nbsp;</button>
+	
+	<div class="filter_bar">
+	
+	<input type ="search"  name="" id="filter_shipment" class ="input_text" placeholder="Search for Shipments" onkeyup="filter()">
+	<label for = "filter_shipment" class="Input_entriee"> </label>
+	
+	</div>
+	
+	<br>
+	
+	Sort By: <button style="cursor:pointer" onclick="sortShipments('az')">&nbsp;A-Z&nbsp;</button>
+	<button style="cursor:pointer" onclick="sortShipments('za')">&nbsp;Z-A&nbsp;</button>
+   <button style="cursor:pointer" onclick="sortShipments('daz')">&nbsp;newest&nbsp;</button>
+	<button style="cursor:pointer" onclick="sortShipments('dza')">&nbsp;oldest&nbsp;</button>
+	
+	<style>
+
+.filter_bar {
+		position: relative;
+		}
+		#filter_shipment{
+		display: block;
+		margin: 0;
+		width: 100%;
+		font-family: inherit;
+		font-weight: inherit;
+		border: none;
+		border-radius:0.4rem;
+		transition: box-shadow var(--transitionDuration);
+		}
+		.input_text::placeholder {
+		color: #BOBEC5;
+		}
+		.input_text:focus {
+		outline: none;
+		box-shadow: 0.2rem 
+		}
+		
+		.Input_entriee{
+		display: block;
+		position: absolute;
+		bottom: 50%;
+		left: 1rem;
+		color: #fff;
+		font-family: inherit;
+		}
+
+	
+		button {
+			display: inline-block;
+			padding: 0.3em 1.2em;
+			margin:0 0.3em 0.3em 0;
+			border-radius: 2em;
+			box-sizing: border-box;
+			text-decoration: none;
+			font-family: sans-serif;
+			font-weight: 300;
+			background-color: #fff;
+			text-align: center;
+			transition: all 0.2s;
+		}
+		button:hover {
+		
+		background-color:#FFFAF0;
+		}
+	
+	</style> 
 
 <script type="application/javascript">
 
