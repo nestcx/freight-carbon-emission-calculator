@@ -802,18 +802,19 @@ header {
   margin-bottom: 16px;
 }
 
-.shipment-header {
-  display: flex;
-  justify-content: space-between;
+.shipment-title {
+  font-size: 0.8em;
   width: 100%;
-  margin-top: 1%;
-  margin-left: 1%;
+  text-align: center;
+  margin: 16px auto;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ddd;
 }
 @media only screen and (min-width: 760px) {
-  .shipment-header {
-    justify-content: left;
-    width: 98%;
-    position: unset;
+  .shipment-title {
+    font-size: 1em;
+    border-bottom: unset;
+    margin-bottom: unset;
   }
 }
 
@@ -829,6 +830,7 @@ header {
 }
 @media only screen and (min-width: 760px) {
   .shipment-expand {
+    width: 100%;
     position: inherit;
     padding-left: unset;
     padding-right: unset;
@@ -841,7 +843,6 @@ header {
 }
 
 .container--shipmentinfo {
-  padding-top: 60px;
   display: flex;
   flex-direction: column;
 }
@@ -855,6 +856,14 @@ header {
   }
 }
 
+@media only screen and (min-width: 760px) {
+  .container-card-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
 .containershipment, .container--fuel, .container--price, .container--tree, .container--distance, .container--emissions, .container-data {
   display: flex;
   flex-direction: column;
@@ -862,32 +871,53 @@ header {
   align-items: center;
   text-align: center;
   justify-content: space-around;
-  padding-left: 1.5%;
-  padding-right: 1.5%;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 16px;
+  padding-top: 16px;
+  border-bottom: 1px solid #ddd;
+}
+.containershipment:nth-child(even), .container--fuel:nth-child(even), .container--price:nth-child(even), .container--tree:nth-child(even), .container--distance:nth-child(even), .container--emissions:nth-child(even), .container-data:nth-child(even) {
+  background-color: #fbfbfb;
 }
 @media only screen and (min-width: 760px) {
   .containershipment, .container--fuel, .container--price, .container--tree, .container--distance, .container--emissions, .container-data {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: unset;
+    border-bottom: unset;
     background-color: white;
-    height: 300px;
+    min-height: 300px;
     width: 30%;
     margin-top: 2.5%;
     margin-left: 2.5%;
+    padding-left: 16px;
+    padding-right: 16px;
+    flex-wrap: wrap;
+  }
+  .containershipment:nth-child(even), .container--fuel:nth-child(even), .container--price:nth-child(even), .container--tree:nth-child(even), .container--distance:nth-child(even), .container--emissions:nth-child(even), .container-data:nth-child(even) {
+    background-color: white;
+  }
+}
+@media only screen and (min-width: 760px) {
+  .containershipment .header, .container--fuel .header, .container--price .header, .container--tree .header, .container--distance .header, .container--emissions .header, .container-data .header {
+    width: 100%;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 8px;
   }
 }
 
 @media only screen and (min-width: 760px) {
   .container-data {
     margin-left: 2.5%;
-    height: 300px;
-    width: 30.8%;
-    padding: 3px;
+    width: 40%;
+    padding-top: 24px;
   }
 }
 
 @media only screen and (min-width: 760px) {
   .container--emissions {
-    width: 62%;
+    flex-grow: 4;
     flex-direction: row;
     flex-wrap: wrap;
   }
@@ -904,15 +934,14 @@ header {
 @media only screen and (min-width: 760px) {
   .container--distance {
     width: 46.25%;
+    padding-bottom: 16px !important;
   }
 }
 
 @media only screen and (min-width: 760px) {
   .container--tree {
-    width: 46.25%;
+    flex-grow: 2;
     flex-direction: column;
-    padding-left: 2px;
-    padding-right: 2px;
     justify-content: space-evenly;
   }
 }
@@ -941,10 +970,11 @@ header {
 
 #btn-back {
   background-color: #bfdcae;
-}
-
-#btn-download {
-  background-color: #bfdcae;
+  z-index: 999;
+  left: 8px;
+  top: calc(8px + 60px);
+  display: block;
+  position: fixed;
 }
 
 .buttons-modify {
@@ -953,8 +983,8 @@ header {
   justify-content: space-between;
   width: 25%;
   position: fixed;
-  bottom: 70px;
-  margin-left: 5%;
+  bottom: 68px;
+  z-index: 999;
 }
 .buttons-modify .btn-modify {
   margin: 10%;
@@ -964,6 +994,7 @@ header {
   border-radius: 50%;
   background-color: #bfdcae;
   color: #ffffff;
+  z-index: 999;
 }
 .buttons-modify .btn-edit {
   margin: 10%;
@@ -997,14 +1028,18 @@ header {
 
 .shipment-info-table {
   width: 100%;
-  padding-left: 10%;
-  padding-right: 10%;
 }
 .shipment-info-table .col-one {
   text-align: left;
 }
 .shipment-info-table .col-two {
   text-align: right;
+}
+.shipment-info-table tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+.shipment-info-table tbody tr td {
+  padding: 4px;
 }
 
 .shipment-row {
@@ -1024,7 +1059,7 @@ header {
   width: 100%;
   border: none;
   border-spacing: 0px;
-  padding-top: 1%;
+  margin-top: 24px;
 }
 #table--pricing .price:hover {
   background-color: #e6e6e6;
@@ -1032,7 +1067,11 @@ header {
 @media only screen and (min-width: 760px) {
   #table--pricing {
     width: 50%;
+    margin-top: unset;
   }
+}
+#table--pricing tbody tr td {
+  padding: 4px;
 }
 
 .price-desktop {
@@ -1047,20 +1086,22 @@ header {
 
 #table--emissions {
   border: none;
-  border-spacing: 5px;
+  border-spacing: 0px;
   padding-top: 1%;
 }
 #table--emissions .gas:hover {
   background-color: #e6e6e6;
+}
+#table--emissions tbody tr td {
+  padding: 4px;
 }
 
 .--selected {
   background-color: #e6e6e6;
 }
 
-#calculatedEmission {
-  font-weight: 800;
-  width: 100%;
+table tbody tr td {
+  font-size: 0.9em;
 }
 
 .about_us-title {
@@ -1439,7 +1480,7 @@ header {
 }
 
 .comparative_visualisation {
-  height: 200px;
+  height: 205px;
   width: 100%;
   background: white;
   border-top: 2px solid #f5f5f7;

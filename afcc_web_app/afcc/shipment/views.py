@@ -46,18 +46,13 @@ def CR_shipments():
         return render_template('shipments.html', shipments=shipments, file_form=file_form)
 
     # Check if the request includes a file to process, and if so, continue
-    # if 'file' not in request.files:
+    if 'file' not in request.files:
         flash('No file was submitted. Please submit a csv or xls file')
         return jsonify('No file was submitted'), 400
 
 
     # Check file extension and read file
     uploaded_file = request.files['file']
-
-    # if file_form.validate_on_submit():
-        
-    #     # 1. - check file extension and read file
-    #     uploaded_file = file_form.shipments.data
 
     file_extension = splitext(uploaded_file.filename)[1]
     if file_extension == '.xlsx' or file_extension == '.xls':
@@ -414,7 +409,8 @@ def show_edit_shipment_form(shipment_id):
         # 2. - update row in database.
         try:
             edit_shipment(shipment, shipment_data, shipment_name=edit_shipment_form.shipment_name.data)
-        except Exception:
+        except Exception as e:
+            print(e)
             flash("An error has occurred while updating the shipment.")
             return render_template('edit_shipment_form.html', form=edit_shipment_form, shipment=shipment)
 
@@ -486,7 +482,7 @@ def edit_shipment(shipment, updated, shipment_name):
     shipment.trip_duration = updated["duration"]
     shipment.load_weight = updated["load_weight"]
     shipment.load_weight_unit = updated["load_weight_unit"]
-    shipment.load_volume = update["load_volume"]
+    shipment.load_volume = updated["load_volume"]
     shipment.fuel_economy_adjustment = updated["adjusted_fuel_economy"]
     shipment.carbon_dioxide_emission = updated["emissions"]["carbon_dioxide_emission"]
     shipment.methane_emission = updated["emissions"]["methane_emission"]

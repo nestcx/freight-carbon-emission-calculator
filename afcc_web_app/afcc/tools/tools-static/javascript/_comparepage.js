@@ -589,8 +589,8 @@ function draw_emissions(carbon_emission,methane_emission,nitrousoxide_emission){
 }
 function draw_emissionbar(vEmissiondata){
 
-    var w=500;
-    var h=190;
+    var w=530; // Make the SVG extend the width of the container
+    var h=200;
     
     var dataset=[
         vEmissiondata[0],
@@ -610,7 +610,7 @@ function draw_emissionbar(vEmissiondata){
                 .domain([0,d3.max(dataset,function(d){
                   return d;
                 })])
-                .range([0,h-10]);
+                .range([0,h-40]); // Give more room for the text to breathe
     
     var svg=d3.select("#emissionbargraph")
             .append("svg")
@@ -642,7 +642,7 @@ function draw_emissionbar(vEmissiondata){
             .attr("height",function(d){
               return yScale(d);
             })
-            .attr("fill","#c80815")
+            .attr("fill","#206a5d")
             .on("mouseover",function(d){
                 infoBox(d)
             });
@@ -666,13 +666,15 @@ function draw_emissionbar(vEmissiondata){
         rectangle=svg.append("g")
                   .attr("id","infoboxrect");
 
+        var rectangle_x = 405;
+
         rectangle.append("rect")
-                  .attr("x", 385)
+                  .attr("x", rectangle_x)
                   .attr("y", 10)
                   .attr("width", 105)
                   .attr("height", 55)
                   .attr("fill","white")
-                  .attr("stroke","#E44D2E")
+                  .attr("stroke","#206a5d")
                   .attr("stroke-width","3");
         var canvas = document.createElement('canvas'), context = canvas.getContext('2d');
         var valuetextWidth=context.measureText((data).toFixed(3)).width;
@@ -680,7 +682,7 @@ function draw_emissionbar(vEmissiondata){
 
         rectangle.append("text")
                   .attr("id","infotextname")
-                              .attr("x", 385+valuetextplacementx)
+                              .attr("x", rectangle_x+valuetextplacementx)
                               .attr("y", 30 )
                               .text(data.toFixed(3))
                   .attr("fill","black");
@@ -692,7 +694,7 @@ function draw_emissionbar(vEmissiondata){
 
         rectangle.append("text")
                   .attr("id","infotextstr")
-                              .attr("x", 410)
+                              .attr("x", rectangle_x+25)
                               .attr("y", 50 )
                               .text(tonnestr)
                   .attr("fill","black");
