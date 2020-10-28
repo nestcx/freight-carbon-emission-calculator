@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container--shipments-page --enforce-max-width">
+<div class="container--shipments-page --enforce-max-card-width">
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -62,7 +62,7 @@
                             <div class="carbon_text_data">tonnes of CO2e</div>
                         </div>
                         <div class="report_arrow_container">
-                            <img class = "report_arrow_image" src="../../../static/images/report_arrow.png" alt="Report Arrow">
+                    
                         </div>
                         <div class="shipment_id_container">
                             <div class="shipment_id_data"><a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a></div>
@@ -121,18 +121,19 @@
 </div>
 
 <div class="modal--file-upload" id="modal-file-upload">
-    <form method="POST" class="form form--shipment-upload" enctype="multipart/form-data">
+    <form method="POST" class="form form--shipment-upload" onsubmit="event.preventDefault();" enctype="multipart/form-data">
         {{ file_form.hidden_tag() }}
         {{ file_form.shipments }}
         <!-- Using span as button wrongfully prompts the user to upload a file -->
         <span class="button--non-focus" onClick="closeModal()" id="button-cancel">Cancel</span>
-        <button type="submit" class="button--primary">Upload</button>
+        <button type="submit" class="button--primary" onClick="uploadShipment()">Upload file</button>
     </form>
 </div>
 <!-- Used for blacking out the screen when the modal is displayed-->
 <div class="black-out-screen" id="black-out-screen"></div>
 
 <script src="/static/javascript/shipmentmodal.js"></script>
+<script src="/static/javascript/shipmentupload.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{{ url_for('shipment.static', filename='javascript/delete_shipment.js') }}"></script>
 </div>

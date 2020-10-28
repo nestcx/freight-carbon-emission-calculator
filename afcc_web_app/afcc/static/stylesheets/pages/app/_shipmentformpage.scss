@@ -43,7 +43,6 @@
     display: flex;
     flex-wrap: wrap; // Use wrap to push the map to a new column
     flex-direction: column;
-    justify-content: flex-end; // Align elemnts towards bottom, which help aligns divs horizontally
     max-height: 500px;
   }
 }
@@ -54,6 +53,15 @@
   }
 }
 
+// The container which logically seperates the volume input fields
+.container--volume {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+
+  & .volume__header {
+    margin-bottom: $spacing-small;
+  }
+}
 
 // This is required for the Leaflet map to function
 #mapid { 

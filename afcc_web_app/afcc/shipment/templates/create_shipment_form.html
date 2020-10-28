@@ -8,7 +8,7 @@
 
 {% block content %}
 <form class="form form--add-shipments --enforce-max-width" action="" method="POST" novalidate>
-    <h1 class="form__heading">Create new Shipment</h1>
+    <h1 class="form__heading">Create New Shipment</h1>
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -23,11 +23,11 @@
     <div class="form--double-column">
         {{ form.hidden_tag() }}
         <div class="container--location-inputs">
-            {{ form.start_address.label(class_="inputfield__label") }} <br />
-            {{ form.start_address(class_="inputfield--text input-pick-up", autofocus=true, autocomplete="off") }}
+            <label class="inputfield__label" for="start_address">Start location</label><br />
+            {{ form.start_address(class_="inputfield--text input-pick-up", autofocus=true, autocomplete="off", placeholder="Postcode, region name, or street address") }}
 
-            {{ form.end_address.label(class_="inputfield__label") }} <br />
-            {{ form.end_address(class_="inputfield--text input-drop-off", autocomplete="off") }}
+            <label class="inputfield__label" for="end_address">Destination</label><br />
+            {{ form.end_address(class_="inputfield--text input-drop-off", autocomplete="off", placeholder="Postcode, region name, or street address") }}
         </div>
         <div class="container--location-map">
             <div id="mapid"></div>
@@ -36,12 +36,16 @@
             {{ form.load_weight.label(class_="inputfield__label") }}
             <div class="container--input-weight-and-unit">
                 <!-- Make sure the input field can't have negative values -->
-                <input id="load_weight" class="inputfield--text" onkeyup=enforceMinMaxNumber(this) name="load_weight" required="" type="number" min="0" value="">
+                <input id="load_weight" class="inputfield--text" onkeyup=enforceMinMaxNumber(this) name="load_weight" required="" type="number" min="0" value="" placeholder="eg: 2400">
                 {{ form.load_weight_unit(class_="inputfield--select") }}
             </div>
             <p>
+                <label class="inputfield__label" for="load_volume">Volume of cargo (Optional)</label>
+                <input class="inputfield--text" id="load_volume" name="load_volume" required="" type="text" value="" placeholder="Volume in Cubic metres">    
+            </p>
+            <p>
                 <label class="inputfield__label" for="shipmentname">Shipment Description</label>
-                {{ form.shipment_name(class_="inputfield--text") }}
+                <input class="inputfield--text" id="shipment_name" name="shipment_name" type="text" value="" placeholder="Give this shipment a name">
             </p>
         </div>
     </div>

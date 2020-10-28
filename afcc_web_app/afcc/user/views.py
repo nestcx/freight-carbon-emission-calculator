@@ -309,4 +309,4 @@ def email_not_verified():
 # user-friendly page, rather than the one Flask-login provides by default
 @login_manager.unauthorized_handler
 def unauthorized():
-    return render_template('authenticationrequired.html')
+    return render_template('authenticationrequired.html'), 401
