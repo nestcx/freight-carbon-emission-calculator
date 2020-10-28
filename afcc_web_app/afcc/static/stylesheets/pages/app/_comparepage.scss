@@ -227,7 +227,9 @@
     margin-left: $spacing-default;
     margin-top: $spacing-small;
 }
-
+#emissionbarinfoline{
+    align-self: center !important;
+}
 
 
 .search_result {
@@ -246,3 +248,4 @@
 .hide {
     display: none;
 }
+

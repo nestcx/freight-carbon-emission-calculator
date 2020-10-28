@@ -33,12 +33,9 @@
 
     <div class="comparative_visualisation_container">
         <div class="data_heading">Carbon Dioxide Emissions</div>
-        <div class="comparative_visualisation">
+        <div class="comparative_visualisation" id="emi_visual">
+            <p id="emissionbarinfoline"></p>
             <p id="emissionbargraph"></p>
-            <script src="/static/javascript/shipmentgraphics.js"></script>
-            <script src="https://d3js.org/d3.v4.min.js"></script>
-            
-            
         </div>
         <div class="emission_selection">
             <input type="radio" id="total_emission" name="emission" value="total_emission" checked="checked">
@@ -109,7 +106,7 @@
     <!--- VISUALISATIONS START -->
 
     <div class="trees_container">
-        <div class="data">
+        <div class="data" id="tree_visual">
             <div class="shipment1">
                 <p id="shipment1_trees"></p>
             </div>
@@ -120,7 +117,7 @@
         <div class="description">Trees required to offset emissions</div>
     </div>
 
-    <div class="price_container">
+    <div class="price_container" id="price_visual">
         <div class="data">
             <div class="shipment1">
                 <p id="shipment1_coins"></p>
@@ -169,6 +166,7 @@
 
 <script src="{{ url_for('tools.static', filename='javascript/_comparepage.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
 
 
 
