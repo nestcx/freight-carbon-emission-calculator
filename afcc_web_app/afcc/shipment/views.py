@@ -6,7 +6,7 @@ import string
 import threading
 from itertools import chain
 from os.path import splitext 
-from flask import Blueprint, request, render_template, flash, redirect, url_for, g, jsonify
+from flask import Blueprint, request, render_template, flash, redirect, url_for, g, jsonify, current_app, send_from_directory
 from flask_login import current_user
 import pandas as pd
 from sqlalchemy import desc
@@ -438,6 +438,13 @@ def show_edit_shipment_form(shipment_id):
 
     return render_template('edit_shipment_form.html', form=edit_shipment_form, shipment=shipment)
 
+"""This is for the batch shipment template file to be downloaded by the user and filled in for the
+    batch shipment."""
+@shipment_bp.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+def download_batchuploadfile(filename):
+    current_app.config['UPLOAD_FOLDER']="uploads"
+    uploads = os.path.join(current_app.root_path, current_app.config['UPLOAD_FOLDER'])
+    return send_from_directory(directory=uploads, filename=filename)
 
 def authenticate_user():
     """ Ensure a user is logged in and has a valid account.
