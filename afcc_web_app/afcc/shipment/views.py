@@ -431,6 +431,7 @@ def show_edit_shipment_form(shipment_id):
     edit_shipment_form.end_address.data = shipment.end_address
     edit_shipment_form.load_weight.data = shipment.load_weight
     edit_shipment_form.load_weight_unit.data = shipment.load_weight_unit
+    edit_shipment_form.load_volume.data = shipment.load_volume
 
     return render_template('edit_shipment_form.html', form=edit_shipment_form, shipment=shipment)
 
