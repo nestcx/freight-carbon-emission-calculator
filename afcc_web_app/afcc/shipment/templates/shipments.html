@@ -1,11 +1,193 @@
 {% extends "base.html" %}
 
-{% block extra_css %} 
+{% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('shipment.static', filename='css/shipments.css') }}">
 {% endblock %}
-
 {% block content %}
 <div class="container--shipments-page --enforce-max-card-width">
+
+	
+	<div class="filter_bar">
+	
+	<input type ="search"  name="" id="filter_shipment" class ="input_text" placeholder="Search for Shipments" onkeyup="filter()">
+	<label for = "filter_shipment" class="Input_entriee"> </label>
+	
+	</div>
+	
+	<br>
+	
+	Sort By: <button style="cursor:pointer" onclick="sortShipments('az')">&nbsp;A-Z&nbsp;</button>
+	<button style="cursor:pointer" onclick="sortShipments('za')">&nbsp;Z-A&nbsp;</button>
+   <button style="cursor:pointer" onclick="sortShipments('daz')">&nbsp;newest&nbsp;</button>
+	<button style="cursor:pointer" onclick="sortShipments('dza')">&nbsp;oldest&nbsp;</button>
+	
+	<style>
+
+.filter_bar {
+		position: relative;
+		}
+		#filter_shipment{
+		display: block;
+		margin: 0;
+		width: 100%;
+		font-family: inherit;
+		font-weight: inherit;
+		border: none;
+		border-radius:0.4rem;
+		transition: box-shadow var(--transitionDuration);
+		}
+		.input_text::placeholder {
+		color: #BOBEC5;
+		}
+		.input_text:focus {
+		outline: none;
+		box-shadow: 0.2rem 
+		}
+		
+		.Input_entriee{
+		display: block;
+		position: absolute;
+		bottom: 50%;
+		left: 1rem;
+		color: #fff;
+		font-family: inherit;
+		}
+
+	
+		button {
+			display: inline-block;
+			padding: 0.3em 1.2em;
+			margin:0 0.3em 0.3em 0;
+			border-radius: 2em;
+			box-sizing: border-box;
+			text-decoration: none;
+			font-family: sans-serif;
+			font-weight: 300;
+			background-color: #fff;
+			text-align: center;
+			transition: all 0.2s;
+		}
+		button:hover {
+		
+		background-color:#FFFAF0;
+		}
+	
+	</style> 
+
+<script type="application/javascript">
+
+	function sortShipments(sort){
+		var shipments = document.getElementsByClassName("name_data");
+		
+		var shps = [];
+		for (var i = 0; i < shipments.length; i++) {
+			element_text = shipments.item(i).innerText.trim();
+			var ele_id = shipments.item(i).parentElement.parentElement.parentElement.id;
+			var ele_date = shipments.item(i).parentElement.parentElement.parentElement.getAttribute("date");
+		   
+			shps.push({
+				"name":element_text,
+				"date":ele_date,
+				"id":ele_id,
+				"content":shipments.item(i).parentElement.parentElement.parentElement.innerHTML
+			});
+		}
+	
+		document.getElementById("all_shipments").innerHTML = "";
+		
+		//this function will sort in ascending order 
+		if(sort === 'az'){
+		
+			shps.sort(function(a, b){
+				if(a.name < b.name) { return -1; }
+				if(a.name > b.name) { return 1; }
+				return 0;
+			});
+		}
+		//this function will sort in descending order 
+		else if(sort === 'za'){
+			
+			shps.sort(function(a, b){
+				if(a.name > b.name) { return -1; }
+				if(a.name < b.name) { return 1; }
+				return 0;
+			});
+		}
+		else if(sort === 'daz'){
+			
+			shps.sort(function(a, b){
+				if(a.date < b.date) { return -1; }
+				if(a.date > b.date) { return 1; }
+				return 0;
+			});
+		}else{
+			
+			shps.sort(function(a, b){
+				if(a.date > b.date) { return -1; }
+				if(a.date < b.date) { return 1; }
+				return 0;
+			});
+		}
+		
+		
+		var html = '';
+		
+		for (var i = 0; i < shps.length; i++) {
+		
+			var open_parent_div_element = '<div id="'+shps[i].id+'" date="'+shps[i].date+'" class="shipment-card">'
+			var close_parent_div_element = '</div>';
+		
+			html += open_parent_div_element + shps[i].content + close_parent_div_element;
+		}
+		
+		document.getElementById("all_shipments").innerHTML = html;
+	}
+
+	function filter() {
+	//alert('hi');
+	var input, filter, div, a, j, i, txtValue;
+	input = document.getElementById('filter_shipment');
+	filter = input.value.toUpperCase ();
+	a = document.getElementById("a");
+	let divs = document.getElementsByClassName("shipment_name_container");
+
+	//to loop thorugh all the items
+	var shipments = document.getElementsByClassName("name_data");
+	for (var i = 0; i < shipments.length; i++) {
+	   element_text = shipments.item(i).innerText.trim();
+	   if (element_text.toUpperCase().indexOf(filter) > -1) {
+			shipments.item(i).parentElement.parentElement.parentElement.style.display = "block";
+	   }else{
+			shipments.item(i).parentElement.parentElement.parentElement.style.display = "none";
+	   }
+	}
+	
+	
+	
+
+	/*.. function testing() {
+	//to loop thorugh all the items
+	for (i = 0; i<divs.length; i++) {
+	a= divs[i].getElementByTagName("a")[0];
+	txtValue = a.textContent || a.innerText;
+	if (txtValue.toUpperCase().indexOf(filter) > -1) {
+	divs[i].style.display = "block";
+	}
+	else divs [i].style.display = "none";
+	} ..*/
+	}
+</script>
+
+<script type ="jQuery/javascript"> {
+	var $divs = $("div.box");
+	$('#alphbet').on('click',function(){
+		var aplhabeticallyorderdivs = $divs.sort(function(a,b){
+			return $(a).find("a").text()>$(b).find(a).text();
+		})
+		$('#container').html(aplhabeticallyorderdivs);
+	})
+}
+</script>
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -20,17 +202,18 @@
         <a href="{{ url_for('shipment.show_create_shipment_form') }}" class="button--primary">Enter shipment manually</a>
         <button class="button--primary" onClick="displayModal()">Upload shipment data</button>
     </div>
+	<div id="all_shipments">
     {% if shipments is defined %}
         {% for shipment in shipments %}
             <!-- Data for the shipments cards -->
             <a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">
-                <div class="shipment-card">
+                <div id= "shipment_{{shipment.shipment_id}}" date="{{ shipment.shipment_created.strftime('%Y-%m-%d %H:%M:%S') }}" class="shipment-card">
                     <div class="shipment_created_container">
-                        <div class="created_data">{{ shipment.shipment_created.strftime('%Y-%m-%d %H:%M:%S') }}</div> 
+                        <div class="created_data">{{ shipment.shipment_created.strftime('%Y-%m-%d %H:%M:%S') }}</div>
                     </div>
                     <div class="shipment_name_container">
                         <div class="name_data">{{ shipment.shipment_name }}</div>
-                    </div>            
+                    </div>
                     <div class="address_container">
                         <div class="start_address_container">
                             <div class="start_address_data">{{ shipment.start_address }}</div>
@@ -55,7 +238,7 @@
                                 <div class="unit_data">{{ shipment.load_weight_unit }}</div>
                             </div>
                         </div>
-                    </div>     
+                    </div>
                     <div class="carbon_emission_container">
                         <div class="carbon_dioxide_emission_container">
                             <div class="carbon_emission_data">{{ '%0.2f'|format(shipment.carbon_dioxide_emission|float) }}</div>
@@ -67,13 +250,14 @@
                         <div class="shipment_id_container">
                             <div class="shipment_id_data"><a href="{{ url_for('shipment.RUD_shipment', shipment_id=shipment.shipment_id) }}">{{ shipment.shipment_id }}</a></div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
             </a>
         {% endfor %}
     {% else %}
+	</div>
     <div class="shipment-card--empty-placeholder">
         <p>
             There are no shipments here! <br />
@@ -127,6 +311,13 @@
         <!-- Using span as button wrongfully prompts the user to upload a file -->
         <span class="button--non-focus" onClick="closeModal()" id="button-cancel">Cancel</span>
         <button type="submit" class="button--primary" onClick="uploadShipment()">Upload file</button>
+        <p>
+            Please fill in the template given for the batch upload of shipments. 
+        </p>
+        <p id="warning-text">
+            Calculator will not work if this format is not followed.&nbsp;&nbsp;&nbsp;&nbsp;  
+            <a id="download-link" href="{{ url_for('shipment.download_batchuploadfile', filename='batchshipmentfile.xlsx') }}">Download</a>
+        </p>
     </form>
 </div>
 <!-- Used for blacking out the screen when the modal is displayed-->

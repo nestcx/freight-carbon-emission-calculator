@@ -36,7 +36,7 @@ class GeoJSON_Route:
             "coordinates": [start_coords, end_coords],
             "instructions": False,
             "attributes": ["avgspeed"],
-            "geome/try_simplify": "false",
+            "geometry_simplify": "false",
             "radiuses": [road_search_radius, road_search_radius]}  # Must specify radius for both points
 
         self.response = requests.post(endpointURL, headers=headers, json=json)

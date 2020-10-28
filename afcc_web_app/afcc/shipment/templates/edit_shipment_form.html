@@ -36,6 +36,10 @@
         {{ form.load_weight_unit(class_="inputfield--select") }}
     </div>
     <p>
+        <label class="inputfield__label" for="load_volume">Volume of cargo</label>
+        {{ form.load_volume(class_="inputfield--text", placeholder="Volume in cubic metres") }}
+    </p>
+    <p>
         {{ form.submit(class="button--primary") }}
     </p>
 </form>

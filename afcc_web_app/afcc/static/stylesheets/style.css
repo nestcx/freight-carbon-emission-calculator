@@ -1164,6 +1164,21 @@ table tbody tr td {
   font-size: 0.9em;
 }
 
+.about_us-title {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.about_us-description {
+  margin-bottom: 24px;
+}
+
+.about_us--name {
+  font-size: 1.1em;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
 .container--shipments-page {
   padding: 16px;
 }
@@ -1525,7 +1540,7 @@ table tbody tr td {
 }
 
 .comparative_visualisation {
-  height: 200px;
+  height: 205px;
   width: 100%;
   background: white;
   border-top: 2px solid #f5f5f7;

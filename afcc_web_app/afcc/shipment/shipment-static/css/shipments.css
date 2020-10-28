@@ -33,6 +33,15 @@
     transform: scale(1.05);
 }
 
+p#warning-text{
+    color: 	#FF0000;
+    font-size: 15px;
+}
+a#download-link{
+    font-size:18px;
+}
+
+
 .shipment_created_container, .shipment_name_container{
     float: left;
     width: 50%;

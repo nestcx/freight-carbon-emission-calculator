@@ -6,12 +6,12 @@ import string
 import threading
 from itertools import chain
 from os.path import splitext 
-from flask import Blueprint, request, render_template, flash, redirect, url_for, g, jsonify
+from flask import Blueprint, request, render_template, flash, redirect, url_for, g, jsonify, current_app, send_from_directory
 from flask_login import current_user
 import pandas as pd
 from sqlalchemy import desc
 from afcc.extensions import db
-from afcc.shipment.models import Shipment
+from afcc.shipment.models import Shipment, TruckConfiguration
 from afcc.user.models import User
 from afcc.models import Postcode, Route
 from afcc import maproutes
@@ -46,18 +46,13 @@ def CR_shipments():
         return render_template('shipments.html', shipments=shipments, file_form=file_form)
 
     # Check if the request includes a file to process, and if so, continue
-    # if 'file' not in request.files:
+    if 'file' not in request.files:
         flash('No file was submitted. Please submit a csv or xls file')
         return jsonify('No file was submitted'), 400
 
 
     # Check file extension and read file
     uploaded_file = request.files['file']
-
-    # if file_form.validate_on_submit():
-        
-    #     # 1. - check file extension and read file
-    #     uploaded_file = file_form.shipments.data
 
     file_extension = splitext(uploaded_file.filename)[1]
     if file_extension == '.xlsx' or file_extension == '.xls':
@@ -414,7 +409,8 @@ def show_edit_shipment_form(shipment_id):
         # 2. - update row in database.
         try:
             edit_shipment(shipment, shipment_data, shipment_name=edit_shipment_form.shipment_name.data)
-        except Exception:
+        except Exception as e:
+            print(e)
             flash("An error has occurred while updating the shipment.")
             return render_template('edit_shipment_form.html', form=edit_shipment_form, shipment=shipment)
 
@@ -435,9 +431,17 @@ def show_edit_shipment_form(shipment_id):
     edit_shipment_form.end_address.data = shipment.end_address
     edit_shipment_form.load_weight.data = shipment.load_weight
     edit_shipment_form.load_weight_unit.data = shipment.load_weight_unit
+    edit_shipment_form.load_volume.data = shipment.load_volume
 
     return render_template('edit_shipment_form.html', form=edit_shipment_form, shipment=shipment)
 
+"""This is for the batch shipment template file to be downloaded by the user and filled in for the
+    batch shipment."""
+@shipment_bp.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+def download_batchuploadfile(filename):
+    current_app.config['UPLOAD_FOLDER']="uploads"
+    uploads = os.path.join(current_app.root_path, current_app.config['UPLOAD_FOLDER'])
+    return send_from_directory(directory=uploads, filename=filename)
 
 def authenticate_user():
     """ Ensure a user is logged in and has a valid account.
@@ -479,7 +483,7 @@ def edit_shipment(shipment, updated, shipment_name):
     shipment.trip_duration = updated["duration"]
     shipment.load_weight = updated["load_weight"]
     shipment.load_weight_unit = updated["load_weight_unit"]
-    shipment.load_volume = update["load_volume"]
+    shipment.load_volume = updated["load_volume"]
     shipment.fuel_economy_adjustment = updated["adjusted_fuel_economy"]
     shipment.carbon_dioxide_emission = updated["emissions"]["carbon_dioxide_emission"]
     shipment.methane_emission = updated["emissions"]["methane_emission"]
@@ -488,6 +492,7 @@ def edit_shipment(shipment, updated, shipment_name):
     shipment.end_address = updated["location"]["end_location"]["address"]
     shipment.start_address_coordinates = updated["location"]["start_location"]["coordinate"]
     shipment.end_address_coordinates = updated["location"]["end_location"]["coordinate"]
+    shipment.truck_configuration_id = updated["truck_id"]
 
     db.session.commit()
 
@@ -512,7 +517,8 @@ def create_shipment(shipment_data, user_id, commit=True, **kwargs):
         start_address=shipment_data["location"]["start_location"]["address"],
         end_address=shipment_data["location"]["end_location"]["address"],
         start_address_coordinates=shipment_data["location"]["start_location"]["coordinate"],
-        end_address_coordinates=shipment_data["location"]["end_location"]["coordinate"]
+        end_address_coordinates=shipment_data["location"]["end_location"]["coordinate"],
+        truck_configuration_id=shipment_data["truck_id"]
     )
 
     db.session.add(myShipment)
@@ -528,8 +534,32 @@ def generate_bulk_shipment_data(loadWeight, loadWeightUnit, loadVolume, route):
     This function is a faster, though less-accurate alternative to generating shipment data.
     It is specifically used for bulk shipments from file uploads 
     """
+
+    # we need to pass a fuel economy value to the calculation method
+    # this value is based on the type of truck that is selected
+    # which is determined based on the load weight
+    #   1.  convert load weight to kilograms
+    #   2.  determine the type of truck to use
+    #   3.  get that trucks fuel economy
+    #   4.  call the calculation method with this value.
+
+    # 1.
+    kg = 0
+    if loadWeightUnit == 'tonne':
+        kg = loadWeight * 1000
+    else:
+        kg = loadWeight
+    
+    # 2.
+    truck_id = determine_truck(kg)
+
+    #3. 
+    fuel_economy = get_truck_fuel_economy(truck_id)
+    print(fuel_economy)
+
+
     calculation_data = calculation.calculate_emissions(
-        18.1, 
+        fuel_economy, 
         route.route_distance_in_km, 
         float(loadWeight), 
         loadWeightUnit)
@@ -557,6 +587,8 @@ def generate_bulk_shipment_data(loadWeight, loadWeightUnit, loadVolume, route):
     response["location"]["end_location"]["address"] = route.point_b_region_name
     response["location"]["end_location"]["coordinate"] = str(route.point_b_long) + "," + str(route.point_b_lat)
 
+    response["truck_id"] = truck_id
+
     return response
 
 
@@ -578,8 +610,35 @@ def generate_shipment_data(loadWeight, loadWeightUnit, loadVolume, point_a, poin
         length_of_route = data_conversion.metre_to_kilometre(route_geojson.get_distance())
         duration_of_route = route_geojson.get_duration()
 
-        calculation_data = calculation.calculate_emissions(18.1, length_of_route, float(loadWeight), loadWeightUnit)
 
+
+        # we need to pass a fuel economy value to the calculation method
+        # this value is based on the type of truck that is selected
+        # which is determined based on the load weight
+        #   1.  convert load weight to kilograms
+        #   2.  determine the type of truck to use
+        #   3.  get that trucks fuel economy
+        #   4.  call the calculation method with this value.
+
+        # 1.
+        kg = 0
+        if loadWeightUnit == 'tonne':
+            kg = loadWeight * 1000
+        else:
+            kg = loadWeight
+        
+        # 2.
+        truck_id = determine_truck(kg)
+
+        #3. 
+        fuel_economy = get_truck_fuel_economy(truck_id)
+        print(fuel_economy)
+
+        #4. 
+        calculation_data = calculation.calculate_emissions(fuel_economy, length_of_route, float(loadWeight), loadWeightUnit)
+
+
+        # generate response with all the received data.
         response = {}
 
         response["emissions"] = {}
@@ -603,4 +662,34 @@ def generate_shipment_data(loadWeight, loadWeightUnit, loadVolume, point_a, poin
         response["location"]["end_location"]["address"] = endAddress.get_address_name()
         response["location"]["end_location"]["coordinate"] = str(endAddress.get_long()) + "," + str(endAddress.get_lat())
 
+        response["truck_id"] = truck_id
+
         return response
+
+
+
+def determine_truck(kg):
+    TOYOTA_HIACE = 101
+    TWO_AXLE_RIGID_EURO4 = 2
+    FOUR_AXLE_RIGID_GML = 5
+    SIX_AXLE_ARTIC_GML = 7
+
+    if (kg <= 1000): 
+        return TOYOTA_HIACE
+    elif (kg > 1000 and kg <= 7000): 
+        return TWO_AXLE_RIGID_EURO4
+    elif (kg > 7000 and kg <= 15000): 
+        return FOUR_AXLE_RIGID_GML
+    elif (kg > 15000): 
+        return SIX_AXLE_ARTIC_GML
+    else: 
+        return TOYOTA_HIACE
+
+def get_truck_fuel_economy(truck_id):
+
+    # get truck
+    try:
+        truck = TruckConfiguration.query.get(truck_id)
+        return truck.fuel_economy
+    except Exception:
+        return 8

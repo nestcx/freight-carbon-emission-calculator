@@ -22,3 +22,16 @@ class Shipment(db.Model):
     start_address_coordinates = db.Column(db.String(255), nullable=False)
     end_address = db.Column(db.String(255), nullable=False)
     end_address_coordinates = db.Column(db.String(255), nullable=False)
+    truck_configuration_id = db.Column(db.String(255), nullable=False)
+
+class TruckConfiguration(db.Model):
+
+    __tablename__ = 'truck_configuration'
+
+    config_id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    gcm = db.Column(db.String, nullable=False)
+    payload = db.Column(db.Float, nullable=False)
+    fuel_economy = db.Column(db.Integer, nullable=False)
+    overall_length = db.Column(db.Float, nullable=False)

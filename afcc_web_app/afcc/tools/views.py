@@ -1,9 +1,10 @@
 from flask import Blueprint, request, render_template, url_for, redirect, flash
 from afcc.extensions import db
-from afcc.shipment.models import Shipment
+from afcc.shipment.models import Shipment, TruckConfiguration
 from afcc.user.models import User
 from flask_login import current_user
-
+from sqlalchemy import desc, cast, or_
+from sqlalchemy.types import String
 
 
 
@@ -42,32 +43,29 @@ def search():
 
     # get the search string input
     input = request.args.get('q')
-
-    # split search string on spaces
-    splitted = input.split(" ")
-
-    # generate query string for SQL based on query terms
-    query_string = "SELECT shipment_id, shipment_name, uid FROM shipment WHERE TRUE"
-
-    for i in range(len(splitted)):
-        query_string = query_string + " AND (CAST(shipment_id AS TEXT) ILIKE '%%{}%%' OR shipment_name ILIKE '%%{}%%')".format(splitted[i], splitted[i])
-
-    query_string = query_string + "AND uid={} LIMIT 5;".format(user.uid)
-
-    result = db.engine.execute(query_string)
     
-    results_dict = {}
+    search_id = "%%{}%%".format(input)
 
-    d, a = {}, []
+    result = Shipment.query.order_by(desc(Shipment.shipment_id)).\
+        filter_by(uid=user.uid).\
+        filter(
+            (cast(Shipment.shipment_id, String ).ilike(search_id)) | 
+            (Shipment.shipment_name.ilike(search_id)))\
+            .limit(5)\
+            .all()
+
+    results_dict = {}
+    
     i = 0
-    for rowproxy in result:
-        results_dict[i] = {}
-        for column, value in rowproxy.items():
-            results_dict[i][column] = value
-            print("column " + str(column))
-            print("value " + str(value))
-            d = {**d, **{column: value}}
-        a.append(d)
+    for s in result:
+
+        shipment_info = {
+            'shipment_id': s.shipment_id, 
+            'shipment_name': s.shipment_name, 
+            'uid': s.uid
+        }
+
+        results_dict[i] = shipment_info
         i = i + 1
 
     return results_dict
@@ -106,6 +104,9 @@ def shipment_information():
     result["start_address"] = shipment.start_address
     result["end_address"] = shipment.end_address
 
+    # get truck name from truck id
+    truck_name = TruckConfiguration.query.get(shipment.truck_configuration_id).description
+    result["truck_id"] = truck_name
     
     return result
     
