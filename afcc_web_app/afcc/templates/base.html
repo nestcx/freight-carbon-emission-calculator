@@ -46,7 +46,6 @@
                 <li class="navbar__link"><a href="/about">About</a></li>
                 <li class="navbar__link"><a href="{{ url_for('shipment.CR_shipments') }}">Shipments</a></li>
                 <li class="navbar__link"><a href="/tools">Tools</a></li>
-                <li class="navbar__link"><a href="/help">Help</a></li>
                
                 <!-- The links below will not be displayed on the navbar on mobile-sized viewports, only desktops-->
                 {% if current_user.is_authenticated %}
@@ -94,7 +93,6 @@
             <button class="navButton">
                 <a class="navlink" href="/tools">Tools</a>
             </button>
-            <button class="navButton"><a class="navlink" href="/help">Help</a></button>
         </div>
         <p class="credit --hidden-on-mobile">Developed by <a href="about.html">Group 04</a></p>
     </footer>

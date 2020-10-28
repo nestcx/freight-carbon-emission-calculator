@@ -286,7 +286,7 @@ header {
   align-content: center;
 }
 .bottomnav .navButton {
-  width: 33%;
+  width: 50%;
   border: 0;
   font: 1rem "Open sans", "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: transparent;
