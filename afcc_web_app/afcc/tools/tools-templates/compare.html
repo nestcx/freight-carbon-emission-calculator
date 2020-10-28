@@ -33,7 +33,13 @@
 
     <div class="comparative_visualisation_container">
         <div class="data_heading">Carbon Dioxide Emissions</div>
-        <div class="comparative_visualisation"></div>
+        <div class="comparative_visualisation">
+            <p id="emissionbargraph"></p>
+            <script src="/static/javascript/shipmentgraphics.js"></script>
+            <script src="https://d3js.org/d3.v4.min.js"></script>
+            
+            
+        </div>
         <div class="emission_selection">
             <input type="radio" id="total_emission" name="emission" value="total_emission" checked="checked">
             <label for="total_emission">Total Emissions</label><br>
@@ -96,33 +102,51 @@
 
     <div class="trees_container">
         <div class="data">
-            <div class="shipment1"></div>
-            <div class="shipment2"></div>
+            <div class="shipment1">
+                <p id="shipment1_trees"></p>
+            </div>
+            <div class="shipment2">
+                <p id="shipment2_trees"></p>
+            </div>
         </div>
         <div class="description">Trees required to offset emissions</div>
     </div>
 
     <div class="price_container">
         <div class="data">
-            <div class="shipment1"></div>
-            <div class="shipment2"></div>
+            <div class="shipment1">
+                <p id="shipment1_coins"></p>
+            </div>
+            <div class="shipment2">
+                <p id="shipment2_coins"></p>
+            </div>
         </div>
         <div class="price_selection">
-            <input type="radio" id="" name="price" value="" checked="checked">
-            <label for="">Australian Carbon Tax (2014)</label><br>
+            
+            <label for="">
+                <input type="radio" id="currencyAU" name="price" value="AU" checked="checked">
+                Australian Carbon Tax (2014)
+            </label><br>
 
-            <input type="radio" id="" name="price" value="">
-            <label for="">California Cap and Trade Price</label><br>
+            <label for="">
+                <input type="radio" id="currencyCAL" name="price" value="CAL">
+                California Cap and Trade Price
+            </label><br>
 
-            <input type="radio" id="" name="price" value="">
-            <label for="">Great Britain Carbon Tax</label><br>
+            <label for="">
+                <input type="radio" id="currencyGB" name="price" value="GB">
+                Great Britain Carbon Tax
+            </label><br>
 
-            <input type="radio" id="" name="price" value="">
-            <label for="">UN Recommended Minimum Carbon Price</label>
+            <label for="">
+                <input type="radio" id="currencyUN" name="price" value="UN">
+                UN Recommended Minimum Carbon Price
+            </label>
+            
         </div>
     </div>
 
-    <div class="fuel_container">
+    <!--- <div class="fuel_container">
         <div class="data">
             <div class="shipment1"></div>
             <div class="shipment2"></div>
@@ -130,13 +154,14 @@
         <div class="description">Litres of fuel consumed</div>
     </div>
 
-    <!--- VISUALISATIONS END -->
+     VISUALISATIONS END -->
 
 
 </div>
 
 <script src="{{ url_for('tools.static', filename='javascript/_comparepage.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 
 {% endblock %}

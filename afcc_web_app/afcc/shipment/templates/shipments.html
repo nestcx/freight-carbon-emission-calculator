@@ -311,6 +311,13 @@
         <!-- Using span as button wrongfully prompts the user to upload a file -->
         <span class="button--non-focus" onClick="closeModal()" id="button-cancel">Cancel</span>
         <button type="submit" class="button--primary" onClick="uploadShipment()">Upload file</button>
+        <p>
+            Please fill in the template given for the batch upload of shipments. 
+        </p>
+        <p id="warning-text">
+            Calculator will not work if this format is not followed.&nbsp;&nbsp;&nbsp;&nbsp;  
+            <a id="download-link" href="{{ url_for('shipment.download_batchuploadfile', filename='batchshipmentfile.xlsx') }}">Download</a>
+        </p>
     </form>
 </div>
 <!-- Used for blacking out the screen when the modal is displayed-->
