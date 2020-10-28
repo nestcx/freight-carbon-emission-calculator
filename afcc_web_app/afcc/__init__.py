@@ -73,10 +73,6 @@ def create_app():
     def about():
         return render_template('about.html', title='About')
 
-    @app.route('/help')
-    def help():
-        return render_template('help.html', title='Help')
-
     @app.route('/devplayground')
     def show_styles():
         return render_template('playground.html', title='CSS styling playground')
