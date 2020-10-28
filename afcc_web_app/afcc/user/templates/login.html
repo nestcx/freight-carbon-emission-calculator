@@ -1,33 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container --enforce-max-width">
-    
-    <form class="form form--login" action="" method="POST" novalidate>
+<div class="background">
+    <div class="container --enforce-max-width">
 
-        <h2 class="form__heading">Sign in to your account</h2>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.email.label(class_="inputfield__label") }} <br>
-            {{ form.email(class_="inputfield--text", autofocus=true, required="required") }}
-        </p>
-        <p>
-            {{ form.password.label(class_="inputfield__label") }} <br>
-            {{ form.password(class_="inputfield--text", required="required") }}
-        </p>
+        <form class="form form--login" action="" method="POST" novalidate>
 
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul class=flash--error>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
+            <h2 class="form__heading">Sign in to your account</h2>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.email.label(class_="inputfield__label") }} <br>
+                {{ form.email(class_="inputfield--text", autofocus=true, required="required") }}
+            </p>
+            <p>
+                {{ form.password.label(class_="inputfield__label") }} <br>
+                {{ form.password(class_="inputfield--text", required="required") }}
+            </p>
 
-        <!-- <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p> -->
-        <input class="form--login__button button--secondary" id="submit" name="submit" type="submit" value="log in">
-    </form>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flash--error>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+
+            <!-- <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p> -->
+            <input class="form--login__button button--secondary" id="submit" name="submit" type="submit" value="log in">
+        </form>
+    </div>
 </div>
 
 {% endblock %}

@@ -4,12 +4,12 @@
 .container--logo {
   @extend .container;
   text-align: center;
-  
+
   & img {
     vertical-align: middle; // Align the Freight People logo, so that the 'powered by' text is in the centre
   }
 
-  // Make the intro text and img smaller on the main screen when viewed on smaller screens. 
+  // Make the intro text and img smaller on the main screen when viewed on smaller screens.
   // It doesn't need to take up so much space.
   @include breakpoint-screen-larger-than($breakpoint-mobile) {
     padding: $spacing-default !important;
@@ -28,6 +28,24 @@
   }
 }
 
+.background {
+  background-image: unset;
+  
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    background-image: url(../images/fogtrees.jpg);
+    background-color: $color-background;
+    background-attachment: fixed;
+    position: absolute;
+    top: $header-height;
+    left: 0;
+    margin-top: 0px;
+    margin-bottom: 0;
+    width: 100%;
+    height: 800px;
+    overflow-y: hidden;
+    align-items: center;
+  }
+}
 
 // The div that has the intro text on the Home screen
 .container--intro-text {
@@ -37,14 +55,42 @@
   h2 {
     margin: 0 auto;
     max-width: 680px;
-    color: $color-font-black-header-soft; 
+    color: $color-font-black-header-soft;
+  }
+
+  p {
+    color: $color-font-black;
+    padding-top: $spacing-default;
   }
 }
 
+.container--index {
+  @extend .container;
+  @include border-shadow-soft;
+  background-color: $color-white;
+  margin-top: $spacing-x-large;
+  margin-bottom: $spacing-default;
+
+  @include breakpoint-screen-larger-than($breakpoint-tablet) {
+    //margin-right: 2.5%;
+    //margin-left: 2.5%;
+    background-color: $color-background-transparent;
+  }
+}
 
 .container--logo {
   @extend .container;
-  margin-top: $header-height;
+  //margin-top: $header-height;
+}
+
+.hrule {
+  border-bottom: 2.5px solid $color-primary;
+}
+
+.graphic {
+  text-align: center;
+  padding-top: $spacing-large;
+  color: $color-secondary;
 }
 
 // Container used to wrap around images that span more than the entire width of the page.
@@ -52,12 +98,11 @@
 .container--page-wide-image {
   max-width: 100%; // Make sure the container can't be large than the browsing window
   overflow: hidden; // Hide the overflowing parts of the image, so there's no horizontal scrollbar (awful for usability)
-
+  height: 150px; // Make the truck image smaller
   img {
     display: block; // Used to get rid of the 4px of whitespace that would be there otherwise
 
     @include breakpoint-screen-larger-than($breakpoint-tablet) {
-      height: 150px; // Make the truck image smaller
     }
   }
 }
@@ -67,44 +112,43 @@
   background-color: white;
 }
 
-  // The container containing text to persuade the user to use our app, and how we can benefit them
-  .container--ad-copy-text {
-    @extend .container;
-    margin: 0 auto; // Center the div horizontally
-    max-width: $dimension-max-app-width;
-    padding: $spacing-x-large $spacing-default; // Create a lot of empty space vertically, for emphasis
-    
-    & h1 {
-      text-align: center;
-    }
+// The container containing text to persuade the user to use our app, and how we can benefit them
+.container--ad-copy-text {
+  @extend .container;
+  margin: 0 auto; // Center the div horizontally
+  max-width: $dimension-max-app-width;
+  padding: $spacing-x-large $spacing-default; // Create a lot of empty space vertically, for emphasis
 
-    // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
-    @include breakpoint-screen-larger-than($breakpoint-mobile) {
-      padding: $spacing-x-large 0; // Remove left and right padding, so that the background takes up the entire width
-    }
+  & h1 {
+    text-align: center;
   }
 
-  // The container that stores the 'media cards' - the bits of content where there's an image, and text just below it. 
-  // This container is used to allow there to be multiple media cards in 1 row
-  .container--media-cards {
-    display: flex;
-    justify-content: space-between;
-    margin-top: $spacing-x-large; // Add space between the header and media cards
-
-    // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
-    @include breakpoint-screen-larger-than($breakpoint-mobile) {
-      // Change direction to column, so that rather than squeezing 3 media cards in 1 row, each row has 1 media card only
-      flex-direction: column;
-    }
+  // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
+  @include breakpoint-screen-larger-than($breakpoint-mobile) {
+    padding: $spacing-x-large 0; // Remove left and right padding, so that the background takes up the entire width
   }
+}
+
+// The container that stores the 'media cards' - the bits of content where there's an image, and text just below it.
+// This container is used to allow there to be multiple media cards in 1 row
+.container--media-cards {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $spacing-x-large; // Add space between the header and media cards
+
+  // Include the breakpoint Mixin. Mobile-only CSS code goes between this code block
+  @include breakpoint-screen-larger-than($breakpoint-mobile) {
+    // Change direction to column, so that rather than squeezing 3 media cards in 1 row, each row has 1 media card only
+    flex-direction: column;
+  }
+}
 
 // This is the empty space below the birds-eye image of the trucks. Used only for decoration.
-.accent { 
+.accent {
   background-color: $color-tertiary;
   width: 100%;
   height: $spacing-x-large;
 }
-
 
 // The div that contains both the CTA buttons on the home screen
 .container--cta-buttons {
@@ -124,5 +168,3 @@
   text-align: center;
   padding-bottom: 20px;
 }
-
-

@@ -36,6 +36,7 @@
   padding-top: $spacing-default;
   height: 100%; // Make the form take up the entirety of the screen on smaller phones
   border-radius: 0;
+  background-color: $color-background-transparent;
 
   // Don't make the form be so near the header bar
   @include breakpoint-screen-larger-than($breakpoint-mobile) {
@@ -67,6 +68,7 @@
     // The login form's top margin is too much, as thats a smaller form, therefore, reduce
     // this form's margin
     margin-top: $spacing-large;
+
   }
 }
 
