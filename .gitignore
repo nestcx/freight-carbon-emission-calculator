@@ -2,5 +2,10 @@ configs.json*
 *.pycache
 *.pytest_cache
 *.pyc
+build/
+lib/
 venv/
+*.egg-info/
+.installed.cfg
+*.egg
 *__pycache__

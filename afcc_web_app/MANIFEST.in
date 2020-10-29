@@ -1,0 +1,8 @@
+recursive-include afcc *
+recursive-include afcc/static *
+recursive-include afcc/templates *
+recursive-include afcc/user *
+recursive-include afcc/shipment *
+recursive-include afcc/uploads *
+recursive-include afcc/tools *
+global-exclude *.pyc
