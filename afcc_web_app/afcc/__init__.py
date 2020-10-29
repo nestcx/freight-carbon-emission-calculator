@@ -17,15 +17,14 @@ def create_app():
     
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
-    # Use the secret key as the salt as well. NOTE: This is temporary
     app.config['SECURITY_PASSWORD_SALT'] = SECRET_KEY
 
     # Email sending related configs
-    app.config['MAIL_SERVER'] = 'smtp.gmail.com' # NOTE: Using Gmail we've created a new gmail account for testing
+    app.config['MAIL_SERVER'] = MAIL_SERVER
     # Use port 465 as Googlemail uses that for SMTP and SSL authentication
-    app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USE_TLS'] = False
-    app.config['MAIL_USE_SSL'] = True
+    app.config['MAIL_PORT'] = MAIL_SERVER_PORT
+    app.config['MAIL_USE_TLS'] = MAIL_USE_TLS
+    app.config['MAIL_USE_SSL'] = MAIL_USE_SSL
 
     # Get the email address and password fron the configs. 
     # NOTE: A gmail account was made specifically for testing. This must be replaced by the client's credentials and done by the client
