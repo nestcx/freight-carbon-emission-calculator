@@ -23,6 +23,11 @@
     margin-bottom: $spacing-default;
   }
   
+  .form__heading--edit-shipment {
+    @extend .form__heading;
+
+    margin-left: $spacing-default;
+  }
 
   // Used for <hr /> elements to divide forms into logical sections
   .form__divider {
@@ -36,7 +41,7 @@
   padding-top: $spacing-default;
   height: 100%; // Make the form take up the entirety of the screen on smaller phones
   border-radius: 0;
-  background-color: $color-background-transparent;
+  background-color: #fff;
 
   // Don't make the form be so near the header bar
   @include breakpoint-screen-larger-than($breakpoint-mobile) {

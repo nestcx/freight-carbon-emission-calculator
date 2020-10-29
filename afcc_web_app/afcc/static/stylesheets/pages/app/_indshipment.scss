@@ -229,7 +229,7 @@
     z-index: 999;
 
     .btn-modify {
-        margin: 10%;
+        margin: $spacing-default;
         height: $header-height;
         width: $header-height;
         border: none;
@@ -240,7 +240,7 @@
     }
 
     .btn-edit {
-        margin: 10%;
+        margin: $spacing-default;
         height: $header-height;
         width: $header-height;
         border: none;
@@ -250,7 +250,7 @@
     }
 
     .btn-delete {
-        margin: 10%;
+        margin: $spacing-default;
         height: $header-height;
         width: $header-height;
         border: none;
@@ -261,10 +261,17 @@
 }
 
 .buttons-desktop {
+    margin-top: $spacing-small;
     width: 100%;
-    display: flex;
+    display: flex !important;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
+
+    & .button--primary {
+        display: inline-block;
+        text-align: center;
+        background-color: $color-secondary;
+    }
 }
 
 #learn {

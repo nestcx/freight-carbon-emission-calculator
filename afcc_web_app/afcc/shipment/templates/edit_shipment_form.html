@@ -3,8 +3,16 @@
 
 {% block content %}
 <form class="form form--edit-shipment --enforce-max-width" action="" method="POST" novalidate>
-        <h1 class="form__heading">Edit Shipment Form</h1>
-        <h2>{{ shipment.shipment_id }}</h2>
+    
+    <div class="tool-header">
+    <a href="/shipments/{{ shipment.shipment_id }}">
+        <svg class="back_arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title" aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <path data-name="layer1" fill="#202020" d="M28.001 48L12 32l16.001-16 4.242 4.243-8.759 8.758H52v6H23.486l8.757 8.757L28.001 48z"></path>
+        </svg>
+    </a>
+    <h2 class="form__heading--edit-shipment">Edit Shipment Form</h2>
+    </div>
+    <h3>{{ shipment.shipment_id }}</h3>
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}

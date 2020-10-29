@@ -143,30 +143,15 @@
             </tr>
         </table>
     </div>
-
-    <!--<div class="container--fuel">
-        <h1>FUEL GRAPHIC</h1>
-        <h2>FUELJS</h2>
-        <p>This shipment would require 1000 litres of fuel to complete</p>
-    </div>
-    <div class="btn-info">
-        <button class="button--primary">
-            How was this calculated?
-        </button>
-    </div>
-    -->
 </div>
-<div class="buttons-modify  --hidden-on-desktop">
+
+<div class="buttons-modify">
     <button class="btn-delete --hidden" onClick="deleteShipment({{shipment.shipment_id }})"><i
             class="far fa-trash-alt fa-2x"></i></button>
     <button class="btn-edit --hidden" onClick="window.location.href='/shipments/{{ shipment.shipment_id }}/edit'"><i
             class="far fa-edit fa-2x"></i></button>
     <button class="btn-modify" onClick=modify()><i class="fas fa-cog fa-2x"></i></button>
 </div>
-<!-- <div class="buttons-desktop --hidden-on-mobile" id="bottom--button-two">
-    <button class="button--primary" id="learn" onClick="window.location.href='/about'">Learn More</button>
-    <button class="button--primary" id="report">Download Report</button>
-</div> -->
 <script src="/static/javascript/viewshipment.js"></script>
 <script src="/static/leaflet/leaflet.js"></script>
 <!-- interactivemap.js must be called after leaflet.js -->

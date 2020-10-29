@@ -558,8 +558,12 @@ header {
   }
 }
 
-.form__heading {
+.form__heading, .form__heading--edit-shipment {
   margin-bottom: 16px;
+}
+
+.form__heading--edit-shipment {
+  margin-left: 16px;
 }
 
 .form__divider {
@@ -572,7 +576,7 @@ header {
   padding-top: 16px;
   height: 100%;
   border-radius: 0;
-  background-color: rgba(255, 255, 245, 0.9);
+  background-color: #fff;
 }
 @media only screen and (min-width: 440px) {
   .form--login, .form--edit-shipment, .form--signup {
@@ -1033,7 +1037,7 @@ header {
   z-index: 999;
 }
 .buttons-modify .btn-modify {
-  margin: 10%;
+  margin: 16px;
   height: 60px;
   width: 60px;
   border: none;
@@ -1043,7 +1047,7 @@ header {
   z-index: 999;
 }
 .buttons-modify .btn-edit {
-  margin: 10%;
+  margin: 16px;
   height: 60px;
   width: 60px;
   border: none;
@@ -1052,7 +1056,7 @@ header {
   color: #ffffff;
 }
 .buttons-modify .btn-delete {
-  margin: 10%;
+  margin: 16px;
   height: 60px;
   width: 60px;
   border: none;
@@ -1062,10 +1066,16 @@ header {
 }
 
 .buttons-desktop {
+  margin-top: 8px;
   width: 100%;
-  display: flex;
+  display: flex !important;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+}
+.buttons-desktop .button--primary {
+  display: inline-block;
+  text-align: center;
+  background-color: #206a5d;
 }
 
 #learn {
