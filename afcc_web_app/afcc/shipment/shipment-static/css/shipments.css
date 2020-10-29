@@ -261,3 +261,30 @@ p#bottom--button-two{
     }
 }
 
+
+
+
+.filter_bar {
+    margin-top: 32px;
+}
+
+.sorting_buttons {
+    display: flex;
+}
+
+.sorting_buttons > button {
+    flex-grow: 1;
+    margin: 4px;
+    flex-basis:25%;
+    background: white;
+    border: 1px solid lightgray;
+    color: grey;
+    padding: 4px;
+    border-radius: 3px;
+}
+
+.sorting_buttons > button:hover {
+    cursor: pointer;
+    border: 1px solid #206a5d;
+    color: #206a5d;
+}

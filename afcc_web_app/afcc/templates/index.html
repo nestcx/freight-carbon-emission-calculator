@@ -6,20 +6,38 @@
 
 <!--Anything within this block will appear between <header> and <footer>-->
 {% block content %}
-  <div class="container--logo container--text-content">
-    <h1>Australian Freight Carbon Calculator</h1>
-    <p>Powered by: <img src="static/images/FreightPeopleLogo.png" width="180px" /></p>
-
-    <!-- home screen -->
+<div class="background">
+  <div class="container--index  --enforce-max-width">
+    <div class="container--logo container--text-content">
+      <h1>Australian Freight Carbon Calculator</h1>
+      <p>Powered by: <img src="static/images/FreightPeopleLogo.png" width="180px" /></p>
+      <!-- home screen -->
+    </div>
+    <div class="hrule"></div>
+    <div class="graphic">
+      <i class="fas fa-truck-moving fa-2x"></i>
+      <i class="fas fa-arrow-right fa-2x"></i>
+      <i class="fas fa-calculator fa-2x"></i>
+      <i class="fas fa-arrow-right fa-2x"></i>
+      <i class="fas fa-smog fa-2x"></i>
+    </div>
     <div>
       <div class="container--intro-text">
-        <h2>Discover how much emissions your shipments are producing. Get started with our app
-        </h2>
+        <h2>How are your freight decisions impacting our planet?</h2>
+        <p>Road freight alone accounts for 2.5% of Australia's green house gas emissions. Use this free tool to estimate
+          the emissions produced from your shipments and learn how you can help minimise the impact road freight has on
+          our environment. To use this tool you will need to login or sign up below.</p>
       </div>
       <div class="container--cta-buttons">
-        <a href="/user/signup" class="button--primary">Sign up with us</a>
+        <a href="/user/signup" class="button--primary">Sign up</a>
         <a href="/user/login" class="button--primary">Login</a>
       </div>
     </div>
   </div>
+</div>
+<!--<div class="container--page-wide-image">
+    <img src="static/images/fogtrees.jpg" />
+  </div>-->
+
+<script src="https://kit.fontawesome.com/d6fc443413.js" crossorigin="anonymous"></script>
 {% endblock %}

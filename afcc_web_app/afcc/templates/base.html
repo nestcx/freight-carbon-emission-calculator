@@ -6,7 +6,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--Head Template-->
+
 <head>
+    
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
     {% if title %}
     <title>{{ title }} - Carbon Free Freight</title>
@@ -29,6 +31,7 @@
 </head>
 
 <body>
+
 <div class="page-container">
     <header class="header --fixed">
         <button class="button-hamburger" onClick="hamburgerMenu()">
@@ -46,44 +49,68 @@
                 <li class="navbar__link"><a href="/about">About</a></li>
                 <li class="navbar__link"><a href="{{ url_for('shipment.CR_shipments') }}">Shipments</a></li>
                 <li class="navbar__link"><a href="/tools">Tools</a></li>
-                <li class="navbar__link"><a href="/help">Help</a></li>
                
                 <!-- The links below will not be displayed on the navbar on mobile-sized viewports, only desktops-->
                 {% if current_user.is_authenticated %}
                     <li class="navbar__link navbar__link--username --hidden-on-mobile"><a href="/user">{{ current_user.username }}</a></li>
                     <li class="navbar__link --hidden-on-mobile"><a href="/user/logout">Log out</a></li>
-                {% else %}
+                    {% else %}
                     <li class="navbar__link --hidden-on-mobile"><a href="/user/login">Log in</a></li>
                     <li class="navbar__link --hidden-on-mobile"><a href="/user/signup">Signup</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-        <!-- The element below and its children will only be displayed on smaller screens -->
-        <div class="user-account-links --hidden-on-desktop" id="user-account-links-container">
-            <button class="mobile-only-user-button" onClick="dropdownMenu()">
+                    {% endif %}
+                </ul>
+            </nav>
+            <!-- The element below and its children will only be displayed on smaller screens -->
+            <div class="user-account-links --hidden-on-desktop" id="user-account-links-container">
+                <button class="mobile-only-user-button" onClick="dropdownMenu()">
                     <!-- This is the code to render the svg icon of the user inside the circle -->
                     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
                     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-                    <svg class="user-circle-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="152.59635455492747 61.72512243260721 369.9574468085106 358.1448427725128" width="100%" height="100%"><defs><path d="M519.55 239.8C519.55 337.53 437.56 416.87 336.58 416.87C235.59 416.87 153.6 337.53 153.6 239.8C153.6 142.07 235.59 62.73 336.58 62.73C437.56 62.73 519.55 142.07 519.55 239.8Z" id="a1rocPCgPR"></path><path d="M393.11 158.43C393.11 188.68 367.78 213.24 336.58 213.24C305.37 213.24 280.04 188.68 280.04 158.43C280.04 128.19 305.37 103.63 336.58 103.63C367.78 103.63 393.11 128.19 393.11 158.43Z" id="aKC21ustC"></path><path d="M431.82 325.29C430.81 257.1 399.06 223.11 336.58 223.31C274.09 223.51 242.34 257.5 241.33 325.29L431.82 325.29Z" id="a2c2KEYEM"></path></defs><g><g class="circle-fill"><use xlink:href="#a1rocPCgPR" opacity="1" fill="#8ab914" fill-opacity="1"></use></g><g><use xlink:href="#aKC21ustC" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><use xlink:href="#a2c2KEYEM" opacity="1" fill="#ffffff" fill-opacity="1"></use></g></g></svg>
-            </button>
-            
-            {% if current_user.is_authenticated %}
+                    <svg class="user-circle-icon" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet"
+                        viewBox="152.59635455492747 61.72512243260721 369.9574468085106 358.1448427725128" width="100%"
+                        height="100%">
+                        <defs>
+                            <path
+                                d="M519.55 239.8C519.55 337.53 437.56 416.87 336.58 416.87C235.59 416.87 153.6 337.53 153.6 239.8C153.6 142.07 235.59 62.73 336.58 62.73C437.56 62.73 519.55 142.07 519.55 239.8Z"
+                                id="a1rocPCgPR"></path>
+                            <path
+                                d="M393.11 158.43C393.11 188.68 367.78 213.24 336.58 213.24C305.37 213.24 280.04 188.68 280.04 158.43C280.04 128.19 305.37 103.63 336.58 103.63C367.78 103.63 393.11 128.19 393.11 158.43Z"
+                                id="aKC21ustC"></path>
+                            <path
+                                d="M431.82 325.29C430.81 257.1 399.06 223.11 336.58 223.31C274.09 223.51 242.34 257.5 241.33 325.29L431.82 325.29Z"
+                                id="a2c2KEYEM"></path>
+                        </defs>
+                        <g>
+                            <g class="circle-fill">
+                                <use xlink:href="#a1rocPCgPR" opacity="1" fill="#8ab914" fill-opacity="1"></use>
+                            </g>
+                            <g>
+                                <use xlink:href="#aKC21ustC" opacity="1" fill="#ffffff" fill-opacity="1"></use>
+                            </g>
+                            <g>
+                                <use xlink:href="#a2c2KEYEM" opacity="1" fill="#ffffff" fill-opacity="1"></use>
+                            </g>
+                        </g>
+                    </svg>
+                </button>
+
+                {% if current_user.is_authenticated %}
                 <div class="dropdown-content" id="accountDropdown">
                     <p class="dropdown-option"><b>{{ current_user.username }}</b></p>
                     <a class="dropdown-option" href="/user/">Account</a>
                     <a class="dropdown-option" href="/user/logout">Sign Out</a>
                 </div>
-            {% else %}
+                {% else %}
                 <div class="dropdown-content" id="accountDropdown">
                     <a class="dropdown-option" href="/user/login">Log in</a>
                     <a class="dropdown-option" href="/user/signup">Sign up</a>
                 </div>
-            {% endif %}
-        </div>
-    </header>
-
-    <!--Content added by inheriting files goes here-->
-    {% block content %}{% endblock %}
+                {% endif %}
+            </div>
+        </header>
+        <!--Content added by inheriting files goes here-->
+        {% block content %}{% endblock %}
 
     <!--Footer template -->
     <footer class="footer">
@@ -94,11 +121,11 @@
             <button class="navButton">
                 <a class="navlink" href="/tools">Tools</a>
             </button>
-            <button class="navButton"><a class="navlink" href="/help">Help</a></button>
         </div>
         <p class="credit --hidden-on-mobile">Developed by <a href="about.html">Group 04</a></p>
     </footer>
     <script src="/static/javascript/navbar.js"></script>
 </div>
 </body>
+
 </html>
