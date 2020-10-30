@@ -21,6 +21,8 @@ This educational tool is for anyone who wants to learn the environmental impact 
 
 - Watch our video demonstration [here](https://www.youtube.com/watch?v=3CLr-GgRkQY ).
 
+- Learn how to use the web app [here](https://github.com/nestcx/freight-carbon-emission-calculator/wiki/User-documentation)
+
 <br>
 
 ## Installation
