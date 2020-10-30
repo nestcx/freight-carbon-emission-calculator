@@ -25,9 +25,9 @@ This educational tool is for anyone who wants to learn the environmental impact 
 
 ## Installation
 
-- Find out how to get a **development** environment up and running [here](https://github.com/nestcx/freight-carbon-emission-calculator/wiki/Installation-manual-(Development-server)
+- Find out how to get a **development** environment up and running [here](https://github.com/nestcx/freight-carbon-emission-calculator/wiki/Installation-manual-(Development-server))
 
-- Find out how to get a **production** environment up and running [here](https://github.com/nestcx/freight-carbon-emission-calculator/wiki/Installation-manual-(Production-environment)
+- Find out how to get a **production** environment up and running [here](https://github.com/nestcx/freight-carbon-emission-calculator/wiki/Installation-manual-(Production-environment))
 
 
 <br>
