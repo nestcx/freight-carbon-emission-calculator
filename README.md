@@ -1,4 +1,6 @@
-# Cargo2 - The Australian Carbon Freight Calculator
+<span style="font-size: 2rem; font-weight: bold; padding: 1rem; background: #206a5d; color: white">Cargo2 - The Australian Carbon Freight Calculator</span>
+
+
 
 <br>
 
