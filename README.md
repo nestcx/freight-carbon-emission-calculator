@@ -23,6 +23,15 @@ This educational tool is for anyone who wants to learn the environmental impact 
 
 <br>
 
+## Installation
+
+- Find out how to get a **development** environment up and running [here](https://github.com/nestcx/freight-carbon-emission-calculator/wiki/Installation-manual-(Development-server)
+
+- Find out how to get a **production** environment up and running [here](https://github.com/nestcx/freight-carbon-emission-calculator/wiki/Installation-manual-(Production-environment)
+
+
+<br>
+
 ## Credits
 
 This project was created as part of a Swinburne University capstone project by Computer Science students under the supervision of Dr. Pei Wei Tsai and Dr. Hadi Ghaderi, and in partnership with [Freight People](https://www.freightpeople.com.au/).
