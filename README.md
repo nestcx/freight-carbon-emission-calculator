@@ -1,5 +1,9 @@
 # Cargo2 - The Australian Carbon Freight Calculator
 
+<br>
+
+
+<img src="https://i.ibb.co/3BWttT2/Screenshot-2020-10-30-Carbon-Free-Freight.png" alt="Screenshot-2020-10-30-Carbon-Free-Freight" style="width: 100px;" />  
 
 
 <br>
