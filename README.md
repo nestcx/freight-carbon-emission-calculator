@@ -17,7 +17,7 @@ This educational tool is for anyone who wants to learn the environmental impact 
 
 ## How does it work?
 
-- Learn more about our API and the internals of our algorithm here. 
+- Learn more about our API and the internals of our algorithm [here](https://github.com/nestcx/freight-carbon-emission-calculator/wiki/How-It-Works). 
 
 - Watch our video demonstration [here](https://www.youtube.com/watch?v=3CLr-GgRkQY ).
 
